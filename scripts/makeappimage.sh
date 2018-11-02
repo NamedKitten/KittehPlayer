@@ -21,10 +21,13 @@ fi
 
 git clone https://github.com/AppImage/AppImageUpdate.git
 cd AppImageUpdate
-git submodule update --init --recursive
-cmake . -DCMAKE_INSTALL_PREFIX=/usr
-make 
-sudo make install
+ver=`printf "appimageupdatetool-%s-%s-x86_64.AppImage" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"`
+#git submodule update --init --recursive
+#cmake . -DCMAKE_INSTALL_PREFIX=/usr
+#make 
+#sudo make install
+sudo wget https://github.com/AppImage/AppImageUpdate/releases/download/continuous/${ver} -O /usr/bin/appimageupdatetool
+chmod +x /usr/bin/appimageupdatetool
 cd ..
 
 cp /usr/bin/appimageupdatetool appdir/usr/bin
