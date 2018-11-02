@@ -38,4 +38,5 @@ pyinstaller __main__.py -n youtube-dl --onefile || true
 cp dist/youtube-dl appdir/usr/bin || true
 
 export UPD_INFO="gh-releases-zsync|NamedKitten|KittehPlayer|continuous|KittehPlayer-$ARCH.AppImage.zsync"
+export EXTRA_QT_PLUGINS="gtk3"
 ./linuxdeploy-x86_64.AppImage --appdir appdir --plugin qt --output appimage -v 3
