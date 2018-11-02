@@ -89,7 +89,7 @@ ApplicationWindow {
             property bool titleOnlyOnFullscreen: true
             property bool clickToPause: true
             property bool useMpvSubs: false
-            property string fontName: "Noto Sans"
+            property string fontName: "Roboto"
         }
         Settings {
             id: i18n

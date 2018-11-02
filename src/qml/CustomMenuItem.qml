@@ -6,7 +6,7 @@ MenuItem {
     Settings {
         id: appearance
         category: "Appearance"
-        property string fontName: "Noto Sans"
+        property string fontName: "Roboto"
     }
     id: menuItem
     implicitWidth: 100
