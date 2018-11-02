@@ -456,7 +456,7 @@ ApplicationWindow {
                 }
 
                 Action {
-                    text: translate.getTranslation("FILE_MENU", i18n.language)
+                    text: translate.getTranslation("OPEN_FILE", i18n.language)
                     onTriggered: fileDialog.open()
                     shortcut: keybinds.openFile
                 }

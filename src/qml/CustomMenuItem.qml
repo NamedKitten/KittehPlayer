@@ -9,7 +9,6 @@ MenuItem {
         property string fontName: "Roboto"
     }
     id: menuItem
-    implicitWidth: 100
     implicitHeight: 20
 
     contentItem: Text {
@@ -25,8 +24,8 @@ MenuItem {
     }
 
     background: Rectangle {
-        implicitWidth: 200
-        implicitHeight: 20
+        width: parent.width
+        height: parent.height
         opacity: 1
         color: menuItem.highlighted ? "#c0c0f0" : "transparent"
     }
