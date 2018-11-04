@@ -17,7 +17,7 @@ rm -rf ffmpeg mpv libass
 
 echo "--disable-programs --enable-runtime-cpudetect --enable-small" > ffmpeg_options
 echo "--enable-libmpv-shared --prefix=/usr --disable-vapoursynth --enable-lgpl" > mpv_options
-echo "--disable-caca --disable-wayland --disable-gl-wayland --disable-libarchive  --disable-zlib  --disable-tv --disable-debug-build --disable-manpage-build --disable-libsmbclient --disable-wayland --disable-sdl --disable-sndio --plain-gl" >> mpv_options
+echo "--disable-caca --disable-wayland --disable-gl-wayland --disable-libarchive  --disable-zlib  --disable-tv --disable-debug-build --disable-manpage-build --disable-libsmbclient --disable-wayland --disable-sdl --disable-sndio --enable-plain-gl" >> mpv_options
 
 ./rebuild -j`nproc`
 sudo ./install
