@@ -294,7 +294,7 @@ ApplicationWindow {
             title: translate.getTranslation("OPEN_FILE", i18n.language)
             nameFilters: ["All files (*)"]
             onAccepted: {
-                player.command(["loadfile", String(fileDialog.fileUrl)])
+                player.command(String(fileDialog.fileUrl))
                 fileDialog.close()
             }
             onRejected: {
@@ -307,7 +307,7 @@ ApplicationWindow {
             title: translate.getTranslation("URL_FILE_PATH", i18n.language)
             standardButtons: StandardButton.Cancel | StandardButton.Open
             onAccepted: {
-                player.loadFile("loadfile")
+                player.loadFile(pathText.text)
                 pathText.text = ""
             }
             TextField {
