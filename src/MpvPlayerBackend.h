@@ -1,5 +1,5 @@
-#ifndef MPVOBJECT_H
-#define MPVOBJECT_H
+#ifndef MpvPlayerBackend_H
+#define MpvPlayerBackend_H
 
 #include <mpv/client.h>
 #include <mpv/render_gl.h>
@@ -13,7 +13,7 @@
 
 class MpvRenderer;
 
-class MpvObject : public QQuickFramebufferObject
+class MpvPlayerBackend : public QQuickFramebufferObject
 {
     Q_OBJECT
     mpv_handle *mpv;
@@ -24,13 +24,24 @@ class MpvObject : public QQuickFramebufferObject
 public:
     static void on_update(void *ctx);
 
-    MpvObject(QQuickItem * parent = 0);
-    virtual ~MpvObject();
+    MpvPlayerBackend(QQuickItem * parent = 0);
+    virtual ~MpvPlayerBackend();
     virtual Renderer *createRenderer() const;
 
 
 public slots:
     void launchAboutQt();
+    void togglePlayPause();
+    void toggleMute();
+    void nextAudioTrack();
+    void nextVideoTrack();
+    void nextSubtitleTrack();
+    void prevPlaylistItem();
+    void nextPlaylistItem();
+    void setVolume(const QVariant& volume);
+    void addVolume(const QVariant& volume);
+    void loadFile(const QVariant& filename);
+    void seek(const QVariant& seekTime);
     void command(const QVariant& params);
     void setProperty(const QString& name, const QVariant& value);
     void setOption(const QString& name, const QVariant& value);

@@ -23,7 +23,7 @@ include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
 
 set(SOURCES
 	src/main.cpp
-    src/mpvobject.cpp
+    src/MpvPlayerBackend.cpp
     src/filesavedialog.cpp
     src/fileopendialog.cpp
 )

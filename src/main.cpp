@@ -10,7 +10,7 @@
 #include <QProcessEnvironment>
 #include "fileopendialog.h"
 #include "filesavedialog.h"
-#include "mpvobject.h"
+#include "MpvPlayerBackend.h"
 
 #ifdef WIN32
 #include "setenv_mingw.hpp"
@@ -48,16 +48,11 @@ setenv("QT_QPA_PLATFORMTHEME", "gtk3", 0);
     setenv("PATH", newpath.toUtf8().constData(), 1);
 
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    qmlRegisterType<MpvObject>("player", 1, 0, "MpvObject");
+    qmlRegisterType<MpvPlayerBackend>("player", 1, 0, "PlayerBackend");
     qmlRegisterType<FileOpenDialog>("player", 1, 0, "FileOpenDialog");
     qmlRegisterType<FileSaveDialog>("player", 1, 0, "FileSaveDialog");
 
     std::setlocale(LC_NUMERIC, "C");
-
-/*QQuickView *view = new QQuickView();
-view->setResizeMode(QQuickView::SizeRootObjectToView);
-view->setSource(QUrl("qrc:///player/main.qml"));
-view->show();*/
 
     QQmlApplicationEngine engine;
 #ifdef QRC_SOURCE_PATH

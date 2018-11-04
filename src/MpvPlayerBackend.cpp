@@ -2,7 +2,7 @@
 #include <stdexcept>
 #include <clocale>
 
-#include "mpvobject.h"
+#include "MpvPlayerBackend.h"
 
 #include <QApplication>
 #include <QQuickWindow>
@@ -15,12 +15,12 @@ namespace
 
 void wakeup(void *ctx)
 {
-    QMetaObject::invokeMethod((MpvObject*)ctx, "on_mpv_events", Qt::QueuedConnection);
+    QMetaObject::invokeMethod((MpvPlayerBackend*)ctx, "on_mpv_events", Qt::QueuedConnection);
 }
 
 void on_mpv_redraw(void *ctx)
 {
-    MpvObject::on_update(ctx);
+    MpvPlayerBackend::on_update(ctx);
 }
 
 static void *get_proc_address_mpv(void *ctx, const char *name)
@@ -38,11 +38,11 @@ static void *get_proc_address_mpv(void *ctx, const char *name)
 
 class MpvRenderer : public QQuickFramebufferObject::Renderer
 {
-    MpvObject *obj;  
+    MpvPlayerBackend *obj;  
 
 public:
 
-    MpvRenderer(MpvObject *new_obj)
+    MpvRenderer(MpvPlayerBackend *new_obj)
         : obj{new_obj}
     {
     }
@@ -99,7 +99,7 @@ public:
     }
 };
 
-MpvObject::MpvObject(QQuickItem * parent)
+MpvPlayerBackend::MpvPlayerBackend(QQuickItem * parent)
     : QQuickFramebufferObject(parent), mpv{mpv_create()}, mpv_gl(nullptr)
 {
 
@@ -140,12 +140,12 @@ MpvObject::MpvObject(QQuickItem * parent)
     if (mpv_initialize(mpv) < 0)
         throw std::runtime_error("could not initialize mpv context");
 
-    connect(this, &MpvObject::onUpdate, this, &MpvObject::doUpdate,
+    connect(this, &MpvPlayerBackend::onUpdate, this, &MpvPlayerBackend::doUpdate,
             Qt::QueuedConnection);
 
 }
 
-MpvObject::~MpvObject()
+MpvPlayerBackend::~MpvPlayerBackend()
 {
     if (mpv_gl) 
     {
@@ -155,47 +155,101 @@ MpvObject::~MpvObject()
     mpv_terminate_destroy(mpv);
 }
 
-void MpvObject::on_update(void *ctx)
+void MpvPlayerBackend::on_update(void *ctx)
 {
-    MpvObject *self = (MpvObject *)ctx;
+    MpvPlayerBackend *self = (MpvPlayerBackend *)ctx;
     emit self->onUpdate();
 }
 
 // connected to onUpdate(); signal makes sure it runs on the GUI thread
-void MpvObject::doUpdate()
+void MpvPlayerBackend::doUpdate()
 {
     update();
 }
 
 
-QVariant MpvObject::getProperty(const QString &name) const
+QVariant MpvPlayerBackend::getProperty(const QString &name) const
 {
     return mpv::qt::get_property_variant(mpv, name);
 }
 
 
-void MpvObject::command(const QVariant& params)
+void MpvPlayerBackend::command(const QVariant& params)
 {
     mpv::qt::command_variant(mpv, params);
 }
 
-void MpvObject::setProperty(const QString& name, const QVariant& value)
+void MpvPlayerBackend::setProperty(const QString& name, const QVariant& value)
 {
     mpv::qt::set_property_variant(mpv, name, value);
 }
 
-void MpvObject::setOption(const QString& name, const QVariant& value)
+void MpvPlayerBackend::setOption(const QString& name, const QVariant& value)
 {
     mpv::qt::set_option_variant(mpv, name, value);
 }
 
-void MpvObject::launchAboutQt()
+void MpvPlayerBackend::launchAboutQt()
 {
     QApplication *qapp = qobject_cast<QApplication *>(QCoreApplication::instance());
     qapp->aboutQt();
 }
 
-void MpvObject::on_mpv_events()
+void MpvPlayerBackend::togglePlayPause()
+{
+    mpv::qt::command_variant(mpv, QVariantList() << "cycle" << "pause");
+}
+
+void MpvPlayerBackend::toggleMute()
+{
+    mpv::qt::command_variant(mpv, QVariantList() << "cycle" << "mute");
+}
+
+void MpvPlayerBackend::nextAudioTrack()
+{
+    mpv::qt::command_variant(mpv, QVariantList()  << "cycle" << "audio");
+}
+void MpvPlayerBackend::nextSubtitleTrack()
+{
+    mpv::qt::command_variant(mpv, QVariantList() << "cycle" << "sub");
+}
+
+void MpvPlayerBackend::nextVideoTrack()
+{
+    mpv::qt::command_variant(mpv, QVariantList() << "cycle" << "video");
+}
+
+void MpvPlayerBackend::prevPlaylistItem()
+{
+    mpv::qt::command_variant(mpv, QVariantList() << "playlist-prev");
+}
+
+void MpvPlayerBackend::nextPlaylistItem()
+{
+    mpv::qt::command_variant(mpv, QVariantList() << "playlist-next" << "force");
+}
+
+void MpvPlayerBackend::loadFile(const QVariant &filename)
+{
+    mpv::qt::command_variant(mpv, QVariantList() << "loadfile"  << filename);
+}
+
+void MpvPlayerBackend::setVolume(const QVariant &volume)
+{
+    mpv::qt::command_variant(mpv, QVariantList() << "set" << "volume"  << volume);
+}
+
+void MpvPlayerBackend::addVolume(const QVariant &volume)
+{
+    mpv::qt::command_variant(mpv, QVariantList() << "add" << "volume"  << volume);
+}
+
+void MpvPlayerBackend::seek(const QVariant &seekTime)
+{
+    mpv::qt::command_variant(mpv, QVariantList() << "seek"  << seekTime);
+}
+
+void MpvPlayerBackend::on_mpv_events()
 {
     while (mpv) {
         mpv_event *event = mpv_wait_event(mpv, 0);
@@ -208,7 +262,7 @@ void MpvObject::on_mpv_events()
 
 }
  
-void MpvObject::handle_mpv_event(mpv_event *event)
+void MpvPlayerBackend::handle_mpv_event(mpv_event *event)
 {
     switch (event->event_id) {
     case MPV_EVENT_PROPERTY_CHANGE: {
@@ -268,10 +322,10 @@ void MpvObject::handle_mpv_event(mpv_event *event)
     }
 }
 
-QQuickFramebufferObject::Renderer *MpvObject::createRenderer() const
+QQuickFramebufferObject::Renderer *MpvPlayerBackend::createRenderer() const
 {
     window()->setPersistentOpenGLContext(true);
     window()->setPersistentSceneGraph(true);
 
-    return new MpvRenderer(const_cast<MpvObject *>(this));
+    return new MpvRenderer(const_cast<MpvPlayerBackend *>(this));
 }

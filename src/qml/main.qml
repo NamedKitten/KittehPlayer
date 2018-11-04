@@ -77,7 +77,7 @@ ApplicationWindow {
         }
     }
 
-    MpvObject {
+    PlayerBackend {
         id: player
         anchors.fill: parent
         width: parent.width
@@ -157,7 +157,7 @@ ApplicationWindow {
                             }
                         }
                     } else {
-                        player.command(["loadfile", argument])
+                        player.loadFile(argument)
                     }
                 }
             }
@@ -307,7 +307,7 @@ ApplicationWindow {
             title: translate.getTranslation("URL_FILE_PATH", i18n.language)
             standardButtons: StandardButton.Cancel | StandardButton.Open
             onAccepted: {
-                player.command(["loadfile", pathText.text])
+                player.loadFile("loadfile")
                 pathText.text = ""
             }
             TextField {
@@ -348,7 +348,7 @@ ApplicationWindow {
             cursorShape: controlsBar.visible ? Qt.ArrowCursor : Qt.BlankCursor
             onClicked: {
                 if (appearance.clickToPause) {
-                    player.command(["cycle", "pause"])
+                    player.togglePlayPause()
                 }
             }
             Timer {
@@ -515,35 +515,35 @@ ApplicationWindow {
                 Action {
                     text: translate.getTranslation("PLAY_PAUSE", i18n.language)
                     onTriggered: {
-                        player.command(["cycle", "pause"])
+                        player.togglePlayPause()
                     }
                     shortcut: String(keybinds.playPause)
                 }
                 Action {
                     text: translate.getTranslation("REWIND_10S", i18n.language)
                     onTriggered: {
-                        player.command(["seek", "-10"])
+                        player.seek("-10")
                     }
                     shortcut: keybinds.rewind10
                 }
                 Action {
                     text: translate.getTranslation("FORWARD_10S", i18n.language)
                     onTriggered: {
-                        player.command(["seek", "10"])
+                        player.seek("10")
                     }
                     shortcut: keybinds.forward10
                 }
                 Action {
                     text: translate.getTranslation("FORWARD_5S", i18n.language)
                     onTriggered: {
-                        player.command(["seek", "-5"])
+                        player.seek("-5")
                     }
                     shortcut: keybinds.rewind5
                 }
                 Action {
                     text: translate.getTranslation("FORWARD_5S", i18n.language)
                     onTriggered: {
-                        player.command(["seek", "5"])
+                        player.seek("5")
                     }
                     shortcut: keybinds.forward5
                 }
@@ -613,7 +613,7 @@ ApplicationWindow {
                     text: translate.getTranslation("CYCLE_AUDIO_TRACK",
                                                    i18n.language)
                     onTriggered: {
-                        player.command(["cycle", "audio"])
+                        player.nextAudioTrack()
                     }
                     shortcut: keybinds.cycleAudio
                 }
@@ -621,7 +621,7 @@ ApplicationWindow {
                     text: translate.getTranslation("INCREASE_VOLUME",
                                                    i18n.language)
                     onTriggered: {
-                        player.command(["add", "volume", "2"])
+                        player.addVolume("2")
                     }
                     shortcut: keybinds.increaseVolume
                 }
@@ -629,14 +629,14 @@ ApplicationWindow {
                     text: translate.getTranslation("DECREASE_VOLUME",
                                                    i18n.language)
                     onTriggered: {
-                        player.command(["add", "volume", "-2"])
+                        player.addVolume("-2")
                     }
                     shortcut: keybinds.decreaseVolume
                 }
                 Action {
                     text: translate.getTranslation("MUTE_VOLUME", i18n.language)
                     onTriggered: {
-                        player.command(["cycle", "mute"])
+                        player.toggleMute()
                     }
                     shortcut: keybinds.mute
                 }
@@ -658,7 +658,7 @@ ApplicationWindow {
                 Action {
                     text: translate.getTranslation("CYCLE_VIDEO", i18n.language)
                     onTriggered: {
-                        player.command(["cycle", "video"])
+                        player.nextVideoTrack()
                     }
                     shortcut: keybinds.cycleVideo
                 }
@@ -680,17 +680,9 @@ ApplicationWindow {
                     text: translate.getTranslation("CYCLE_SUB_TRACK",
                                                    i18n.language)
                     onTriggered: {
-                        player.command(["cycle", "sub"])
+                        player.nextSubtitleTrack()
                     }
                     shortcut: keybinds.cycleSub
-                }
-                Action {
-                    text: translate.getTranslation("CYCLE_SUB_TRACK_BACKWARDS",
-                                                   i18n.language)
-                    onTriggered: {
-                        player.command(["cycle", "sub", "down"])
-                    }
-                    shortcut: keybinds.cycleSubBackwards
                 }
                 Action {
                     text: translate.getTranslation("TOGGLE_MPV_SUBS",
@@ -1147,7 +1139,7 @@ ApplicationWindow {
                 visible: false
                 width: 0
                 onClicked: {
-                    player.command(["playlist-prev"])
+                    player.prevPlaylistItem()
                 }
                 background: Rectangle {
                     color: "transparent"
@@ -1164,7 +1156,7 @@ ApplicationWindow {
                 anchors.bottom: parent.bottom
                 anchors.left: playlistPrevButton.right
                 onClicked: {
-                    player.command(["cycle", "pause"])
+                    player.togglePlayPause()
                 }
                 background: Rectangle {
                     color: "transparent"
@@ -1181,7 +1173,7 @@ ApplicationWindow {
                 anchors.bottom: parent.bottom
                 anchors.left: playPauseButton.right
                 onClicked: {
-                    player.command(["playlist-next", "force"])
+                    player.prevPlaylistItem()
                 }
                 background: Rectangle {
                     color: "transparent"
@@ -1198,7 +1190,7 @@ ApplicationWindow {
                 anchors.bottom: parent.bottom
                 anchors.left: playlistNextButton.right
                 onClicked: {
-                    player.command(["cycle", "mute"])
+                    player.toggleMute()
                 }
                 background: Rectangle {
                     color: "transparent"
@@ -1223,8 +1215,8 @@ ApplicationWindow {
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 onMoved: {
-                    player.command(["set", "volume", Math.round(
-                                        volumeBar.value).toString()])
+                    player.setVolume(Math.round(
+                                        volumeBar.value).toString())
                 }
 
                 handle: Rectangle {
