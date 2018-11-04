@@ -18,14 +18,9 @@ qtquick_compiler_add_resources(qml_QRC src/qml/qml.qrc)
 find_package(PkgConfig)
 pkg_check_modules(MPV REQUIRED mpv)
 
-
-include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS}) 
-
 set(SOURCES
 	src/main.cpp
     src/MpvPlayerBackend.cpp
-    src/filesavedialog.cpp
-    src/fileopendialog.cpp
 )
 
 if(DEVELOP)

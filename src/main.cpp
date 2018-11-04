@@ -8,8 +8,6 @@
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QProcessEnvironment>
-#include "fileopendialog.h"
-#include "filesavedialog.h"
 #include "MpvPlayerBackend.h"
 
 #ifdef WIN32
@@ -49,9 +47,6 @@ setenv("QT_QPA_PLATFORMTHEME", "gtk3", 0);
 
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     qmlRegisterType<MpvPlayerBackend>("player", 1, 0, "PlayerBackend");
-    qmlRegisterType<FileOpenDialog>("player", 1, 0, "FileOpenDialog");
-    qmlRegisterType<FileSaveDialog>("player", 1, 0, "FileSaveDialog");
-
     std::setlocale(LC_NUMERIC, "C");
 
     QQmlApplicationEngine engine;
