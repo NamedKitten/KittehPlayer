@@ -26,11 +26,11 @@ fi
 #cmake . -DCMAKE_INSTALL_PREFIX=/usr
 #make 
 #sudo make install
-sudo wget https://0x0.st/sIvd.AppImag -O /usr/bin/appimageupdatetool
-chmod +x /usr/bin/appimageupdatetool
+sudo wget https://0x0.st/sIvd.AppImag -O appdir/usr/bin/appimageupdatetool
+chmod +x appdir/usr/bin/appimageupdatetool
 #cd ..
 
-cp /usr/bin/appimageupdatetool appdir/usr/bin
+#cp /usr/bin/appimageupdatetool appdir/usr/bin
 
 sudo pip3 install pyinstaller || true
 sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O ytdl.zip || true
@@ -39,4 +39,4 @@ pyinstaller __main__.py -n youtube-dl --onefile || true
 cp dist/youtube-dl appdir/usr/bin || true
 
 export UPD_INFO="gh-releases-zsync|NamedKitten|KittehPlayer|continuous|KittehPlayer-$ARCH.AppImage.zsync"
-./linuxdeploy-x86_64.AppImage --appdir appdir --plugin qt --output appimage -v 3
+time ./linuxdeploy-x86_64.AppImage --appdir appdir --plugin qt --output appimage -v 3
