@@ -16,11 +16,6 @@
 
 int main( int argc, char *argv[] )
 {
-#ifdef WINDOWS
-setenv("QT_QPA_PLATFORM_PLUGIN_PATH",  "plugins\platforms", 0)
-#else
-setenv("QT_QPA_PLATFORMTHEME", "gtk3", 0);
-#endif
     setenv("QT_QUICK_CONTROLS_STYLE","Desktop",1);
     QApplication app(argc, argv);
     app.setOrganizationName("KittehPlayer");
