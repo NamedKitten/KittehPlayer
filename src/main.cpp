@@ -41,6 +41,8 @@ int main( int argc, char *argv[] )
     setenv("PATH", newpath.toUtf8().constData(), 1);
 
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    
+QApplication::setAttribute(Qt::AA_NativeWindows);	
     qmlRegisterType<MpvPlayerBackend>("player", 1, 0, "PlayerBackend");
     std::setlocale(LC_NUMERIC, "C");
 

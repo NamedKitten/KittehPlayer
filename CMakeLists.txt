@@ -23,10 +23,23 @@ set(SOURCES
     src/MpvPlayerBackend.cpp
 )
 
+if(TESTING)
+SET(CMAKE_C_COMPILER "/usr/bin/clang")
+SET(CMAKE_CXX_COMPILER "/usr/bin/clang++")
+SET(CMAKE_AR "/usr/bin/llvm-ar")
+SET(CMAKE_LINKER "/usr/bin/llvm-link")
+SET(CMAKE_NM "/usr/bin/llvm-nm")
+SET(CMAKE_OBJDUMP "/usr/bin/llvm-objdump")
+SET(CMAKE_RANLIB "/usr/bin/llvm-ranlib")
+
+endif(TESTING)
+
+
 if(DEVELOP)
 set(SOURCES ${SOURCES} runtimeqml/runtimeqml.cpp)
 add_definitions(-DQRC_SOURCE_PATH="${PROJECT_SOURCE_DIR}/src/qml")
 add_definitions(-DQT_QML_DEBUG)
+
 endif(DEVELOP)
 
 add_executable(KittehPlayer ${SOURCES} ${qml_QRC})

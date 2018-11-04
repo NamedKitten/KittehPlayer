@@ -32,8 +32,6 @@ cd ..
 
 cp /usr/bin/appimageupdatetool appdir/usr/bin
 
-cp -f /usr/lib/*/libjack.so.0 appdir/usr/lib
-
 sudo pip3 install pyinstaller || true
 sudo wget https://yt-dl.org/downloads/latest/youtube-dl -O ytdl.zip || true
 unzip ytdl.zip || true
