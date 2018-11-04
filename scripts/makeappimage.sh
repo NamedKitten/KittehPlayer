@@ -26,7 +26,7 @@ fi
 #cmake . -DCMAKE_INSTALL_PREFIX=/usr
 #make 
 #sudo make install
-sudo wget https://0x0.st/sIvd.AppImag -O appdir/usr/bin/appimageupdatetool
+wget https://0x0.st/sIvd.AppImag -O appdir/usr/bin/appimageupdatetool
 chmod +x appdir/usr/bin/appimageupdatetool
 #cd ..
 
