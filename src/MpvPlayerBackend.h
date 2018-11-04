@@ -38,6 +38,8 @@ public slots:
     void nextSubtitleTrack();
     void prevPlaylistItem();
     void nextPlaylistItem();
+    QVariant getTracks() const;
+
     void setVolume(const QVariant& volume);
     void addVolume(const QVariant& volume);
     void loadFile(const QVariant& filename);

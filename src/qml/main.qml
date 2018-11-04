@@ -30,30 +30,23 @@ ApplicationWindow {
     }
 
     function tracksMenuUpdate() {
-        var tracks = player.getProperty("track-list/count")
-        var track = 0
         subModel.clear()
         audioModel.clear()
         vidModel.clear()
+        var newTracks = player.getTracks()
 
-        var aid = player.getProperty("aid")
-        var sid = player.getProperty("sid")
-        var vid = player.getProperty("vid")
-
-        for (track = 0; track <= tracks; track++) {
-            var trackID = player.getProperty("track-list/" + track + "/id")
-            var trackType = player.getProperty("track-list/" + track + "/type")
-            var trackLang = LanguageCodes.localeCodeToEnglish(
-                        String(player.getProperty(
-                                   "track-list/" + track + "/lang")))
-            var trackTitle = player.getProperty(
-                        "track-list/" + track + "/title")
+        for(var i=0, len=newTracks.length; i < len; i++){
+            var track = newTracks[i]
+            var trackID = track["id"]
+            var trackType = track["type"]
+            var trackLang = LanguageCodes.localeCodeToEnglish(track["lang"])
+            var trackTitle = track["title"]
             if (trackType == "sub") {
                 subModel.append({
                                     key: trackLang,
                                     value: trackID
                                 })
-                if (player.getProperty("track-list/" + track + "/selected")) {
+                if (track["selected"]) {
                     subList.currentIndex = subList.count - 1
                 }
             } else if (trackType == "audio") {
@@ -62,7 +55,7 @@ ApplicationWindow {
                                            + trackLang,
                                       value: trackID
                                   })
-                if (player.getProperty("track-list/" + track + "/selected")) {
+                if (track["selected"]) {
                     audioList.currentIndex = audioList.count - 1
                 }
             } else if (trackType == "video") {
@@ -70,7 +63,7 @@ ApplicationWindow {
                                     key: "Video " + trackID,
                                     value: trackID
                                 })
-                if (player.getProperty("track-list/" + track + "/selected")) {
+                if (track["selected"]) {
                     vidList.currentIndex = vidList.count - 1
                 }
             }
@@ -820,9 +813,10 @@ ApplicationWindow {
         Rectangle {
             id: subtitlesMenu
             color: "transparent"
-            width: childrenRect.width
+            width: controlsBar.width / 2
             height: childrenRect.height
             visible: false
+            z:90000
             anchors.centerIn: player
             border.color: "black"
             border.width: 2
@@ -841,6 +835,7 @@ ApplicationWindow {
             ComboBox {
                 id: audioList
                 textRole: "key"
+                width: parent.width
                 anchors.top: audioLabel.bottom
                 model: ListModel {
                     id: audioModel
@@ -866,6 +861,7 @@ ApplicationWindow {
             ComboBox {
                 id: subList
                 textRole: "key"
+                width: parent.width
                 anchors.top: subLabel.bottom
                 model: ListModel {
                     id: subModel
@@ -891,6 +887,7 @@ ApplicationWindow {
             ComboBox {
                 id: vidList
                 textRole: "key"
+                width: parent.width
                 anchors.top: vidLabel.bottom
                 model: ListModel {
                     id: vidModel

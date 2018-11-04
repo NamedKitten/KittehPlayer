@@ -249,6 +249,11 @@ void MpvPlayerBackend::seek(const QVariant &seekTime)
     mpv::qt::command_variant(mpv, QVariantList() << "seek"  << seekTime);
 }
 
+QVariant MpvPlayerBackend::getTracks() const
+{
+    return mpv::qt::get_property_variant(mpv, "track-list");
+}
+
 void MpvPlayerBackend::on_mpv_events()
 {
     while (mpv) {
