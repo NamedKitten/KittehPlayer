@@ -17,16 +17,16 @@ before_install:
   - sudo apt-get update 
 
 install:
-  - sudo apt-get -y install python3-pip libxpm-dev libcurl3 libcurl4-openssl-dev automake libtool desktop-file-utils python3-setuptools libjack0 libjack-dev nasm ccache qt511-meta-minimal qt511graphicaleffect* qt511quickcontrols python3-setuptools qt511quickcontrols2 qt511imageformats qt511svg libgl1-mesa-dev checkinstall
-  - sudo apt-get build-dep libmpv1 
+  - sudo apt-get -y install python3-pip libxpm-dev libcurl3 libcurl4-openssl-dev automake libtool desktop-file-utils python3-setuptools nasm ccache qt511-meta-minimal qt511quickcontrols python3-setuptools qt511quickcontrols2 qt511imageformats qt511svg libgl1-mesa-dev
+  - sudo apt-get build-dep libmpv1
   - source /opt/qt*/bin/qt*-env.sh
 
 script:
-  - bash scripts/build-mpv.sh
-  - bash scripts/makeappimage.sh
+  - time bash scripts/build-mpv.sh
+  - time bash scripts/makeappimage.sh
 
 after_success:
-  - bash scripts/upload.sh
+  - time bash scripts/upload.sh
   
 branches:
   except:
