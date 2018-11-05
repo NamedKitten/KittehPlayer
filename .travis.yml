@@ -6,9 +6,7 @@ before_install:
   - docker pull namedkitten/kittehplayerdocker
 
 script:
-  - docker run -e GITHUB_TOKEN=$GITHUB_TOKEN namedkitten/kittehplayerdocker 
-/bin/sh -c 
-"git clone https://github.com/namedkitten/KittehPlayer; cd KittehPlayer; scripts/makeappimage.sh; scripts/upload.sh"
+  - docker run -e GITHUB_TOKEN=$GITHUB_TOKEN namedkitten/kittehplayerdocker /bin/sh -c "git clone https://github.com/namedkitten/KittehPlayer; cd KittehPlayer; scripts/makeappimage.sh; scripts/upload.sh"
   
 branches:
   except:
