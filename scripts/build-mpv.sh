@@ -22,9 +22,9 @@ export MPVDIR=`pwd`
 git clone https://github.com/mpv-player/mpv --depth 1
 cd mpv
 ./bootstrap.py
-./waf configure --disable-pdf-build --enable-libmpv-shared --prefix=/usr --disable-vapoursynth --enable-lgpl --disable-caca --disable-wayland --disable-gl-wayland --disable-libarchive  --disable-zlib  --disable-tv --disable-debug-build --disable-manpage-build --disable-libsmbclient --disable-wayland --disable-sdl --disable-sndio --enable-plain-gl
+./waf configure --disable-cplayer --disable-pdf-build --enable-libmpv-shared --prefix=/usr --disable-vapoursynth --enable-lgpl --disable-caca --disable-wayland --disable-gl-wayland --disable-libarchive  --disable-zlib  --disable-tv --disable-debug-build --disable-manpage-build --disable-libsmbclient --disable-wayland --disable-sdl --disable-sndio --enable-plain-gl
 ./waf
-./waf install
+sudo ./waf install
 
 #./rebuild -j`nproc`
 #sudo ./install
