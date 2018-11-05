@@ -40,7 +40,7 @@ ApplicationWindow {
             var track = newTracks[i]
             var trackID = track["id"]
             var trackType = track["type"]
-            var trackLang = LanguageCodes.localeCodeToEnglish(track["lang"])
+            var trackLang = LanguageCodes.localeCodeToEnglish(String(track["lang"]))
             var trackTitle = track["title"]
             if (trackType == "sub") {
                 subModel.append({
@@ -164,7 +164,7 @@ ApplicationWindow {
             var s = Math.floor(d % 3600 % 60)
 
             var hour = h > 0 ? h + ":" : ""
-            var minute = m + ":"
+            var minute = h < 1 ? m + ":" : (m < 10 ? "0" + m + ":" : m + ":")
             var second = s < 10 ? "0" + s : s
             return hour + minute + second
         }
