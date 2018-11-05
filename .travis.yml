@@ -1,15 +1,36 @@
+language: cpp
+compiler: gcc
 sudo: require
-services:
-  - docker
+dist: xenial
+cache:
+  ccache: true
+  directories:
+  - $HOME/.ccache
+  - $HOME/.cache/apt
+  #- $HOME/.cache/mpv-build
 
 before_install:
-  - docker pull namedkitten/kittehplayerdocker
+  - mkdir -p $HOME/.cache/apt/partial
+  - sudo rm -rf /var/cache/apt/archives
+  - sudo ln -s $HOME/.cache/apt /var/cache/apt/archives
+  - sudo add-apt-repository ppa:beineri/opt-qt-5.11.1-xenial -y
+  - sudo apt-get update 
+
+install:
+  - sudo apt-get -y install python3-pip libxpm-dev libcurl3 libcurl4-openssl-dev automake libtool desktop-file-utils python3-setuptools nasm ccache qt511-meta-minimal qt511quickcontrols python3-setuptools qt511quickcontrols2 qt511imageformats qt511svg libgl1-mesa-dev
+  - sudo apt-get build-dep libmpv1
+  - source /opt/qt*/bin/qt*-env.sh
 
 script:
-  - docker run -e GITHUB_TOKEN=$GITHUB_TOKEN namedkitten/kittehplayerdocker /bin/sh -c "git clone https://github.com/namedkitten/KittehPlayer; cd KittehPlayer; scripts/makeappimage.sh; scripts/upload.sh"
+  - time bash scripts/build-mpv.sh
+  - time bash scripts/makeappimage.sh
+
+after_success:
+  - time bash scripts/upload.sh
   
 branches:
   except:
     - # Do not build tags that we create when we upload to GitHub Releases
     - /^(?i:continuous)/
+
 
