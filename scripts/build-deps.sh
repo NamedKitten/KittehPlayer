@@ -22,7 +22,7 @@ export MPVDIR=`pwd`
 
 rm -rf ffmpeg mpv libass
 
-echo "--disable-programs --disable-runtime-cpudetect --disable-asm --enable-small" > ffmpeg_options
+echo "--disable-programs --disable-runtime-cpudetect --disable-asm --disable-sdl --enable-small" > ffmpeg_options
 echo "--enable-libmpv-shared --prefix=/usr --disable-vapoursynth --enable-lgpl" > mpv_options
 echo "--disable-cplayer --disable-caca --disable-wayland --disable-gl-wayland --disable-libarchive  --disable-zlib --disable-tv --disable-debug-build --disable-manpage-build --disable-libsmbclient --disable-wayland --disable-sdl --disable-sndio --enable-plain-gl" >> mpv_options
 
