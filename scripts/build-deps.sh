@@ -11,6 +11,7 @@ mkdir -p ~/.cache/deps
 if [ -z "${USE_PREBUILT_MPV}" ]; then 
 wget https://github.com/NamedKitten/mpv-builder/releases/download/continuous/deps.tar.xz
 tar xvf deps.tar.xz -C /
+exit 0
 fi
 
 #rm -rf mpv-build
@@ -25,11 +26,14 @@ echo "--disable-programs --disable-runtime-cpudetect --disable-asm --enable-smal
 echo "--enable-libmpv-shared --prefix=/usr --disable-vapoursynth --enable-lgpl" > mpv_options
 echo "--disable-cplayer --disable-caca --disable-wayland --disable-gl-wayland --disable-libarchive  --disable-zlib --disable-tv --disable-debug-build --disable-manpage-build --disable-libsmbclient --disable-wayland --disable-sdl --disable-sndio --enable-plain-gl" >> mpv_options
 
+./use-mpv-release
+./use-ffmpeg-release
+./use-libass-custom 0.14.0
 ./rebuild -j`nproc`
 sudo ./install
 ccache -s
 
-if [ -z "${UPLOAD}" ]; then 
+if [ -n "${UPLOAD}" ]; then 
 cd mpv
 python waf -v install --destdir=~/.cache/deps
 cd ~/.cache/deps
