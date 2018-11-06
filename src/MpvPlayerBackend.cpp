@@ -67,6 +67,7 @@ public:
             if (mpv_render_context_create(&obj->mpv_gl, obj->mpv, params) < 0)
                 throw std::runtime_error("failed to initialize mpv GL context");
             mpv_render_context_set_update_callback(obj->mpv_gl, on_mpv_redraw, obj);
+            QMetaObject::invokeMethod(obj,"startPlayer");
         }
 
         return QQuickFramebufferObject::Renderer::createFramebufferObject(size);
@@ -176,6 +177,7 @@ QVariant MpvPlayerBackend::getProperty(const QString &name) const
 
 void MpvPlayerBackend::command(const QVariant& params)
 {
+    qDebug() << params;
     mpv::qt::command_variant(mpv, params);
 }
 
@@ -197,56 +199,56 @@ void MpvPlayerBackend::launchAboutQt()
 
 void MpvPlayerBackend::togglePlayPause()
 {
-    mpv::qt::command_variant(mpv, QVariantList() << "cycle" << "pause");
+    command(QVariantList() << "cycle" << "pause");
 }
 
 void MpvPlayerBackend::toggleMute()
 {
-    mpv::qt::command_variant(mpv, QVariantList() << "cycle" << "mute");
+    command(QVariantList() << "cycle" << "mute");
 }
 
 void MpvPlayerBackend::nextAudioTrack()
 {
-    mpv::qt::command_variant(mpv, QVariantList()  << "cycle" << "audio");
+    command(QVariantList()  << "cycle" << "audio");
 }
 void MpvPlayerBackend::nextSubtitleTrack()
 {
-    mpv::qt::command_variant(mpv, QVariantList() << "cycle" << "sub");
+    command(QVariantList() << "cycle" << "sub");
 }
 
 void MpvPlayerBackend::nextVideoTrack()
 {
-    mpv::qt::command_variant(mpv, QVariantList() << "cycle" << "video");
+    command(QVariantList() << "cycle" << "video");
 }
 
 void MpvPlayerBackend::prevPlaylistItem()
 {
-    mpv::qt::command_variant(mpv, QVariantList() << "playlist-prev");
+    command(QVariantList() << "playlist-prev");
 }
 
 void MpvPlayerBackend::nextPlaylistItem()
 {
-    mpv::qt::command_variant(mpv, QVariantList() << "playlist-next" << "force");
+    command(QVariantList() << "playlist-next" << "force");
 }
 
 void MpvPlayerBackend::loadFile(const QVariant &filename)
 {
-    mpv::qt::command_variant(mpv, QVariantList() << "loadfile"  << filename);
+    command(QVariantList() << "loadfile"  << filename);
 }
 
 void MpvPlayerBackend::setVolume(const QVariant &volume)
 {
-    mpv::qt::command_variant(mpv, QVariantList() << "set" << "volume"  << volume);
+    command(QVariantList() << "set" << "volume"  << volume);
 }
 
 void MpvPlayerBackend::addVolume(const QVariant &volume)
 {
-    mpv::qt::command_variant(mpv, QVariantList() << "add" << "volume"  << volume);
+    command(QVariantList() << "add" << "volume"  << volume);
 }
 
 void MpvPlayerBackend::seek(const QVariant &seekTime)
 {
-    mpv::qt::command_variant(mpv, QVariantList() << "seek"  << seekTime);
+    command(QVariantList() << "seek"  << seekTime);
 }
 
 QVariant MpvPlayerBackend::getTracks() const
@@ -331,6 +333,5 @@ QQuickFramebufferObject::Renderer *MpvPlayerBackend::createRenderer() const
 {
     window()->setPersistentOpenGLContext(true);
     window()->setPersistentSceneGraph(true);
-
     return new MpvRenderer(const_cast<MpvPlayerBackend *>(this));
 }

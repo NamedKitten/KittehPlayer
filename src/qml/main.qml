@@ -97,19 +97,6 @@ ApplicationWindow {
             property bool nyanCat: false
         }
 
-        Timer {
-            id: initTimer
-            interval: 1000
-            running: false
-            repeat: false
-            onTriggered: {
-                player.startPlayer()
-            }
-        }
-        Component.onCompleted: {
-            initTimer.start()
-        }
-
         function startPlayer() {
             var args = Qt.application.arguments
             var len = Qt.application.arguments.length
@@ -393,6 +380,27 @@ ApplicationWindow {
             property string increaseVolume: "*"
             property string decreaseVolume: "/"
             property string mute: "m"
+            property string customKeybind0:""
+            property string customKeybind0Command: ""
+            property string customKeybind1:""
+            property string customKeybind1Command: ""
+            property string customKeybind2:""
+            property string customKeybind2Command: ""
+            property string customKeybind3:""
+            property string customKeybind3Command: ""
+            property string customKeybind4:""
+            property string customKeybind4Command: ""
+            property string customKeybind5:""
+            property string customKeybind5Command: ""
+            property string customKeybind6:""
+            property string customKeybind6Command: ""
+            property string customKeybind7:""
+            property string customKeybind7Command: ""
+            property string customKeybind8:""
+            property string customKeybind8Command: ""
+            property string customKeybind9:""
+            property string customKeybind9Command: ""
+
         }
         MenuBar {
             id: menuBar
@@ -799,6 +807,47 @@ ApplicationWindow {
             Action {
                 onTriggered: player.skipToNinth(parseInt(shortcut))
                 shortcut: "0"
+            }
+
+            Action {
+                onTriggered: player.command(keybinds.customKeybind0Command)
+                shortcut: keybinds.customKeybind0
+            }
+            Action {
+                onTriggered: player.command(keybinds.customKeybind1Command)
+                shortcut: keybinds.customKeybind1
+            }
+            Action {
+                onTriggered: player.command(keybinds.customKeybind2Command)
+                shortcut: keybinds.customKeybind2
+            }
+            Action {
+                onTriggered: player.command(keybinds.customKeybind3Command)
+                shortcut: keybinds.customKeybind3
+            }
+            Action {
+                onTriggered: player.command(keybinds.customKeybind4Command)
+                shortcut: keybinds.customKeybind4
+            }
+            Action {
+                onTriggered: player.command(keybinds.customKeybind5Command)
+                shortcut: keybinds.customKeybind5
+            }
+            Action {
+                onTriggered: player.command(keybinds.customKeybind6Command)
+                shortcut: keybinds.customKeybind6
+            }
+            Action {
+                onTriggered: player.command(keybinds.customKeybind7Command)
+                shortcut: keybinds.customKeybind7
+            }
+            Action {
+                onTriggered: player.command(keybinds.customKeybind8Command)
+                shortcut: keybinds.customKeybind8
+            }
+            Action {
+                onTriggered: player.command(keybinds.customKeybind9Command)
+                shortcut: keybinds.customKeybind9
             }
         }
 

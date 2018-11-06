@@ -1,7 +1,7 @@
 TARGET = KittehPlayer
 
 TEMPLATE = app
-QT += qml quickcontrols2 widgets core-private gui-private
+QT += qml quickcontrols2 widgets
 SOURCES += src/main.cpp src/MpvPlayerBackend.cpp
 
 CONFIG += release
