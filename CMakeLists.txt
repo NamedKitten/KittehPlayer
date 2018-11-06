@@ -18,10 +18,20 @@ qtquick_compiler_add_resources(qml_QRC src/qml/qml.qrc)
 find_package(PkgConfig)
 pkg_check_modules(MPV REQUIRED mpv)
 
+
 set(SOURCES
-	src/main.cpp
+    src/main.cpp
     src/MpvPlayerBackend.cpp
 )
+
+find_program(CCACHE_FOUND ccache)
+if(CCACHE_FOUND)
+    set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
+    set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
+endif(CCACHE_FOUND)
+
+set(CMAKE_BUILD_TYPE MINSIZEREL)
+
 
 if(TESTING)
 SET(CMAKE_C_COMPILER "/usr/bin/clang")
@@ -31,7 +41,6 @@ SET(CMAKE_LINKER "/usr/bin/llvm-link")
 SET(CMAKE_NM "/usr/bin/llvm-nm")
 SET(CMAKE_OBJDUMP "/usr/bin/llvm-objdump")
 SET(CMAKE_RANLIB "/usr/bin/llvm-ranlib")
-
 endif(TESTING)
 
 
