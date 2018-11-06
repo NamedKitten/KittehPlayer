@@ -18,7 +18,7 @@ before_install:
 
 install:
   - sudo apt-get -y install ccache qt511-meta-minimal qt511quickcontrols python3-setuptools qt511quickcontrols2 qt511svg libgl1-mesa-dev
-  - sudo apt-get -y install libbs2b libegl1-mesa libgl1-mesa libguess liblcms2 liblua5.2 libpulse librubberband libswscale libuchardet libx11 libxinerama libxkbcommon libxrandr libxss libxv zlib1g libmp3lame libopus libx264 libx265 libtheora libtwolame libpulse libopenjpeg libass libgme libwavpack libfribidi libvpx
+  - sudo apt-get build-dep mpv
   - source /opt/qt*/bin/qt*-env.sh
 
 script:
