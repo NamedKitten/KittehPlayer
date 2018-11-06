@@ -150,10 +150,10 @@ ApplicationWindow {
         }
 
         function setProgressBarValue(val) {
+            progressBar.value = val
             timeLabel.text = player.createTimestamp(val) + " / " + player.createTimestamp(
                         progressBar.to) + " (" + parseFloat(
                         player.getProperty("speed").toFixed(2)) + "x)"
-            progressBar.value = val
         }
 
         function skipToNinth(val) {

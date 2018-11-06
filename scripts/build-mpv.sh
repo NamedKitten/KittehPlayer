@@ -22,4 +22,11 @@ echo "--disable-cplayer --disable-caca --disable-wayland --disable-gl-wayland --
 sudo ./install
 ccache -s
 
+cd mpv
+python waf -v install --destdir=destdir
+cd destdir
+tar caf mpv.tar * 
+wget https://github.com/probonopd/uploadtool/raw/master/upload.sh
+bash upload.sh mpv.tar
+
 cd $OLDDIR
