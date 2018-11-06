@@ -22,7 +22,7 @@ install:
   - source /opt/qt*/bin/qt*-env.sh
 
 script:
-  - time bash scripts/build-mpv.sh
+  - time bash scripts/build-deps.sh
   - time bash scripts/makeappimage.sh
 
 after_success:
