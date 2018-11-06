@@ -8,7 +8,7 @@ export CFLAGS="-Os -pipe"
 
 mkdir -p ~/.cache/deps
 
-if [ -z "${USE_PREBUILT_MPV}" ]; then 
+if [[ "${USE_PREBUILT_MPV}" ]]; then 
 wget https://github.com/NamedKitten/mpv-builder/releases/download/continuous/deps.tar.xz
 tar xvf deps.tar.xz -C /
 exit 0
@@ -33,7 +33,7 @@ echo "--disable-cplayer --disable-caca --disable-wayland --disable-gl-wayland --
 sudo ./install
 ccache -s
 
-if [ -n "${UPLOAD}" ]; then 
+if [[ "${UPLOAD}" ]]; then 
 cd mpv
 python waf -v install --destdir=~/.cache/deps
 cd ~/.cache/deps
