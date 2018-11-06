@@ -22,7 +22,8 @@ install:
   - source /opt/qt*/bin/qt*-env.sh
 
 script:
-  - USE_PREBUILT_MPV=1 ./scripts/build-deps.sh
+  - wget https://github.com/NamedKitten/mpv-builder/releases/download/continuous/deps.tar.xz
+  - sudo tar xvf deps.tar.xz -C /
   - time bash scripts/makeappimage.sh
 
 after_success:
