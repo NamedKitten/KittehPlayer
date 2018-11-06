@@ -36,11 +36,12 @@ ApplicationWindow {
         vidModel.clear()
         var newTracks = player.getTracks()
 
-        for(var i=0, len=newTracks.length; i < len; i++){
+        for (var i = 0, len = newTracks.length; i < len; i++) {
             var track = newTracks[i]
             var trackID = track["id"]
             var trackType = track["type"]
-            var trackLang = LanguageCodes.localeCodeToEnglish(String(track["lang"]))
+            var trackLang = LanguageCodes.localeCodeToEnglish(
+                        String(track["lang"]))
             var trackTitle = track["title"]
             if (trackType == "sub") {
                 subModel.append({
@@ -380,27 +381,26 @@ ApplicationWindow {
             property string increaseVolume: "*"
             property string decreaseVolume: "/"
             property string mute: "m"
-            property string customKeybind0:""
+            property string customKeybind0: ""
             property string customKeybind0Command: ""
-            property string customKeybind1:""
+            property string customKeybind1: ""
             property string customKeybind1Command: ""
-            property string customKeybind2:""
+            property string customKeybind2: ""
             property string customKeybind2Command: ""
-            property string customKeybind3:""
+            property string customKeybind3: ""
             property string customKeybind3Command: ""
-            property string customKeybind4:""
+            property string customKeybind4: ""
             property string customKeybind4Command: ""
-            property string customKeybind5:""
+            property string customKeybind5: ""
             property string customKeybind5Command: ""
-            property string customKeybind6:""
+            property string customKeybind6: ""
             property string customKeybind6Command: ""
-            property string customKeybind7:""
+            property string customKeybind7: ""
             property string customKeybind7Command: ""
-            property string customKeybind8:""
+            property string customKeybind8: ""
             property string customKeybind8Command: ""
-            property string customKeybind9:""
+            property string customKeybind9: ""
             property string customKeybind9Command: ""
-
         }
         MenuBar {
             id: menuBar
@@ -867,7 +867,7 @@ ApplicationWindow {
             width: controlsBar.width / 2
             height: childrenRect.height
             visible: false
-            z:90000
+            z: 90000
             anchors.centerIn: player
             border.color: "black"
             border.width: 2
@@ -1263,8 +1263,7 @@ ApplicationWindow {
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 onMoved: {
-                    player.setVolume(Math.round(
-                                        volumeBar.value).toString())
+                    player.setVolume(Math.round(volumeBar.value).toString())
                 }
 
                 handle: Rectangle {
