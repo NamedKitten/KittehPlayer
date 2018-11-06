@@ -45,6 +45,7 @@ public slots:
   void setProperty(const QString& name, const QVariant& value);
   void setOption(const QString& name, const QVariant& value);
   QVariant getProperty(const QString& name) const;
+  QVariant createTimestamp(const QVariant& seconds) const;
 
 signals:
   void onUpdate();

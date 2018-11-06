@@ -145,24 +145,12 @@ ApplicationWindow {
             }
         }
 
-        function createTimestamp(d) {
-            d = Number(d)
-            var h = Math.floor(d / 3600)
-            var m = Math.floor(d % 3600 / 60)
-            var s = Math.floor(d % 3600 % 60)
-
-            var hour = h > 0 ? h + ":" : ""
-            var minute = h < 1 ? m + ":" : (m < 10 ? "0" + m + ":" : m + ":")
-            var second = s < 10 ? "0" + s : s
-            return hour + minute + second
-        }
-
         function setProgressBarEnd(val) {
             progressBar.to = val
         }
 
         function setProgressBarValue(val) {
-            timeLabel.text = createTimestamp(val) + " / " + createTimestamp(
+            timeLabel.text = player.createTimestamp(val) + " / " + player.createTimestamp(
                         progressBar.to) + " (" + parseFloat(
                         player.getProperty("speed").toFixed(2)) + "x)"
             progressBar.value = val

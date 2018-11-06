@@ -8,7 +8,7 @@
 #include <QOpenGLContext>
 #include <QOpenGLFramebufferObject>
 #include <QQuickWindow>
-
+#include <math.h>
 namespace {
 
 void
@@ -280,6 +280,22 @@ QVariant
 MpvPlayerBackend::getTracks() const
 {
   return mpv::qt::get_property_variant(mpv, "track-list");
+}
+
+QVariant
+MpvPlayerBackend::createTimestamp(const QVariant& seconds) const
+{
+  int d = seconds.toInt();
+  double h = floor(d / 3600);
+  double m = floor(d % 3600 / 60);
+  double s = floor(d % 3600 % 60);
+
+  QString hour = h > 0 ? QString::number(h) + ":" : "";
+  QString minute = h < 1 ? QString::number(m) + ":"
+                         : (m < 10 ? "0" + QString::number(m) + ":"
+                                   : QString::number(m) + ":");
+  QString second = s < 10 ? "0" + QString::number(s) : QString::number(s);
+  return hour + minute + second;
 }
 
 void
