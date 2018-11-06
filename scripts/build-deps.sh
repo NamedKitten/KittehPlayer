@@ -10,7 +10,7 @@ mkdir -p ~/.cache/deps
 
 if [[ "${USE_PREBUILT_MPV}" ]]; then 
 wget https://github.com/NamedKitten/mpv-builder/releases/download/continuous/deps.tar.xz
-tar xvf deps.tar.xz -C /
+sudo tar xvf deps.tar.xz -C /
 exit 0
 fi
 
