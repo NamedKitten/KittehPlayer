@@ -124,7 +124,9 @@ var translations = {
         TOGGLE_NYAN_CAT: "Schalte Nyan Cat An/Aus",
         ABOUT: "Über",
         ABOUT_QT: "Über QT",
-        TITLE: "Titel"
+        TITLE: "Titel",
+        TOGGLE_ALWAYS_ON_TOP: "Immer im Vordergrund",
+        DISABLE_TRACK:  "Spur deaktivieren"
     },
     french: {
         SAVE_SCREENSHOT: "Enregistrer la capture d'écran dans",
@@ -165,7 +167,9 @@ var translations = {
         TOGGLE_NYAN_CAT: "basculer Nyan Cat",
         ABOUT: "A propos",
         ABOUT_QT: "A propos de Qt",
-        TITLE: "Titre"
+        TITLE: "Titre",
+        TOGGLE_ALWAYS_ON_TOP: "Toujours au-dessu",
+        DISABLE_TRACK:  "Désactiver la piste"
     },
     italian: {
         SAVE_SCREENSHOT: "Salva schermata",
@@ -206,7 +210,9 @@ var translations = {
         TOGGLE_NYAN_CAT: "Attiva Nyan Cat",
         ABOUT: "Info",
         ABOUT_QT: "Info su Qt",
-        TITLE: "Titolo"
+        TITLE: "Titolo",
+        TOGGLE_ALWAYS_ON_TOP: "Mantieni in primo piano",
+        DISABLE_TRACK:  "Disabilita traccia"
     },
     russian: {
         SAVE_SCREENSHOT: "Сохранить снимок экрана...",
@@ -288,6 +294,8 @@ var translations = {
         TOGGLE_NYAN_CAT: "Skru Av/På Nyan Cat",
         ABOUT: "Om",
         ABOUT_QT: "Om Qt",
-        TITLE: "Tittel"
+        TITLE: "Tittel",
+        TOGGLE_ALWAYS_ON_TOP: "Alltid Øverst",
+        DISABLE_TRACK: "Skru Av Spor"
     }
 }

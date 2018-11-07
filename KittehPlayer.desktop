@@ -6,4 +6,3 @@ Icon=KittehPlayer
 Exec=KittehPlayer %U
 Terminal=false
 Categories=AudioVideo;Player;
-MimeType=image/*;audio/*;video/*
