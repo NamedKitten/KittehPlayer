@@ -23,6 +23,10 @@ getPlatformName()
 void
 SetDPMS(bool on)
 {
+  qDebug() << getPlatformName();
+  if (getPlatformName() != "xcb") {
+    return;
+  }
   Display* dpy = QX11Info::display();
   if (on) {
     DPMSEnable(dpy);

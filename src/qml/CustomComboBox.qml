@@ -1,13 +1,16 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.4
+import Qt.labs.settings 1.0
 
 ComboBox {
     id: control
     width: parent.width
+    height: 10
 
-    FontLoader {
-        id: notoFont
-        source: "fonts/NotoSans.ttf"
+    Settings {
+        id: appearance
+        category: "Appearance"
+        property string fontName: "Roboto"
     }
 
     indicator: Canvas {
@@ -38,8 +41,8 @@ ComboBox {
         leftPadding: 2
         rightPadding: control.indicator.width + control.spacing
         text: control.displayText
-        font.family: notoFont.name
-        color: "white"
+        font.family: appearance.fontName
+        color: control.pressed ? "#5a50da" : "white"
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
     }
@@ -48,8 +51,7 @@ ComboBox {
         implicitWidth: 120
         implicitHeight: 40
         color: "transparent"
-        border.color: "black"
-        border.width: 2
+        opacity: 0.6
     }
 
     popup: Popup {
@@ -74,9 +76,7 @@ ComboBox {
 
         background: Rectangle {
             opacity: 0.6
-            color: "white"
-            border.color: "black"
-            border.width: 2
+            color: "orange"
         }
     }
 }

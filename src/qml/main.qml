@@ -104,9 +104,24 @@ ApplicationWindow {
         }
 
         function tracksUpdate() {
-            subModel.clear()
-            audioModel.clear()
-            vidModel.clear()
+            for (var i = 0, len = audioMenu.count; i < len; i++) {
+                var audioAction = audioMenu.actionAt(i)
+                if (audioAction.trackID != "no") {
+                    audioMenu.removeAction(audioAction)
+                }
+            }
+            for (var i = 0, len = videoMenu.count; i < len; i++) {
+                var videoAction = audioMenu.actionAt(i)
+                if (videoAction.trackID != "no") {
+                    videoMenu.removeAction(videoAction)
+                }
+            }
+            for (var i = 0, len = subMenu.count; i < len; i++) {
+                var subAction = subMenu.actionAt(i)
+                if (subAction.trackID != "no") {
+                    subMenu.removeAction(subAction)
+                }
+            }
             var newTracks = player.getTracks()
 
             for (var i = 0, len = newTracks.length; i < len; i++) {
@@ -117,30 +132,38 @@ ApplicationWindow {
                             String(track["lang"]))
                 var trackTitle = track["title"]
                 if (trackType == "sub") {
-                    subModel.append({
-                                        key: trackLang,
-                                        value: trackID
-                                    })
-                    if (track["selected"]) {
-                        subList.currentIndex = subList.count - 1
-                    }
+                    var component = Qt.createComponent("TrackItem.qml")
+                    var action = component.createObject(subMenu, {
+                                                            text: trackLang,
+                                                            trackID: String(
+                                                                         trackID),
+                                                            trackType: "sid",
+                                                            checked: track["selected"]
+                                                        })
+                    action.ActionGroup.group = subMenuGroup
+                    subMenu.addAction(action)
                 } else if (trackType == "audio") {
-                    audioModel.append({
-                                          key: (trackTitle === undefined ? "" : trackTitle + " ")
-                                               + trackLang,
-                                          value: trackID
-                                      })
-                    if (track["selected"]) {
-                        audioList.currentIndex = audioList.count - 1
-                    }
+                    var component = Qt.createComponent("TrackItem.qml")
+                    var action = component.createObject(audioMenu, {
+                                                            text: (trackTitle == "undefined" ? "" : trackTitle + " ") + (trackLang == "undefined" ? "" : trackLang),
+                                                            trackID: String(
+                                                                         trackID),
+                                                            trackType: "aid",
+                                                            checked: track["selected"]
+                                                        })
+                    action.ActionGroup.group = audioMenuGroup
+                    audioMenu.addAction(action)
                 } else if (trackType == "video") {
-                    vidModel.append({
-                                        key: "Video " + trackID,
-                                        value: trackID
-                                    })
-                    if (track["selected"]) {
-                        vidList.currentIndex = vidList.count - 1
-                    }
+                    var component = Qt.createComponent("TrackItem.qml")
+                    var action = component.createObject(videoMenu, {
+                                                            text: "Video " + trackID,
+                                                            trackID: String(
+                                                                         trackID),
+                                                            trackType: "vid",
+                                                            checked: track["selected"]
+                                                        })
+                    action.ActionGroup.group = videoMenuGroup
+                    videoMenu.addAction(action)
                 }
             }
         }
@@ -606,25 +629,16 @@ ApplicationWindow {
 
                 CustomMenu {
                     title: translate.getTranslation("AUDIO", i18n.language)
-                    Rectangle {
-                        color: "white"
-                        opacity: 1
-                        width: parent.width
-                        height: 40
-
-                        ComboBox {
-                            anchors.fill: parent
-                            id: audioList
-                            textRole: "key"
-                            model: ListModel {
-                                id: audioModel
-                            }
-                            onActivated: {
-                                player.command(["set", "aid", String(
-                                                    subModel.get(index).value)])
-                            }
-                            opacity: 1
-                        }
+                    id: audioMenu
+                    ActionGroup {
+                        id: audioMenuGroup
+                    }
+                    TrackItem {
+                        text: translate.getTranslation("DISABLE_TRACK",
+                                                       i18n.language)
+                        trackType: "aid"
+                        trackID: "no"
+                        ActionGroup.group: audioMenuGroup
                     }
                 }
             }
@@ -644,25 +658,16 @@ ApplicationWindow {
 
                 CustomMenu {
                     title: translate.getTranslation("VIDEO", i18n.language)
-                    Rectangle {
-                        color: "white"
-                        opacity: 1
-                        width: parent.width
-                        height: 40
-
-                        ComboBox {
-                            anchors.fill: parent
-                            id: vidList
-                            textRole: "key"
-                            model: ListModel {
-                                id: vidModel
-                            }
-                            onActivated: {
-                                player.command(["set", "vid", String(
-                                                    subModel.get(index).value)])
-                            }
-                            opacity: 1
-                        }
+                    id: videoMenu
+                    ActionGroup {
+                        id: videoMenuGroup
+                    }
+                    TrackItem {
+                        text: translate.getTranslation("DISABLE_TRACK",
+                                                       i18n.language)
+                        trackType: "vid"
+                        trackID: "no"
+                        ActionGroup.group: videoMenuGroup
                     }
                 }
             }
@@ -690,25 +695,16 @@ ApplicationWindow {
 
                 CustomMenu {
                     title: translate.getTranslation("SUBTITLES", i18n.language)
-                    Rectangle {
-                        color: "white"
-                        opacity: 1
-                        width: parent.width
-                        height: 40
-
-                        ComboBox {
-                            anchors.fill: parent
-                            id: subList
-                            textRole: "key"
-                            model: ListModel {
-                                id: subModel
-                            }
-                            onActivated: {
-                                player.command(["set", "sid", String(
-                                                    subModel.get(index).value)])
-                            }
-                            opacity: 1
-                        }
+                    id: subMenu
+                    ActionGroup {
+                        id: subMenuGroup
+                    }
+                    TrackItem {
+                        text: translate.getTranslation("DISABLE_TRACK",
+                                                       i18n.language)
+                        trackType: "sid"
+                        trackID: "no"
+                        ActionGroup.group: subMenuGroup
                     }
                 }
             }

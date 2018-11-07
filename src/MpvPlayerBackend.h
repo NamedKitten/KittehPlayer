@@ -39,6 +39,8 @@ public slots:
   void toggleOnTop();
   QVariant getTracks() const;
 
+  QVariant getTrack(const QString& track);
+  void setTrack(const QVariant& track, const QVariant& id);
   void setVolume(const QVariant& volume);
   void addVolume(const QVariant& volume);
   void loadFile(const QVariant& filename);

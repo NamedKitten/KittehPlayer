@@ -67,7 +67,6 @@ public:
         { MPV_RENDER_PARAM_OPENGL_INIT_PARAMS, &gl_init_params },
         { MPV_RENDER_PARAM_INVALID, nullptr }
       };
-
       if (mpv_render_context_create(&obj->mpv_gl, obj->mpv, params) < 0)
         throw std::runtime_error("failed to initialize mpv GL context");
       mpv_render_context_set_update_callback(obj->mpv_gl, on_mpv_redraw, obj);
@@ -280,6 +279,18 @@ QVariant
 MpvPlayerBackend::getTracks() const
 {
   return mpv::qt::get_property_variant(mpv, "track-list");
+}
+
+void
+MpvPlayerBackend::setTrack(const QVariant& track, const QVariant& id)
+{
+  command(QVariantList() << "set" << track << id);
+}
+
+QVariant
+MpvPlayerBackend::getTrack(const QString& track)
+{
+  return mpv::qt::get_property_variant(mpv, track);
 }
 
 QVariant
