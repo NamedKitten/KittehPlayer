@@ -81,7 +81,9 @@ var translations = {
         TOGGLE_NYAN_CAT: "Activar Nyan Cat",
         ABOUT: "Ayuda",
         ABOUT_QT: "Sobre Qt",
-        TITLE: "Título"
+        TITLE: "Título",
+        TOGGLE_ALWAYS_ON_TOP: "Fijar ventana",
+        DISABLE_TRACK:  "Eliminar pista"
     },
     german: {
         SAVE_SCREENSHOT: "Bildschirmfoto speichern nach",
