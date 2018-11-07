@@ -2,19 +2,15 @@
 #include "runtimeqml/runtimeqml.h"
 #endif
 
-#include <cstdlib>
 #include "MpvPlayerBackend.h"
-#include <QtCore>
+#include "utils.hpp"
+#include <cstdlib>
+
 #include <QApplication>
 #include <QProcessEnvironment>
 #include <QQmlApplicationEngine>
+#include <QtCore>
 #include <stdbool.h>
-#include <QX11Info>
-#include <X11/extensions/Xrandr.h>
-#include <X11/extensions/dpms.h>
-#include <X11/keysym.h>
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
 
 #ifdef WIN32
 #include "setenv_mingw.hpp"
@@ -44,9 +40,7 @@ main(int argc, char* argv[])
     }
   }
 
-  Display *dpy = QX11Info::display();
-  DPMSDisable(dpy);
-  qDebug() << "Disabled DPMS.";
+  SetDPMS(false);
 
   QString newpath =
     QProcessEnvironment::systemEnvironment().value("APPDIR", "") +
@@ -54,8 +48,8 @@ main(int argc, char* argv[])
   setenv("PATH", newpath.toUtf8().constData(), 1);
 
   QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-  QApplication::setAttribute(Qt::AA_NativeWindows); 
-  
+  QApplication::setAttribute(Qt::AA_NativeWindows);
+
   qmlRegisterType<MpvPlayerBackend>("player", 1, 0, "PlayerBackend");
   std::setlocale(LC_NUMERIC, "C");
 

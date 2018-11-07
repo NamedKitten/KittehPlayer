@@ -1,20 +1,16 @@
 
 #include <clocale>
+#include <stdbool.h>
 #include <stdexcept>
 
 #include "MpvPlayerBackend.h"
 
+#include "utils.hpp"
 #include <QApplication>
 #include <QOpenGLContext>
 #include <QOpenGLFramebufferObject>
 #include <QQuickWindow>
 #include <math.h>
-#include <QX11Info>
-#include <X11/extensions/Xrandr.h>
-#include <X11/extensions/dpms.h>
-#include <X11/keysym.h>
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
 
 namespace {
 
@@ -156,9 +152,7 @@ MpvPlayerBackend::MpvPlayerBackend(QQuickItem* parent)
 
 MpvPlayerBackend::~MpvPlayerBackend()
 {
-  Display *dpy = QX11Info::display();
-  DPMSEnable(dpy);
-  qDebug() << "Enabled DPMS.";
+  SetDPMS(true);
   mpv_render_context_free(mpv_gl);
   mpv_terminate_destroy(mpv);
 }
@@ -305,6 +299,13 @@ MpvPlayerBackend::createTimestamp(const QVariant& seconds) const
                                    : QString::number(m) + ":");
   QString second = s < 10 ? "0" + QString::number(s) : QString::number(s);
   return hour + minute + second;
+}
+
+void
+MpvPlayerBackend::toggleOnTop()
+{
+  onTop = !onTop;
+  AlwaysOnTop(window()->winId(), onTop);
 }
 
 void

@@ -39,7 +39,8 @@ var translations = {
         TOGGLE_NYAN_CAT: "Toggle Nyan Cat",
         ABOUT: "About",
         ABOUT_QT: "About Qt",
-        TITLE: "Title"
+        TITLE: "Title",
+        TOGGLE_ALWAYS_ON_TOP: "Toggle Always On Top"
     },
     spanish: {
         SAVE_SCREENSHOT: "Guardar captura en",

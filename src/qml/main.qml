@@ -734,6 +734,13 @@ ApplicationWindow {
                     }
                     shortcut: keybinds.nyanCat
                 }
+                Action {
+                    text: translate.getTranslation("TOGGLE_ALWAYS_ON_TOP",
+                                                   i18n.language)
+                    onTriggered: {
+                        player.toggleOnTop()
+                    }
+                }
             }
             Menu {
                 id: aboutMenuBarItem

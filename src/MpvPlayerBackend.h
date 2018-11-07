@@ -16,6 +16,7 @@ class MpvPlayerBackend : public QQuickFramebufferObject
   Q_OBJECT
   mpv_handle* mpv;
   mpv_render_context* mpv_gl;
+  bool onTop = false;
 
   friend class MpvRenderer;
 
@@ -35,6 +36,7 @@ public slots:
   void nextSubtitleTrack();
   void prevPlaylistItem();
   void nextPlaylistItem();
+  void toggleOnTop();
   QVariant getTracks() const;
 
   void setVolume(const QVariant& volume);

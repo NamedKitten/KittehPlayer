@@ -24,6 +24,7 @@ pkg_check_modules(Xext REQUIRED xext)
 set(SOURCES
     src/main.cpp
     src/MpvPlayerBackend.cpp
+    src/utils.cpp
 )
 
 find_program(CCACHE_FOUND ccache)
@@ -50,7 +51,6 @@ if(DEVELOP)
 set(SOURCES ${SOURCES} runtimeqml/runtimeqml.cpp)
 add_definitions(-DQRC_SOURCE_PATH="${PROJECT_SOURCE_DIR}/src/qml")
 add_definitions(-DQT_QML_DEBUG)
-
 endif(DEVELOP)
 
 add_executable(KittehPlayer ${SOURCES} ${qml_QRC})

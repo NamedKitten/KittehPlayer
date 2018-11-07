@@ -13,7 +13,7 @@ Item {
 
     function getTranslation(code, language) {
         var lang = Translations.translations[language]
-        if (lang == undefined) {
+        if (lang == undefined || lang == "undefined") {
             return "TranslationNotFound"
         }
         var text = String(Translations.translations[i18n.language][code])
