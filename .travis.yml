@@ -17,7 +17,7 @@ before_install:
   - sudo apt-get update 
 
 install:
-  - sudo apt-get -y install ccache qt511-meta-minimal qt511quickcontrols python3-setuptools qt511quickcontrols2 qt511svg libgl1-mesa-dev
+  - sudo apt-get -y install ccache qt511-meta-minimal qt511quickcontrols python3-setuptools qt511quickcontrols2 qt511svg libgl1-mesa-dev x11proto-xext-dev
   - sudo apt-get build-dep mpv
   - source /opt/qt*/bin/qt*-env.sh
 
