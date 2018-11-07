@@ -10,13 +10,15 @@ option(DEVELOP "Enable runtime QML reloading for developing." OFF)
 
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
-find_package(Qt5 REQUIRED Qml Quick Gui Widgets Core)
+find_package(Qt5 CONFIG REQUIRED COMPONENTS Qml Quick Gui Widgets Core X11Extras)
 
 find_package(Qt5QuickCompiler)
 qtquick_compiler_add_resources(qml_QRC src/qml/qml.qrc)
 
 find_package(PkgConfig)
 pkg_check_modules(MPV REQUIRED mpv)
+pkg_check_modules(X11 REQUIRED x11)
+pkg_check_modules(Xext REQUIRED xext)
 
 
 set(SOURCES
@@ -54,9 +56,9 @@ endif(DEVELOP)
 add_executable(KittehPlayer ${SOURCES} ${qml_QRC})
 
 # Use the Qml/Quick modules from Qt 5.
-target_link_libraries(KittehPlayer ${MPV_LIBRARIES})
+target_link_libraries(KittehPlayer ${MPV_LIBRARIES} ${X11_LIBRARIES} ${Xext_LIBRARIES} Qt5::X11Extras)
 
-qt5_use_modules(KittehPlayer Qml Quick Core Gui Widgets)
+qt5_use_modules(KittehPlayer Qml Quick Core Gui Widgets X11Extras)
 
 install (TARGETS ${PROJECT_NAME} DESTINATION bin)
 install (FILES "${PROJECT_NAME}.desktop" DESTINATION share/applications)

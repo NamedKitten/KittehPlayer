@@ -1,14 +1,15 @@
 TARGET = KittehPlayer
 
 TEMPLATE = app
-QT += qml quickcontrols2 widgets
+QT += qml quickcontrols2 widgets x11extras
+
 SOURCES += src/main.cpp src/MpvPlayerBackend.cpp
 
 CONFIG += release
 #CONFIG+=qtquickcompiler
 QT_CONFIG -= no-pkg-config
 CONFIG += link_pkgconfig
-PKGCONFIG += mpv
+PKGCONFIG += mpv x11 xext
 RESOURCES += src/qml/qml.qrc
 
 unix {

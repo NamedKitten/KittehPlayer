@@ -9,6 +9,13 @@
 #include <QOpenGLFramebufferObject>
 #include <QQuickWindow>
 #include <math.h>
+#include <QX11Info>
+#include <X11/extensions/Xrandr.h>
+#include <X11/extensions/dpms.h>
+#include <X11/keysym.h>
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+
 namespace {
 
 void
@@ -149,6 +156,9 @@ MpvPlayerBackend::MpvPlayerBackend(QQuickItem* parent)
 
 MpvPlayerBackend::~MpvPlayerBackend()
 {
+  Display *dpy = QX11Info::display();
+  DPMSEnable(dpy);
+  qDebug() << "Enabled DPMS.";
   if (mpv_gl) {
     mpv_render_context_free(mpv_gl);
   }
