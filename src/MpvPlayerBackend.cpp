@@ -125,7 +125,7 @@ MpvPlayerBackend::MpvPlayerBackend(QQuickItem* parent)
 
   mpv_set_option_string(mpv, "config", "yes");
   // mpv_set_option_string(mpv, "sub-visibility", "no");
-
+  mpv_observe_property(mpv, 0, "tracks-menu", MPV_FORMAT_NONE);
   mpv_observe_property(mpv, 0, "playback-abort", MPV_FORMAT_NONE);
   mpv_observe_property(mpv, 0, "chapter-list", MPV_FORMAT_NODE);
   mpv_observe_property(mpv, 0, "track-list", MPV_FORMAT_NODE);
@@ -174,14 +174,12 @@ MpvPlayerBackend::doUpdate()
 QVariant
 MpvPlayerBackend::getProperty(const QString& name) const
 {
-  qDebug() << "Getting Property: " << name;
   return mpv::qt::get_property_variant(mpv, name);
 }
 
 void
 MpvPlayerBackend::command(const QVariant& params)
 {
-  qDebug() << "Running Command: " << params;
   mpv::qt::command_variant(mpv, params);
 }
 
@@ -194,7 +192,6 @@ MpvPlayerBackend::setProperty(const QString& name, const QVariant& value)
 void
 MpvPlayerBackend::setOption(const QString& name, const QVariant& value)
 {
-  qDebug() << "Setting Option '" << name << "' to '" << value << "'";
   mpv::qt::set_option_variant(mpv, name, value);
 }
 
@@ -376,6 +373,8 @@ MpvPlayerBackend::handle_mpv_event(mpv_event* event)
         }
       } else if (strcmp(prop->name, "pause") == 0) {
         QMetaObject::invokeMethod(this, "updatePlayPause");
+      } else if (strcmp(prop->name, "tracks-menu") == 0) {
+        QMetaObject::invokeMethod(this, "tracksUpdate");
       }
       break;
     }

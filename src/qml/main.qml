@@ -30,48 +30,6 @@ ApplicationWindow {
         }
     }
 
-    function tracksMenuUpdate() {
-        subModel.clear()
-        audioModel.clear()
-        vidModel.clear()
-        var newTracks = player.getTracks()
-
-        for (var i = 0, len = newTracks.length; i < len; i++) {
-            var track = newTracks[i]
-            var trackID = track["id"]
-            var trackType = track["type"]
-            var trackLang = LanguageCodes.localeCodeToEnglish(
-                        String(track["lang"]))
-            var trackTitle = track["title"]
-            if (trackType == "sub") {
-                subModel.append({
-                                    key: trackLang,
-                                    value: trackID
-                                })
-                if (track["selected"]) {
-                    subList.currentIndex = subList.count - 1
-                }
-            } else if (trackType == "audio") {
-                audioModel.append({
-                                      key: (trackTitle === undefined ? "" : trackTitle + " ")
-                                           + trackLang,
-                                      value: trackID
-                                  })
-                if (track["selected"]) {
-                    audioList.currentIndex = audioList.count - 1
-                }
-            } else if (trackType == "video") {
-                vidModel.append({
-                                    key: "Video " + trackID,
-                                    value: trackID
-                                })
-                if (track["selected"]) {
-                    vidList.currentIndex = vidList.count - 1
-                }
-            }
-        }
-    }
-
     PlayerBackend {
         id: player
         anchors.fill: parent
@@ -145,6 +103,48 @@ ApplicationWindow {
             }
         }
 
+        function tracksUpdate() {
+            subModel.clear()
+            audioModel.clear()
+            vidModel.clear()
+            var newTracks = player.getTracks()
+
+            for (var i = 0, len = newTracks.length; i < len; i++) {
+                var track = newTracks[i]
+                var trackID = track["id"]
+                var trackType = track["type"]
+                var trackLang = LanguageCodes.localeCodeToEnglish(
+                            String(track["lang"]))
+                var trackTitle = track["title"]
+                if (trackType == "sub") {
+                    subModel.append({
+                                        key: trackLang,
+                                        value: trackID
+                                    })
+                    if (track["selected"]) {
+                        subList.currentIndex = subList.count - 1
+                    }
+                } else if (trackType == "audio") {
+                    audioModel.append({
+                                          key: (trackTitle === undefined ? "" : trackTitle + " ")
+                                               + trackLang,
+                                          value: trackID
+                                      })
+                    if (track["selected"]) {
+                        audioList.currentIndex = audioList.count - 1
+                    }
+                } else if (trackType == "video") {
+                    vidModel.append({
+                                        key: "Video " + trackID,
+                                        value: trackID
+                                    })
+                    if (track["selected"]) {
+                        vidList.currentIndex = vidList.count - 1
+                    }
+                }
+            }
+        }
+
         function setProgressBarEnd(val) {
             progressBar.to = val
         }
@@ -212,11 +212,10 @@ ApplicationWindow {
         }
 
         function isAnyMenuOpen() {
-            return subtitlesMenu.visible || settingsMenu.visible
-                    || fileMenuBarItem.opened || playbackMenuBarItem.opened
-                    || viewMenuBarItem.opened || audioMenuBarItem.opened
-                    || videoMenuBarItem.opened || subsMenuBarItem.opened
-                    || aboutMenuBarItem.opened
+            return settingsMenu.visible || fileMenuBarItem.opened
+                    || playbackMenuBarItem.opened || viewMenuBarItem.opened
+                    || audioMenuBarItem.opened || videoMenuBarItem.opened
+                    || subsMenuBarItem.opened || aboutMenuBarItem.opened
         }
 
         function hideControls(force) {
@@ -433,19 +432,10 @@ ApplicationWindow {
                 opacity: 0.6
             }
 
-            Menu {
+            CustomMenu {
                 id: fileMenuBarItem
                 title: translate.getTranslation("FILE_MENU", i18n.language)
                 font.family: appearance.fontName
-                width: 300
-                background: Rectangle {
-                    implicitWidth: parent.width
-                    implicitHeight: 10
-                    color: "black"
-                    opacity: 0.6
-                }
-                delegate: CustomMenuItem {
-                }
 
                 Action {
                     text: translate.getTranslation("OPEN_FILE", i18n.language)
@@ -490,20 +480,9 @@ ApplicationWindow {
                 }
             }
 
-            Menu {
+            CustomMenu {
                 id: playbackMenuBarItem
                 title: translate.getTranslation("PLAYBACK", i18n.language)
-                width: 300
-                background: Rectangle {
-                    implicitWidth: parent.width
-                    implicitHeight: 10
-                    color: "black"
-                    opacity: 0.6
-                }
-                delegate: CustomMenuItem {
-                    width: parent.width
-                }
-
                 Action {
                     text: translate.getTranslation("PLAY_PAUSE", i18n.language)
                     onTriggered: {
@@ -588,19 +567,9 @@ ApplicationWindow {
                 }
             }
 
-            Menu {
+            CustomMenu {
                 id: audioMenuBarItem
                 title: translate.getTranslation("AUDIO", i18n.language)
-                width: 300
-                background: Rectangle {
-                    implicitWidth: parent.width
-                    implicitHeight: 10
-                    color: "black"
-                    opacity: 0.6
-                }
-                delegate: CustomMenuItem {
-                    width: parent.width
-                }
                 Action {
                     text: translate.getTranslation("CYCLE_AUDIO_TRACK",
                                                    i18n.language)
@@ -632,21 +601,37 @@ ApplicationWindow {
                     }
                     shortcut: keybinds.mute
                 }
+                MenuSeparator {
+                }
+
+                CustomMenu {
+                    title: translate.getTranslation("AUDIO", i18n.language)
+                    Rectangle {
+                        color: "white"
+                        opacity: 1
+                        width: parent.width
+                        height: 40
+
+                        ComboBox {
+                            anchors.fill: parent
+                            id: audioList
+                            textRole: "key"
+                            model: ListModel {
+                                id: audioModel
+                            }
+                            onActivated: {
+                                player.command(["set", "aid", String(
+                                                    subModel.get(index).value)])
+                            }
+                            opacity: 1
+                        }
+                    }
+                }
             }
 
-            Menu {
+            CustomMenu {
                 id: videoMenuBarItem
                 title: translate.getTranslation("VIDEO", i18n.language)
-                width: 300
-                background: Rectangle {
-                    implicitWidth: parent.width
-                    implicitHeight: 10
-                    color: "black"
-                    opacity: 0.6
-                }
-                delegate: CustomMenuItem {
-                    width: parent.width
-                }
                 Action {
                     text: translate.getTranslation("CYCLE_VIDEO", i18n.language)
                     onTriggered: {
@@ -654,20 +639,36 @@ ApplicationWindow {
                     }
                     shortcut: keybinds.cycleVideo
                 }
+                MenuSeparator {
+                }
+
+                CustomMenu {
+                    title: translate.getTranslation("VIDEO", i18n.language)
+                    Rectangle {
+                        color: "white"
+                        opacity: 1
+                        width: parent.width
+                        height: 40
+
+                        ComboBox {
+                            anchors.fill: parent
+                            id: vidList
+                            textRole: "key"
+                            model: ListModel {
+                                id: vidModel
+                            }
+                            onActivated: {
+                                player.command(["set", "vid", String(
+                                                    subModel.get(index).value)])
+                            }
+                            opacity: 1
+                        }
+                    }
+                }
             }
-            Menu {
+            CustomMenu {
                 id: subsMenuBarItem
                 title: translate.getTranslation("SUBTITLES", i18n.language)
-                width: 300
-                background: Rectangle {
-                    implicitWidth: parent.width
-                    implicitHeight: 10
-                    color: "black"
-                    opacity: 0.6
-                }
-                delegate: CustomMenuItem {
-                    width: parent.width
-                }
                 Action {
                     text: translate.getTranslation("CYCLE_SUB_TRACK",
                                                    i18n.language)
@@ -684,21 +685,37 @@ ApplicationWindow {
                     }
                     shortcut: keybinds.cycleSubBackwards
                 }
+                MenuSeparator {
+                }
+
+                CustomMenu {
+                    title: translate.getTranslation("SUBTITLES", i18n.language)
+                    Rectangle {
+                        color: "white"
+                        opacity: 1
+                        width: parent.width
+                        height: 40
+
+                        ComboBox {
+                            anchors.fill: parent
+                            id: subList
+                            textRole: "key"
+                            model: ListModel {
+                                id: subModel
+                            }
+                            onActivated: {
+                                player.command(["set", "sid", String(
+                                                    subModel.get(index).value)])
+                            }
+                            opacity: 1
+                        }
+                    }
+                }
             }
 
-            Menu {
+            CustomMenu {
                 id: viewMenuBarItem
                 title: translate.getTranslation("VIEW", i18n.language)
-                width: 300
-                background: Rectangle {
-                    implicitWidth: parent.width
-                    implicitHeight: 10
-                    color: "black"
-                    opacity: 0.6
-                }
-                delegate: CustomMenuItem {
-                    width: parent.width
-                }
 
                 Action {
                     text: translate.getTranslation("FULLSCREEN", i18n.language)
@@ -707,16 +724,6 @@ ApplicationWindow {
                     }
                     shortcut: keybinds.fullscreen
                 }
-                Action {
-                    text: translate.getTranslation("TRACK_MENU", i18n.language)
-                    onTriggered: {
-                        tracksMenuUpdate()
-                        subtitlesMenu.visible = !subtitlesMenu.visible
-                        subtitlesMenuBackground.visible = !subtitlesMenuBackground.visible
-                    }
-                    shortcut: keybinds.tracks
-                }
-
                 Action {
                     text: translate.getTranslation("STATS", i18n.language)
                     onTriggered: {
@@ -742,19 +749,9 @@ ApplicationWindow {
                     }
                 }
             }
-            Menu {
+            CustomMenu {
                 id: aboutMenuBarItem
                 title: translate.getTranslation("ABOUT", i18n.language)
-                width: 300
-                background: Rectangle {
-                    implicitWidth: parent.width
-                    implicitHeight: 10
-                    color: "black"
-                    opacity: 0.6
-                }
-                delegate: CustomMenuItem {
-                    width: parent.width
-                }
 
                 Action {
                     text: translate.getTranslation("ABOUT_QT", i18n.language)
@@ -844,106 +841,6 @@ ApplicationWindow {
             Action {
                 onTriggered: player.command(keybinds.customKeybind9Command)
                 shortcut: keybinds.customKeybind9
-            }
-        }
-
-        Rectangle {
-            id: subtitlesMenuBackground
-            anchors.fill: subtitlesMenu
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            visible: false
-            color: "black"
-            opacity: 0.6
-        }
-
-        Rectangle {
-            id: subtitlesMenu
-            color: "transparent"
-            width: controlsBar.width / 2
-            height: childrenRect.height
-            visible: false
-            z: 90000
-            anchors.centerIn: player
-            border.color: "black"
-            border.width: 2
-
-            Text {
-                id: audioLabel
-                anchors.left: parent.left
-                anchors.right: parent.right
-                text: translate.getTranslation("AUDIO", i18n.language)
-                color: "white"
-                font.family: appearance.fontName
-                font.pixelSize: 14
-                horizontalAlignment: Text.AlignHCenter
-                opacity: 1
-            }
-            ComboBox {
-                id: audioList
-                textRole: "key"
-                width: parent.width
-                anchors.top: audioLabel.bottom
-                model: ListModel {
-                    id: audioModel
-                }
-                onActivated: {
-                    player.command(["set", "aid", String(audioModel.get(
-                                                             index).value)])
-                }
-                opacity: 1
-            }
-            Text {
-                id: subLabel
-                anchors.left: parent.left
-                anchors.right: parent.right
-                text: translate.getTranslation("SUBTITLES", i18n.language)
-                color: "white"
-                font.family: appearance.fontName
-                font.pixelSize: 14
-                anchors.top: audioList.bottom
-                horizontalAlignment: Text.AlignHCenter
-                opacity: 1
-            }
-            ComboBox {
-                id: subList
-                textRole: "key"
-                width: parent.width
-                anchors.top: subLabel.bottom
-                model: ListModel {
-                    id: subModel
-                }
-                onActivated: {
-                    player.command(["set", "sid", String(subModel.get(
-                                                             index).value)])
-                }
-                opacity: 1
-            }
-            Text {
-                id: vidLabel
-                anchors.left: parent.left
-                anchors.right: parent.right
-                text: translate.getTranslation("VIDEO", i18n.language)
-                color: "white"
-                font.family: appearance.fontName
-                font.pixelSize: 14
-                anchors.top: subList.bottom
-                horizontalAlignment: Text.AlignHCenter
-                opacity: 1
-            }
-            ComboBox {
-                id: vidList
-                textRole: "key"
-                width: parent.width
-                anchors.top: vidLabel.bottom
-                model: ListModel {
-                    id: vidModel
-                }
-                onActivated: {
-                    player.command(["set", "vid", String(vidModel.get(
-                                                             index).value)])
-                }
-                opacity: 1
             }
         }
 
@@ -1323,25 +1220,6 @@ ApplicationWindow {
                 font.pixelSize: 14
                 verticalAlignment: Text.AlignVCenter
                 renderType: Text.NativeRendering
-            }
-
-            Button {
-                id: subtitlesButton
-                //icon.name: "subtitles"
-                icon.source: "icons/subtitles.svg"
-                icon.color: "white"
-                anchors.right: settingsButton.left
-                anchors.top: parent.top
-                anchors.bottom: parent.bottom
-                display: AbstractButton.IconOnly
-                onClicked: {
-                    tracksMenuUpdate()
-                    subtitlesMenu.visible = !subtitlesMenu.visible
-                    subtitlesMenuBackground.visible = !subtitlesMenuBackground.visible
-                }
-                background: Rectangle {
-                    color: "transparent"
-                }
             }
 
             Button {
