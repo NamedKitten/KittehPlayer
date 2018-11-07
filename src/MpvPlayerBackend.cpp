@@ -159,10 +159,7 @@ MpvPlayerBackend::~MpvPlayerBackend()
   Display *dpy = QX11Info::display();
   DPMSEnable(dpy);
   qDebug() << "Enabled DPMS.";
-  if (mpv_gl) {
-    mpv_render_context_free(mpv_gl);
-  }
-
+  mpv_render_context_free(mpv_gl);
   mpv_terminate_destroy(mpv);
 }
 
@@ -183,13 +180,14 @@ MpvPlayerBackend::doUpdate()
 QVariant
 MpvPlayerBackend::getProperty(const QString& name) const
 {
+  qDebug() << "Getting Property: " << name;
   return mpv::qt::get_property_variant(mpv, name);
 }
 
 void
 MpvPlayerBackend::command(const QVariant& params)
 {
-  qDebug() << params;
+  qDebug() << "Running Command: " << params;
   mpv::qt::command_variant(mpv, params);
 }
 
@@ -202,6 +200,7 @@ MpvPlayerBackend::setProperty(const QString& name, const QVariant& value)
 void
 MpvPlayerBackend::setOption(const QString& name, const QVariant& value)
 {
+  qDebug() << "Setting Option '" << name << "' to '" << value << "'";
   mpv::qt::set_option_variant(mpv, name, value);
 }
 

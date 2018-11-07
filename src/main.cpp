@@ -40,7 +40,6 @@ main(int argc, char* argv[])
                       << QProcessEnvironment::systemEnvironment().value(
                            "APPIMAGE", ""));
       updater.waitForFinished();
-      qDebug() << program;
       exit(0);
     }
   }
@@ -52,7 +51,6 @@ main(int argc, char* argv[])
   QString newpath =
     QProcessEnvironment::systemEnvironment().value("APPDIR", "") +
     "/usr/bin:" + QProcessEnvironment::systemEnvironment().value("PATH", "");
-  qDebug() << newpath;
   setenv("PATH", newpath.toUtf8().constData(), 1);
 
   QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);

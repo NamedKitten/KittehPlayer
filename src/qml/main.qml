@@ -1209,7 +1209,7 @@ ApplicationWindow {
                 anchors.bottom: parent.bottom
                 anchors.left: playPauseButton.right
                 onClicked: {
-                    player.prevPlaylistItem()
+                    player.nextPlaylistItem()
                 }
                 background: Rectangle {
                     color: "transparent"
