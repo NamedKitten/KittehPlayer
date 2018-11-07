@@ -151,7 +151,8 @@ ApplicationWindow {
 
         function setProgressBarValue(val) {
             progressBar.value = val
-            timeLabel.text = player.createTimestamp(val) + " / " + player.createTimestamp(
+            timeLabel.text = player.createTimestamp(
+                        val) + " / " + player.createTimestamp(
                         progressBar.to) + " (" + parseFloat(
                         player.getProperty("speed").toFixed(2)) + "x)"
         }
@@ -1102,22 +1103,42 @@ ApplicationWindow {
                     player.command(["seek", progressBar.value, "absolute"])
                 }
 
+                function getProgressBarHeight(nyan, isMouse) {
+                    var x = Math.max(Screen.height / 256, fun.nyanCat ? 12 : 2)
+                    return isMouse & !fun.nyanCat ? x * 2 : x
+                }
+
+                MouseArea {
+                    id: mouseAreaProgressBar
+                    y: parent.height
+                    width: parent.width
+                    height: parent.height
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    propagateComposedEvents: true
+                    acceptedButtons: Qt.NoButton
+                }
+
                 background: Rectangle {
                     id: progressBackground
                     x: progressBar.leftPadding
                     y: progressBar.topPadding + progressBar.availableHeight / 2 - height / 2
-                    implicitHeight: Math.max(Screen.height / 256,
-                                             fun.nyanCat ? 12 : 2)
+                    implicitHeight: progressBar.getProgressBarHeight(
+                                        fun.nyanCat,
+                                        mouseAreaProgressBar.containsMouse)
                     width: progressBar.availableWidth
                     height: implicitHeight
                     color: Qt.rgba(255, 255, 255, 0.6)
-
+                    radius: height
                     Rectangle {
                         id: progressLength
                         width: progressBar.visualPosition * parent.width
                         height: parent.height
                         color: "red"
                         opacity: 1
+                        radius: height
+                        anchors.leftMargin: 100
+
                         Image {
                             visible: fun.nyanCat
                             id: rainbow
@@ -1131,6 +1152,7 @@ ApplicationWindow {
                     Rectangle {
                         id: cachedLength
                         z: 10
+                        radius: height
                         anchors.left: progressLength.right
                         anchors.leftMargin: progressBar.handle.width - 2
                         //anchors.left: progressBar.handle.horizontalCenter
@@ -1143,13 +1165,14 @@ ApplicationWindow {
                 }
 
                 handle: Rectangle {
+
                     id: handleRect
                     x: progressBar.leftPadding + progressBar.visualPosition
                        * (progressBar.availableWidth - width)
                     y: progressBar.topPadding + progressBar.availableHeight / 2 - height / 2
-                    implicitHeight: 12
-                    implicitWidth: 12
-                    radius: 12
+                    implicitHeight: radius
+                    implicitWidth: radius
+                    radius: 12 + (progressBackground.height / 2)
                     color: fun.nyanCat ? "transparent" : "red"
                     //border.color: "red"
                     AnimatedImage {
