@@ -18,7 +18,7 @@ mkdir -p appdir/usr/lib
 if [ "$ARCH" == "" ]; then
     ARCH="x86_64"
 fi
-wget $(curl -s https://api.github.com/repos/AppImage/AppImageUpdate/releases | grep browser_download_url | grep x86_64.AppImage | grep appimageupdatetool | grep -v zsync | cut -d'"' -f4) -O appdir/usr/bin/appimageupdatetool
+wget `curl -s https://api.github.com/repos/AppImage/AppImageUpdate/releases | grep browser_download_url | grep x86_64.AppImage | grep appimageupdatetool | grep -v zsync | cut -d'"' -f4` -O appdir/usr/bin/appimageupdatetool
 chmod +x appdir/usr/bin/appimageupdatetool
 
 wget https://yt-dl.org/downloads/latest/youtube-dl -O appdir/usr/bin/youtube-dl
