@@ -39,6 +39,9 @@ public slots:
   void toggleOnTop();
   void updateDurationStringText();
   QVariant getTracks() const;
+  void updatePrev(const QVariant& val);
+  void updateVolume(const QVariant& val);
+  void updatePlayPause(const QVariant& val);
 
   QVariant getTrack(const QString& track);
   void setTrack(const QVariant& track, const QVariant& id);

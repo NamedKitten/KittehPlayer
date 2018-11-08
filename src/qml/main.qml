@@ -176,44 +176,6 @@ ApplicationWindow {
             player.command(["seek", skipto, "absolute"])
         }
 
-        function updatePrev(val) {
-            if (val != 0) {
-                playlistPrevButton.visible = true
-                playlistPrevButton.width = playPauseButton.width
-            } else {
-                playlistPrevButton.visible = false
-                playlistPrevButton.width = 0
-            }
-        }
-
-        function updateVolume(volume) {
-            var muted = player.getProperty("mute")
-
-            if (muted || volume === 0) {
-                volumeButton.icon.source = "qrc:/player/icons/volume-mute.svg"
-            } else {
-                if (volume < 25) {
-                    volumeButton.icon.source = "qrc:/player/icons/volume-down.svg"
-                } else {
-                    volumeButton.icon.source = "qrc:/player/icons/volume-up.svg"
-                }
-            }
-        }
-
-        function updateMuted(muted) {
-            if (muted) {
-                volumeButton.icon.source = "qrc:/player/icons/volume-mute.svg"
-            }
-        }
-        function updatePlayPause() {
-            var paused = player.getProperty("pause")
-            if (paused) {
-                playPauseButton.icon.source = "qrc:/player/icons/play.svg"
-            } else {
-                playPauseButton.icon.source = "qrc:/player/icons/pause.svg"
-            }
-        }
-
         function isAnyMenuOpen() {
             return settingsMenu.visible || fileMenuBarItem.opened
                     || playbackMenuBarItem.opened || viewMenuBarItem.opened
@@ -1072,6 +1034,7 @@ ApplicationWindow {
 
             Button {
                 id: playlistPrevButton
+                objectName: "playlistPrevButton"
                 //icon.name: "prev"
                 icon.source: "icons/prev.svg"
                 icon.color: "white"
@@ -1079,7 +1042,7 @@ ApplicationWindow {
                 anchors.top: parent.top
                 anchors.bottom: parent.bottom
                 visible: false
-                width: 0
+                width: visible ? playPauseButton.width : 0
                 onClicked: {
                     player.prevPlaylistItem()
                 }
@@ -1091,7 +1054,9 @@ ApplicationWindow {
             Button {
                 id: playPauseButton
                 //icon.name: "pause"
-                icon.source: "icons/pause.svg"
+                objectName: "playPauseButton"
+                property string iconSource: "icons/pause.svg"
+                icon.source: iconSource
                 icon.color: "white"
                 display: AbstractButton.IconOnly
                 anchors.top: parent.top
@@ -1124,8 +1089,9 @@ ApplicationWindow {
 
             Button {
                 id: volumeButton
-                //icon.name: "volume-up"
-                icon.source: "icons/volume-up.svg"
+                objectName: "volumeButton"
+                property string iconSource: "icons/volume-up.svg"
+                icon.source: iconSource
                 icon.color: "white"
                 display: AbstractButton.IconOnly
                 anchors.top: parent.top
@@ -1133,6 +1099,7 @@ ApplicationWindow {
                 anchors.left: playlistNextButton.right
                 onClicked: {
                     player.toggleMute()
+                    player.updateVolume(player.getProperty("volume"))
                 }
                 background: Rectangle {
                     color: "transparent"

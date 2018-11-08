@@ -130,7 +130,7 @@ MpvPlayerBackend::MpvPlayerBackend(QQuickItem* parent)
   mpv_observe_property(mpv, 0, "track-list", MPV_FORMAT_NODE);
   mpv_observe_property(mpv, 0, "playlist-pos", MPV_FORMAT_DOUBLE);
   mpv_observe_property(mpv, 0, "volume", MPV_FORMAT_DOUBLE);
-  mpv_observe_property(mpv, 0, "muted", MPV_FORMAT_DOUBLE);
+  mpv_observe_property(mpv, 0, "muted", MPV_FORMAT_NONE);
   mpv_observe_property(mpv, 0, "duration", MPV_FORMAT_DOUBLE);
   mpv_observe_property(mpv, 0, "media-title", MPV_FORMAT_STRING);
   mpv_observe_property(mpv, 0, "sub-text", MPV_FORMAT_STRING);
@@ -321,7 +321,6 @@ MpvPlayerBackend::on_mpv_events()
 {
   while (mpv) {
     mpv_event* event = mpv_wait_event(mpv, 0);
-
     if (event->event_id == MPV_EVENT_NONE) {
       break;
     }
@@ -338,6 +337,45 @@ MpvPlayerBackend::updateDurationStringText()
                     .arg(createTimestamp(getProperty("time-pos")).toString(),
                          createTimestamp(getProperty("duration")).toString(),
                          getProperty("speed").toString()));
+}
+
+void
+MpvPlayerBackend::updatePrev(const QVariant& val)
+{
+  if (val.toDouble() != 0) {
+    findChild<QObject*>("playlistPrevButton")->setProperty("visible", true);
+  } else {
+    findChild<QObject*>("playlistPrevButton")->setProperty("visible", false);
+  }
+}
+
+void
+MpvPlayerBackend::updateVolume(const QVariant& val)
+{
+  if (getProperty("mute").toBool() || (val.toDouble() == 0)) {
+    findChild<QObject*>("volumeButton")
+      ->setProperty("iconSource", "qrc:/player/icons/volume-mute.svg");
+  } else {
+    if (val.toDouble() < 25) {
+      findChild<QObject*>("volumeButton")
+        ->setProperty("iconSource", "qrc:/player/icons/volume-down.svg");
+    } else {
+      findChild<QObject*>("volumeButton")
+        ->setProperty("iconSource", "qrc:/player/icons/volume-up.svg");
+    }
+  }
+}
+
+void
+MpvPlayerBackend::updatePlayPause(const QVariant& val)
+{
+  if (val.toBool()) {
+    findChild<QObject*>("playPauseButton")
+      ->setProperty("iconSource", "qrc:/player/icons/play.svg");
+  } else {
+    findChild<QObject*>("playPauseButton")
+      ->setProperty("iconSource", "qrc:/player/icons/pause.svg");
+  }
 }
 
 void
@@ -360,15 +398,10 @@ MpvPlayerBackend::handle_mpv_event(mpv_event* event)
       } else if (strcmp(prop->name, "volume") == 0) {
         if (prop->format == MPV_FORMAT_DOUBLE) {
           double volume = *(double*)prop->data;
-          QMetaObject::invokeMethod(
-            this, "updateVolume", Q_ARG(QVariant, volume));
+          updateVolume(QVariant(volume));
         }
       } else if (strcmp(prop->name, "muted") == 0) {
-        if (prop->format == MPV_FORMAT_DOUBLE) {
-          double muted = *(double*)prop->data;
-          QMetaObject::invokeMethod(
-            this, "updateMuted", Q_ARG(QVariant, muted));
-        }
+        updateVolume(getProperty("volume"));
       } else if (strcmp(prop->name, "media-title") == 0) {
         if (prop->format == MPV_FORMAT_STRING) {
           char* title = *(char**)prop->data;
@@ -388,17 +421,17 @@ MpvPlayerBackend::handle_mpv_event(mpv_event* event)
       } else if (strcmp(prop->name, "playlist-pos") == 0) {
         if (prop->format == MPV_FORMAT_DOUBLE) {
           double pos = *(double*)prop->data;
-          QMetaObject::invokeMethod(this, "updatePrev", Q_ARG(QVariant, pos));
+          updatePrev(QVariant(pos));
         }
       } else if (strcmp(prop->name, "pause") == 0) {
-        QMetaObject::invokeMethod(this, "updatePlayPause");
+        updatePlayPause(getProperty("pause"));
       } else if (strcmp(prop->name, "tracks-menu") == 0) {
         QMetaObject::invokeMethod(this, "tracksUpdate");
       }
       break;
     }
     case MPV_EVENT_SHUTDOWN: {
-      exit(0);
+      qApp->exit();
       break;
     }
     default: {
