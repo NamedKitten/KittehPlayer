@@ -37,6 +37,7 @@ public slots:
   void prevPlaylistItem();
   void nextPlaylistItem();
   void toggleOnTop();
+  void updateDurationStringText();
   QVariant getTracks() const;
 
   QVariant getTrack(const QString& track);

@@ -168,18 +168,6 @@ ApplicationWindow {
             }
         }
 
-        function setProgressBarEnd(val) {
-            progressBar.to = val
-        }
-
-        function setProgressBarValue(val) {
-            progressBar.value = val
-            timeLabel.text = player.createTimestamp(
-                        val) + " / " + player.createTimestamp(
-                        progressBar.to) + " (" + parseFloat(
-                        player.getProperty("speed").toFixed(2)) + "x)"
-        }
-
         function skipToNinth(val) {
             var skipto = 0
             if (val != 0) {
@@ -224,14 +212,6 @@ ApplicationWindow {
             } else {
                 playPauseButton.icon.source = "qrc:/player/icons/pause.svg"
             }
-        }
-
-        function setTitle(title) {
-            titleLabel.text = title
-        }
-
-        function setSubtitles(subs) {
-            nativeSubs.text = subs
         }
 
         function isAnyMenuOpen() {
@@ -864,6 +844,7 @@ ApplicationWindow {
 
             Text {
                 id: titleLabel
+                objectName: "titleLabel"
                 text: translate.getTranslation("TITLE", i18n.language)
                 color: "white"
                 width: parent.width
@@ -926,6 +907,7 @@ ApplicationWindow {
 
                     Label {
                         id: nativeSubs
+                        objectName: "nativeSubs"
                         onWidthChanged: {
 
                             if (width > parent.width - 10)
@@ -990,6 +972,7 @@ ApplicationWindow {
 
             Slider {
                 id: progressBar
+                objectName: "progressBar"
                 to: 1
                 value: 0.0
                 anchors.bottom: parent.top
@@ -1206,6 +1189,7 @@ ApplicationWindow {
 
             Text {
                 id: timeLabel
+                objectName: "timeLabel"
                 text: "0:00 / 0:00"
                 color: "white"
                 anchors.left: volumeBar.right

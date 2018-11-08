@@ -330,6 +330,17 @@ MpvPlayerBackend::on_mpv_events()
 }
 
 void
+MpvPlayerBackend::updateDurationStringText()
+{
+  findChild<QObject*>("timeLabel")
+    ->setProperty("text",
+                  QString("%1  / %2 (%3x)")
+                    .arg(createTimestamp(getProperty("time-pos")).toString(),
+                         createTimestamp(getProperty("duration")).toString(),
+                         getProperty("speed").toString()));
+}
+
+void
 MpvPlayerBackend::handle_mpv_event(mpv_event* event)
 {
   switch (event->event_id) {
@@ -338,15 +349,13 @@ MpvPlayerBackend::handle_mpv_event(mpv_event* event)
       if (strcmp(prop->name, "time-pos") == 0) {
         if (prop->format == MPV_FORMAT_DOUBLE) {
           double time = *(double*)prop->data;
-          QMetaObject::invokeMethod(
-            this, "setProgressBarValue", Q_ARG(QVariant, time));
+          updateDurationStringText();
+          findChild<QObject*>("progressBar")->setProperty("value", time);
         }
       } else if (strcmp(prop->name, "duration") == 0) {
         if (prop->format == MPV_FORMAT_DOUBLE) {
           double time = *(double*)prop->data;
-          Q_ARG(QVariant, "txt1"),
-            QMetaObject::invokeMethod(
-              this, "setProgressBarEnd", Q_ARG(QVariant, time));
+          findChild<QObject*>("progressBar")->setProperty("to", time);
         }
       } else if (strcmp(prop->name, "volume") == 0) {
         if (prop->format == MPV_FORMAT_DOUBLE) {
@@ -363,13 +372,12 @@ MpvPlayerBackend::handle_mpv_event(mpv_event* event)
       } else if (strcmp(prop->name, "media-title") == 0) {
         if (prop->format == MPV_FORMAT_STRING) {
           char* title = *(char**)prop->data;
-          QMetaObject::invokeMethod(this, "setTitle", Q_ARG(QVariant, title));
+          findChild<QObject*>("titleLabel")->setProperty("text", title);
         }
       } else if (strcmp(prop->name, "sub-text") == 0) {
         if (prop->format == MPV_FORMAT_STRING) {
           char* subs = *(char**)prop->data;
-          QMetaObject::invokeMethod(
-            this, "setSubtitles", Q_ARG(QVariant, subs));
+          findChild<QObject*>("nativeSubs")->setProperty("text", subs);
         }
       } else if (strcmp(prop->name, "demuxer-cache-duration") == 0) {
         if (prop->format == MPV_FORMAT_DOUBLE) {
