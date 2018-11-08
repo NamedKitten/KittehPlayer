@@ -173,7 +173,7 @@ ApplicationWindow {
             if (val != 0) {
                 skipto = Math.floor(progressBar.to / 9 * val)
             }
-            player.command(["seek", skipto, "absolute"])
+            player.seekAbsolute(skipto)
         }
 
         function isAnyMenuOpen() {
@@ -945,7 +945,7 @@ ApplicationWindow {
                 bottomPadding: 0
 
                 onMoved: {
-                    player.command(["seek", progressBar.value, "absolute"])
+                    player.seekAbsolute(progressBar.value)
                 }
 
                 function getProgressBarHeight(nyan, isMouse) {
@@ -999,7 +999,7 @@ ApplicationWindow {
                         z: 10
                         radius: height
                         anchors.left: progressLength.right
-                        anchors.leftMargin: progressBar.handle.width - 2
+                        anchors.leftMargin: 2
                         //anchors.left: progressBar.handle.horizontalCenter
                         anchors.bottom: progressBar.background.bottom
                         anchors.top: progressBar.background.top

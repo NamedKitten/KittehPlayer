@@ -270,6 +270,12 @@ MpvPlayerBackend::addVolume(const QVariant& volume)
 }
 
 void
+MpvPlayerBackend::seekAbsolute(const QVariant& seekTime)
+{
+  command(QVariantList() << "seek" << seekTime << "absolute");
+}
+
+void
 MpvPlayerBackend::seek(const QVariant& seekTime)
 {
   command(QVariantList() << "seek" << seekTime);
@@ -393,6 +399,7 @@ MpvPlayerBackend::handle_mpv_event(mpv_event* event)
       } else if (strcmp(prop->name, "duration") == 0) {
         if (prop->format == MPV_FORMAT_DOUBLE) {
           double time = *(double*)prop->data;
+          updateDurationStringText();
           findChild<QObject*>("progressBar")->setProperty("to", time);
         }
       } else if (strcmp(prop->name, "volume") == 0) {
@@ -424,6 +431,7 @@ MpvPlayerBackend::handle_mpv_event(mpv_event* event)
           updatePrev(QVariant(pos));
         }
       } else if (strcmp(prop->name, "pause") == 0) {
+        qDebug() << prop->data;
         updatePlayPause(getProperty("pause"));
       } else if (strcmp(prop->name, "tracks-menu") == 0) {
         QMetaObject::invokeMethod(this, "tracksUpdate");
