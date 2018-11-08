@@ -42,7 +42,10 @@ public slots:
   void updatePrev(const QVariant& val);
   void updateVolume(const QVariant& val);
   void updatePlayPause(const QVariant& val);
-
+  void addSpeed(const QVariant& speed);
+  void subtractSpeed(const QVariant& speed);
+  void changeSpeed(const QVariant& speedFactor);
+  void setSpeed(const QVariant& speed);
   QVariant getTrack(const QString& track);
   void setTrack(const QVariant& track, const QVariant& id);
   void setVolume(const QVariant& volume);

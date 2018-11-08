@@ -323,6 +323,37 @@ MpvPlayerBackend::toggleOnTop()
 }
 
 void
+MpvPlayerBackend::addSpeed(const QVariant& speed)
+{
+  QString speedString =
+    QString::number(getProperty("speed").toDouble() + speed.toDouble());
+  speedString = speedString.left(speedString.lastIndexOf('.') + 2);
+  setSpeed(QVariant(speedString));
+}
+
+void
+MpvPlayerBackend::subtractSpeed(const QVariant& speed)
+{
+  QString speedString =
+    QString::number(getProperty("speed").toDouble() - speed.toDouble());
+  speedString = speedString.left(speedString.lastIndexOf('.') + 2);
+  setSpeed(QVariant(speedString));
+}
+
+void
+MpvPlayerBackend::changeSpeed(const QVariant& speedFactor)
+{
+  setSpeed(QVariant(getProperty("speed").toDouble() * speedFactor.toDouble()));
+}
+
+void
+MpvPlayerBackend::setSpeed(const QVariant& speed)
+{
+  command(QVariantList() << "set"
+                         << "speed" << speed.toString());
+}
+
+void
 MpvPlayerBackend::on_mpv_events()
 {
   while (mpv) {

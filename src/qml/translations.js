@@ -15,8 +15,8 @@ var translations = {
         FORWARD_10S: "Forward 10s",
         REWIND_5S: "Rewind 5s",
         FORWARD_5S: "Forward 5s",
-        SPEED_DECREASE_10PERCENT: "Speed -10%",
-        SPEED_INCREASE_10PERCENT: "Speed +10%",
+        SPEED_DECREASE_POINT_ONE: "Speed -0.1",
+        SPEED_INCREASE_POINT_ONE: "Speed +0.1",
         HALVE_SPEED: "Halve Speed",
         DOUBLE_SPEED: "Double Speed",
         BACKWARD_FRAME: "Back a frame",
@@ -58,8 +58,8 @@ var translations = {
         FORWARD_10S: "Adelantar 10s",
         REWIND_5S: "Retrasar 5s",
         FORWARD_5S: "Adelantar 5s",
-        SPEED_DECREASE_10PERCENT: "Velocidad -10%",
-        SPEED_INCREASE_10PERCENT: "Velocidad +10%",
+        SPEED_DECREASE_POINT_ONE: "Velocidad -0.1",
+        SPEED_INCREASE_POINT_ONE: "Velocidad +0.1",
         HALVE_SPEED: "Dividir velocidad a la mitad",
         DOUBLE_SPEED: "Duplicar velocidad",
         BACKWARD_FRAME: "Retrasar un frame",
@@ -83,7 +83,7 @@ var translations = {
         ABOUT_QT: "Sobre Qt",
         TITLE: "Título",
         TOGGLE_ALWAYS_ON_TOP: "Fijar ventana",
-        DISABLE_TRACK:  "Eliminar pista"
+        DISABLE_TRACK: "Eliminar pista"
     },
     german: {
         SAVE_SCREENSHOT: "Bildschirmfoto speichern nach",
@@ -101,8 +101,8 @@ var translations = {
         FORWARD_10S: "Vorspulen 10s",
         REWIND_5S: "Rückspulen 5s",
         FORWARD_5S: "Vorspulen 5s",
-        SPEED_DECREASE_10PERCENT: "Geschwindigkeit -10%",
-        SPEED_INCREASE_10PERCENT: "Geschwindigkeit +10%",
+        SPEED_DECREASE_POINT_ONE: "Geschwindigkeit -0.1",
+        SPEED_INCREASE_POINT_ONE: "Geschwindigkeit +0.1",
         HALVE_SPEED: "Halbe Geschwindigkeit",
         DOUBLE_SPEED: "Doppelte Geschwindigkeit",
         BACKWARD_FRAME: "Ein Bild zurück",
@@ -126,7 +126,7 @@ var translations = {
         ABOUT_QT: "Über QT",
         TITLE: "Titel",
         TOGGLE_ALWAYS_ON_TOP: "Immer im Vordergrund",
-        DISABLE_TRACK:  "Spur deaktivieren"
+        DISABLE_TRACK: "Spur deaktivieren"
     },
     french: {
         SAVE_SCREENSHOT: "Enregistrer la capture d'écran dans",
@@ -144,8 +144,8 @@ var translations = {
         FORWARD_10S: "Avancer de 10s",
         REWIND_5S: "Reculer de 5s",
         FORWARD_5S: "Avancer de 5s",
-        SPEED_DECREASE_10PERCENT: "Vitesse -10%",
-        SPEED_INCREASE_10PERCENT: "Vitesse +10%",
+        SPEED_DECREASE_POINT_ONE: "Vitesse -0.1",
+        SPEED_INCREASE_POINT_ONE: "Vitesse +0.1",
         HALVE_SPEED: "Réduire de moitié la vitesse",
         DOUBLE_SPEED: "Doubler la vitesse",
         BACKWARD_FRAME: "Reculer d'une image",
@@ -169,7 +169,7 @@ var translations = {
         ABOUT_QT: "A propos de Qt",
         TITLE: "Titre",
         TOGGLE_ALWAYS_ON_TOP: "Toujours au-dessu",
-        DISABLE_TRACK:  "Désactiver la piste"
+        DISABLE_TRACK: "Désactiver la piste"
     },
     italian: {
         SAVE_SCREENSHOT: "Salva schermata",
@@ -187,8 +187,8 @@ var translations = {
         FORWARD_10S: "Avanti 10s",
         REWIND_5S: "Indietro 5s",
         FORWARD_5S: "Avanti 5s",
-        SPEED_DECREASE_10PERCENT: "Velocità -10%",
-        SPEED_INCREASE_10PERCENT: "Velocità +10%",
+        SPEED_DECREASE_POINT_ONE: "Velocità -0.1",
+        SPEED_INCREASE_POINT_ONE: "Velocità +0.1",
         HALVE_SPEED: "Dimezza velocità",
         DOUBLE_SPEED: "Raddoppia velocità",
         BACKWARD_FRAME: "Indietro di un fotogramma",
@@ -212,7 +212,7 @@ var translations = {
         ABOUT_QT: "Info su Qt",
         TITLE: "Titolo",
         TOGGLE_ALWAYS_ON_TOP: "Mantieni in primo piano",
-        DISABLE_TRACK:  "Disabilita traccia"
+        DISABLE_TRACK: "Disabilita traccia"
     },
     russian: {
         SAVE_SCREENSHOT: "Сохранить снимок экрана...",
@@ -230,8 +230,8 @@ var translations = {
         FORWARD_10S: "Перемотать вперед на 10 секунд",
         REWIND_5S: "Перемотать назад на 5 секунд",
         FORWARD_5S: "Перемотать вперед на 5 секунд",
-        SPEED_DECREASE_10PERCENT: "Уменьшить скорость на 10%",
-        SPEED_INCREASE_10PERCENT: "Увеличить скорость на 10%",
+        SPEED_DECREASE_POINT_ONE: "Уменьшить скорость на 0.1",
+        SPEED_INCREASE_POINT_ONE: "Увеличить скорость на 0.1",
         HALVE_SPEED: "Замедлить воспроизведение в 2 раза",
         DOUBLE_SPEED: "Ускорить воспроизведение в 2 раза",
         BACKWARD_FRAME: "Вернуться к предыдущему кадру",
@@ -271,8 +271,8 @@ var translations = {
         FORWARD_10S: "Spol Frem 10s",
         REWIND_5S: "Spol Tilbake 5s",
         FORWARD_5S: "Spol Frem 5s",
-        SPEED_DECREASE_10PERCENT: "Hastighet -10%",
-        SPEED_INCREASE_10PERCENT: "Hastighet +10%",
+        SPEED_DECREASE_POINT_ONE: "Hastighet -0.1",
+        SPEED_INCREASE_POINT_ONE: "Hastighet +0.1",
         HALVE_SPEED: "Halv Hastighet",
         DOUBLE_SPEED: "Dobbel Hastighet",
         BACKWARD_FRAME: "Gå Tilbake Én Ramme",

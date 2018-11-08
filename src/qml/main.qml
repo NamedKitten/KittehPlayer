@@ -327,8 +327,8 @@ ApplicationWindow {
             property string screenshotWithoutSubtitles: "Shift+S"
             property string fullScreenshot: "Ctrl+S"
             property string nyanCat: "Ctrl+N"
-            property string decreaseSpeedBy10Percent: "["
-            property string increaseSpeedBy10Percent: "]"
+            property string decreaseSpeedByPointOne: "["
+            property string increaseSpeedByPointOne: "]"
             property string halveSpeed: "{"
             property string doubleSpeed: "}"
             property string increaseVolume: "*"
@@ -484,25 +484,25 @@ ApplicationWindow {
                     shortcut: keybinds.forward5
                 }
                 Action {
-                    text: translate.getTranslation("SPEED_DECREASE_10PERCENT",
+                    text: translate.getTranslation("SPEED_DECREASE_POINT_ONE",
                                                    i18n.language)
                     onTriggered: {
-                        player.command(["multiply", "speed", "1/1.1"])
+                        player.subtractSpeed(0.1)
                     }
-                    shortcut: keybinds.decreaseSpeedBy10Percent
+                    shortcut: keybinds.decreaseSpeedByPointOne
                 }
                 Action {
-                    text: translate.getTranslation("SPEED_INCREASE_10PERCENT",
+                    text: translate.getTranslation("SPEED_INCREASE_POINT_ONE",
                                                    i18n.language)
                     onTriggered: {
-                        player.command(["multiply", "speed", "1.1"])
+                        player.addSpeed(0.1)
                     }
-                    shortcut: keybinds.increaseSpeedBy10Percent
+                    shortcut: keybinds.increaseSpeedByPointOne
                 }
                 Action {
                     text: translate.getTranslation("HALVE_SPEED", i18n.language)
                     onTriggered: {
-                        player.command(["multiply", "speed", "0.5"])
+                        player.changeSpeed(0.5)
                     }
                     shortcut: keybinds.halveSpeed
                 }
@@ -510,7 +510,7 @@ ApplicationWindow {
                     text: translate.getTranslation("DOUBLE_SPEED",
                                                    i18n.language)
                     onTriggered: {
-                        player.command(["multiply", "speed", "2.0"])
+                        player.changeSpeed(2)
                     }
                     shortcut: keybinds.doubleSpeed
                 }
