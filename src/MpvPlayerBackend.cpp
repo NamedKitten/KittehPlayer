@@ -163,7 +163,6 @@ MpvPlayerBackend::on_update(void* ctx)
   emit self->onUpdate();
 }
 
-// connected to onUpdate(); signal makes sure it runs on the GUI thread
 void
 MpvPlayerBackend::doUpdate()
 {
@@ -320,6 +319,12 @@ MpvPlayerBackend::toggleOnTop()
 {
   onTop = !onTop;
   AlwaysOnTop(window()->winId(), onTop);
+}
+
+void
+MpvPlayerBackend::toggleStats()
+{
+  command(QVariantList() << "script-binding" << "stats/display-stats-toggle");
 }
 
 void

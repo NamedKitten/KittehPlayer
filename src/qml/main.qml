@@ -665,8 +665,7 @@ ApplicationWindow {
                 Action {
                     text: translate.getTranslation("STATS", i18n.language)
                     onTriggered: {
-                        player.command(
-                                    ["script-binding", "stats/display-stats-toggle"])
+                        player.toggleStats()
                     }
                     shortcut: keybinds.statsForNerds
                 }
