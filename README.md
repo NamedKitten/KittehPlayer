@@ -35,7 +35,7 @@ sudo apt-get build-dep mpv libmpv* ffmpeg
 - `cd KittehPlayer`
 - If you are running Ubuntu you will need to run `sudo ./scripts/build-mpv.sh` because ubuntu's MPV version is way too old.
 - `mkdir build && cd build`
-- `cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr`
+- `cmake .. -DCMAKE_INSTALL_PREFIX=/usr`
 - `make`
 - `sudo make install`
 - The finished player will then be installed and you can launch it using `KittehPlayer`
@@ -50,6 +50,9 @@ sudo apt-get build-dep mpv libmpv* ffmpeg
 - `german`
 - `italian`
 - `russian`
+- `norweigan`
 - If your language isn't listed above then please either contact me (details at bottom of readme) or make a PR with the translations which are located in the file `src/qml/translations.js`.
-
-
+### MPV Config
+- Since KittehPlayer's default backend is based on libmpv, you can use the mpv.conf from `~/.config/mpv/mpv.conf`.
+### SmoothVideo Project Support
+- KittehPlayer works with SVP, you just need to follow the same guides as for MPV.
