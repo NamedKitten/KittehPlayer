@@ -1,4 +1,3 @@
-
 #include <clocale>
 #include <stdbool.h>
 #include <stdexcept>
@@ -10,6 +9,7 @@
 #include <QOpenGLContext>
 #include <QOpenGLFramebufferObject>
 #include <QQuickWindow>
+#include <QSequentialIterable>
 #include <math.h>
 
 namespace {
@@ -128,6 +128,7 @@ MpvPlayerBackend::MpvPlayerBackend(QQuickItem* parent)
   mpv_observe_property(mpv, 0, "playback-abort", MPV_FORMAT_NONE);
   mpv_observe_property(mpv, 0, "chapter-list", MPV_FORMAT_NODE);
   mpv_observe_property(mpv, 0, "track-list", MPV_FORMAT_NODE);
+  mpv_observe_property(mpv, 0, "audio-device-list", MPV_FORMAT_NODE);
   mpv_observe_property(mpv, 0, "playlist-pos", MPV_FORMAT_DOUBLE);
   mpv_observe_property(mpv, 0, "volume", MPV_FORMAT_DOUBLE);
   mpv_observe_property(mpv, 0, "muted", MPV_FORMAT_NONE);
@@ -199,6 +200,34 @@ MpvPlayerBackend::launchAboutQt()
   QApplication* qapp =
     qobject_cast<QApplication*>(QCoreApplication::instance());
   qapp->aboutQt();
+}
+
+QVariant
+MpvPlayerBackend::getaudioDevices() const
+{
+  QVariant drivers = getProperty("audio-device-list");
+  QVariant currentDevice = getProperty("audio-device");
+
+  QVariantMap newDrivers;
+
+  QSequentialIterable iterable = drivers.value<QSequentialIterable>();
+  foreach (const QVariant& v, iterable) {
+    QVariantMap item = v.toMap();
+    item["selected"] = currentDevice == item["name"];
+    newDrivers[item["description"].toString()] = item;
+  }
+  QMap<QString, QVariant> pulseItem;
+  pulseItem["name"] = "pulse";
+  pulseItem["description"] = "Default (pulseaudio)";
+  pulseItem["selected"] = currentDevice == "pulse";
+  newDrivers[pulseItem["description"].toString()] = pulseItem;
+  return QVariant(newDrivers);
+}
+
+void
+MpvPlayerBackend::setAudioDevice(const QString& name)
+{
+  setProperty("audio-device", name);
 }
 
 void
@@ -324,7 +353,8 @@ MpvPlayerBackend::toggleOnTop()
 void
 MpvPlayerBackend::toggleStats()
 {
-  command(QVariantList() << "script-binding" << "stats/display-stats-toggle");
+  command(QVariantList() << "script-binding"
+                         << "stats/display-stats-toggle");
 }
 
 void
@@ -471,6 +501,8 @@ MpvPlayerBackend::handle_mpv_event(mpv_event* event)
         updatePlayPause(getProperty("pause"));
       } else if (strcmp(prop->name, "tracks-menu") == 0) {
         QMetaObject::invokeMethod(this, "tracksUpdate");
+      } else if (strcmp(prop->name, "audio-device-list") == 0) {
+        QMetaObject::invokeMethod(this, "audioDevicesUpdate");
       }
       break;
     }

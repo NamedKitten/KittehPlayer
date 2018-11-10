@@ -103,6 +103,27 @@ ApplicationWindow {
             }
         }
 
+        function audioDevicesUpdate() {
+            var audioDevices = player.getaudioDevices()
+            for (var i = 0, len = audioDeviceMenu.count; i < len; i++) {
+                audioDeviceMenu.takeAction(0)
+            }
+            for (var thing in audioDevices) {
+                var audioDevice = audioDevices[thing]
+                var name = audioDevice["name"]
+                var description = audioDevice["description"]
+                var selected = audioDevice["selected"]
+                var component = Qt.createComponent("AudioDeviceItem.qml")
+                var action = component.createObject(audioDeviceMenu, {
+                                                        text: description,
+                                                        deviceID: String(name),
+                                                        checked: audioDevice["selected"]
+                                                    })
+                action.ActionGroup.group = audioDeviceMenuGroup
+                audioDeviceMenu.addAction(action)
+            }
+        }
+
         function tracksUpdate() {
             for (var i = 0, len = audioMenu.count; i < len; i++) {
                 var audioAction = audioMenu.actionAt(i)
@@ -566,6 +587,19 @@ ApplicationWindow {
                     }
                     shortcut: keybinds.mute
                 }
+
+                MenuSeparator {
+                }
+
+                CustomMenu {
+                    title: translate.getTranslation("AUDIO_DEVICES",
+                                                    i18n.language)
+                    id: audioDeviceMenu
+                    ActionGroup {
+                        id: audioDeviceMenuGroup
+                    }
+                }
+
                 MenuSeparator {
                 }
 

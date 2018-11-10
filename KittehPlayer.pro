@@ -5,8 +5,8 @@ QT += qml quickcontrols2 widgets x11extras
 
 SOURCES += src/main.cpp src/MpvPlayerBackend.cpp src/utils.cpp
 
-CONFIG += release
-#CONFIG+=qtquickcompiler
+CONFIG += debug
+CONFIG-=qtquickcompiler
 QT_CONFIG -= no-pkg-config
 CONFIG += link_pkgconfig
 PKGCONFIG += mpv

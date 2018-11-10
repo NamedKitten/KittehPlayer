@@ -40,6 +40,8 @@ public slots:
   void toggleStats();
   void updateDurationStringText();
   QVariant getTracks() const;
+  QVariant getaudioDevices() const;
+  void setAudioDevice(const QString& name);
   void updatePrev(const QVariant& val);
   void updateVolume(const QVariant& val);
   void updatePlayPause(const QVariant& val);

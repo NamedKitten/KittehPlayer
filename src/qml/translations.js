@@ -40,7 +40,8 @@ var translations = {
         ABOUT_QT: "About Qt",
         TITLE: "Title",
         TOGGLE_ALWAYS_ON_TOP: "Toggle Always On Top",
-        DISABLE_TRACK: "Disable Track"
+        DISABLE_TRACK: "Disable Track",
+        AUDIO_DEVICES: "Audio Devices"
     },
     spanish: {
         SAVE_SCREENSHOT: "Guardar captura en",

@@ -5,6 +5,7 @@
         <file>CustomMenuItem.qml</file>
         <file>CustomMenu.qml</file>
         <file>TrackItem.qml</file>
+        <file>AudioDeviceItem.qml</file>
         <file>Translator.qml</file>
         <file>translations.js</file>
         <file>icons/play.svg</file>
