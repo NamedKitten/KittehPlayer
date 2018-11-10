@@ -9,7 +9,7 @@ import player 1.0
 
 import "codes.js" as LanguageCodes
 
-ApplicationWindow {
+Window {
     id: mainWindow
     title: titleLabel.text
     visible: true
@@ -18,6 +18,7 @@ ApplicationWindow {
     Translator {
         id: translate
     }
+    screen: Qt.application.screens[0]
 
     property int lastScreenVisibility
 
@@ -87,14 +88,27 @@ ApplicationWindow {
                         argument = argument.substr(2)
                         if (argument.length > 0) {
                             var splitArg = argument.split(/=(.+)/)
+                            if (splitArg[0] == "screen") {
+                                for (var i = 0, len = Qt.application.screens.length; i < len; i++) {
+                                    var screen = Qt.application.screens[i];
+                                    console.log(screen["name"])
+                                    if (screen["name"] == splitArg[1]) {
+                                        console.log("Switching to window: " + screen["name"])
+                                        mainWindow.screen = screen
+                                        continue
+                                    }
+                                }
+                                continue
+                            }
                             if (splitArg[0] == "fullscreen") {
                                 toggleFullscreen()
-                            } else {
-                                if (splitArg[1].length == 0) {
-                                    splitArg[1] = "true"
-                                }
-                                player.setOption(splitArg[0], splitArg[1])
+                                continue;
+                            } 
+                             if (splitArg[1].length == 0) {
+                                splitArg[1] = "true"
                             }
+                            player.setOption(splitArg[0], splitArg[1])
+                            
                         }
                     } else {
                         player.loadFile(argument)
