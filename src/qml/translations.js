@@ -170,7 +170,8 @@ var translations = {
         ABOUT_QT: "A propos de Qt",
         TITLE: "Titre",
         TOGGLE_ALWAYS_ON_TOP: "Toujours au-dessu",
-        DISABLE_TRACK: "Désactiver la piste"
+        DISABLE_TRACK: "Désactiver la piste",
+        AUDIO_DEVICES: "Périphériques audio"
     },
     italian: {
         SAVE_SCREENSHOT: "Salva schermata",
@@ -213,7 +214,8 @@ var translations = {
         ABOUT_QT: "Info su Qt",
         TITLE: "Titolo",
         TOGGLE_ALWAYS_ON_TOP: "Mantieni in primo piano",
-        DISABLE_TRACK: "Disabilita traccia"
+        DISABLE_TRACK: "Disabilita traccia",
+        AUDIO_DEVICES: "Dispositivi audio"
     },
     russian: {
         SAVE_SCREENSHOT: "Сохранить снимок экрана...",
