@@ -5,12 +5,6 @@ import "translations.js" as Translations
 
 Item {
 
-    Settings {
-        id: i18n
-        category: "I18N"
-        property string language: "english"
-    }
-
     function getTranslation(code, language) {
         var lang = Translations.translations[language]
         if (lang == undefined || lang == "undefined") {

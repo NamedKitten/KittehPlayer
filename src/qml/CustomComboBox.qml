@@ -7,12 +7,6 @@ ComboBox {
     width: parent.width
     height: 10
 
-    Settings {
-        id: appearance
-        category: "Appearance"
-        property string fontName: "Roboto"
-    }
-
     indicator: Canvas {
         id: canvas
         x: control.width - width - control.rightPadding

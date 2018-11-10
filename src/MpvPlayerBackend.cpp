@@ -438,9 +438,9 @@ void MpvPlayerBackend::handle_mpv_event(mpv_event* event)
         qDebug() << prop->data;
         updatePlayPause(getProperty("pause"));
       } else if (strcmp(prop->name, "tracks-menu") == 0) {
-        QMetaObject::invokeMethod(this, "tracksUpdate");
+        QMetaObject::invokeMethod(findChild<QObject*>("menuBar"), "updateTracks");
       } else if (strcmp(prop->name, "audio-device-list") == 0) {
-        QMetaObject::invokeMethod(this, "audioDevicesUpdate");
+        QMetaObject::invokeMethod(findChild<QObject*>("audioDeviceMenu"), "update");
       }
       break;
     }

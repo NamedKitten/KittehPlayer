@@ -3,11 +3,6 @@ import QtQuick.Controls 2.4
 import Qt.labs.settings 1.0
 
 MenuItem {
-    Settings {
-        id: appearance
-        category: "Appearance"
-        property string fontName: "Roboto"
-    }
     id: menuItem
     implicitHeight: 20
 

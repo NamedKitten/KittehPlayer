@@ -4,6 +4,7 @@
         <file>CustomComboBox.qml</file>
         <file>CustomMenuItem.qml</file>
         <file>CustomMenu.qml</file>
+        <file>MainMenu.qml</file>
         <file>TrackItem.qml</file>
         <file>AudioDeviceItem.qml</file>
         <file>Translator.qml</file>
