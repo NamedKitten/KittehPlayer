@@ -1,7 +1,6 @@
 import QtQuick 2.11
 import QtQuick.Controls 2.4
 import QtQuick.Dialogs 1.3
-import QtQuick.Layouts 1.11
 import QtQuick.Window 2.11
 import Qt.labs.settings 1.0
 import Qt.labs.platform 1.0 as LabsPlatform
@@ -85,6 +84,51 @@ MenuBar {
             }
         }
     }
+
+        LabsPlatform.FileDialog {
+            id: screenshotSaveDialog
+            title: translate.getTranslation("SAVE_SCREENSHOT", i18n.language)
+            fileMode: LabsPlatform.FileDialog.SaveFile
+            defaultSuffix: "png"
+            nameFilters: ["Images (*.png)", "All files (*)"]
+            onAccepted: {
+                player.grabToImage(function (result) {
+                    var filepath = String(screenshotSaveDialog.file).replace(
+                                "file://", '')
+                    result.saveToFile(filepath)
+                    subtitlesBar.visible = appearance.useMpvSubs ? false : true
+                })
+            }
+        }
+
+        LabsPlatform.FileDialog {
+            id: fileDialog
+            title: translate.getTranslation("OPEN_FILE", i18n.language)
+            nameFilters: ["All files (*)"]
+            onAccepted: {
+                player.loadFile(String(fileDialog.file))
+                fileDialog.close()
+            }
+            onRejected: {
+                fileDialog.close()
+            }
+        }
+
+        Dialog {
+            id: loadDialog
+            title: translate.getTranslation("URL_FILE_PATH", i18n.language)
+            standardButtons: StandardButton.Cancel | StandardButton.Open
+            onAccepted: {
+                player.loadFile(pathText.text)
+                pathText.text = ""
+            }
+            TextField {
+                id: pathText
+                placeholderText: translate.getTranslation("URL_FILE_PATH",
+                                                          i18n.language)
+            }
+        }
+        
 
     delegate: MenuBarItem {
         id: menuBarItem
