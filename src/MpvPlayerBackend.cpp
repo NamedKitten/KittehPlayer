@@ -14,21 +14,17 @@
 
 namespace {
 
-void
-wakeup(void* ctx)
+void wakeup(void* ctx)
 {
-  QMetaObject::invokeMethod(
-    (MpvPlayerBackend*)ctx, "on_mpv_events", Qt::QueuedConnection);
+  QMetaObject::invokeMethod((MpvPlayerBackend*)ctx, "on_mpv_events", Qt::QueuedConnection);
 }
 
-void
-on_mpv_redraw(void* ctx)
+void on_mpv_redraw(void* ctx)
 {
   MpvPlayerBackend::on_update(ctx);
 }
 
-static void*
-get_proc_address_mpv(void* ctx, const char* name)
+static void* get_proc_address_mpv(void* ctx, const char* name)
 {
   Q_UNUSED(ctx)
 
@@ -58,15 +54,10 @@ public:
   {
     // init mpv_gl:
     if (!obj->mpv_gl) {
-      mpv_opengl_init_params gl_init_params{ get_proc_address_mpv,
-                                             nullptr,
-                                             nullptr };
-      mpv_render_param params[]{
-        { MPV_RENDER_PARAM_API_TYPE,
-          const_cast<char*>(MPV_RENDER_API_TYPE_OPENGL) },
+      mpv_opengl_init_params gl_init_params{ get_proc_address_mpv, nullptr, nullptr };
+      mpv_render_param params[]{ { MPV_RENDER_PARAM_API_TYPE, const_cast<char*>(MPV_RENDER_API_TYPE_OPENGL) },
         { MPV_RENDER_PARAM_OPENGL_INIT_PARAMS, &gl_init_params },
-        { MPV_RENDER_PARAM_INVALID, nullptr }
-      };
+        { MPV_RENDER_PARAM_INVALID, nullptr } };
       if (mpv_render_context_create(&obj->mpv_gl, obj->mpv, params) < 0)
         throw std::runtime_error("failed to initialize mpv GL context");
       mpv_render_context_set_update_callback(obj->mpv_gl, on_mpv_redraw, obj);
@@ -81,14 +72,12 @@ public:
     obj->window()->resetOpenGLState();
 
     QOpenGLFramebufferObject* fbo = framebufferObject();
-    mpv_opengl_fbo mpfbo{ .fbo = static_cast<int>(fbo->handle()),
-                          .w = fbo->width(),
-                          .h = fbo->height(),
-                          .internal_format = 0 };
+    mpv_opengl_fbo mpfbo{
+      .fbo = static_cast<int>(fbo->handle()), .w = fbo->width(), .h = fbo->height(), .internal_format = 0
+    };
     int flip_y{ 0 };
 
-    mpv_render_param params[] = {
-      // Specify the default framebuffer (0) as target. This will
+    mpv_render_param params[] = { // Specify the default framebuffer (0) as target. This will
       // render onto the entire screen. If you want to show the video
       // in a smaller rectangle or apply fancy transformations, you'll
       // need to render into a separate FBO and draw it manually.
@@ -143,11 +132,7 @@ MpvPlayerBackend::MpvPlayerBackend(QQuickItem* parent)
   if (mpv_initialize(mpv) < 0)
     throw std::runtime_error("could not initialize mpv context");
 
-  connect(this,
-          &MpvPlayerBackend::onUpdate,
-          this,
-          &MpvPlayerBackend::doUpdate,
-          Qt::QueuedConnection);
+  connect(this, &MpvPlayerBackend::onUpdate, this, &MpvPlayerBackend::doUpdate, Qt::QueuedConnection);
 }
 
 MpvPlayerBackend::~MpvPlayerBackend()
@@ -157,53 +142,44 @@ MpvPlayerBackend::~MpvPlayerBackend()
   mpv_terminate_destroy(mpv);
 }
 
-void
-MpvPlayerBackend::on_update(void* ctx)
+void MpvPlayerBackend::on_update(void* ctx)
 {
   MpvPlayerBackend* self = (MpvPlayerBackend*)ctx;
   emit self->onUpdate();
 }
 
-void
-MpvPlayerBackend::doUpdate()
+void MpvPlayerBackend::doUpdate()
 {
   update();
 }
 
-QVariant
-MpvPlayerBackend::getProperty(const QString& name) const
+QVariant MpvPlayerBackend::getProperty(const QString& name) const
 {
   return mpv::qt::get_property_variant(mpv, name);
 }
 
-void
-MpvPlayerBackend::command(const QVariant& params)
+void MpvPlayerBackend::command(const QVariant& params)
 {
   mpv::qt::command_variant(mpv, params);
 }
 
-void
-MpvPlayerBackend::setProperty(const QString& name, const QVariant& value)
+void MpvPlayerBackend::setProperty(const QString& name, const QVariant& value)
 {
   mpv::qt::set_property_variant(mpv, name, value);
 }
 
-void
-MpvPlayerBackend::setOption(const QString& name, const QVariant& value)
+void MpvPlayerBackend::setOption(const QString& name, const QVariant& value)
 {
   mpv::qt::set_option_variant(mpv, name, value);
 }
 
-void
-MpvPlayerBackend::launchAboutQt()
+void MpvPlayerBackend::launchAboutQt()
 {
-  QApplication* qapp =
-    qobject_cast<QApplication*>(QCoreApplication::instance());
+  QApplication* qapp = qobject_cast<QApplication*>(QCoreApplication::instance());
   qapp->aboutQt();
 }
 
-QVariant
-MpvPlayerBackend::getaudioDevices() const
+QVariant MpvPlayerBackend::getaudioDevices() const
 {
   QVariant drivers = getProperty("audio-device-list");
   QVariant currentDevice = getProperty("audio-device");
@@ -224,111 +200,94 @@ MpvPlayerBackend::getaudioDevices() const
   return QVariant(newDrivers);
 }
 
-void
-MpvPlayerBackend::setAudioDevice(const QString& name)
+void MpvPlayerBackend::setAudioDevice(const QString& name)
 {
   setProperty("audio-device", name);
 }
 
-void
-MpvPlayerBackend::togglePlayPause()
+void MpvPlayerBackend::togglePlayPause()
 {
   command(QVariantList() << "cycle"
                          << "pause");
 }
 
-void
-MpvPlayerBackend::toggleMute()
+void MpvPlayerBackend::toggleMute()
 {
   command(QVariantList() << "cycle"
                          << "mute");
 }
 
-void
-MpvPlayerBackend::nextAudioTrack()
+void MpvPlayerBackend::nextAudioTrack()
 {
   command(QVariantList() << "cycle"
                          << "audio");
 }
-void
-MpvPlayerBackend::nextSubtitleTrack()
+void MpvPlayerBackend::nextSubtitleTrack()
 {
   command(QVariantList() << "cycle"
                          << "sub");
 }
 
-void
-MpvPlayerBackend::nextVideoTrack()
+void MpvPlayerBackend::nextVideoTrack()
 {
   command(QVariantList() << "cycle"
                          << "video");
 }
 
-void
-MpvPlayerBackend::prevPlaylistItem()
+void MpvPlayerBackend::prevPlaylistItem()
 {
   command(QVariantList() << "playlist-prev");
 }
 
-void
-MpvPlayerBackend::nextPlaylistItem()
+void MpvPlayerBackend::nextPlaylistItem()
 {
   command(QVariantList() << "playlist-next"
                          << "force");
 }
 
-void
-MpvPlayerBackend::loadFile(const QVariant& filename)
+void MpvPlayerBackend::loadFile(const QVariant& filename)
 {
   command(QVariantList() << "loadfile" << filename);
 }
 
-void
-MpvPlayerBackend::setVolume(const QVariant& volume)
+void MpvPlayerBackend::setVolume(const QVariant& volume)
 {
   command(QVariantList() << "set"
                          << "volume" << volume);
 }
 
-void
-MpvPlayerBackend::addVolume(const QVariant& volume)
+void MpvPlayerBackend::addVolume(const QVariant& volume)
 {
   command(QVariantList() << "add"
                          << "volume" << volume);
 }
 
-void
-MpvPlayerBackend::seekAbsolute(const QVariant& seekTime)
+void MpvPlayerBackend::seekAbsolute(const QVariant& seekTime)
 {
   command(QVariantList() << "seek" << seekTime << "absolute");
 }
 
-void
-MpvPlayerBackend::seek(const QVariant& seekTime)
+void MpvPlayerBackend::seek(const QVariant& seekTime)
 {
   command(QVariantList() << "seek" << seekTime);
 }
 
-QVariant
-MpvPlayerBackend::getTracks() const
+QVariant MpvPlayerBackend::getTracks() const
 {
   return mpv::qt::get_property_variant(mpv, "track-list");
 }
 
-void
-MpvPlayerBackend::setTrack(const QVariant& track, const QVariant& id)
+void MpvPlayerBackend::setTrack(const QVariant& track, const QVariant& id)
 {
   command(QVariantList() << "set" << track << id);
 }
 
-QVariant
-MpvPlayerBackend::getTrack(const QString& track)
+QVariant MpvPlayerBackend::getTrack(const QString& track)
 {
   return mpv::qt::get_property_variant(mpv, track);
 }
 
-QVariant
-MpvPlayerBackend::createTimestamp(const QVariant& seconds) const
+QVariant MpvPlayerBackend::createTimestamp(const QVariant& seconds) const
 {
   int d = seconds.toInt();
   double h = floor(d / 3600);
@@ -336,60 +295,50 @@ MpvPlayerBackend::createTimestamp(const QVariant& seconds) const
   double s = floor(d % 3600 % 60);
 
   QString hour = h > 0 ? QString::number(h) + ":" : "";
-  QString minute = h < 1 ? QString::number(m) + ":"
-                         : (m < 10 ? "0" + QString::number(m) + ":"
-                                   : QString::number(m) + ":");
+  QString minute =
+   h < 1 ? QString::number(m) + ":" : (m < 10 ? "0" + QString::number(m) + ":" : QString::number(m) + ":");
   QString second = s < 10 ? "0" + QString::number(s) : QString::number(s);
   return hour + minute + second;
 }
 
-void
-MpvPlayerBackend::toggleOnTop()
+void MpvPlayerBackend::toggleOnTop()
 {
   onTop = !onTop;
   AlwaysOnTop(window()->winId(), onTop);
 }
 
-void
-MpvPlayerBackend::toggleStats()
+void MpvPlayerBackend::toggleStats()
 {
   command(QVariantList() << "script-binding"
                          << "stats/display-stats-toggle");
 }
 
-void
-MpvPlayerBackend::addSpeed(const QVariant& speed)
+void MpvPlayerBackend::addSpeed(const QVariant& speed)
 {
-  QString speedString =
-    QString::number(getProperty("speed").toDouble() + speed.toDouble());
+  QString speedString = QString::number(getProperty("speed").toDouble() + speed.toDouble());
   speedString = speedString.left(speedString.lastIndexOf('.') + 2);
   setSpeed(QVariant(speedString));
 }
 
-void
-MpvPlayerBackend::subtractSpeed(const QVariant& speed)
+void MpvPlayerBackend::subtractSpeed(const QVariant& speed)
 {
-  QString speedString =
-    QString::number(getProperty("speed").toDouble() - speed.toDouble());
+  QString speedString = QString::number(getProperty("speed").toDouble() - speed.toDouble());
   speedString = speedString.left(speedString.lastIndexOf('.') + 2);
   setSpeed(QVariant(speedString));
 }
 
-void
-MpvPlayerBackend::changeSpeed(const QVariant& speedFactor)
+void MpvPlayerBackend::changeSpeed(const QVariant& speedFactor)
 {
   setSpeed(QVariant(getProperty("speed").toDouble() * speedFactor.toDouble()));
 }
 
-void
-MpvPlayerBackend::setSpeed(const QVariant& speed)
+void MpvPlayerBackend::setSpeed(const QVariant& speed)
 {
   command(QVariantList() << "set"
                          << "speed" << speed.toString());
 }
 
-void
-MpvPlayerBackend::on_mpv_events()
+void MpvPlayerBackend::on_mpv_events()
 {
   while (mpv) {
     mpv_event* event = mpv_wait_event(mpv, 0);
@@ -400,19 +349,17 @@ MpvPlayerBackend::on_mpv_events()
   }
 }
 
-void
-MpvPlayerBackend::updateDurationStringText()
+void MpvPlayerBackend::updateDurationStringText()
 {
   findChild<QObject*>("timeLabel")
-    ->setProperty("text",
-                  QString("%1  / %2 (%3x)")
-                    .arg(createTimestamp(getProperty("time-pos")).toString(),
-                         createTimestamp(getProperty("duration")).toString(),
-                         getProperty("speed").toString()));
+   ->setProperty("text",
+    QString("%1  / %2 (%3x)")
+     .arg(createTimestamp(getProperty("time-pos")).toString(),
+      createTimestamp(getProperty("duration")).toString(),
+      getProperty("speed").toString()));
 }
 
-void
-MpvPlayerBackend::updatePrev(const QVariant& val)
+void MpvPlayerBackend::updatePrev(const QVariant& val)
 {
   if (val.toDouble() != 0) {
     findChild<QObject*>("playlistPrevButton")->setProperty("visible", true);
@@ -421,37 +368,29 @@ MpvPlayerBackend::updatePrev(const QVariant& val)
   }
 }
 
-void
-MpvPlayerBackend::updateVolume(const QVariant& val)
+void MpvPlayerBackend::updateVolume(const QVariant& val)
 {
   if (getProperty("mute").toBool() || (val.toDouble() == 0)) {
-    findChild<QObject*>("volumeButton")
-      ->setProperty("iconSource", "qrc:/player/icons/volume-mute.svg");
+    findChild<QObject*>("volumeButton")->setProperty("iconSource", "qrc:/player/icons/volume-mute.svg");
   } else {
     if (val.toDouble() < 25) {
-      findChild<QObject*>("volumeButton")
-        ->setProperty("iconSource", "qrc:/player/icons/volume-down.svg");
+      findChild<QObject*>("volumeButton")->setProperty("iconSource", "qrc:/player/icons/volume-down.svg");
     } else {
-      findChild<QObject*>("volumeButton")
-        ->setProperty("iconSource", "qrc:/player/icons/volume-up.svg");
+      findChild<QObject*>("volumeButton")->setProperty("iconSource", "qrc:/player/icons/volume-up.svg");
     }
   }
 }
 
-void
-MpvPlayerBackend::updatePlayPause(const QVariant& val)
+void MpvPlayerBackend::updatePlayPause(const QVariant& val)
 {
   if (val.toBool()) {
-    findChild<QObject*>("playPauseButton")
-      ->setProperty("iconSource", "qrc:/player/icons/play.svg");
+    findChild<QObject*>("playPauseButton")->setProperty("iconSource", "qrc:/player/icons/play.svg");
   } else {
-    findChild<QObject*>("playPauseButton")
-      ->setProperty("iconSource", "qrc:/player/icons/pause.svg");
+    findChild<QObject*>("playPauseButton")->setProperty("iconSource", "qrc:/player/icons/pause.svg");
   }
 }
 
-void
-MpvPlayerBackend::handle_mpv_event(mpv_event* event)
+void MpvPlayerBackend::handle_mpv_event(mpv_event* event)
 {
   switch (event->event_id) {
     case MPV_EVENT_PROPERTY_CHANGE: {
@@ -488,8 +427,7 @@ MpvPlayerBackend::handle_mpv_event(mpv_event* event)
       } else if (strcmp(prop->name, "demuxer-cache-duration") == 0) {
         if (prop->format == MPV_FORMAT_DOUBLE) {
           double duration = *(double*)prop->data;
-          QMetaObject::invokeMethod(
-            this, "setCachedDuration", Q_ARG(QVariant, duration));
+          QMetaObject::invokeMethod(this, "setCachedDuration", Q_ARG(QVariant, duration));
         }
       } else if (strcmp(prop->name, "playlist-pos") == 0) {
         if (prop->format == MPV_FORMAT_DOUBLE) {
@@ -516,8 +454,7 @@ MpvPlayerBackend::handle_mpv_event(mpv_event* event)
   }
 }
 
-QQuickFramebufferObject::Renderer*
-MpvPlayerBackend::createRenderer() const
+QQuickFramebufferObject::Renderer* MpvPlayerBackend::createRenderer() const
 {
   window()->setPersistentOpenGLContext(true);
   window()->setPersistentSceneGraph(true);

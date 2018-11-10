@@ -16,8 +16,7 @@
 #include "setenv_mingw.hpp"
 #endif
 
-int
-main(int argc, char* argv[])
+int main(int argc, char* argv[])
 {
   setenv("QT_QUICK_CONTROLS_STYLE", "Desktop", 1);
   QApplication app(argc, argv);
@@ -26,15 +25,10 @@ main(int argc, char* argv[])
   app.setApplicationName("KittehPlayer");
   for (int i = 1; i < argc; ++i) {
     if (!qstrcmp(argv[i], "--update")) {
-      QString program =
-        QProcessEnvironment::systemEnvironment().value("APPDIR", "") +
-        "/usr/bin/appimageupdatetool";
+      QString program = QProcessEnvironment::systemEnvironment().value("APPDIR", "") + "/usr/bin/appimageupdatetool";
       QProcess updater;
       updater.setProcessChannelMode(QProcess::ForwardedChannels);
-      updater.start(program,
-                    QStringList()
-                      << QProcessEnvironment::systemEnvironment().value(
-                           "APPIMAGE", ""));
+      updater.start(program, QStringList() << QProcessEnvironment::systemEnvironment().value("APPIMAGE", ""));
       updater.waitForFinished();
       exit(0);
     }
@@ -42,9 +36,8 @@ main(int argc, char* argv[])
 
   SetDPMS(false);
 
-  QString newpath =
-    QProcessEnvironment::systemEnvironment().value("APPDIR", "") +
-    "/usr/bin:" + QProcessEnvironment::systemEnvironment().value("PATH", "");
+  QString newpath = QProcessEnvironment::systemEnvironment().value("APPDIR", "") +
+                    "/usr/bin:" + QProcessEnvironment::systemEnvironment().value("PATH", "");
   setenv("PATH", newpath.toUtf8().constData(), 1);
 
   QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
