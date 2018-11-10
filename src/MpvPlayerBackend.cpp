@@ -427,7 +427,7 @@ void MpvPlayerBackend::handle_mpv_event(mpv_event* event)
       } else if (strcmp(prop->name, "demuxer-cache-duration") == 0) {
         if (prop->format == MPV_FORMAT_DOUBLE) {
           double duration = *(double*)prop->data;
-          QMetaObject::invokeMethod(this, "setCachedDuration", Q_ARG(QVariant, duration));
+          QMetaObject::invokeMethod(findChild<QObject*>("progressBar"), "setCachedDuration",  Q_ARG(QVariant, duration));
         }
       } else if (strcmp(prop->name, "playlist-pos") == 0) {
         if (prop->format == MPV_FORMAT_DOUBLE) {
