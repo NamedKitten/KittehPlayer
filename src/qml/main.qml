@@ -108,8 +108,8 @@ ApplicationWindow {
                                 toggleFullscreen()
                                 continue;
                             } 
-                             if (splitArg[1].length == 0) {
-                                splitArg[1] = "true"
+                             if (splitArg[1] == undefined || splitArg[1].length == 0) {
+                                splitArg[1] = "yes"
                             }
                             player.setOption(splitArg[0], splitArg[1])
                             
