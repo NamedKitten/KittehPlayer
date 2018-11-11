@@ -137,9 +137,11 @@ MpvPlayerBackend::MpvPlayerBackend(QQuickItem* parent)
 
 MpvPlayerBackend::~MpvPlayerBackend()
 {
+  printf("Shutting down...\n");
   SetDPMS(true);
   mpv_render_context_free(mpv_gl);
   mpv_terminate_destroy(mpv);
+  printf("MPV terminated.\n");
 }
 
 void MpvPlayerBackend::on_update(void* ctx)

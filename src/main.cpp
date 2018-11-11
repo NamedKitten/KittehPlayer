@@ -16,10 +16,38 @@
 #include "setenv_mingw.hpp"
 #endif
 
+#ifdef __linux__
+#include <initializer_list>
+#include <signal.h>
+#include <unistd.h>
+void catchUnixSignals(std::initializer_list<int> quitSignals) {
+    auto handler = [](int sig) -> void {
+        QCoreApplication::quit();
+    };
+    
+    sigset_t blocking_mask;   
+    sigemptyset(&blocking_mask);  
+    for (auto sig : quitSignals) 
+        sigaddset(&blocking_mask, sig);  
+        
+    struct sigaction sa;   
+    sa.sa_handler = handler;   
+    sa.sa_mask    = blocking_mask;  
+    sa.sa_flags   = 0;    
+    
+    for (auto sig : quitSignals)   
+        sigaction(sig, &sa, nullptr);
+}
+#endif
+
+
 int main(int argc, char* argv[])
 {
   setenv("QT_QUICK_CONTROLS_STYLE", "Desktop", 1);
   QApplication app(argc, argv);
+#ifdef __linux__
+  catchUnixSignals({SIGQUIT, SIGINT, SIGTERM, SIGHUP});
+#endif
   app.setOrganizationName("KittehPlayer");
   app.setOrganizationDomain("namedkitten.pw");
   app.setApplicationName("KittehPlayer");
