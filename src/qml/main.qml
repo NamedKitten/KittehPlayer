@@ -9,7 +9,7 @@ import player 1.0
 
 import "codes.js" as LanguageCodes
 
-Window {
+ApplicationWindow {
     id: mainWindow
     title: titleLabel.text
     visible: true
@@ -18,7 +18,6 @@ Window {
     Translator {
         id: translate
     }
-    screen: Qt.application.screens[0]
 
     property int lastScreenVisibility
 
@@ -76,8 +75,6 @@ Window {
                 player.setOption("sub-back-color", "0.0/0.0/0.0/0.0")
             }
 
-            player.setOption("ytdl-format", "bestvideo[width<=" + Screen.width
-                             + "][height<=" + Screen.height + "]+bestaudio")
             if (len > 1) {
                 for (argNo = 1; argNo < len; argNo++) {
                     var argument = args[argNo]
@@ -88,13 +85,20 @@ Window {
                         argument = argument.substr(2)
                         if (argument.length > 0) {
                             var splitArg = argument.split(/=(.+)/)
-                            if (splitArg[0] == "screen") {
+                            if (splitArg[0] == "screen" || splitArg[0] == "fs-screen") {
                                 for (var i = 0, len = Qt.application.screens.length; i < len; i++) {
                                     var screen = Qt.application.screens[i];
-                                    console.log(screen["name"])
-                                    if (screen["name"] == splitArg[1]) {
-                                        console.log("Switching to window: " + screen["name"])
+                                    console.log("Screen Name: " + screen["name"] + " Screen Number: " + String(i))
+                                    if (screen["name"] == splitArg[1] || String(i) == splitArg[1] ) {
+                                        console.log("Switching to screen: " + screen["name"])
                                         mainWindow.screen = screen
+                                        mainWindow.width = mainWindow.screen.width / 2
+                                        mainWindow.height = mainWindow.screen.height / 2
+                                        mainWindow.x = mainWindow.screen.virtualX + mainWindow.width / 2
+                                        mainWindow.y = mainWindow.screen.virtualY + mainWindow.height / 2
+                                        if (splitArg[0] == "fs-screen" ) {
+                                            toggleFullscreen()
+                                        }
                                         continue
                                     }
                                 }
