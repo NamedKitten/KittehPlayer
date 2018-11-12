@@ -63,12 +63,13 @@ execute_process(
 )
 add_subdirectory(discord-rpc)
 INCLUDE_DIRECTORIES(discord-rpc/include)
+target_link_libraries(KittehPlayer discord-rpc)
 endif(DISCORD)
 
 add_executable(KittehPlayer ${SOURCES} ${qml_QRC})
 
 # Use the Qml/Quick modules from Qt 5.
-target_link_libraries(KittehPlayer ${MPV_LIBRARIES} ${X11_LIBRARIES} ${Xext_LIBRARIES} Qt5::X11Extras discord-rpc)
+target_link_libraries(KittehPlayer ${MPV_LIBRARIES} ${X11_LIBRARIES} ${Xext_LIBRARIES} Qt5::X11Extras)
 
 qt5_use_modules(KittehPlayer Qml Quick Core Gui Widgets X11Extras)
 

@@ -57,6 +57,7 @@ public slots:
   void setVolume(const QVariant& volume);
   void addVolume(const QVariant& volume);
   void loadFile(const QVariant& filename);
+  void appendFile(const QVariant& filename);
   void seek(const QVariant& seekTime);
   void seekAbsolute(const QVariant& seekTime);
   void command(const QVariant& params);

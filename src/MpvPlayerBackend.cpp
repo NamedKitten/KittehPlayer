@@ -279,6 +279,11 @@ void MpvPlayerBackend::loadFile(const QVariant& filename)
   command(QVariantList() << "loadfile" << filename);
 }
 
+void MpvPlayerBackend::appendFile(const QVariant& filename)
+{
+  command(QVariantList() << "loadfile" << filename << "append-play");
+}
+
 void MpvPlayerBackend::setVolume(const QVariant& volume)
 {
   command(QVariantList() << "set"

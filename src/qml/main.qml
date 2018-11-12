@@ -115,7 +115,7 @@ ApplicationWindow {
                             
                         }
                     } else {
-                        player.loadFile(argument)
+                        player.appendFile(argument)
                     }
                 }
             }
