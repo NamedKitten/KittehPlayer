@@ -29,6 +29,9 @@ public:
 
 public slots:
   void launchAboutQt();
+#ifdef DISCORD
+  void updateDiscord();
+#endif
   void togglePlayPause();
   void toggleMute();
   void nextAudioTrack();
