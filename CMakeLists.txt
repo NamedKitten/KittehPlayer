@@ -7,7 +7,7 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -fstrict-aliasing -Wno-deprecated-declarations -Wno-unused-variable")
 
 option(DEVELOP "Enable runtime QML reloading for developing." OFF)
-option(DISCORD "Enable Discord SDK." ON)
+option(DISCORD "Enable Discord SDK." OFF)
 
 
 find_package(Qt5Core REQUIRED)
