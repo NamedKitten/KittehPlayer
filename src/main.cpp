@@ -17,9 +17,9 @@
 #endif
 
 #ifdef GIT_COMMIT_HASH
-#include <QtNetwork>
-#include <QSequentialIterable>
 #include <QJsonDocument>
+#include <QSequentialIterable>
+#include <QtNetwork>
 
 #endif
 
@@ -27,53 +27,58 @@
 #include <initializer_list>
 #include <signal.h>
 #include <unistd.h>
-void catchUnixSignals(std::initializer_list<int> quitSignals) {
-    auto handler = [](int sig) -> void {
-        QCoreApplication::quit();
-    };
-    
-    sigset_t blocking_mask;   
-    sigemptyset(&blocking_mask);  
-    for (auto sig : quitSignals) 
-        sigaddset(&blocking_mask, sig);  
-        
-    struct sigaction sa;   
-    sa.sa_handler = handler;   
-    sa.sa_mask    = blocking_mask;  
-    sa.sa_flags   = 0;    
-    
-    for (auto sig : quitSignals)   
-        sigaction(sig, &sa, nullptr);
+void
+catchUnixSignals(std::initializer_list<int> quitSignals)
+{
+  auto handler = [](int sig) -> void { QCoreApplication::quit(); };
+
+  sigset_t blocking_mask;
+  sigemptyset(&blocking_mask);
+  for (auto sig : quitSignals)
+    sigaddset(&blocking_mask, sig);
+
+  struct sigaction sa;
+  sa.sa_handler = handler;
+  sa.sa_mask = blocking_mask;
+  sa.sa_flags = 0;
+
+  for (auto sig : quitSignals)
+    sigaction(sig, &sa, nullptr);
 }
 #endif
 
-
-int main(int argc, char* argv[])
+int
+main(int argc, char* argv[])
 {
   setenv("QT_QUICK_CONTROLS_STYLE", "Desktop", 1);
   QApplication app(argc, argv);
 #ifdef __linux__
-  catchUnixSignals({SIGQUIT, SIGINT, SIGTERM, SIGHUP});
+  catchUnixSignals({ SIGQUIT, SIGINT, SIGTERM, SIGHUP });
 #endif
 
 #ifdef GIT_COMMIT_HASH
-QString current_version = QString(GIT_COMMIT_HASH);
-qDebug() << "Current Version: " << current_version;
+  QString current_version = QString(GIT_COMMIT_HASH);
+  qDebug() << "Current Version: " << current_version;
 
-QNetworkRequest request(QUrl("https://api.github.com/repos/NamedKitten/KittehPlayer/releases/tags/continuous"));
-QNetworkAccessManager nam;
-QNetworkReply *reply = nam.get(request);
+  QNetworkRequest request(QUrl("https://api.github.com/repos/NamedKitten/"
+                               "KittehPlayer/releases/tags/continuous"));
+  QNetworkAccessManager nam;
+  QNetworkReply* reply = nam.get(request);
 
-while(!reply->isFinished()) {
-qApp->processEvents();
-}
-QByteArray response_data = reply->readAll();
-QJsonDocument json = QJsonDocument::fromJson(response_data);
-QJsonArray jsonArray = json["assets"].toArray();
-qDebug() << "Latest Version: " << json["target_commitish"].toString();
-if (json["target_commitish"].toString().endsWith(current_version) == 0) {
-  qDebug() << "Update Available. Please update ASAP.";
-}
+  while (!reply->isFinished()) {
+    qApp->processEvents();
+  }
+  QByteArray response_data = reply->readAll();
+  QJsonDocument json = QJsonDocument::fromJson(response_data);
+
+  if (json["target_commitish"].toString().length() != 0) {
+    if (json["target_commitish"].toString().endsWith(current_version) == 0) {
+      qDebug() << "Latest Version: " << json["target_commitish"].toString();
+      qDebug() << "Update Available. Please update ASAP.";
+    }
+  } else {
+    qDebug() << "Couldn't check for new version.";
+  }
 #endif
 
   app.setOrganizationName("KittehPlayer");
@@ -81,10 +86,15 @@ if (json["target_commitish"].toString().endsWith(current_version) == 0) {
   app.setApplicationName("KittehPlayer");
   for (int i = 1; i < argc; ++i) {
     if (!qstrcmp(argv[i], "--update")) {
-      QString program = QProcessEnvironment::systemEnvironment().value("APPDIR", "") + "/usr/bin/appimageupdatetool";
+      QString program =
+        QProcessEnvironment::systemEnvironment().value("APPDIR", "") +
+        "/usr/bin/appimageupdatetool";
       QProcess updater;
       updater.setProcessChannelMode(QProcess::ForwardedChannels);
-      updater.start(program, QStringList() << QProcessEnvironment::systemEnvironment().value("APPIMAGE", ""));
+      updater.start(program,
+                    QStringList()
+                      << QProcessEnvironment::systemEnvironment().value(
+                           "APPIMAGE", ""));
       updater.waitForFinished();
       exit(0);
     }
@@ -92,8 +102,9 @@ if (json["target_commitish"].toString().endsWith(current_version) == 0) {
 
   SetDPMS(false);
 
-  QString newpath = QProcessEnvironment::systemEnvironment().value("APPDIR", "") +
-                    "/usr/bin:" + QProcessEnvironment::systemEnvironment().value("PATH", "");
+  QString newpath =
+    QProcessEnvironment::systemEnvironment().value("APPDIR", "") +
+    "/usr/bin:" + QProcessEnvironment::systemEnvironment().value("PATH", "");
   setenv("PATH", newpath.toUtf8().constData(), 1);
 
   QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
