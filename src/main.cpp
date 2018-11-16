@@ -16,6 +16,13 @@
 #include "setenv_mingw.hpp"
 #endif
 
+#ifdef GIT_COMMIT_HASH
+#include <QtNetwork>
+#include <QSequentialIterable>
+#include <QJsonDocument>
+
+#endif
+
 #ifdef __linux__
 #include <initializer_list>
 #include <signal.h>
@@ -48,6 +55,27 @@ int main(int argc, char* argv[])
 #ifdef __linux__
   catchUnixSignals({SIGQUIT, SIGINT, SIGTERM, SIGHUP});
 #endif
+
+#ifdef GIT_COMMIT_HASH
+QString current_version = QString(GIT_COMMIT_HASH);
+qDebug() << "Current Version: " << current_version;
+
+QNetworkRequest request(QUrl("https://api.github.com/repos/NamedKitten/KittehPlayer/releases/tags/continuous"));
+QNetworkAccessManager nam;
+QNetworkReply *reply = nam.get(request);
+
+while(!reply->isFinished()) {
+qApp->processEvents();
+}
+QByteArray response_data = reply->readAll();
+QJsonDocument json = QJsonDocument::fromJson(response_data);
+QJsonArray jsonArray = json["assets"].toArray();
+qDebug() << "Latest Version: " << json["target_commitish"].toString();
+if (json["target_commitish"].toString().endsWith(current_version) == 0) {
+  qDebug() << "Update Available. Please update ASAP.";
+}
+#endif
+
   app.setOrganizationName("KittehPlayer");
   app.setOrganizationDomain("namedkitten.pw");
   app.setApplicationName("KittehPlayer");
