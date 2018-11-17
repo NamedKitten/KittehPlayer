@@ -67,7 +67,7 @@ MenuBar {
             } else if (trackType == "audio") {
                 var component = Qt.createComponent("TrackItem.qml")
                 var action = component.createObject(audioMenu, {
-                                                        text: (trackTitle == "undefined" ? "" : trackTitle + " ") + (trackLang == "undefined" ? "" : trackLang),
+                                                        text: (trackTitle == undefined ? "" : trackTitle + " ") + (trackLang == "undefined" ? "" : trackLang),
                                                         trackID: String(
                                                                      trackID),
                                                         trackType: "aid",
