@@ -398,7 +398,7 @@ MenuBar {
         Action {
             text: translate.getTranslation("CYCLE_VIDEO", i18n.language)
             onTriggered: {
-                player.nextVideoTrack()
+                player.playerCommand(Enums.Commands.NextVideoTrack)
             }
             shortcut: keybinds.cycleVideo
         }
@@ -425,7 +425,7 @@ MenuBar {
         Action {
             text: translate.getTranslation("CYCLE_SUB_TRACK", i18n.language)
             onTriggered: {
-                player.nextSubtitleTrack()
+                player.playerCommand(Enums.Commands.NextSubtitleTrack)
             }
             shortcut: keybinds.cycleSub
         }
