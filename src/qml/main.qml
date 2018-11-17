@@ -140,6 +140,7 @@ ApplicationWindow {
                 titleBar.visible = false
                 titleBackground.visible = false
                 menuBar.visible = false
+                mouseAreaPlayer.cursorShape = Qt.BlankCursor
             }
         }
 
@@ -156,6 +157,7 @@ ApplicationWindow {
                 }
                 titleBackground.visible = true
                 menuBar.visible = true
+                mouseAreaPlayer.cursorShape = Qt.ArrowCursor
             }
         }
 
@@ -187,7 +189,6 @@ ApplicationWindow {
             anchors.top: titleBar.bottom
             anchors.topMargin: 0
             hoverEnabled: true
-            cursorShape: controlsBar.visible ? Qt.ArrowCursor : Qt.BlankCursor
             onClicked: {
                 if (appearance.clickToPause) {
                     player.playerCommand(Enums.Commands.TogglePlayPause)
