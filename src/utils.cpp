@@ -4,9 +4,11 @@
 #include <QGuiApplication>
 #include <QtCore>
 
-QString getPlatformName()
+QString
+getPlatformName()
 {
-  QGuiApplication* qapp = qobject_cast<QGuiApplication*>(QCoreApplication::instance());
+  QGuiApplication* qapp =
+    qobject_cast<QGuiApplication*>(QCoreApplication::instance());
   return qapp->platformName();
 }
 
@@ -18,7 +20,8 @@ QString getPlatformName()
 #include <X11/extensions/dpms.h>
 #include <X11/keysym.h>
 
-void SetDPMS(bool on)
+void
+SetDPMS(bool on)
 {
   qDebug() << getPlatformName();
   if (getPlatformName() != "xcb") {
@@ -34,7 +37,8 @@ void SetDPMS(bool on)
   }
 }
 
-void AlwaysOnTop(WId wid, bool on)
+void
+AlwaysOnTop(WId wid, bool on)
 {
   qDebug() << "On Top:" << on;
   Display* display = QX11Info::display();
@@ -53,17 +57,23 @@ void AlwaysOnTop(WId wid, bool on)
   event.xclient.data.l[3] = 0;
   event.xclient.data.l[4] = 0;
 
-  XSendEvent(display, DefaultRootWindow(display), False, SubstructureRedirectMask | SubstructureNotifyMask, &event);
+  XSendEvent(display,
+             DefaultRootWindow(display),
+             False,
+             SubstructureRedirectMask | SubstructureNotifyMask,
+             &event);
 }
 
 #else
 
-void AlwaysOnTop(WId wid, bool on)
+void
+AlwaysOnTop(WId wid, bool on)
 {
   qDebug() << "Can't set on top for platform: " << getPlatformName();
 }
 
-void SetDPMS(bool on)
+void
+SetDPMS(bool on)
 {
   qDebug() << "Can't set DPMS for platform: " << getPlatformName();
 }

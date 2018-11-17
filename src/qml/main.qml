@@ -55,7 +55,7 @@ ApplicationWindow {
             category: "Fun"
             property bool nyanCat: false
         }
-
+        
         function startPlayer() {
             var args = Qt.application.arguments
             var len = Qt.application.arguments.length
@@ -305,6 +305,11 @@ ApplicationWindow {
                 font.pixelSize: 14
                 font.bold: true
                 opacity: 1
+                Component.onCompleted: {
+                    player.titleChanged.connect(function(title) {
+                        text = title
+                    })
+                }
             }
         }
 

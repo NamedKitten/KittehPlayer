@@ -27,6 +27,7 @@ set(SOURCES
     src/main.cpp
     src/MpvPlayerBackend.cpp
     src/utils.cpp
+    src/enums.hpp
 )
 
 find_program(CCACHE_FOUND ccache)

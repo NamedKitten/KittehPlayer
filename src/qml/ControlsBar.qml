@@ -69,6 +69,11 @@ Item {
                         width: subsContainer.childrenRect.width
                         height: subsContainer.childrenRect.height
                     }
+                    Component.onCompleted: {
+                        player.subtitlesChanged.connect(function(subtitles) {
+                            text = subtitles
+                        })
+                    }
                 }
             }
         }
@@ -111,12 +116,18 @@ Item {
             anchors.bottomMargin: 0
             anchors.topMargin: progressBackground.height
             bottomPadding: 0
-
-            function setCachedDuration(val) {
-                cachedLength.width = ((progressBar.width / progressBar.to)
-                                      * val) - progressLength.width
+            Component.onCompleted: {
+                player.positionChanged.connect(function(position) {
+                    if (! pressed) {progressBar.value = position}
+                })
+                player.durationChanged.connect(function(duration) {
+                    progressBar.to = duration
+                })
+                player.cachedDurationChanged.connect(function(duration) {
+                    cachedLength.width = ((progressBar.width / progressBar.to)
+                                      * duration) - progressLength.width
+                })
             }
-
             onMoved: {
                 player.seekAbsolute(progressBar.value)
             }
@@ -208,7 +219,6 @@ Item {
         Button {
             id: playlistPrevButton
             objectName: "playlistPrevButton"
-            //icon.name: "prev"
             icon.source: "icons/prev.svg"
             icon.color: "white"
             display: AbstractButton.IconOnly
@@ -222,14 +232,20 @@ Item {
             background: Rectangle {
                 color: "transparent"
             }
+            Component.onCompleted: {
+                player.playlistPositionChanged.connect(function(position) {
+                    if (position != 0 ) {
+                        visible = true
+                    } else {
+                        visible = false
+                    }
+                })
+            }
         }
 
         Button {
             id: playPauseButton
-            //icon.name: "pause"
-            objectName: "playPauseButton"
-            property string iconSource: "icons/pause.svg"
-            icon.source: iconSource
+            icon.source: "icons/pause.svg"
             icon.color: "white"
             display: AbstractButton.IconOnly
             anchors.top: parent.top
@@ -240,6 +256,15 @@ Item {
             }
             background: Rectangle {
                 color: "transparent"
+            }
+            Component.onCompleted: {
+                player.playStatusChanged.connect(function(status) {
+                    if (status == Enums.PlayStatus.Playing) {
+                        icon.source = "qrc:/player/icons/pause.svg"
+                    } else if (status == Enums.PlayStatus.Paused) {
+                        icon.source = "qrc:/player/icons/play.svg"
+                    }
+                })
             }
         }
 
@@ -263,8 +288,7 @@ Item {
         Button {
             id: volumeButton
             objectName: "volumeButton"
-            property string iconSource: "icons/volume-up.svg"
-            icon.source: iconSource
+            icon.source: "icons/volume-up.svg"
             icon.color: "white"
             display: AbstractButton.IconOnly
             anchors.top: parent.top
@@ -272,10 +296,20 @@ Item {
             anchors.left: playlistNextButton.right
             onClicked: {
                 player.toggleMute()
-                player.updateVolume(player.getProperty("volume"))
             }
             background: Rectangle {
                 color: "transparent"
+            }
+            Component.onCompleted: {
+                player.volumeStatusChanged.connect(function(status) {
+                    if (status == Enums.VolumeStatus.Muted) {
+                        volumeButton.icon.source = "qrc:/player/icons/volume-mute.svg"
+                    } else if (status == Enums.VolumeStatus.Low) {
+                        volumeButton.icon.source = "qrc:/player/icons/volume-down.svg"
+                    } else if (status == Enums.VolumeStatus.Normal) {
+                        volumeButton.icon.source = "qrc:/player/icons/volume-up.svg"
+                    }
+                })
             }
         }
         Slider {
@@ -299,7 +333,11 @@ Item {
             onMoved: {
                 player.setVolume(Math.round(volumeBar.value).toString())
             }
-
+            Component.onCompleted: {
+                player.volumeChanged.connect(function(volume) {
+                    volumeBar.value = volume
+                })
+            }
             handle: Rectangle {
                 x: volumeBar.leftPadding + volumeBar.visualPosition
                    * (volumeBar.availableWidth - width)
@@ -340,6 +378,11 @@ Item {
             font.pixelSize: 14
             verticalAlignment: Text.AlignVCenter
             renderType: Text.NativeRendering
+            Component.onCompleted: {
+                player.durationStringChanged.connect(function(durationString) {
+                    text = durationString
+                })
+            }
         }
 
         Button {

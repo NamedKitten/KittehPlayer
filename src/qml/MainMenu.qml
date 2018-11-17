@@ -20,8 +20,11 @@ MenuBar {
                                 || subsMenuBarItem.opened
                                 || aboutMenuBarItem.opened
 
-    objectName: "menuBar"
-
+    Component.onCompleted: {
+        player.tracksChanged.connect(updateTracks)
+    }
+    
+    
     function updateTracks() {
         for (var i = 0, len = audioMenu.count; i < len; i++) {
             var audioAction = audioMenu.actionAt(i)
@@ -30,7 +33,7 @@ MenuBar {
             }
         }
         for (var i = 0, len = videoMenu.count; i < len; i++) {
-            var videoAction = audioMenu.actionAt(i)
+            var videoAction = videoMenu.actionAt(i)
             if (videoAction.trackID != "no") {
                 videoMenu.removeAction(videoAction)
             }
@@ -340,7 +343,10 @@ MenuBar {
             id: audioDeviceMenu
             objectName: "audioDeviceMenu"
 
-            function update() {
+            Component.onCompleted: {
+                player.audioDevicesChanged.connect(updateAudioDevices)
+            }
+            function updateAudioDevices() {
                 var audioDevices = player.getaudioDevices()
 
                 for (var i = 0, len = audioDeviceMenu.count; i < len; i++) {

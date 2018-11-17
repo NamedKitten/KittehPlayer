@@ -6,6 +6,7 @@
 #include "utils.hpp"
 #include <cstdlib>
 
+#include "enums.hpp"
 #include <QApplication>
 #include <QProcessEnvironment>
 #include <QQmlApplicationEngine>
@@ -109,6 +110,18 @@ main(int argc, char* argv[])
 
   QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
   QApplication::setAttribute(Qt::AA_NativeWindows);
+
+  qmlRegisterUncreatableMetaObject(
+    Enums::staticMetaObject, // static meta object
+    "player",                // import statement (can be any string)
+    1,
+    0,                  // major and minor version of the import
+    "Enums",            // name in QML (does not have to match C++ name)
+    "Error: only enums" // error in case someone tries to create a MyNamespace
+                        // object
+  );
+  qRegisterMetaType<Enums::PlayStatus>("Enums.PlayStatus");
+  qRegisterMetaType<Enums::VolumeStatus>("Enums.VolumeStatus");
 
   qmlRegisterType<MpvPlayerBackend>("player", 1, 0, "PlayerBackend");
   std::setlocale(LC_NUMERIC, "C");

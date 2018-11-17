@@ -9,6 +9,8 @@
 #include <QOpenGLContext>
 #include <QQuickFramebufferObject>
 
+#include "enums.hpp"
+
 class MpvRenderer;
 
 class MpvPlayerBackend : public QQuickFramebufferObject
@@ -41,13 +43,9 @@ public slots:
   void nextPlaylistItem();
   void toggleOnTop();
   void toggleStats();
-  void updateDurationStringText();
   QVariant getTracks() const;
   QVariant getaudioDevices() const;
   void setAudioDevice(const QString& name);
-  void updatePrev(const QVariant& val);
-  void updateVolume(const QVariant& val);
-  void updatePlayPause(const QVariant& val);
   void addSpeed(const QVariant& speed);
   void subtractSpeed(const QVariant& speed);
   void changeSpeed(const QVariant& speedFactor);
@@ -68,12 +66,24 @@ public slots:
 
 signals:
   void onUpdate();
-  void positionChanged(int value);
   void mpv_events();
+  void playStatusChanged(const Enums::PlayStatus& status);
+  void volumeStatusChanged(const Enums::VolumeStatus& status);
+  void volumeChanged(const int& volume);
+  void durationChanged(const double& duration);
+  void positionChanged(const double& position);
+  void cachedDurationChanged(const double& duration);
+  void playlistPositionChanged(const double& position);
+  void titleChanged(const QString& title);
+  void subtitlesChanged(const QString& subtitles);
+  void durationStringChanged(const QString& string);
+  void tracksChanged();
+  void audioDevicesChanged();
 
 private slots:
   void doUpdate();
   void on_mpv_events();
+  void updateDurationString();
 
 private:
   void handle_mpv_event(mpv_event* event);

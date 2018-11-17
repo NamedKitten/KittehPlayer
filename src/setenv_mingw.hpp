@@ -36,7 +36,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-int setenv(const char* var, const char* value, int overwrite)
+int
+setenv(const char* var, const char* value, int overwrite)
 {
   /* Core implementation for both setenv() and unsetenv() functions;
    * at the outset, assume that the requested operation may fail.
