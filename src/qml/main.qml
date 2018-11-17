@@ -139,7 +139,7 @@ ApplicationWindow {
                 controlsBar.background.visible = false
                 titleBar.visible = false
                 titleBackground.visible = false
-                menuBar.visible = false
+                menuBar.visible = false;
                 mouseAreaPlayer.cursorShape = Qt.BlankCursor
             }
         }
@@ -189,14 +189,33 @@ ApplicationWindow {
             anchors.top: titleBar.bottom
             anchors.topMargin: 0
             hoverEnabled: true
+            onDoubleClicked: {
+                playTimer.stop()
+                toggleFullscreen()
+            }
+            Action {
+                onTriggered: {
+                    if (mainWindow.visibility == Window.FullScreen) {toggleFullscreen()}
+                }
+                shortcut: "Esc"
+            }
+            Timer {
+                id: playTimer
+                interval: 200
+                running: false
+                repeat: false
+                onTriggered: {
+                    player.playerCommand(Enums.Commands.TogglePlayPause)
+                }
+            }
             onClicked: {
                 if (appearance.clickToPause) {
-                    player.playerCommand(Enums.Commands.TogglePlayPause)
+                    playTimer.start()
                 }
             }
             Timer {
                 id: mouseAreaPlayerTimer
-                interval: 1000
+                interval: 2000
                 running: true
                 repeat: false
                 onTriggered: {
