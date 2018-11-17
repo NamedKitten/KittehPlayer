@@ -44,7 +44,7 @@ MenuBar {
                 subMenu.removeAction(subAction)
             }
         }
-        var newTracks = player.getTracks()
+        var newTracks = player.playerCommand(Enums.Commands.GetTracks)
 
         for (var i = 0, len = newTracks.length; i < len; i++) {
             var track = newTracks[i]
@@ -111,7 +111,7 @@ MenuBar {
         title: translate.getTranslation("OPEN_FILE", i18n.language)
         nameFilters: ["All files (*)"]
         onAccepted: {
-            player.loadFile(String(fileDialog.file))
+            player.playerCommand(Enums.Commands.LoadFile, String(fileDialog.file))
             fileDialog.close()
         }
         onRejected: {
@@ -124,7 +124,7 @@ MenuBar {
         title: translate.getTranslation("URL_FILE_PATH", i18n.language)
         standardButtons: StandardButton.Cancel | StandardButton.Open
         onAccepted: {
-            player.loadFile(pathText.text)
+            player.playerCommand(Enums.Commands.LoadFile, pathText.text)
             pathText.text = ""
         }
         TextField {
@@ -225,35 +225,35 @@ MenuBar {
         Action {
             text: translate.getTranslation("PLAY_PAUSE", i18n.language)
             onTriggered: {
-                player.togglePlayPause()
+                player.playerCommand(Enums.Commands.TogglePlayPause)
             }
             shortcut: String(keybinds.playPause)
         }
         Action {
             text: translate.getTranslation("REWIND_10S", i18n.language)
             onTriggered: {
-                player.seek("-10")
+                player.playerCommand(Enums.Commands.Seek, "-10")
             }
             shortcut: keybinds.rewind10
         }
         Action {
             text: translate.getTranslation("FORWARD_10S", i18n.language)
             onTriggered: {
-                player.seek("10")
+                player.playerCommand(Enums.Commands.Seek, "10")
             }
             shortcut: keybinds.forward10
         }
         Action {
             text: translate.getTranslation("FORWARD_5S", i18n.language)
             onTriggered: {
-                player.seek("-5")
+                player.playerCommand(Enums.Commands.Seek, "-5")
             }
             shortcut: keybinds.rewind5
         }
         Action {
             text: translate.getTranslation("FORWARD_5S", i18n.language)
             onTriggered: {
-                player.seek("5")
+                player.playerCommand(Enums.Commands.Seek, "5")
             }
             shortcut: keybinds.forward5
         }
@@ -261,7 +261,7 @@ MenuBar {
             text: translate.getTranslation("SPEED_DECREASE_POINT_ONE",
                                            i18n.language)
             onTriggered: {
-                player.subtractSpeed(0.1)
+                player.playerCommand(Enums.Commands.SubtractSpeed, 0.1)
             }
             shortcut: keybinds.decreaseSpeedByPointOne
         }
@@ -269,35 +269,35 @@ MenuBar {
             text: translate.getTranslation("SPEED_INCREASE_POINT_ONE",
                                            i18n.language)
             onTriggered: {
-                player.addSpeed(0.1)
+                player.playerCommand(Enums.Commands.AddSpeed, 0.1)
             }
             shortcut: keybinds.increaseSpeedByPointOne
         }
         Action {
             text: translate.getTranslation("HALVE_SPEED", i18n.language)
             onTriggered: {
-                player.changeSpeed(0.5)
+                player.playerCommand(Enums.Commands.ChangeSpeed, 0.5)
             }
             shortcut: keybinds.halveSpeed
         }
         Action {
             text: translate.getTranslation("DOUBLE_SPEED", i18n.language)
             onTriggered: {
-                player.changeSpeed(2)
+                player.playerCommand(Enums.Commands.ChangeSpeed, 2)
             }
             shortcut: keybinds.doubleSpeed
         }
         Action {
             text: translate.getTranslation("FORWARD_FRAME", i18n.language)
             onTriggered: {
-                player.command(["frame-step"])
+                player.playerCommand(Enums.Commands.ForwardFrame)
             }
             shortcut: keybinds.forwardFrame
         }
         Action {
             text: translate.getTranslation("BACKWARD_FRAME", i18n.language)
             onTriggered: {
-                player.command(["frame-back-step"])
+                player.playerCommand(Enums.Commands.BackwardFrame)
             }
             shortcut: keybinds.backwardFrame
         }
@@ -309,28 +309,28 @@ MenuBar {
         Action {
             text: translate.getTranslation("CYCLE_AUDIO_TRACK", i18n.language)
             onTriggered: {
-                player.nextAudioTrack()
+                player.playerCommand(Enums.Commands.NextAudioTrack)
             }
             shortcut: keybinds.cycleAudio
         }
         Action {
             text: translate.getTranslation("INCREASE_VOLUME", i18n.language)
             onTriggered: {
-                player.addVolume("2")
+                player.playerCommand(Enums.Commands.AddVolume, "2")
             }
             shortcut: keybinds.increaseVolume
         }
         Action {
             text: translate.getTranslation("DECREASE_VOLUME", i18n.language)
             onTriggered: {
-                player.addVolume("-2")
+                player.playerCommand(Enums.Commands.AddVolume, "-2")
             }
             shortcut: keybinds.decreaseVolume
         }
         Action {
             text: translate.getTranslation("MUTE_VOLUME", i18n.language)
             onTriggered: {
-                player.toggleMute()
+                player.playerCommand(Enums.Commands.ToggleMute)
             }
             shortcut: keybinds.mute
         }
@@ -347,7 +347,7 @@ MenuBar {
                 player.audioDevicesChanged.connect(updateAudioDevices)
             }
             function updateAudioDevices() {
-                var audioDevices = player.getaudioDevices()
+                var audioDevices = player.playerCommand(Enums.Commands.GetAudioDevices)
 
                 for (var i = 0, len = audioDeviceMenu.count; i < len; i++) {
                     audioDeviceMenu.takeAction(0)
@@ -468,7 +468,7 @@ MenuBar {
         Action {
             text: translate.getTranslation("STATS", i18n.language)
             onTriggered: {
-                player.toggleStats()
+                player.playerCommand(Enums.Commands.ToggleStats)
             }
             shortcut: keybinds.statsForNerds
         }

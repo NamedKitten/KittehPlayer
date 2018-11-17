@@ -9,7 +9,6 @@ import player 1.0
 
 Item {
     anchors.bottom: parent.bottom
-
     anchors.left: parent.left
     anchors.right: parent.right
 
@@ -129,7 +128,7 @@ Item {
                 })
             }
             onMoved: {
-                player.seekAbsolute(progressBar.value)
+                player.playerCommand(Enums.Commands.SeekAbsolute, value)
             }
 
             function getProgressBarHeight(nyan, isMouse) {
@@ -227,7 +226,7 @@ Item {
             visible: false
             width: visible ? playPauseButton.width : 0
             onClicked: {
-                player.prevPlaylistItem()
+                player.playerCommand(Enums.Commands.PreviousPlaylistItem)
             }
             background: Rectangle {
                 color: "transparent"
@@ -252,7 +251,7 @@ Item {
             anchors.bottom: parent.bottom
             anchors.left: playlistPrevButton.right
             onClicked: {
-                player.togglePlayPause()
+                player.playerCommand(Enums.Commands.TogglePlayPause)
             }
             background: Rectangle {
                 color: "transparent"
@@ -278,7 +277,7 @@ Item {
             anchors.bottom: parent.bottom
             anchors.left: playPauseButton.right
             onClicked: {
-                player.nextPlaylistItem()
+                player.playerCommand(Enums.Commands.NextPlaylistItem)
             }
             background: Rectangle {
                 color: "transparent"
@@ -295,7 +294,7 @@ Item {
             anchors.bottom: parent.bottom
             anchors.left: playlistNextButton.right
             onClicked: {
-                player.toggleMute()
+                player.playerCommand(Enums.Commands.ToggleMute)
             }
             background: Rectangle {
                 color: "transparent"
@@ -331,7 +330,7 @@ Item {
             anchors.top: parent.top
             anchors.bottom: parent.bottom
             onMoved: {
-                player.setVolume(Math.round(volumeBar.value).toString())
+                player.playerCommand(Enums.Commands.SetVolume, Math.round(volumeBar.value).toString())
             }
             Component.onCompleted: {
                 player.volumeChanged.connect(function(volume) {

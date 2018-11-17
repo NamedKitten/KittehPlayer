@@ -239,136 +239,188 @@ MpvPlayerBackend::updateDiscord()
   Discord_UpdatePresence(&discordPresence);
 }
 #endif
+QVariant
+MpvPlayerBackend::playerCommand(const Enums::Commands& cmd)
+{
+  return playerCommand(cmd, QVariant("NoArgProvided"));
+}
 
 QVariant
-MpvPlayerBackend::getaudioDevices() const
+MpvPlayerBackend::playerCommand(const Enums::Commands& cmd,
+                                const QVariant& args)
 {
-  QVariant drivers = getProperty("audio-device-list");
-  QVariant currentDevice = getProperty("audio-device");
+  switch (cmd) {
+    case Enums::Commands::TogglePlayPause: {
+      command(QVariantList() << "cycle"
+                             << "pause");
+      break;
+    }
+    case Enums::Commands::ToggleMute: {
+      command(QVariantList() << "cycle"
+                             << "mute");
+      break;
+    }
+    case Enums::Commands::SetAudioDevice: {
+      setProperty("audio-device", args.toString());
+      break;
+    }
+    case Enums::Commands::GetAudioDevices: {
+      QVariant drivers = getProperty("audio-device-list");
+      QVariant currentDevice = getProperty("audio-device");
 
-  QVariantMap newDrivers;
+      QVariantMap newDrivers;
 
-  QSequentialIterable iterable = drivers.value<QSequentialIterable>();
-  foreach (const QVariant& v, iterable) {
-    QVariantMap item = v.toMap();
-    item["selected"] = currentDevice == item["name"];
-    newDrivers[item["description"].toString()] = item;
+      QSequentialIterable iterable = drivers.value<QSequentialIterable>();
+      foreach (const QVariant& v, iterable) {
+        QVariantMap item = v.toMap();
+        item["selected"] = currentDevice == item["name"];
+        newDrivers[item["description"].toString()] = item;
+      }
+      QMap<QString, QVariant> pulseItem;
+      pulseItem["name"] = "pulse";
+      pulseItem["description"] = "Default (pulseaudio)";
+      pulseItem["selected"] = currentDevice == "pulse";
+      newDrivers[pulseItem["description"].toString()] = pulseItem;
+      return QVariant(newDrivers);
+    }
+    case Enums::Commands::SetVolume: {
+      command(QVariantList() << "set"
+                             << "volume" << args);
+      break;
+    }
+
+    case Enums::Commands::AddVolume: {
+
+      command(QVariantList() << "add"
+                             << "volume" << args);
+      break;
+    }
+
+    case Enums::Commands::AddSpeed: {
+
+      QString speedString =
+        QString::number(getProperty("speed").toDouble() + args.toDouble());
+      QVariant newSpeed =
+        QVariant(speedString.left(speedString.lastIndexOf('.') + 2));
+
+      playerCommand(Enums::Commands::SetSpeed, newSpeed);
+      break;
+    }
+
+    case Enums::Commands::SubtractSpeed: {
+
+      QString speedString =
+        QString::number(getProperty("speed").toDouble() - args.toDouble());
+      QVariant newSpeed =
+        QVariant(speedString.left(speedString.lastIndexOf('.') + 2));
+      playerCommand(Enums::Commands::SetSpeed, newSpeed);
+      break;
+    }
+
+    case Enums::Commands::ChangeSpeed: {
+
+      playerCommand(
+        Enums::Commands::SetSpeed,
+        QVariant(getProperty("speed").toDouble() * args.toDouble()));
+      break;
+    }
+
+    case Enums::Commands::SetSpeed: {
+
+      command(QVariantList() << "set"
+                             << "speed" << args.toString());
+      break;
+    }
+    case Enums::Commands::ToggleStats: {
+
+      command(QVariantList() << "script-binding"
+                             << "stats/display-stats-toggle");
+      break;
+    }
+    case Enums::Commands::NextAudioTrack: {
+
+      command(QVariantList() << "cycle"
+                             << "audio");
+      break;
+    }
+    case Enums::Commands::NextSubtitleTrack: {
+
+      command(QVariantList() << "cycle"
+                             << "sub");
+
+      break;
+    }
+    case Enums::Commands::NextVideoTrack: {
+      command(QVariantList() << "cycle"
+                             << "video");
+      break;
+    }
+    case Enums::Commands::PreviousPlaylistItem: {
+
+      command(QVariantList() << "playlist-prev");
+
+      break;
+    }
+    case Enums::Commands::NextPlaylistItem: {
+
+      command(QVariantList() << "playlist-next"
+                             << "force");
+      break;
+    }
+    case Enums::Commands::LoadFile: {
+      command(QVariantList() << "loadfile" << args);
+
+      break;
+    }
+    case Enums::Commands::AppendFile: {
+
+      command(QVariantList() << "loadfile" << args << "append-play");
+      break;
+    }
+    case Enums::Commands::Seek: {
+
+      command(QVariantList() << "seek" << args);
+
+      break;
+    }
+    case Enums::Commands::SeekAbsolute: {
+
+      command(QVariantList() << "seek" << args << "absolute");
+
+      break;
+    }
+    case Enums::Commands::GetTracks: {
+
+      return mpv::qt::get_property_variant(mpv, "track-list");
+
+      break;
+    }
+    case Enums::Commands::ForwardFrame: {
+
+      command(QVariantList() << "frame-step");
+
+      break;
+    }
+    case Enums::Commands::BackwardFrame: {
+
+      command(QVariantList() << "frame-back-step");
+
+      break;
+    }
+
+    case Enums::Commands::SetTrack: {
+
+      command(QVariantList() << "set" << args.toList()[0] << args.toList()[1]);
+
+      break;
+    }
+
+    default: {
+      qDebug() << "Command not found: " << cmd;
+      break;
+    }
   }
-  QMap<QString, QVariant> pulseItem;
-  pulseItem["name"] = "pulse";
-  pulseItem["description"] = "Default (pulseaudio)";
-  pulseItem["selected"] = currentDevice == "pulse";
-  newDrivers[pulseItem["description"].toString()] = pulseItem;
-  return QVariant(newDrivers);
-}
-
-void
-MpvPlayerBackend::setAudioDevice(const QString& name)
-{
-  setProperty("audio-device", name);
-}
-
-void
-MpvPlayerBackend::togglePlayPause()
-{
-  command(QVariantList() << "cycle"
-                         << "pause");
-}
-
-void
-MpvPlayerBackend::toggleMute()
-{
-  command(QVariantList() << "cycle"
-                         << "mute");
-}
-
-void
-MpvPlayerBackend::nextAudioTrack()
-{
-  command(QVariantList() << "cycle"
-                         << "audio");
-}
-void
-MpvPlayerBackend::nextSubtitleTrack()
-{
-  command(QVariantList() << "cycle"
-                         << "sub");
-}
-
-void
-MpvPlayerBackend::nextVideoTrack()
-{
-  command(QVariantList() << "cycle"
-                         << "video");
-}
-
-void
-MpvPlayerBackend::prevPlaylistItem()
-{
-  command(QVariantList() << "playlist-prev");
-}
-
-void
-MpvPlayerBackend::nextPlaylistItem()
-{
-  command(QVariantList() << "playlist-next"
-                         << "force");
-}
-
-void
-MpvPlayerBackend::loadFile(const QVariant& filename)
-{
-  command(QVariantList() << "loadfile" << filename);
-}
-
-void
-MpvPlayerBackend::appendFile(const QVariant& filename)
-{
-  command(QVariantList() << "loadfile" << filename << "append-play");
-}
-
-void
-MpvPlayerBackend::setVolume(const QVariant& volume)
-{
-  command(QVariantList() << "set"
-                         << "volume" << volume);
-}
-
-void
-MpvPlayerBackend::addVolume(const QVariant& volume)
-{
-  command(QVariantList() << "add"
-                         << "volume" << volume);
-}
-
-void
-MpvPlayerBackend::seekAbsolute(const QVariant& seekTime)
-{
-  command(QVariantList() << "seek" << seekTime << "absolute");
-}
-
-void
-MpvPlayerBackend::seek(const QVariant& seekTime)
-{
-  command(QVariantList() << "seek" << seekTime);
-}
-
-QVariant
-MpvPlayerBackend::getTracks() const
-{
-  return mpv::qt::get_property_variant(mpv, "track-list");
-}
-
-void
-MpvPlayerBackend::setTrack(const QVariant& track, const QVariant& id)
-{
-  command(QVariantList() << "set" << track << id);
-}
-
-QVariant
-MpvPlayerBackend::getTrack(const QString& track)
-{
-  return mpv::qt::get_property_variant(mpv, track);
+  return QVariant("NoOutput");
 }
 
 QVariant
@@ -392,44 +444,6 @@ MpvPlayerBackend::toggleOnTop()
 {
   onTop = !onTop;
   AlwaysOnTop(window()->winId(), onTop);
-}
-
-void
-MpvPlayerBackend::toggleStats()
-{
-  command(QVariantList() << "script-binding"
-                         << "stats/display-stats-toggle");
-}
-
-void
-MpvPlayerBackend::addSpeed(const QVariant& speed)
-{
-  QString speedString =
-    QString::number(getProperty("speed").toDouble() + speed.toDouble());
-  speedString = speedString.left(speedString.lastIndexOf('.') + 2);
-  setSpeed(QVariant(speedString));
-}
-
-void
-MpvPlayerBackend::subtractSpeed(const QVariant& speed)
-{
-  QString speedString =
-    QString::number(getProperty("speed").toDouble() - speed.toDouble());
-  speedString = speedString.left(speedString.lastIndexOf('.') + 2);
-  setSpeed(QVariant(speedString));
-}
-
-void
-MpvPlayerBackend::changeSpeed(const QVariant& speedFactor)
-{
-  setSpeed(QVariant(getProperty("speed").toDouble() * speedFactor.toDouble()));
-}
-
-void
-MpvPlayerBackend::setSpeed(const QVariant& speed)
-{
-  command(QVariantList() << "set"
-                         << "speed" << speed.toString());
 }
 
 void

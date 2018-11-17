@@ -30,43 +30,23 @@ public:
   virtual Renderer* createRenderer() const;
 
 public slots:
+  // All 4 required for Player API
+  QVariant playerCommand(const Enums::Commands& command, const QVariant& args);
+  QVariant playerCommand(const Enums::Commands& command);
   void launchAboutQt();
-#ifdef DISCORD
-  void updateDiscord();
-#endif
-  void togglePlayPause();
-  void toggleMute();
-  void nextAudioTrack();
-  void nextVideoTrack();
-  void nextSubtitleTrack();
-  void prevPlaylistItem();
-  void nextPlaylistItem();
   void toggleOnTop();
-  void toggleStats();
-  QVariant getTracks() const;
-  QVariant getaudioDevices() const;
-  void setAudioDevice(const QString& name);
-  void addSpeed(const QVariant& speed);
-  void subtractSpeed(const QVariant& speed);
-  void changeSpeed(const QVariant& speedFactor);
-  void setSpeed(const QVariant& speed);
-  QVariant getTrack(const QString& track);
-  void setTrack(const QVariant& track, const QVariant& id);
-  void setVolume(const QVariant& volume);
-  void addVolume(const QVariant& volume);
-  void loadFile(const QVariant& filename);
-  void appendFile(const QVariant& filename);
-  void seek(const QVariant& seekTime);
-  void seekAbsolute(const QVariant& seekTime);
+  // Optional but handy for MPV or custom backend settings.
   void command(const QVariant& params);
   void setProperty(const QString& name, const QVariant& value);
   void setOption(const QString& name, const QVariant& value);
   QVariant getProperty(const QString& name) const;
+  // Misc function.
   QVariant createTimestamp(const QVariant& seconds) const;
 
 signals:
   void onUpdate();
   void mpv_events();
+  // All below required for Player API
   void playStatusChanged(const Enums::PlayStatus& status);
   void volumeStatusChanged(const Enums::VolumeStatus& status);
   void volumeChanged(const int& volume);
@@ -87,6 +67,9 @@ private slots:
 
 private:
   void handle_mpv_event(mpv_event* event);
+#ifdef DISCORD
+  void updateDiscord();
+#endif
 };
 
 #endif

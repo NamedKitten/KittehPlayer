@@ -122,6 +122,7 @@ main(int argc, char* argv[])
   );
   qRegisterMetaType<Enums::PlayStatus>("Enums.PlayStatus");
   qRegisterMetaType<Enums::VolumeStatus>("Enums.VolumeStatus");
+  qRegisterMetaType<Enums::Commands>("Enums.Commands");
 
   qmlRegisterType<MpvPlayerBackend>("player", 1, 0, "PlayerBackend");
   std::setlocale(LC_NUMERIC, "C");

@@ -115,7 +115,7 @@ ApplicationWindow {
                             
                         }
                     } else {
-                        player.appendFile(argument)
+                        player.playerCommand(Enums.Commands.AppendFile, argument)
                     }
                 }
             }
@@ -126,7 +126,7 @@ ApplicationWindow {
             if (val != 0) {
                 skipto = Math.floor(controlsBar.controls.progress.to / 9 * val)
             }
-            player.seekAbsolute(skipto)
+            player.playerCommand(Enums.Commands.SeekAbsolute, skipto)
         }
 
         function isAnyMenuOpen() {
@@ -190,7 +190,7 @@ ApplicationWindow {
             cursorShape: controlsBar.visible ? Qt.ArrowCursor : Qt.BlankCursor
             onClicked: {
                 if (appearance.clickToPause) {
-                    player.togglePlayPause()
+                    player.playerCommand(Enums.Commands.TogglePlayPause)
                 }
             }
             Timer {
