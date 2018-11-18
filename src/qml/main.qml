@@ -111,9 +111,6 @@ ApplicationWindow {
         width: parent.width
         height: parent.height
         z: 1
-
-
-
         
         function startPlayer() {
             console.log(player)

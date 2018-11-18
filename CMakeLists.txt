@@ -11,7 +11,6 @@ option(DISCORD "Enable Discord SDK." OFF)
 
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
-find_package(Qt5QuickWidgets REQUIRED)
 find_package(Qt5 CONFIG REQUIRED COMPONENTS Qml Quick Gui Widgets Core X11Extras)
 
 find_package(Qt5QuickCompiler)
