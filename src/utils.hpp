@@ -8,6 +8,6 @@ SetDPMS(bool on);
 void
 AlwaysOnTop(WId wid, bool on);
 void
-update();
+updateAppImageLinux();
 
 #endif

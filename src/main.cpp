@@ -93,7 +93,7 @@ main(int argc, char* argv[])
   app.setApplicationName("KittehPlayer");
   for (int i = 1; i < argc; ++i) {
     if (!qstrcmp(argv[i], "--update")) {
-      update();
+      updateAppImageLinux();
     }
   }
 

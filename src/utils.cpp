@@ -15,7 +15,7 @@ getPlatformName()
   return qapp->platformName();
 }
 void
-update()
+updateAppImageLinux()
 {
   QString program =
     QProcessEnvironment::systemEnvironment().value("APPDIR", "") +

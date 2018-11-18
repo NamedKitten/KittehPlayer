@@ -471,7 +471,7 @@ MpvPlayerBackend::updateDurationString()
 void
 MpvPlayerBackend::updateAppImage()
 {
-  update();
+  updateAppImageLinux();
 }
 
 void
