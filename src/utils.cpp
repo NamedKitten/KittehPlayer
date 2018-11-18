@@ -1,7 +1,10 @@
 #include "utils.hpp"
 #include <stdbool.h>
 
+#include <QApplication>
 #include <QGuiApplication>
+#include <QProcessEnvironment>
+#include <QQmlApplicationEngine>
 #include <QtCore>
 
 QString
@@ -10,6 +13,20 @@ getPlatformName()
   QGuiApplication* qapp =
     qobject_cast<QGuiApplication*>(QCoreApplication::instance());
   return qapp->platformName();
+}
+void
+update()
+{
+  QString program =
+    QProcessEnvironment::systemEnvironment().value("APPDIR", "") +
+    "/usr/bin/appimageupdatetool";
+  QProcess updater;
+  updater.setProcessChannelMode(QProcess::ForwardedChannels);
+  updater.start(program,
+                QStringList() << QProcessEnvironment::systemEnvironment().value(
+                  "APPIMAGE", ""));
+  updater.waitForFinished();
+  qApp->exit();
 }
 
 #ifdef __linux__

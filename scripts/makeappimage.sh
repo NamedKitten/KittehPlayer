@@ -18,7 +18,7 @@ mkdir -p appdir/usr/lib
 if [ "$ARCH" == "" ]; then
     ARCH="x86_64"
 fi
-wget https://github.com/AppImage/AppImageUpdate/releases/download/continuous/appimageupdatetool-x86_64.AppImage -O appdir/usr/bin/appimageupdatetool
+wget https://github.com/AppImage/AppImageUpdate/releases/download/continuous/AppImageUpdate-x86_64.AppImage -O appdir/usr/bin/appimageupdatetool
 chmod +x appdir/usr/bin/appimageupdatetool
 
 wget https://yt-dl.org/downloads/latest/youtube-dl -O appdir/usr/bin/youtube-dl

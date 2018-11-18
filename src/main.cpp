@@ -76,6 +76,12 @@ main(int argc, char* argv[])
     if (json["target_commitish"].toString().endsWith(current_version) == 0) {
       qDebug() << "Latest Version: " << json["target_commitish"].toString();
       qDebug() << "Update Available. Please update ASAP.";
+      QProcess notifier;
+      notifier.setProcessChannelMode(QProcess::ForwardedChannels);
+      notifier.start("notify-send",
+                    QStringList()
+                      << "KittehPlayer" << "New update avalable!" << "--icon=KittehPlayer";
+      notifier.waitForFinished();
     }
   } else {
     qDebug() << "Couldn't check for new version.";
@@ -87,17 +93,7 @@ main(int argc, char* argv[])
   app.setApplicationName("KittehPlayer");
   for (int i = 1; i < argc; ++i) {
     if (!qstrcmp(argv[i], "--update")) {
-      QString program =
-        QProcessEnvironment::systemEnvironment().value("APPDIR", "") +
-        "/usr/bin/appimageupdatetool";
-      QProcess updater;
-      updater.setProcessChannelMode(QProcess::ForwardedChannels);
-      updater.start(program,
-                    QStringList()
-                      << QProcessEnvironment::systemEnvironment().value(
-                           "APPIMAGE", ""));
-      updater.waitForFinished();
-      exit(0);
+      update();
     }
   }
 

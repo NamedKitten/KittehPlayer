@@ -469,6 +469,12 @@ MpvPlayerBackend::updateDurationString()
 }
 
 void
+MpvPlayerBackend::updateAppImage()
+{
+  update();
+}
+
+void
 MpvPlayerBackend::handle_mpv_event(mpv_event* event)
 {
   switch (event->event_id) {

@@ -217,6 +217,10 @@ MenuBar {
             onTriggered: Qt.quit()
             shortcut: keybinds.quit
         }
+        Action {
+            text: "Update"
+            onTriggered: player.updateAppImage()
+        }
     }
 
     CustomMenu {

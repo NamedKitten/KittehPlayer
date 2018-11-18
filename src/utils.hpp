@@ -7,5 +7,7 @@ void
 SetDPMS(bool on);
 void
 AlwaysOnTop(WId wid, bool on);
+void
+update();
 
 #endif

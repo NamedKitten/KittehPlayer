@@ -30,11 +30,12 @@ public:
   virtual Renderer* createRenderer() const;
 
 public slots:
-  // All 4 required for Player API
+  // All 5 required for Player API
   QVariant playerCommand(const Enums::Commands& command, const QVariant& args);
   QVariant playerCommand(const Enums::Commands& command);
   void launchAboutQt();
   void toggleOnTop();
+  void updateAppImage();
   // Optional but handy for MPV or custom backend settings.
   void command(const QVariant& params);
   void setProperty(const QString& name, const QVariant& value);
