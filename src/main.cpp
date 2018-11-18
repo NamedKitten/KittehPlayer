@@ -80,7 +80,7 @@ main(int argc, char* argv[])
       notifier.setProcessChannelMode(QProcess::ForwardedChannels);
       notifier.start("notify-send",
                     QStringList()
-                      << "KittehPlayer" << "New update avalable!" << "--icon=KittehPlayer";
+                      << "KittehPlayer" << "New update avalable!" << "--icon=KittehPlayer");
       notifier.waitForFinished();
     }
   } else {
