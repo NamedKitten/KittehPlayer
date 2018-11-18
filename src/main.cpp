@@ -93,11 +93,11 @@ main(int argc, char* argv[])
   app.setApplicationName("KittehPlayer");
   for (int i = 1; i < argc; ++i) {
     if (!qstrcmp(argv[i], "--update")) {
-      updateAppImageLinux();
+      Utils::updateAppImage();
     }
   }
 
-  SetDPMS(false);
+  Utils::SetDPMS(false);
 
   QString newpath =
     QProcessEnvironment::systemEnvironment().value("APPDIR", "") +

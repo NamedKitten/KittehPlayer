@@ -169,7 +169,7 @@ MpvPlayerBackend::MpvPlayerBackend(QQuickItem* parent)
 MpvPlayerBackend::~MpvPlayerBackend()
 {
   printf("Shutting down...\n");
-  SetDPMS(true);
+  Utils::SetDPMS(true);
   mpv_render_context_free(mpv_gl);
   mpv_terminate_destroy(mpv);
   printf("MPV terminated.\n");
@@ -443,7 +443,7 @@ void
 MpvPlayerBackend::toggleOnTop()
 {
   onTop = !onTop;
-  AlwaysOnTop(window()->winId(), onTop);
+  Utils::AlwaysOnTop(window()->winId(), onTop);
 }
 
 void
@@ -471,7 +471,7 @@ MpvPlayerBackend::updateDurationString()
 void
 MpvPlayerBackend::updateAppImage()
 {
-  updateAppImageLinux();
+  Utils::updateAppImage();
 }
 
 void

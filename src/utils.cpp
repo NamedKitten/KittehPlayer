@@ -7,6 +7,16 @@
 #include <QQmlApplicationEngine>
 #include <QtCore>
 
+#ifdef __linux__
+#include <QX11Info>
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+#include <X11/extensions/Xrandr.h>
+#include <X11/extensions/dpms.h>
+#include <X11/keysym.h>
+#endif
+
+namespace Utils {
 QString
 getPlatformName()
 {
@@ -15,7 +25,7 @@ getPlatformName()
   return qapp->platformName();
 }
 void
-updateAppImageLinux()
+updateAppImage()
 {
   QString program =
     QProcessEnvironment::systemEnvironment().value("APPDIR", "") +
@@ -30,13 +40,6 @@ updateAppImageLinux()
 }
 
 #ifdef __linux__
-#include <QX11Info>
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
-#include <X11/extensions/Xrandr.h>
-#include <X11/extensions/dpms.h>
-#include <X11/keysym.h>
-
 void
 SetDPMS(bool on)
 {
@@ -96,3 +99,4 @@ SetDPMS(bool on)
 }
 
 #endif
+}

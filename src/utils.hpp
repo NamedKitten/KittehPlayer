@@ -3,11 +3,12 @@
 #include <QWindow>
 #include <stdbool.h>
 
+namespace Utils {
 void
 SetDPMS(bool on);
 void
 AlwaysOnTop(WId wid, bool on);
 void
-updateAppImageLinux();
-
+updateAppImage();
+}
 #endif
