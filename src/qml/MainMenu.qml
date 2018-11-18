@@ -218,7 +218,7 @@ MenuBar {
             shortcut: keybinds.quit
         }
         Action {
-            text: "Update"
+            text: translate.getTranslation("UPDATE", i18n.language)
             onTriggered: player.updateAppImage()
         }
     }

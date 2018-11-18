@@ -41,7 +41,8 @@ var translations = {
         TITLE: "Title",
         TOGGLE_ALWAYS_ON_TOP: "Toggle Always On Top",
         DISABLE_TRACK: "Disable Track",
-        AUDIO_DEVICES: "Audio Devices"
+        AUDIO_DEVICES: "Audio Devices",
+        UPDATE: "Update"
     },
     spanish: {
         SAVE_SCREENSHOT: "Guardar captura en",
