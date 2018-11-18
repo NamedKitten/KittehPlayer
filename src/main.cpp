@@ -2,7 +2,10 @@
 #include "runtimeqml/runtimeqml.h"
 #endif
 
+#include "DirectMpvPlayerBackend.h"
 #include "MpvPlayerBackend.h"
+
+#include "enums.hpp"
 #include "utils.hpp"
 #include <cstdlib>
 
@@ -51,6 +54,8 @@ catchUnixSignals(std::initializer_list<int> quitSignals)
 int
 main(int argc, char* argv[])
 {
+
+  Enums::Backends backend = Enums::Backends::MpvBackend;
   setenv("QT_QUICK_CONTROLS_STYLE", "Desktop", 1);
   QApplication app(argc, argv);
 #ifdef __linux__
@@ -79,8 +84,9 @@ main(int argc, char* argv[])
       QProcess notifier;
       notifier.setProcessChannelMode(QProcess::ForwardedChannels);
       notifier.start("notify-send",
-                    QStringList()
-                      << "KittehPlayer" << "New update avalable!" << "--icon=KittehPlayer");
+                     QStringList() << "KittehPlayer"
+                                   << "New update avalable!"
+                                   << "--icon=KittehPlayer");
       notifier.waitForFinished();
     }
   } else {
@@ -94,6 +100,12 @@ main(int argc, char* argv[])
   for (int i = 1; i < argc; ++i) {
     if (!qstrcmp(argv[i], "--update")) {
       Utils::updateAppImage();
+    } else if (!qstrcmp(argv[i], "--backend=mpv")) {
+      qDebug() << "Using MPV backend.";
+      backend = Enums::Backends::MpvBackend;
+    } else if (!qstrcmp(argv[i], "--backend=direct-mpv")) {
+      qDebug() << "Using Direct MPV backend.";
+      backend = Enums::Backends::DirectMpvBackend;
     }
   }
 
@@ -118,9 +130,21 @@ main(int argc, char* argv[])
   );
   qRegisterMetaType<Enums::PlayStatus>("Enums.PlayStatus");
   qRegisterMetaType<Enums::VolumeStatus>("Enums.VolumeStatus");
+  qRegisterMetaType<Enums::Backends>("Enums.Backends");
+
   qRegisterMetaType<Enums::Commands>("Enums.Commands");
 
-  qmlRegisterType<MpvPlayerBackend>("player", 1, 0, "PlayerBackend");
+  switch (backend) {
+    case Enums::Backends::MpvBackend: {
+      qmlRegisterType<MpvPlayerBackend>("player", 1, 0, "PlayerBackend");
+      break;
+    }
+    case Enums::Backends::DirectMpvBackend: {
+      qmlRegisterType<DirectMpvPlayerBackend>("player", 1, 0, "PlayerBackend");
+      break;
+    }
+  }
+
   std::setlocale(LC_NUMERIC, "C");
 
   QQmlApplicationEngine engine;

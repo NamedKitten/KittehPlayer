@@ -47,6 +47,12 @@ enum class Commands : int
   SetTrack = 23
 };
 Q_ENUM_NS(Commands)
+enum class Backends : int
+{
+  MpvBackend = 0,
+  DirectMpvBackend = 1
+};
+Q_ENUM_NS(Backends)
 }
 
 #endif

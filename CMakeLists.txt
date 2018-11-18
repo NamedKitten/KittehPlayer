@@ -4,7 +4,6 @@ project(KittehPlayer)
 include_directories(${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR}) 
 set(CMAKE_AUTOMOC ON)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -fstrict-aliasing -Wno-deprecated-declarations -Wno-unused-variable")
 
 option(DEVELOP "Enable runtime QML reloading for developing." OFF)
 option(DISCORD "Enable Discord SDK." OFF)
@@ -12,6 +11,7 @@ option(DISCORD "Enable Discord SDK." OFF)
 
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
+find_package(Qt5QuickWidgets REQUIRED)
 find_package(Qt5 CONFIG REQUIRED COMPONENTS Qml Quick Gui Widgets Core X11Extras)
 
 find_package(Qt5QuickCompiler)
@@ -26,6 +26,7 @@ pkg_check_modules(Xext REQUIRED xext)
 set(SOURCES
     src/main.cpp
     src/MpvPlayerBackend.cpp
+    src/DirectMpvPlayerBackend.cpp
     src/utils.cpp
     src/enums.hpp
 )

@@ -18,24 +18,7 @@ ApplicationWindow {
     Translator {
         id: translate
     }
-
-    property int lastScreenVisibility
-
-    function toggleFullscreen() {
-        if (mainWindow.visibility != Window.FullScreen) {
-            lastScreenVisibility = mainWindow.visibility
-            mainWindow.visibility = Window.FullScreen
-        } else {
-            mainWindow.visibility = lastScreenVisibility
-        }
-    }
-
-    PlayerBackend {
-        id: player
-        anchors.fill: parent
-        width: parent.width
-        height: parent.height
-
+    
         Settings {
             id: appearance
             category: "Appearance"
@@ -56,7 +39,85 @@ ApplicationWindow {
             property bool nyanCat: false
         }
         
+        Settings {
+            id: keybinds
+            category: "Keybinds"
+            property string playPause: "K"
+            property string forward10: "L"
+            property string rewind10: "J"
+            property string forward5: "Right"
+            property string rewind5: "Left"
+            property string openFile: "Ctrl+O"
+            property string openURI: "Ctrl+Shift+O"
+            property string quit: "Ctrl+Q"
+            property string fullscreen: "F"
+            property string tracks: "Ctrl+T"
+            property string statsForNerds: "I"
+            property string forwardFrame: "."
+            property string backwardFrame: ","
+            property string cycleSub: "Alt+S"
+            property string cycleSubBackwards: "Alt+Shift+S"
+            property string cycleAudio: "A"
+            property string cycleVideo: "V"
+            property string cycleVideoAspect: "Shift+A"
+            property string screenshot: "S"
+            property string screenshotWithoutSubtitles: "Shift+S"
+            property string fullScreenshot: "Ctrl+S"
+            property string nyanCat: "Ctrl+N"
+            property string decreaseSpeedByPointOne: "["
+            property string increaseSpeedByPointOne: "]"
+            property string halveSpeed: "{"
+            property string doubleSpeed: "}"
+            property string increaseVolume: "*"
+            property string decreaseVolume: "/"
+            property string mute: "m"
+            property string customKeybind0: ""
+            property string customKeybind0Command: ""
+            property string customKeybind1: ""
+            property string customKeybind1Command: ""
+            property string customKeybind2: ""
+            property string customKeybind2Command: ""
+            property string customKeybind3: ""
+            property string customKeybind3Command: ""
+            property string customKeybind4: ""
+            property string customKeybind4Command: ""
+            property string customKeybind5: ""
+            property string customKeybind5Command: ""
+            property string customKeybind6: ""
+            property string customKeybind6Command: ""
+            property string customKeybind7: ""
+            property string customKeybind7Command: ""
+            property string customKeybind8: ""
+            property string customKeybind8Command: ""
+            property string customKeybind9: ""
+            property string customKeybind9Command: ""
+        }
+
+
+    property int lastScreenVisibility
+
+    function toggleFullscreen() {
+        if (mainWindow.visibility != Window.FullScreen) {
+            lastScreenVisibility = mainWindow.visibility
+            mainWindow.visibility = Window.FullScreen
+        } else {
+            mainWindow.visibility = lastScreenVisibility
+        }
+    }
+
+    PlayerBackend {
+        id: player
+        anchors.fill: parent
+        width: parent.width
+        height: parent.height
+        z: 1
+
+
+
+        
         function startPlayer() {
+            console.log(player)
+            console.log(typeof(player))
             var args = Qt.application.arguments
             var len = Qt.application.arguments.length
             var argNo = 0
@@ -228,59 +289,6 @@ ApplicationWindow {
             }
         }
 
-        Settings {
-            id: keybinds
-            category: "Keybinds"
-            property string playPause: "K"
-            property string forward10: "L"
-            property string rewind10: "J"
-            property string forward5: "Right"
-            property string rewind5: "Left"
-            property string openFile: "Ctrl+O"
-            property string openURI: "Ctrl+Shift+O"
-            property string quit: "Ctrl+Q"
-            property string fullscreen: "F"
-            property string tracks: "Ctrl+T"
-            property string statsForNerds: "I"
-            property string forwardFrame: "."
-            property string backwardFrame: ","
-            property string cycleSub: "Alt+S"
-            property string cycleSubBackwards: "Alt+Shift+S"
-            property string cycleAudio: "A"
-            property string cycleVideo: "V"
-            property string cycleVideoAspect: "Shift+A"
-            property string screenshot: "S"
-            property string screenshotWithoutSubtitles: "Shift+S"
-            property string fullScreenshot: "Ctrl+S"
-            property string nyanCat: "Ctrl+N"
-            property string decreaseSpeedByPointOne: "["
-            property string increaseSpeedByPointOne: "]"
-            property string halveSpeed: "{"
-            property string doubleSpeed: "}"
-            property string increaseVolume: "*"
-            property string decreaseVolume: "/"
-            property string mute: "m"
-            property string customKeybind0: ""
-            property string customKeybind0Command: ""
-            property string customKeybind1: ""
-            property string customKeybind1Command: ""
-            property string customKeybind2: ""
-            property string customKeybind2Command: ""
-            property string customKeybind3: ""
-            property string customKeybind3Command: ""
-            property string customKeybind4: ""
-            property string customKeybind4Command: ""
-            property string customKeybind5: ""
-            property string customKeybind5Command: ""
-            property string customKeybind6: ""
-            property string customKeybind6Command: ""
-            property string customKeybind7: ""
-            property string customKeybind7Command: ""
-            property string customKeybind8: ""
-            property string customKeybind8Command: ""
-            property string customKeybind9: ""
-            property string customKeybind9Command: ""
-        }
 
         MainMenu {
             id: menuBar

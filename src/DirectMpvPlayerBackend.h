@@ -1,21 +1,37 @@
-#ifndef MpvPlayerBackend_Hc
-#define MpvPlayerBackend_H
+#ifndef DirectMpvPlayerBackend_Hc
+#define DirectMpvPlayerBackend_H
 
 #include <mpv/client.h>
+#include <mpv/opengl_cb.h>
 #include <mpv/qthelper.hpp>
-#include <mpv/render_gl.h>
 
 #include <QObject>
 #include <QOpenGLContext>
 #include <QQuickFramebufferObject>
+#include <QWidget>
 
 #include "backendinterface.hpp"
 #include "enums.hpp"
 
-class MpvRenderer;
+class MpvRenderer : public QObject
+{
+  Q_OBJECT
+  mpv_handle* mpv;
+  mpv_opengl_cb_context* mpv_gl;
 
-class MpvPlayerBackend
-  : public QQuickFramebufferObject
+public:
+  QQuickWindow* window;
+  QSize size;
+
+  friend class MpvObject;
+  MpvRenderer(mpv_handle* a_mpv, mpv_opengl_cb_context* a_mpv_gl);
+  virtual ~MpvRenderer();
+public slots:
+  void paint();
+};
+
+class DirectMpvPlayerBackend
+  : public QQuickItem
   , public BackendInterface
 {
   Q_INTERFACES(BackendInterface)
@@ -23,17 +39,15 @@ class MpvPlayerBackend
   Q_OBJECT
 
   mpv_handle* mpv;
-  mpv_render_context* mpv_gl;
+  mpv_opengl_cb_context* mpv_gl;
+  MpvRenderer* renderer;
   bool onTop = false;
-
-  friend class MpvRenderer;
 
 public:
   static void on_update(void* ctx);
 
-  MpvPlayerBackend(QQuickItem* parent = 0);
-  virtual ~MpvPlayerBackend();
-  virtual Renderer* createRenderer() const;
+  DirectMpvPlayerBackend(QQuickItem* parent = 0);
+  virtual ~DirectMpvPlayerBackend();
 
 public slots:
   QVariant playerCommand(const Enums::Commands& command, const QVariant& args);
@@ -48,6 +62,10 @@ public slots:
   QVariant getProperty(const QString& name) const;
   // Misc
   QVariant createTimestamp(const QVariant& seconds) const;
+  //
+  void sync();
+  void swapped();
+  void cleanup();
 
 signals:
   void onUpdate();
@@ -70,6 +88,7 @@ private slots:
   void doUpdate();
   void on_mpv_events();
   void updateDurationString();
+  void handleWindowChanged(QQuickWindow* win);
 
 private:
   void handle_mpv_event(mpv_event* event);

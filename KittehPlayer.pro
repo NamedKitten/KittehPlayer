@@ -3,7 +3,7 @@ TARGET = KittehPlayer
 TEMPLATE = app
 QT += qml quickcontrols2 widgets x11extras
 
-SOURCES += src/main.cpp src/MpvPlayerBackend.cpp src/utils.cpp
+SOURCES += src/main.cpp src/MpvPlayerBackend.cpp  src/DirectMpvPlayerBackend.cpp src/utils.cpp
 
 CONFIG += debug
 CONFIG-=qtquickcompiler
@@ -31,7 +31,7 @@ unix {
 
 INSTALLS += target
 
-HEADERS += src/MpvPlayerBackend.h src/utils.hpp
+HEADERS += src/MpvPlayerBackend.h src/DirectMpvPlayerBackend.h src/utils.hpp
 
 
 DISTFILES += KittehPlayer.desktop KittehPlayer.png README.md LICENSE.txt
