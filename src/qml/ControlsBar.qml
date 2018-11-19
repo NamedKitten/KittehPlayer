@@ -16,10 +16,9 @@ Item {
     property var progress: progressBar
     property var controls: controlsBar
 
-    Rectangle {
+    Item {
         id: subtitlesBar
         visible: !appearance.useMpvSubs
-        color: "transparent"
         height: player.height / 8
         anchors.bottom: controlsBackground.top
         anchors.bottomMargin: 5
@@ -35,14 +34,13 @@ Item {
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 10
 
-            Rectangle {
+            Item {
                 id: subsContainer
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 Layout.rightMargin: 0
                 Layout.leftMargin: 0
                 Layout.maximumWidth: nativeSubtitles.width
-                color: "transparent"
                 height: childrenRect.height
 
                 Label {
@@ -91,7 +89,7 @@ Item {
         color: appearance.mainBackground
     }
 
-    Rectangle {
+    Item {
         id: controlsBar
         height: controlsBar.visible ? Screen.height / 24 : 0
         anchors.right: parent.right
@@ -101,7 +99,6 @@ Item {
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 1
         visible: true
-        color: "transparent"
 
         Slider {
             id: progressBar
@@ -227,9 +224,7 @@ Item {
             onClicked: {
                 player.playerCommand(Enums.Commands.PreviousPlaylistItem)
             }
-            background: Rectangle {
-                color: "transparent"
-            }
+            background: Item {}
             Component.onCompleted: {
                 player.playlistPositionChanged.connect(function(position) {
                     if (position != 0 ) {
@@ -252,9 +247,7 @@ Item {
             onClicked: {
                 player.playerCommand(Enums.Commands.TogglePlayPause)
             }
-            background: Rectangle {
-                color: "transparent"
-            }
+            background: Item {}
             Component.onCompleted: {
                 player.playStatusChanged.connect(function(status) {
                     if (status == Enums.PlayStatus.Playing) {
@@ -278,9 +271,7 @@ Item {
             onClicked: {
                 player.playerCommand(Enums.Commands.NextPlaylistItem)
             }
-            background: Rectangle {
-                color: "transparent"
-            }
+            background: Item {}
         }
 
         Button {
@@ -295,9 +286,7 @@ Item {
             onClicked: {
                 player.playerCommand(Enums.Commands.ToggleMute)
             }
-            background: Rectangle {
-                color: "transparent"
-            }
+            background: Item {}
             Component.onCompleted: {
                 player.volumeStatusChanged.connect(function(status) {
                     if (status == Enums.VolumeStatus.Muted) {
@@ -396,9 +385,7 @@ Item {
             onClicked: {
                 console.log("Settings Menu Not Yet Implemented.")
             }
-            background: Rectangle {
-                color: "transparent"
-            }
+            background: Item {}
         }
 
         Button {
@@ -415,9 +402,7 @@ Item {
                 toggleFullscreen()
             }
 
-            background: Rectangle {
-                color: "transparent"
-            }
+            background: Item {}
         }
     }
 }
