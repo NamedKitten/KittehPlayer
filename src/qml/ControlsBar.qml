@@ -158,7 +158,7 @@ Item {
                     id: progressLength
                     width: progressBar.visualPosition * parent.width
                     height: parent.height
-                    color: "red"
+                    color: appearance.progressSliderColor
                     opacity: 1
                     radius: height
                     anchors.leftMargin: 100
@@ -197,8 +197,7 @@ Item {
                 implicitHeight: radius
                 implicitWidth: radius
                 radius: 12 + (progressBackground.height / 2)
-                color: fun.nyanCat ? "transparent" : "red"
-                //border.color: "red"
+                color: fun.nyanCat ? "transparent" : appearance.progressSliderColor
                 AnimatedImage {
                     visible: fun.nyanCat
                     paused: progressBar.pressed
@@ -215,7 +214,7 @@ Item {
             id: playlistPrevButton
             objectName: "playlistPrevButton"
             icon.source: "icons/prev.svg"
-            icon.color: "white"
+            icon.color: appearance.buttonColor
             display: AbstractButton.IconOnly
             anchors.top: parent.top
             anchors.bottom: parent.bottom
@@ -239,7 +238,7 @@ Item {
         Button {
             id: playPauseButton
             icon.source: "icons/pause.svg"
-            icon.color: "white"
+            icon.color: appearance.buttonColor
             display: AbstractButton.IconOnly
             anchors.top: parent.top
             anchors.bottom: parent.bottom
@@ -263,7 +262,7 @@ Item {
             id: playlistNextButton
             //icon.name: "next"
             icon.source: "icons/next.svg"
-            icon.color: "white"
+            icon.color: appearance.buttonColor
             display: AbstractButton.IconOnly
             anchors.top: parent.top
             anchors.bottom: parent.bottom
@@ -278,7 +277,7 @@ Item {
             id: volumeButton
             objectName: "volumeButton"
             icon.source: "icons/volume-up.svg"
-            icon.color: "white"
+            icon.color: appearance.buttonColor
             display: AbstractButton.IconOnly
             anchors.top: parent.top
             anchors.bottom: parent.bottom
@@ -376,7 +375,7 @@ Item {
             id: settingsButton
             //icon.name: "settings"
             icon.source: "icons/settings.svg"
-            icon.color: "white"
+            icon.color: appearance.buttonColor
             Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
             anchors.right: fullscreenButton.left
             anchors.top: parent.top
@@ -392,7 +391,7 @@ Item {
             id: fullscreenButton
             //icon.name: "fullscreen"
             icon.source: "icons/fullscreen.svg"
-            icon.color: "white"
+            icon.color: appearance.buttonColor
             Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
             anchors.right: parent.right
             anchors.top: parent.top

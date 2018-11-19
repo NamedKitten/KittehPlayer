@@ -27,6 +27,8 @@ ApplicationWindow {
             property bool useMpvSubs: false
             property string fontName: "Roboto"
             property string mainBackground: "#9C000000"
+            property string buttonColor: "white"
+            property string progressSliderColor: "red"
         }
         Settings {
             id: i18n
@@ -212,8 +214,7 @@ ApplicationWindow {
 
         MouseArea {
             id: mouseAreaBar
-            x: 0
-            y: parent.height
+
             width: parent.width
             height: (controlsBar.controls.height * 2) + controlsBar.progress.height
             anchors.bottom: parent.bottom
