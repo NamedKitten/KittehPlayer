@@ -12,38 +12,28 @@ MenuBar {
     id: menuBar
     //width: parent.width
     height: Math.max(24, Screen.height / 32)
-    property bool anythingOpen: fileMenuBarItem.opened
-                                || playbackMenuBarItem.opened
-                                || viewMenuBarItem.opened
-                                || audioMenuBarItem.opened
-                                || videoMenuBarItem.opened
-                                || subsMenuBarItem.opened
-                                || aboutMenuBarItem.opened
+    function anythingOpen() {
+        for (var i = 0, len = menuBar.count; i < len; i++) {
+            if (menuBar.menuAt(i).opened) { return true }
+        }
+    }
 
     Component.onCompleted: {
         player.tracksChanged.connect(updateTracks)
     }
     
-    
     function updateTracks() {
-        for (var i = 0, len = audioMenu.count; i < len; i++) {
-            var audioAction = audioMenu.actionAt(i)
-            if (audioAction.trackID != "no") {
-                audioMenu.removeAction(audioAction)
+        var trackMenus = [audioMenu, videoMenu, subMenu]
+        for (var a = 0; i < trackMenus.length; a++) {
+            var menu = trackMenus[a]
+            for (var i = 0, len = menu.count; i < len; i++) {
+                var action = menu.actionAt(i)
+                if (action.trackID != "no") {
+                    menu.removeAction(action)
+                }
             }
         }
-        for (var i = 0, len = videoMenu.count; i < len; i++) {
-            var videoAction = videoMenu.actionAt(i)
-            if (videoAction.trackID != "no") {
-                videoMenu.removeAction(videoAction)
-            }
-        }
-        for (var i = 0, len = subMenu.count; i < len; i++) {
-            var subAction = subMenu.actionAt(i)
-            if (subAction.trackID != "no") {
-                subMenu.removeAction(subAction)
-            }
-        }
+ 
         var newTracks = player.playerCommand(Enums.Commands.GetTracks)
 
         for (var i = 0, len = newTracks.length; i < len; i++) {
@@ -168,8 +158,7 @@ MenuBar {
     background: Rectangle {
         width: parent.width
         implicitHeight: 10
-        color: "black"
-        opacity: 0.6
+        color: appearance.mainBackground
     }
 
     CustomMenu {

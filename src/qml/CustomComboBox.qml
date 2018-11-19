@@ -45,7 +45,6 @@ ComboBox {
         implicitWidth: 120
         implicitHeight: 40
         color: "transparent"
-        opacity: 0.6
     }
 
     popup: Popup {

@@ -64,7 +64,7 @@ Item {
                     opacity: 1
                     background: Rectangle {
                         id: subsBackground
-                        color: Qt.rgba(0, 0, 0, 0.6)
+                        color: appearance.mainBackground
                         width: subsContainer.childrenRect.width
                         height: subsContainer.childrenRect.height
                     }
@@ -88,8 +88,7 @@ Item {
         anchors.right: parent.right
         Layout.fillWidth: true
         Layout.fillHeight: true
-        color: "black"
-        opacity: 0.6
+        color: appearance.mainBackground
     }
 
     Rectangle {

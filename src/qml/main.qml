@@ -26,6 +26,7 @@ ApplicationWindow {
             property bool clickToPause: true
             property bool useMpvSubs: false
             property string fontName: "Roboto"
+            property string mainBackground: "#9C000000"
         }
         Settings {
             id: i18n
@@ -111,6 +112,7 @@ ApplicationWindow {
         width: parent.width
         height: parent.height
         z: 1
+        property bool controlsShowing: true
         
         function startPlayer() {
             console.log(player)
@@ -188,36 +190,29 @@ ApplicationWindow {
         }
 
         function isAnyMenuOpen() {
-            return menuBar.anythingOpen
+            return menuBar.anythingOpen()
         }
 
         function hideControls(force) {
             if (!isAnyMenuOpen() || force) {
-                controlsBar.controls.visible = false
-                controlsBar.background.visible = false
-                titleBar.visible = false
-                titleBackground.visible = false
-                menuBar.visible = false;
+                controlsShowing = false
                 mouseAreaPlayer.cursorShape = Qt.BlankCursor
             }
         }
 
         function showControls() {
             if (!controlsBar.controls.visible) {
-                controlsBar.controls.visible = true
-                controlsBar.background.visible = true
-                if (appearance.titleOnlyOnFullscreen) {
-                    if (mainWindow.visibility == Window.FullScreen) {
-                        titleBar.visible = true
-                    }
-                } else {
-                    titleBar.visible = true
-                }
-                titleBackground.visible = true
-                menuBar.visible = true
+                controlsShowing = true
                 mouseAreaPlayer.cursorShape = Qt.ArrowCursor
             }
         }
+
+    }
+    Item {
+        anchors.centerIn: player
+        height: player.height
+        width: player.width
+        z: 2
 
         MouseArea {
             id: mouseAreaBar
@@ -289,18 +284,7 @@ ApplicationWindow {
 
         MainMenu {
             id: menuBar
-        }
-
-        Rectangle {
-            id: titleBackground
-            height: titleBar.height
-            anchors.top: titleBar.top
-            anchors.left: titleBar.left
-            anchors.right: titleBar.right
-            Layout.fillWidth: true
-            Layout.fillHeight: true
-            color: "black"
-            opacity: 0.6
+            visible: player.controlsShowing
         }
 
         Rectangle {
@@ -309,9 +293,9 @@ ApplicationWindow {
             anchors.right: parent.right
             anchors.left: menuBar.right
             anchors.top: parent.top
+            visible: player.controlsShowing
 
-            visible: !appearance.titleOnlyOnFullscreen
-            color: "transparent"
+            color: appearance.mainBackground
 
             Text {
                 id: titleLabel
@@ -330,6 +314,7 @@ ApplicationWindow {
                 font.pixelSize: 14
                 font.bold: true
                 opacity: 1
+                visible: player.controlsShowing && ((!appearance.titleOnlyOnFullscreen) || (mainWindow.visibility == Window.FullScreen) )
                 Component.onCompleted: {
                     player.titleChanged.connect(function(title) {
                         text = title
@@ -340,6 +325,7 @@ ApplicationWindow {
 
         ControlsBar {
             id: controlsBar
+            visible: player.controlsShowing
         }
     }
 }

@@ -6,8 +6,7 @@ Menu {
     background: Rectangle {
         implicitWidth: parent.width
         implicitHeight: 10
-        color: "black"
-        opacity: 0.6
+        color: appearance.mainBackground
     }
     delegate: CustomMenuItem {
     }
