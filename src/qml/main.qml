@@ -189,19 +189,15 @@ ApplicationWindow {
             player.playerCommand(Enums.Commands.SeekAbsolute, skipto)
         }
 
-        function isAnyMenuOpen() {
-            return menuBar.anythingOpen()
-        }
-
         function hideControls(force) {
-            if (!isAnyMenuOpen() || force) {
+            if (!menuBar.anythingOpen() || force) {
                 controlsShowing = false
                 mouseAreaPlayer.cursorShape = Qt.BlankCursor
             }
         }
 
         function showControls() {
-            if (!controlsBar.controls.visible) {
+            if (!controlsShowing) {
                 controlsShowing = true
                 mouseAreaPlayer.cursorShape = Qt.ArrowCursor
             }

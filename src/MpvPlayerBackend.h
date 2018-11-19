@@ -25,6 +25,7 @@ class MpvPlayerBackend
   mpv_handle* mpv;
   mpv_render_context* mpv_gl;
   bool onTop = false;
+  QString totalDurationString;
 
   friend class MpvRenderer;
 
@@ -46,8 +47,6 @@ public slots:
   void setProperty(const QString& name, const QVariant& value);
   void setOption(const QString& name, const QVariant& value);
   QVariant getProperty(const QString& name) const;
-  // Misc
-  QVariant createTimestamp(const QVariant& seconds) const;
 
 signals:
   void onUpdate();

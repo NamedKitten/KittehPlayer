@@ -5,6 +5,8 @@
 #include <QGuiApplication>
 #include <QProcessEnvironment>
 #include <QQmlApplicationEngine>
+#include <QString>
+#include <QVariant>
 #include <QtCore>
 
 #ifdef __linux__
@@ -37,6 +39,20 @@ updateAppImage()
                   "APPIMAGE", ""));
   updater.waitForFinished();
   qApp->exit();
+}
+
+QString
+createTimestamp(int seconds)
+{
+  int h = floor(seconds / 3600);
+  int m = floor(seconds % 3600 / 60);
+  int s = floor(seconds % 3600 % 60);
+
+  if (h > 0) {
+    return QString::asprintf("%02d:%02d:%02d", h, m, s);
+  } else {
+    return QString::asprintf("%02d:%02d", m, s);
+  }
 }
 
 #ifdef __linux__

@@ -433,22 +433,6 @@ DirectMpvPlayerBackend::playerCommand(const Enums::Commands& cmd,
   return QVariant("NoOutput");
 }
 
-QVariant
-DirectMpvPlayerBackend::createTimestamp(const QVariant& seconds) const
-{
-  int d = seconds.toInt();
-  double h = floor(d / 3600);
-  double m = floor(d % 3600 / 60);
-  double s = floor(d % 3600 % 60);
-
-  QString hour = h > 0 ? QString::number(h) + ":" : "";
-  QString minute = h < 1 ? QString::number(m) + ":"
-                         : (m < 10 ? "0" + QString::number(m) + ":"
-                                   : QString::number(m) + ":");
-  QString second = s < 10 ? "0" + QString::number(s) : QString::number(s);
-  return hour + minute + second;
-}
-
 void
 DirectMpvPlayerBackend::handleWindowChanged(QQuickWindow* win)
 {
@@ -496,8 +480,8 @@ DirectMpvPlayerBackend::updateDurationString()
 {
   emit durationStringChanged(
     QString("%1  / %2 (%3x)")
-      .arg(createTimestamp(getProperty("time-pos")).toString(),
-           createTimestamp(getProperty("duration")).toString(),
+      .arg(Utils::createTimestamp(getProperty("time-pos").toInt()),
+           totalDurationString,
            getProperty("speed").toString()));
 }
 
@@ -521,6 +505,7 @@ DirectMpvPlayerBackend::handle_mpv_event(mpv_event* event)
       } else if (strcmp(prop->name, "duration") == 0) {
         if (prop->format == MPV_FORMAT_DOUBLE) {
           double time = *(double*)prop->data;
+          totalDurationString = Utils::createTimestamp(time);
           emit durationChanged(time);
         }
       } else if (strcmp(prop->name, "mute") == 0 ||

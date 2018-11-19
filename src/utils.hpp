@@ -10,5 +10,7 @@ void
 AlwaysOnTop(WId wid, bool on);
 void
 updateAppImage();
+QString
+createTimestamp(int seconds);
 }
 #endif

@@ -42,6 +42,7 @@ class DirectMpvPlayerBackend
   mpv_opengl_cb_context* mpv_gl;
   MpvRenderer* renderer;
   bool onTop = false;
+  QString totalDurationString;
 
 public:
   static void on_update(void* ctx);
@@ -60,9 +61,7 @@ public slots:
   void setProperty(const QString& name, const QVariant& value);
   void setOption(const QString& name, const QVariant& value);
   QVariant getProperty(const QString& name) const;
-  // Misc
-  QVariant createTimestamp(const QVariant& seconds) const;
-  //
+
   void sync();
   void swapped();
   void cleanup();
