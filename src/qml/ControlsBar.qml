@@ -120,8 +120,7 @@ Item {
                     progressBar.to = duration
                 })
                 player.cachedDurationChanged.connect(function(duration) {
-                    cachedLength.width = ((progressBar.width / progressBar.to)
-                                      * duration) - progressLength.width
+                    cachedLength.width = progressBackground.width / progressBar.to * duration
                 })
             }
             onMoved: {
@@ -176,7 +175,7 @@ Item {
                 }
                 Rectangle {
                     id: cachedLength
-                    z: 10
+                    z: 100
                     radius: height
                     anchors.left: progressLength.right
                     anchors.leftMargin: 2
@@ -190,7 +189,6 @@ Item {
             }
 
             handle: Rectangle {
-
                 id: handleRect
                 x: progressBar.leftPadding + progressBar.visualPosition
                    * (progressBar.availableWidth - width)
