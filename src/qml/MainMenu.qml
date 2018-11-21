@@ -493,44 +493,52 @@ MenuBar {
         }
     }
 
+    function skipToNinth(val) {
+        var skipto = 0
+        if (val != 0) {
+            skipto = Math.floor(controlsBar.duration / 9 * val)
+        }
+        player.playerCommand(Enums.Commands.SeekAbsolute, skipto)
+    }
+        
     Action {
-        onTriggered: player.skipToNinth(parseInt(shortcut))
+        onTriggered: skipToNinth(parseInt(shortcut))
         shortcut: "1"
     }
     Action {
-        onTriggered: player.skipToNinth(parseInt(shortcut))
+        onTriggered: skipToNinth(parseInt(shortcut))
         shortcut: "2"
     }
     Action {
-        onTriggered: player.skipToNinth(parseInt(shortcut))
+        onTriggered: skipToNinth(parseInt(shortcut))
         shortcut: "3"
     }
     Action {
-        onTriggered: player.skipToNinth(parseInt(shortcut))
+        onTriggered: skipToNinth(parseInt(shortcut))
         shortcut: "4"
     }
     Action {
-        onTriggered: player.skipToNinth(parseInt(shortcut))
+        onTriggered: skipToNinth(parseInt(shortcut))
         shortcut: "5"
     }
     Action {
-        onTriggered: player.skipToNinth(parseInt(shortcut))
+        onTriggered: skipToNinth(parseInt(shortcut))
         shortcut: "6"
     }
     Action {
-        onTriggered: player.skipToNinth(parseInt(shortcut))
+        onTriggered: skipToNinth(parseInt(shortcut))
         shortcut: "7"
     }
     Action {
-        onTriggered: player.skipToNinth(parseInt(shortcut))
+        onTriggered: skipToNinth(parseInt(shortcut))
         shortcut: "8"
     }
     Action {
-        onTriggered: player.skipToNinth(parseInt(shortcut))
+        onTriggered: skipToNinth(parseInt(shortcut))
         shortcut: "9"
     }
     Action {
-        onTriggered: player.skipToNinth(parseInt(shortcut))
+        onTriggered: skipToNinth(parseInt(shortcut))
         shortcut: "0"
     }
 

@@ -183,14 +183,6 @@ ApplicationWindow {
             }
         }
 
-        function skipToNinth(val) {
-            var skipto = 0
-            if (val != 0) {
-                skipto = Math.floor(controlsBar.controls.progress.to / 9 * val)
-            }
-            player.playerCommand(Enums.Commands.SeekAbsolute, skipto)
-        }
-
         function hideControls(force) {
             if (!menuBar.anythingOpen() || force) {
                 controlsShowing = false

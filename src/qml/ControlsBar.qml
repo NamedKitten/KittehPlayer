@@ -15,6 +15,7 @@ Item {
     property var background: controlsBackground
     property var progress: progressBar
     property var controls: controlsBar
+    property var duration: progressBar.to
 
     Item {
         id: subtitlesBar
