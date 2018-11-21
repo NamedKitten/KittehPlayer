@@ -12,5 +12,7 @@ void
 updateAppImage();
 QString
 createTimestamp(int seconds);
+void
+ResetScreensaver();
 }
 #endif

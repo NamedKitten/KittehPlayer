@@ -501,6 +501,7 @@ DirectMpvPlayerBackend::handle_mpv_event(mpv_event* event)
         if (prop->format == MPV_FORMAT_DOUBLE) {
           double time = *(double*)prop->data;
           emit positionChanged(time);
+          Utils::ResetScreensaver();
         }
       } else if (strcmp(prop->name, "duration") == 0) {
         if (prop->format == MPV_FORMAT_DOUBLE) {

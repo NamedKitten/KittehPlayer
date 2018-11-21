@@ -59,7 +59,6 @@ createTimestamp(int seconds)
 void
 SetDPMS(bool on)
 {
-  qDebug() << getPlatformName();
   if (getPlatformName() != "xcb") {
     return;
   }
@@ -72,11 +71,16 @@ SetDPMS(bool on)
     qDebug() << "Disabled DPMS.";
   }
 }
+void
+ResetScreensaver()
+{
+  Display* display = QX11Info::display();
+  XResetScreenSaver(display);
+}
 
 void
 AlwaysOnTop(WId wid, bool on)
 {
-  qDebug() << "On Top:" << on;
   Display* display = QX11Info::display();
   XEvent event;
   event.xclient.type = ClientMessage;
@@ -112,6 +116,12 @@ void
 SetDPMS(bool on)
 {
   qDebug() << "Can't set DPMS for platform: " << getPlatformName();
+}
+
+void
+ResetScreensaver()
+{
+  qDebug() << "Can't reset screensaver for: " << getPlatformName();
 }
 
 #endif
