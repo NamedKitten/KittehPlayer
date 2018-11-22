@@ -120,7 +120,7 @@ Item {
                     progressBar.to = duration
                 })
                 player.cachedDurationChanged.connect(function(duration) {
-                    cachedLength.width = progressBackground.width / progressBar.to * duration
+                    cachedLength.value = progressBar.value + duration
                 })
             }
             onMoved: {
@@ -153,51 +153,61 @@ Item {
                 width: progressBar.availableWidth
                 height: implicitHeight
                 color: Qt.rgba(255, 255, 255, 0.6)
-                radius: height
-                Rectangle {
-                    id: progressLength
-                    width: progressBar.visualPosition * parent.width
-                    height: parent.height
-                    color: appearance.progressSliderColor
-                    opacity: 1
-                    radius: height
-                    anchors.leftMargin: 100
-
-                    Image {
-                        visible: fun.nyanCat
-                        id: rainbow
-                        anchors.fill: parent
-                        height: parent.height
-                        width: parent.width
-                        source: "qrc:/player/icons/rainbow.png"
-                        fillMode: Image.TileHorizontally
-                    }
-                }
-                Rectangle {
+                ProgressBar {
                     id: cachedLength
-                    z: 100
-                    radius: height
-                    anchors.left: progressLength.right
-                    anchors.leftMargin: 2
-                    //anchors.left: progressBar.handle.horizontalCenter
-                    anchors.bottom: progressBar.background.bottom
-                    anchors.top: progressBar.background.top
-                    height: progressBar.background.height
-                    color: "white"
-                    opacity: 0.8
+                    background: Item {}
+                    contentItem: Item {
+                        Rectangle {
+                            width: cachedLength.visualPosition * parent.width
+                            height: parent.height
+                            color: "white"
+                        }
+                    }
+                    z: 40
+                    to: progressBar.to
+                    anchors.fill: parent
+                }
+                ProgressBar {
+                    z: 50
+                    id: progressLength
+                    width: parent.width
+                    height: parent.height
+                    to: progressBar.to
+                    value: progressBar.value
+                    opacity: 1
+                    anchors.leftMargin: 0
+                    background: Item {}
+                    contentItem: Item {
+                        Rectangle {
+                            width: progressLength.visualPosition * parent.width + progressBar.handle.width / 2
+                            height: parent.height
+                            color: appearance.progressSliderColor
+                            Image {
+                                visible: fun.nyanCat
+                                id: rainbow
+                                anchors.fill: parent
+                                height: parent.height
+                                width: parent.width
+                                source: "qrc:/player/icons/rainbow.png"
+                                fillMode: Image.TileHorizontally
+                            }
+                        }
+                    }
                 }
             }
 
             handle: Rectangle {
+                z: 70
                 id: handleRect
                 x: progressBar.leftPadding + progressBar.visualPosition
-                   * (progressBar.availableWidth - width)
+                   * (progressBar.availableWidth - width) 
                 y: progressBar.topPadding + progressBar.availableHeight / 2 - height / 2
                 implicitHeight: radius
                 implicitWidth: radius
                 radius: 12 + (progressBackground.height / 2)
                 color: fun.nyanCat ? "transparent" : appearance.progressSliderColor
                 AnimatedImage {
+                    z: 80
                     visible: fun.nyanCat
                     paused: progressBar.pressed
                     height: 30
