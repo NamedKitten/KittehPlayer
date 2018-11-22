@@ -82,6 +82,7 @@ signals:
   void durationStringChanged(const QString& string);
   void tracksChanged();
   void audioDevicesChanged();
+  void playlistChanged();
 
 private slots:
   void doUpdate();

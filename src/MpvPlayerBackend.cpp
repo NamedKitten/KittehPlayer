@@ -148,6 +148,7 @@ MpvPlayerBackend::MpvPlayerBackend(QQuickItem* parent)
   mpv_observe_property(mpv, 0, "time-pos", MPV_FORMAT_DOUBLE);
   mpv_observe_property(mpv, 0, "demuxer-cache-duration", MPV_FORMAT_DOUBLE);
   mpv_observe_property(mpv, 0, "pause", MPV_FORMAT_NONE);
+  mpv_observe_property(mpv, 0, "playlist", MPV_FORMAT_NONE);
   mpv_set_wakeup_callback(mpv, wakeup, this);
 
   if (mpv_initialize(mpv) < 0)
@@ -415,6 +416,20 @@ MpvPlayerBackend::playerCommand(const Enums::Commands& cmd,
       break;
     }
 
+    case Enums::Commands::GetPlaylist: {
+
+      return getProperty("playlist");
+
+      break;
+    }
+
+    case Enums::Commands::SetPlaylistPos: {
+
+      command(QVariantList() << "set" << "playlist-pos" << args);
+
+      break;
+    }
+
     default: {
       qDebug() << "Command not found: " << cmd;
       break;
@@ -520,6 +535,8 @@ MpvPlayerBackend::handle_mpv_event(mpv_event* event)
         emit tracksChanged();
       } else if (strcmp(prop->name, "audio-device-list") == 0) {
         emit audioDevicesChanged();
+      } else if (strcmp(prop->name, "playlist") == 0) {
+        emit playlistChanged();
       }
 #ifdef DISCORD
       updateDiscord();
