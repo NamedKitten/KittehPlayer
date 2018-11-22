@@ -11,7 +11,7 @@ import "codes.js" as LanguageCodes
 MenuBar {
     id: menuBar
     //width: parent.width
-    height: Math.max(24, Screen.height / 32)
+    height: Screen.height / 32
     function anythingOpen() {
         for (var i = 0, len = menuBar.count; i < len; i++) {
             if (menuBar.menuAt(i).opened) { return true }

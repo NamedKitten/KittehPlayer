@@ -79,9 +79,7 @@ Item {
 
     Rectangle {
         id: controlsBackground
-        height: controlsBar.visible ? controlsBar.height + progressBackground.height
-                                      + (progressBar.topPadding * 2)
-                                      - (progressBackground.height * 2) : 0
+        height: controlsBar.visible ? controlsBar.height + (fun.nyanCat ? progressBackground.height * 0.3: progressBackground.height * 2) : 0
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
@@ -98,7 +96,7 @@ Item {
         anchors.left: parent.left
         anchors.leftMargin: parent.width / 128
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 1
+        anchors.bottomMargin: 2
         visible: true
 
         Slider {
@@ -152,7 +150,7 @@ Item {
                                     mouseAreaProgressBar.containsMouse)
                 width: progressBar.availableWidth
                 height: implicitHeight
-                color: Qt.rgba(255, 255, 255, 0.6)
+                color: appearance.progressBackgroundColor
                 ProgressBar {
                     id: cachedLength
                     background: Item {}
@@ -160,7 +158,7 @@ Item {
                         Rectangle {
                             width: cachedLength.visualPosition * parent.width
                             height: parent.height
-                            color: "white"
+                            color: appearance.progressCachedColor
                         }
                     }
                     z: 40
@@ -219,14 +217,18 @@ Item {
             }
         }
 
+RowLayout {
+    id: layout
+    anchors.fill: parent
+    spacing: 2
+    
+
         Button {
             id: playlistPrevButton
             objectName: "playlistPrevButton"
             icon.source: "icons/prev.svg"
             icon.color: appearance.buttonColor
             display: AbstractButton.IconOnly
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
             visible: false
             width: visible ? playPauseButton.width : 0
             onClicked: {
@@ -249,9 +251,6 @@ Item {
             icon.source: "icons/pause.svg"
             icon.color: appearance.buttonColor
             display: AbstractButton.IconOnly
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.left: playlistPrevButton.right
             onClicked: {
                 player.playerCommand(Enums.Commands.TogglePlayPause)
             }
@@ -273,9 +272,6 @@ Item {
             icon.source: "icons/next.svg"
             icon.color: appearance.buttonColor
             display: AbstractButton.IconOnly
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.left: playPauseButton.right
             onClicked: {
                 player.playerCommand(Enums.Commands.NextPlaylistItem)
             }
@@ -288,9 +284,6 @@ Item {
             icon.source: "icons/volume-up.svg"
             icon.color: appearance.buttonColor
             display: AbstractButton.IconOnly
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
-            anchors.left: playlistNextButton.right
             onClicked: {
                 player.playerCommand(Enums.Commands.ToggleMute)
             }
@@ -321,10 +314,6 @@ Item {
                                 background ? background.implicitHeight : 0,
                                              (handle ? handle.implicitHeight : 0)
                                              + topPadding + bottomPadding)
-
-            anchors.left: volumeButton.right
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
             onMoved: {
                 player.playerCommand(Enums.Commands.SetVolume, Math.round(volumeBar.value).toString())
             }
@@ -365,9 +354,6 @@ Item {
             objectName: "timeLabel"
             text: "0:00 / 0:00"
             color: "white"
-            anchors.left: volumeBar.right
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
             padding: 2
             font.family: appearance.fontName
             font.pixelSize: 14
@@ -380,15 +366,16 @@ Item {
             }
         }
 
+        Item {
+            Layout.fillWidth: true
+        }
+
         Button {
             id: settingsButton
             //icon.name: "settings"
             icon.source: "icons/settings.svg"
             icon.color: appearance.buttonColor
             Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
-            anchors.right: fullscreenButton.left
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
             display: AbstractButton.IconOnly
             onClicked: {
                 console.log("Settings Menu Not Yet Implemented.")
@@ -402,9 +389,7 @@ Item {
             icon.source: "icons/fullscreen.svg"
             icon.color: appearance.buttonColor
             Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
-            anchors.right: parent.right
-            anchors.top: parent.top
-            anchors.bottom: parent.bottom
+
             display: AbstractButton.IconOnly
             onClicked: {
                 toggleFullscreen()
@@ -412,5 +397,6 @@ Item {
 
             background: Item {}
         }
+}
     }
 }

@@ -27,6 +27,8 @@ ApplicationWindow {
             property bool useMpvSubs: false
             property string fontName: "Roboto"
             property string mainBackground: "#9C000000"
+            property string progressBackgroundColor: "#3CFFFFFF"
+            property string progressCachedColor: "white"
             property string buttonColor: "white"
             property string progressSliderColor: "red"
         }
