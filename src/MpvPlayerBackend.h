@@ -66,7 +66,6 @@ signals:
   void audioDevicesChanged();
   void playlistChanged();
 
-
 private slots:
   void doUpdate();
   void on_mpv_events();

@@ -425,7 +425,8 @@ MpvPlayerBackend::playerCommand(const Enums::Commands& cmd,
 
     case Enums::Commands::SetPlaylistPos: {
 
-      command(QVariantList() << "set" << "playlist-pos" << args);
+      command(QVariantList() << "set"
+                             << "playlist-pos" << args);
 
       break;
     }

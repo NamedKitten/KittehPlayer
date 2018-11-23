@@ -14,14 +14,16 @@ MenuBar {
     height: Screen.height / 32
     function anythingOpen() {
         for (var i = 0, len = menuBar.count; i < len; i++) {
-            if (menuBar.menuAt(i).opened) { return true }
+            if (menuBar.menuAt(i).opened) {
+                return true
+            }
         }
     }
 
     Component.onCompleted: {
         player.tracksChanged.connect(updateTracks)
     }
-    
+
     function updateTracks() {
         var trackMenus = [audioMenu, videoMenu, subMenu]
         for (var a = 0; i < trackMenus.length; a++) {
@@ -33,7 +35,7 @@ MenuBar {
                 }
             }
         }
- 
+
         var newTracks = player.playerCommand(Enums.Commands.GetTracks)
 
         for (var i = 0, len = newTracks.length; i < len; i++) {
@@ -101,7 +103,8 @@ MenuBar {
         title: translate.getTranslation("OPEN_FILE", i18n.language)
         nameFilters: ["All files (*)"]
         onAccepted: {
-            player.playerCommand(Enums.Commands.LoadFile, String(fileDialog.file))
+            player.playerCommand(Enums.Commands.LoadFile,
+                                 String(fileDialog.file))
             fileDialog.close()
         }
         onRejected: {
@@ -124,87 +127,8 @@ MenuBar {
         }
     }
 
-    Dialog {
+    PlaylistDialog {
         id: playlistDialog
-        title: "Playlist"
-        height: 480
-        width: 720
-        modality: Qt.NonModal
-
-        onAccepted: {
-            console.log("ok")
-        }
-                  Component.onCompleted: {
-                player.titleChanged.connect(updatePlaylistMenu)
-                player.playlistChanged.connect(updatePlaylistMenu)
-            }
-            function updatePlaylistMenu() {
-                var playlist = player.playerCommand(Enums.Commands.GetPlaylist)
-                playlistModel.clear()
-                for (var thing in playlist) {
-                    var item = playlist[thing]
-                    playlistModel.append({
-                        "playlistItemTitle": item["title"],
-                        "playlistItemFilename": item["filename"],
-                        "current": item["current"],
-                        "playlistPos": thing
-                    })
-
-                }
-
-            }
-
-    Component {
-        id: playlistDelegate
-        Item {
-            id: playlistItem
-            width: playlistDialog.width; height: 0
-    Button {
-        height: parent.height
-        id: playlistItemButton
-        font.pixelSize: 12
-               contentItem: Text {
-                    id: playlistItemText
-                    font: parent.font
-                    color: "white"
-                    text: playlistItemButton.text
-                    height: parent.height
-        horizontalAlignment: Text.AlignLeft
-        verticalAlignment: Text.AlignVCenter
-        elide: Text.ElideRight
-    }
-
-                onClicked: {
-                player.playerCommand(Enums.Commands.SetPlaylistPos, playlistPos)
-            }
-    background: Rectangle { color: current ? "orange" : "transparent" }
-    }
-
-
-    Component.onCompleted: {
-        var itemText = ""
-        if (typeof playlistItemTitle !== "undefined") {
-            itemText += '<b>Title:</b> ' + playlistItemTitle + "<br>"
-            playlistItem.height += 30
-        } 
-        if (typeof playlistItemFilename !== "undefined") {
-            itemText += '<b>Filename:</b> ' + playlistItemFilename + "<br>"
-            playlistItem.height += 30
-        } 
-        playlistItemText.text = itemText
-    }
-            }
-    }
-
-    ListView {
-        id: playlistListView
-        anchors.fill: parent
-        model: ListModel { id: playlistModel }
-        delegate: playlistDelegate
-        highlight: Item {}
-        focus: true
-    }
-
     }
 
     delegate: MenuBarItem {
@@ -423,7 +347,8 @@ MenuBar {
                 player.audioDevicesChanged.connect(updateAudioDevices)
             }
             function updateAudioDevices() {
-                var audioDevices = player.playerCommand(Enums.Commands.GetAudioDevices)
+                var audioDevices = player.playerCommand(
+                            Enums.Commands.GetAudioDevices)
 
                 for (var i = 0, len = audioDeviceMenu.count; i < len; i++) {
                     audioDeviceMenu.takeAction(0)
@@ -564,8 +489,7 @@ MenuBar {
             }
         }
         Action {
-            text: translate.getTranslation("PLAYLIST_MENU",
-                                           i18n.language)
+            text: translate.getTranslation("PLAYLIST_MENU", i18n.language)
             onTriggered: {
                 playlistDialog.open()
             }
@@ -590,7 +514,7 @@ MenuBar {
         }
         player.playerCommand(Enums.Commands.SeekAbsolute, skipto)
     }
-        
+
     Action {
         onTriggered: skipToNinth(parseInt(shortcut))
         shortcut: "1"

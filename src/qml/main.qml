@@ -18,86 +18,85 @@ ApplicationWindow {
     Translator {
         id: translate
     }
-    
-        Settings {
-            id: appearance
-            category: "Appearance"
-            property bool titleOnlyOnFullscreen: true
-            property bool clickToPause: true
-            property bool useMpvSubs: false
-            property string fontName: "Roboto"
-            property string mainBackground: "#9C000000"
-            property string progressBackgroundColor: "#3CFFFFFF"
-            property string progressCachedColor: "white"
-            property string buttonColor: "white"
-            property string progressSliderColor: "red"
-        }
-        Settings {
-            id: i18n
-            category: "I18N"
-            property string language: "english"
-        }
 
-        Settings {
-            id: fun
-            category: "Fun"
-            property bool nyanCat: false
-        }
-        
-        Settings {
-            id: keybinds
-            category: "Keybinds"
-            property string playPause: "K"
-            property string forward10: "L"
-            property string rewind10: "J"
-            property string forward5: "Right"
-            property string rewind5: "Left"
-            property string openFile: "Ctrl+O"
-            property string openURI: "Ctrl+Shift+O"
-            property string quit: "Ctrl+Q"
-            property string fullscreen: "F"
-            property string tracks: "Ctrl+T"
-            property string statsForNerds: "I"
-            property string forwardFrame: "."
-            property string backwardFrame: ","
-            property string cycleSub: "Alt+S"
-            property string cycleSubBackwards: "Alt+Shift+S"
-            property string cycleAudio: "A"
-            property string cycleVideo: "V"
-            property string cycleVideoAspect: "Shift+A"
-            property string screenshot: "S"
-            property string screenshotWithoutSubtitles: "Shift+S"
-            property string fullScreenshot: "Ctrl+S"
-            property string nyanCat: "Ctrl+N"
-            property string decreaseSpeedByPointOne: "["
-            property string increaseSpeedByPointOne: "]"
-            property string halveSpeed: "{"
-            property string doubleSpeed: "}"
-            property string increaseVolume: "*"
-            property string decreaseVolume: "/"
-            property string mute: "m"
-            property string customKeybind0: ""
-            property string customKeybind0Command: ""
-            property string customKeybind1: ""
-            property string customKeybind1Command: ""
-            property string customKeybind2: ""
-            property string customKeybind2Command: ""
-            property string customKeybind3: ""
-            property string customKeybind3Command: ""
-            property string customKeybind4: ""
-            property string customKeybind4Command: ""
-            property string customKeybind5: ""
-            property string customKeybind5Command: ""
-            property string customKeybind6: ""
-            property string customKeybind6Command: ""
-            property string customKeybind7: ""
-            property string customKeybind7Command: ""
-            property string customKeybind8: ""
-            property string customKeybind8Command: ""
-            property string customKeybind9: ""
-            property string customKeybind9Command: ""
-        }
+    Settings {
+        id: appearance
+        category: "Appearance"
+        property bool titleOnlyOnFullscreen: true
+        property bool clickToPause: true
+        property bool useMpvSubs: false
+        property string fontName: "Roboto"
+        property string mainBackground: "#9C000000"
+        property string progressBackgroundColor: "#3CFFFFFF"
+        property string progressCachedColor: "white"
+        property string buttonColor: "white"
+        property string progressSliderColor: "red"
+    }
+    Settings {
+        id: i18n
+        category: "I18N"
+        property string language: "english"
+    }
 
+    Settings {
+        id: fun
+        category: "Fun"
+        property bool nyanCat: false
+    }
+
+    Settings {
+        id: keybinds
+        category: "Keybinds"
+        property string playPause: "K"
+        property string forward10: "L"
+        property string rewind10: "J"
+        property string forward5: "Right"
+        property string rewind5: "Left"
+        property string openFile: "Ctrl+O"
+        property string openURI: "Ctrl+Shift+O"
+        property string quit: "Ctrl+Q"
+        property string fullscreen: "F"
+        property string tracks: "Ctrl+T"
+        property string statsForNerds: "I"
+        property string forwardFrame: "."
+        property string backwardFrame: ","
+        property string cycleSub: "Alt+S"
+        property string cycleSubBackwards: "Alt+Shift+S"
+        property string cycleAudio: "A"
+        property string cycleVideo: "V"
+        property string cycleVideoAspect: "Shift+A"
+        property string screenshot: "S"
+        property string screenshotWithoutSubtitles: "Shift+S"
+        property string fullScreenshot: "Ctrl+S"
+        property string nyanCat: "Ctrl+N"
+        property string decreaseSpeedByPointOne: "["
+        property string increaseSpeedByPointOne: "]"
+        property string halveSpeed: "{"
+        property string doubleSpeed: "}"
+        property string increaseVolume: "*"
+        property string decreaseVolume: "/"
+        property string mute: "m"
+        property string customKeybind0: ""
+        property string customKeybind0Command: ""
+        property string customKeybind1: ""
+        property string customKeybind1Command: ""
+        property string customKeybind2: ""
+        property string customKeybind2Command: ""
+        property string customKeybind3: ""
+        property string customKeybind3Command: ""
+        property string customKeybind4: ""
+        property string customKeybind4Command: ""
+        property string customKeybind5: ""
+        property string customKeybind5Command: ""
+        property string customKeybind6: ""
+        property string customKeybind6Command: ""
+        property string customKeybind7: ""
+        property string customKeybind7Command: ""
+        property string customKeybind8: ""
+        property string customKeybind8Command: ""
+        property string customKeybind9: ""
+        property string customKeybind9Command: ""
+    }
 
     property int lastScreenVisibility
 
@@ -117,10 +116,10 @@ ApplicationWindow {
         height: parent.height
         z: 1
         property bool controlsShowing: true
-        
+
         function startPlayer() {
             console.log(player)
-            console.log(typeof(player))
+            console.log(typeof (player))
             var args = Qt.application.arguments
             var len = Qt.application.arguments.length
             var argNo = 0
@@ -149,18 +148,24 @@ ApplicationWindow {
                         argument = argument.substr(2)
                         if (argument.length > 0) {
                             var splitArg = argument.split(/=(.+)/)
-                            if (splitArg[0] == "screen" || splitArg[0] == "fs-screen") {
+                            if (splitArg[0] == "screen"
+                                    || splitArg[0] == "fs-screen") {
                                 for (var i = 0, len = Qt.application.screens.length; i < len; i++) {
-                                    var screen = Qt.application.screens[i];
-                                    console.log("Screen Name: " + screen["name"] + " Screen Number: " + String(i))
-                                    if (screen["name"] == splitArg[1] || String(i) == splitArg[1] ) {
+                                    var screen = Qt.application.screens[i]
+                                    console.log("Screen Name: " + screen["name"]
+                                                + " Screen Number: " + String(
+                                                    i))
+                                    if (screen["name"] == splitArg[1] || String(
+                                                i) == splitArg[1]) {
                                         console.log("Switching to screen: " + screen["name"])
                                         mainWindow.screen = screen
                                         mainWindow.width = mainWindow.screen.width / 2
                                         mainWindow.height = mainWindow.screen.height / 2
-                                        mainWindow.x = mainWindow.screen.virtualX + mainWindow.width / 2
-                                        mainWindow.y = mainWindow.screen.virtualY + mainWindow.height / 2
-                                        if (splitArg[0] == "fs-screen" ) {
+                                        mainWindow.x = mainWindow.screen.virtualX
+                                                + mainWindow.width / 2
+                                        mainWindow.y = mainWindow.screen.virtualY
+                                                + mainWindow.height / 2
+                                        if (splitArg[0] == "fs-screen") {
                                             toggleFullscreen()
                                         }
                                         continue
@@ -170,16 +175,17 @@ ApplicationWindow {
                             }
                             if (splitArg[0] == "fullscreen") {
                                 toggleFullscreen()
-                                continue;
-                            } 
-                             if (splitArg[1] == undefined || splitArg[1].length == 0) {
+                                continue
+                            }
+                            if (splitArg[1] == undefined
+                                    || splitArg[1].length == 0) {
                                 splitArg[1] = "yes"
                             }
                             player.setOption(splitArg[0], splitArg[1])
-                            
                         }
                     } else {
-                        player.playerCommand(Enums.Commands.AppendFile, argument)
+                        player.playerCommand(Enums.Commands.AppendFile,
+                                             argument)
                     }
                 }
             }
@@ -198,7 +204,6 @@ ApplicationWindow {
                 mouseAreaPlayer.cursorShape = Qt.ArrowCursor
             }
         }
-
     }
     Item {
         anchors.centerIn: player
@@ -239,7 +244,9 @@ ApplicationWindow {
             }
             Action {
                 onTriggered: {
-                    if (mainWindow.visibility == Window.FullScreen) {toggleFullscreen()}
+                    if (mainWindow.visibility == Window.FullScreen) {
+                        toggleFullscreen()
+                    }
                 }
                 shortcut: "Esc"
             }
@@ -259,7 +266,7 @@ ApplicationWindow {
             }
             Timer {
                 id: mouseAreaPlayerTimer
-                interval: 2000
+                interval: 1000
                 running: true
                 repeat: false
                 onTriggered: {
@@ -271,7 +278,6 @@ ApplicationWindow {
                 mouseAreaPlayerTimer.restart()
             }
         }
-
 
         MainMenu {
             id: menuBar
@@ -305,9 +311,11 @@ ApplicationWindow {
                 font.pixelSize: 14
                 font.bold: true
                 opacity: 1
-                visible: player.controlsShowing && ((!appearance.titleOnlyOnFullscreen) || (mainWindow.visibility == Window.FullScreen) )
+                visible: player.controlsShowing
+                         && ((!appearance.titleOnlyOnFullscreen)
+                             || (mainWindow.visibility == Window.FullScreen))
                 Component.onCompleted: {
-                    player.titleChanged.connect(function(title) {
+                    player.titleChanged.connect(function (title) {
                         text = title
                     })
                 }
