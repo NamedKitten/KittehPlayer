@@ -9,12 +9,13 @@ import player 1.0
 
 import "codes.js" as LanguageCodes
 
-ApplicationWindow {
+Window {
     id: mainWindow
     title: titleLabel.text
     visible: true
     width: 720
     height: 480
+
     Translator {
         id: translate
     }

@@ -13,11 +13,9 @@ Dialog {
     width: 720
     modality: Qt.NonModal
     Component.onCompleted: {
-        player.titleChanged.connect(updatePlaylistMenu)
         player.playlistChanged.connect(updatePlaylistMenu)
     }
-    function updatePlaylistMenu() {
-        var playlist = player.playerCommand(Enums.Commands.GetPlaylist)
+    function updatePlaylistMenu(playlist) {
         playlistModel.clear()
         for (var thing in playlist) {
             var item = playlist[thing]

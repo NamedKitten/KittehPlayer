@@ -116,9 +116,6 @@ main(int argc, char* argv[])
     "/usr/bin:" + QProcessEnvironment::systemEnvironment().value("PATH", "");
   setenv("PATH", newpath.toUtf8().constData(), 1);
 
-  QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-  QApplication::setAttribute(Qt::AA_NativeWindows);
-
   qmlRegisterUncreatableMetaObject(
     Enums::staticMetaObject, // static meta object
     "player",                // import statement (can be any string)

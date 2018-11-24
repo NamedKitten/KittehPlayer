@@ -16,6 +16,12 @@
 #include "discord_rpc.h"
 #endif
 
+#ifdef __linux__
+#include <QX11Info>
+#include <X11/Xlib.h>
+#include <X11/Xutil.h>
+#endif
+
 namespace {
 
 void
@@ -90,13 +96,19 @@ public:
                           .h = fbo->height(),
                           .internal_format = 0 };
     int flip_y{ 0 };
-
+#ifdef __linux__
+    Display* dpy = QX11Info::display();
+#endif
     mpv_render_param params[] = {
       // Specify the default framebuffer (0) as target. This will
       // render onto the entire screen. If you want to show the video
       // in a smaller rectangle or apply fancy transformations, you'll
       // need to render into a separate FBO and draw it manually.
       { MPV_RENDER_PARAM_OPENGL_FBO, &mpfbo },
+#ifdef __linux__
+      { MPV_RENDER_PARAM_X11_DISPLAY, dpy },
+#endif
+
       // Flip rendering (needed due to flipped GL coordinate system).
       { MPV_RENDER_PARAM_FLIP_Y, &flip_y },
       { MPV_RENDER_PARAM_INVALID, nullptr }
