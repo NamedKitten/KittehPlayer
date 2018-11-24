@@ -24,9 +24,10 @@ MenuBar {
         player.tracksChanged.connect(updateTracks)
     }
 
-    function updateTracks() {
+    function updateTracks(tracks) {
+        var newTracks = tracks
         var trackMenus = [audioMenu, videoMenu, subMenu]
-        for (var a = 0; i < trackMenus.length; a++) {
+        for (var a = 0; a < trackMenus.length; a++) {
             var menu = trackMenus[a]
             for (var i = 0, len = menu.count; i < len; i++) {
                 var action = menu.actionAt(i)
@@ -36,8 +37,6 @@ MenuBar {
             }
         }
 
-        var newTracks = player.playerCommand(Enums.Commands.GetTracks)
-
         for (var i = 0, len = newTracks.length; i < len; i++) {
             var track = newTracks[i]
             var trackID = track["id"]
@@ -45,8 +44,8 @@ MenuBar {
             var trackLang = LanguageCodes.localeCodeToEnglish(
                         String(track["lang"]))
             var trackTitle = track["title"]
+            var component = Qt.createComponent("TrackItem.qml")
             if (trackType == "sub") {
-                var component = Qt.createComponent("TrackItem.qml")
                 var action = component.createObject(subMenu, {
                                                         text: trackLang,
                                                         trackID: String(
@@ -57,7 +56,6 @@ MenuBar {
                 action.ActionGroup.group = subMenuGroup
                 subMenu.addAction(action)
             } else if (trackType == "audio") {
-                var component = Qt.createComponent("TrackItem.qml")
                 var action = component.createObject(audioMenu, {
                                                         text: (trackTitle == undefined ? "" : trackTitle + " ") + (trackLang == "undefined" ? "" : trackLang),
                                                         trackID: String(
@@ -68,7 +66,6 @@ MenuBar {
                 action.ActionGroup.group = audioMenuGroup
                 audioMenu.addAction(action)
             } else if (trackType == "video") {
-                var component = Qt.createComponent("TrackItem.qml")
                 var action = component.createObject(videoMenu, {
                                                         text: "Video " + trackID,
                                                         trackID: String(
@@ -346,10 +343,7 @@ MenuBar {
             Component.onCompleted: {
                 player.audioDevicesChanged.connect(updateAudioDevices)
             }
-            function updateAudioDevices() {
-                var audioDevices = player.playerCommand(
-                            Enums.Commands.GetAudioDevices)
-
+            function updateAudioDevices(audioDevices) {
                 for (var i = 0, len = audioDeviceMenu.count; i < len; i++) {
                     audioDeviceMenu.takeAction(0)
                 }

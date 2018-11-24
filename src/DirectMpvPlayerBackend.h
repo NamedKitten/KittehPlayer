@@ -66,6 +66,9 @@ public slots:
   void swapped();
   void cleanup();
 
+  // Just used for adding missing audio devices to list.
+  QVariantMap getAudioDevices() const;
+
 signals:
   void onUpdate();
   void mpv_events();
@@ -80,9 +83,10 @@ signals:
   void titleChanged(const QString& title);
   void subtitlesChanged(const QString& subtitles);
   void durationStringChanged(const QString& string);
-  void tracksChanged();
-  void audioDevicesChanged();
-  void playlistChanged();
+  void tracksChanged(const QVariantList& tracks);
+  void audioDevicesChanged(const QVariantMap& devices);
+  void playlistChanged(const QVariantList& devices);
+  void chaptersChanged(const QVariantList& devices);
 
 private slots:
   void doUpdate();

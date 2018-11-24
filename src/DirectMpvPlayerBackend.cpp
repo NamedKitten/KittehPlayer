@@ -99,6 +99,7 @@ DirectMpvPlayerBackend::DirectMpvPlayerBackend(QQuickItem* parent)
   mpv_observe_property(mpv, 0, "playback-abort", MPV_FORMAT_NONE);
   mpv_observe_property(mpv, 0, "chapter-list", MPV_FORMAT_NODE);
   mpv_observe_property(mpv, 0, "track-list", MPV_FORMAT_NODE);
+  mpv_observe_property(mpv, 0, "chapter-list", MPV_FORMAT_NONE);
   mpv_observe_property(mpv, 0, "audio-device-list", MPV_FORMAT_NODE);
   mpv_observe_property(mpv, 0, "playlist-pos", MPV_FORMAT_DOUBLE);
   mpv_observe_property(mpv, 0, "volume", MPV_FORMAT_NONE);
@@ -275,25 +276,7 @@ DirectMpvPlayerBackend::playerCommand(const Enums::Commands& cmd,
       setProperty("audio-device", args.toString());
       break;
     }
-    case Enums::Commands::GetAudioDevices: {
-      QVariant drivers = getProperty("audio-device-list");
-      QVariant currentDevice = getProperty("audio-device");
 
-      QVariantMap newDrivers;
-
-      QSequentialIterable iterable = drivers.value<QSequentialIterable>();
-      foreach (const QVariant& v, iterable) {
-        QVariantMap item = v.toMap();
-        item["selected"] = currentDevice == item["name"];
-        newDrivers[item["description"].toString()] = item;
-      }
-      QMap<QString, QVariant> pulseItem;
-      pulseItem["name"] = "pulse";
-      pulseItem["description"] = "Default (pulseaudio)";
-      pulseItem["selected"] = currentDevice == "pulse";
-      newDrivers[pulseItem["description"].toString()] = pulseItem;
-      return QVariant(newDrivers);
-    }
     case Enums::Commands::SetVolume: {
       command(QVariantList() << "set"
                              << "volume" << args);
@@ -400,12 +383,6 @@ DirectMpvPlayerBackend::playerCommand(const Enums::Commands& cmd,
 
       break;
     }
-    case Enums::Commands::GetTracks: {
-
-      return mpv::qt::get_property_variant(mpv, "track-list");
-
-      break;
-    }
     case Enums::Commands::ForwardFrame: {
 
       command(QVariantList() << "frame-step");
@@ -422,13 +399,6 @@ DirectMpvPlayerBackend::playerCommand(const Enums::Commands& cmd,
     case Enums::Commands::SetTrack: {
 
       command(QVariantList() << "set" << args.toList()[0] << args.toList()[1]);
-
-      break;
-    }
-
-    case Enums::Commands::GetPlaylist: {
-
-      return getProperty("playlist");
 
       break;
     }
@@ -507,6 +477,28 @@ DirectMpvPlayerBackend::updateAppImage()
   Utils::updateAppImage();
 }
 
+QVariantMap
+DirectMpvPlayerBackend::getAudioDevices() const
+{
+  QVariant drivers = getProperty("audio-device-list");
+  QVariant currentDevice = getProperty("audio-device");
+
+  QVariantMap newDrivers;
+
+  QSequentialIterable iterable = drivers.value<QSequentialIterable>();
+  foreach (const QVariant& v, iterable) {
+    QVariantMap item = v.toMap();
+    item["selected"] = currentDevice == item["name"];
+    newDrivers[item["description"].toString()] = item;
+  }
+  QMap<QString, QVariant> pulseItem;
+  pulseItem["name"] = "pulse";
+  pulseItem["description"] = "Default (pulseaudio)";
+  pulseItem["selected"] = currentDevice == "pulse";
+  newDrivers[pulseItem["description"].toString()] = pulseItem;
+  return newDrivers;
+}
+
 void
 DirectMpvPlayerBackend::handle_mpv_event(mpv_event* event)
 {
@@ -566,11 +558,13 @@ DirectMpvPlayerBackend::handle_mpv_event(mpv_event* event)
           emit playStatusChanged(Enums::PlayStatus::Playing);
         }
       } else if (strcmp(prop->name, "tracks-menu") == 0) {
-        emit tracksChanged();
+        emit tracksChanged(getProperty("tracks-menu").toList());
       } else if (strcmp(prop->name, "audio-device-list") == 0) {
-        emit audioDevicesChanged();
+        emit audioDevicesChanged(getAudioDevices());
       } else if (strcmp(prop->name, "playlist") == 0) {
-        emit playlistChanged();
+        emit playlistChanged(getProperty("playlist").toList());
+      } else if (strcmp(prop->name, "chapter-list") == 0) {
+        emit chaptersChanged(getProperty("chapter-list").toList());
       }
 #ifdef DISCORD
       updateDiscord();

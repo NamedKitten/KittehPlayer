@@ -47,6 +47,8 @@ public slots:
   void setProperty(const QString& name, const QVariant& value);
   void setOption(const QString& name, const QVariant& value);
   QVariant getProperty(const QString& name) const;
+  // Just used for adding missing audio devices to list.
+  QVariantMap getAudioDevices() const;
 
 signals:
   void onUpdate();
@@ -62,9 +64,10 @@ signals:
   void titleChanged(const QString& title);
   void subtitlesChanged(const QString& subtitles);
   void durationStringChanged(const QString& string);
-  void tracksChanged();
-  void audioDevicesChanged();
-  void playlistChanged();
+  void tracksChanged(const QVariantList& tracks);
+  void audioDevicesChanged(const QVariantMap& devices);
+  void playlistChanged(const QVariantList& devices);
+  void chaptersChanged(const QVariantList& devices);
 
 private slots:
   void doUpdate();

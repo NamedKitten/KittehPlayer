@@ -31,6 +31,7 @@ ApplicationWindow {
         property string progressCachedColor: "white"
         property string buttonColor: "white"
         property string progressSliderColor: "red"
+        property string chapterMarkerColor: "#fc0"
     }
     Settings {
         id: i18n

@@ -122,7 +122,7 @@ Item {
                     progressBar.to = duration
                 })
                 player.cachedDurationChanged.connect(function (duration) {
-                    cachedLength.value = progressBar.value + duration
+                    cachedLength.duration = duration
                 })
             }
             onMoved: {
@@ -149,11 +149,9 @@ Item {
                 id: progressBackground
                 x: progressBar.leftPadding
                 y: progressBar.topPadding + progressBar.availableHeight / 2 - height / 2
-                implicitHeight: progressBar.getProgressBarHeight(
-                                    fun.nyanCat,
-                                    mouseAreaProgressBar.containsMouse)
                 width: progressBar.availableWidth
-                height: implicitHeight
+                height: progressBar.getProgressBarHeight(
+                            fun.nyanCat, mouseAreaProgressBar.containsMouse)
                 color: appearance.progressBackgroundColor
                 ProgressBar {
                     id: cachedLength
@@ -168,35 +166,48 @@ Item {
                     }
                     z: 40
                     to: progressBar.to
+                    property int duration
+                    value: progressBar.value + duration
                     anchors.fill: parent
                 }
-                ProgressBar {
-                    z: 50
-                    id: progressLength
-                    width: parent.width
-                    height: parent.height
-                    to: progressBar.to
-                    value: progressBar.value
-                    opacity: 1
-                    anchors.leftMargin: 0
-                    background: Item {
+
+                Item {
+                    anchors.fill: parent
+                    id: chapterMarkers
+                    Component.onCompleted: {
+                        player.chaptersChanged.connect(chaptersChanged)
                     }
-                    contentItem: Item {
-                        Rectangle {
-                            width: progressLength.visualPosition * parent.width
-                                   + progressBar.handle.width / 2
-                            height: parent.height
-                            color: appearance.progressSliderColor
-                            Image {
-                                visible: fun.nyanCat
-                                id: rainbow
-                                anchors.fill: parent
-                                height: parent.height
-                                width: parent.width
-                                source: "qrc:/player/icons/rainbow.png"
-                                fillMode: Image.TileHorizontally
-                            }
+                    function chaptersChanged(chapters) {
+                        console.log(JSON.stringify(chapters))
+                        for (var i = 0, len = chapters.length; i < len; i++) {
+                            var chapter = chapters[i]
+                            var component = Qt.createComponent(
+                                        "ChapterMarker.qml")
+
+                            var marker = component.createObject(chapterMarkers,
+                                                                {
+                                                                    time: chapter["time"]
+                                                                })
                         }
+                    }
+                }
+
+                Rectangle {
+                    id: progressLength
+                    z: 50
+                    anchors.left: progressBackground.left
+                    width: progressBar.visualPosition * parent.width
+                           + (progressBar.handle.width / 2)
+                    height: parent.height
+                    color: appearance.progressSliderColor
+                    Image {
+                        visible: fun.nyanCat
+                        id: rainbow
+                        anchors.fill: parent
+                        height: parent.height
+                        width: parent.width
+                        source: "qrc:/player/icons/rainbow.png"
+                        fillMode: Image.TileHorizontally
                     }
                 }
             }

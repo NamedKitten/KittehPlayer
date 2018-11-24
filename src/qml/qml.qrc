@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/player">
         <file>main.qml</file>
+        <file>ChapterMarker.qml</file>
         <file>PlaylistDialog.qml</file>
         <file>CustomComboBox.qml</file>
         <file>CustomMenuItem.qml</file>
