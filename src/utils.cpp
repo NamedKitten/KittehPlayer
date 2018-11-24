@@ -41,12 +41,20 @@ updateAppImage()
   qApp->exit();
 }
 
+// https://www.youtube.com/watch?v=nXaxk27zwlk&feature=youtu.be&t=56m34s
+int
+fast_mod(const int input, const int ceil)
+{
+  return input >= ceil ? input % ceil : input;
+}
+
 QString
 createTimestamp(int seconds)
 {
-  int h = floor(seconds / 3600);
-  int m = floor(seconds % 3600 / 60);
-  int s = floor(seconds % 3600 % 60);
+
+  int s = fast_mod(seconds, 60);
+  int m = fast_mod(seconds, 3600) / 60;
+  int h = fast_mod(seconds, 86400) / 3600;
 
   if (h > 0) {
     return QString::asprintf("%02d:%02d:%02d", h, m, s);

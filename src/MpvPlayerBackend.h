@@ -49,10 +49,13 @@ public slots:
   QVariant getProperty(const QString& name) const;
   // Just used for adding missing audio devices to list.
   QVariantMap getAudioDevices() const;
+  bool event(QEvent* event);
 
 signals:
   void onUpdate();
   void mpv_events();
+  void onMpvEvent(mpv_event* event);
+
   // All below required for Player API
   void playStatusChanged(const Enums::PlayStatus& status);
   void volumeStatusChanged(const Enums::VolumeStatus& status);

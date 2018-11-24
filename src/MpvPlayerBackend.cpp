@@ -27,8 +27,7 @@ namespace {
 void
 wakeup(void* ctx)
 {
-  QMetaObject::invokeMethod(
-    (MpvPlayerBackend*)ctx, "on_mpv_events", Qt::QueuedConnection);
+  QCoreApplication::postEvent((MpvPlayerBackend*)ctx, new QEvent(QEvent::User));
 }
 
 void
@@ -147,11 +146,11 @@ MpvPlayerBackend::MpvPlayerBackend(QQuickItem* parent)
   mpv_set_option_string(mpv, "config", "yes");
   // mpv_set_option_string(mpv, "sub-visibility", "no");
   mpv_observe_property(mpv, 0, "tracks-menu", MPV_FORMAT_NONE);
-  mpv_observe_property(mpv, 0, "chapter-list", MPV_FORMAT_NONE);
+  mpv_observe_property(mpv, 0, "chapter-list", MPV_FORMAT_NODE);
   mpv_observe_property(mpv, 0, "playback-abort", MPV_FORMAT_NONE);
   mpv_observe_property(mpv, 0, "chapter-list", MPV_FORMAT_NODE);
   mpv_observe_property(mpv, 0, "track-list", MPV_FORMAT_NODE);
-  mpv_observe_property(mpv, 0, "audio-device-list", MPV_FORMAT_NODE);
+  mpv_observe_property(mpv, 0, "audio-device-list", MPV_FORMAT_NONE);
   mpv_observe_property(mpv, 0, "playlist-pos", MPV_FORMAT_DOUBLE);
   mpv_observe_property(mpv, 0, "volume", MPV_FORMAT_NONE);
   mpv_observe_property(mpv, 0, "mute", MPV_FORMAT_NONE);
@@ -160,8 +159,8 @@ MpvPlayerBackend::MpvPlayerBackend(QQuickItem* parent)
   mpv_observe_property(mpv, 0, "sub-text", MPV_FORMAT_STRING);
   mpv_observe_property(mpv, 0, "time-pos", MPV_FORMAT_DOUBLE);
   mpv_observe_property(mpv, 0, "demuxer-cache-duration", MPV_FORMAT_DOUBLE);
-  mpv_observe_property(mpv, 0, "pause", MPV_FORMAT_NONE);
-  mpv_observe_property(mpv, 0, "playlist", MPV_FORMAT_NONE);
+  mpv_observe_property(mpv, 0, "pause", MPV_FORMAT_DOUBLE);
+  mpv_observe_property(mpv, 0, "playlist", MPV_FORMAT_NODE);
   mpv_set_wakeup_callback(mpv, wakeup, this);
 
   if (mpv_initialize(mpv) < 0)
@@ -427,6 +426,15 @@ MpvPlayerBackend::toggleOnTop()
   Utils::AlwaysOnTop(window()->winId(), onTop);
 }
 
+bool
+MpvPlayerBackend::event(QEvent* event)
+{
+  if (event->type() == QEvent::User) {
+    on_mpv_events();
+  }
+  return QObject::event(event);
+}
+
 void
 MpvPlayerBackend::on_mpv_events()
 {
@@ -497,6 +505,7 @@ MpvPlayerBackend::handle_mpv_event(mpv_event* event)
         }
       } else if (strcmp(prop->name, "mute") == 0 ||
                  strcmp(prop->name, "volume") == 0) {
+        return;
         double volume = getProperty("volume").toDouble();
         bool mute = getProperty("mute").toBool();
         if (mute || volume == 0) {
@@ -530,19 +539,24 @@ MpvPlayerBackend::handle_mpv_event(mpv_event* event)
           emit playlistPositionChanged(pos);
         }
       } else if (strcmp(prop->name, "pause") == 0) {
+        mpv_node* nod = (mpv_node*)prop->data;
+        qDebug() << mpv::qt::node_to_variant(nod);
         if (getProperty("pause").toBool()) {
           emit playStatusChanged(Enums::PlayStatus::Paused);
         } else {
           emit playStatusChanged(Enums::PlayStatus::Playing);
         }
-      } else if (strcmp(prop->name, "tracks-menu") == 0) {
-        emit tracksChanged(getProperty("track-list").toList());
+      } else if (strcmp(prop->name, "track-list") == 0) {
+        mpv_node* nod = (mpv_node*)prop->data;
+        emit tracksChanged(mpv::qt::node_to_variant(nod).toList());
       } else if (strcmp(prop->name, "audio-device-list") == 0) {
         emit audioDevicesChanged(getAudioDevices());
       } else if (strcmp(prop->name, "playlist") == 0) {
-        emit playlistChanged(getProperty("playlist").toList());
+        mpv_node* nod = (mpv_node*)prop->data;
+        emit playlistChanged(mpv::qt::node_to_variant(nod).toList());
       } else if (strcmp(prop->name, "chapter-list") == 0) {
-        emit chaptersChanged(getProperty("chapter-list").toList());
+        mpv_node* nod = (mpv_node*)prop->data;
+        emit chaptersChanged(mpv::qt::node_to_variant(nod).toList());
       }
 #ifdef DISCORD
       updateDiscord();

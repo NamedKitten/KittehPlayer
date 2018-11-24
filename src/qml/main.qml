@@ -21,6 +21,12 @@ Window {
     }
 
     Settings {
+        id: backendSettings
+        category: "Backend"
+        property string backend: "mpv"
+    }
+
+    Settings {
         id: appearance
         category: "Appearance"
         property bool titleOnlyOnFullscreen: true

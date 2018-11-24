@@ -97,6 +97,17 @@ main(int argc, char* argv[])
   app.setOrganizationName("KittehPlayer");
   app.setOrganizationDomain("namedkitten.pw");
   app.setApplicationName("KittehPlayer");
+
+  QSettings settings;
+  QString backendSetting = settings.value("Backend/backend", "mpv").toString();
+  if (backendSetting == "mpv") {
+    qDebug() << "Using MPV backend.";
+    backend = Enums::Backends::MpvBackend;
+  } else if (backendSetting == "direct-mpv") {
+    qDebug() << "Using Direct MPV backend.";
+    backend = Enums::Backends::DirectMpvBackend;
+  }
+
   for (int i = 1; i < argc; ++i) {
     if (!qstrcmp(argv[i], "--update")) {
       Utils::updateAppImage();

@@ -68,6 +68,7 @@ public slots:
 
   // Just used for adding missing audio devices to list.
   QVariantMap getAudioDevices() const;
+  bool event(QEvent* event);
 
 signals:
   void onUpdate();
