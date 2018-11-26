@@ -54,8 +54,11 @@ catchUnixSignals(std::initializer_list<int> quitSignals)
 int
 main(int argc, char* argv[])
 {
-
+#ifdef DISABLE_MpvPlayerBackend
+  Enums::Backends backend = Enums::Backends::DirectMpvBackend;
+#else
   Enums::Backends backend = Enums::Backends::MpvBackend;
+#endif
   setenv("QT_QUICK_CONTROLS_STYLE", "Desktop", 1);
   QApplication app(argc, argv);
 #ifdef __linux__
@@ -99,23 +102,24 @@ main(int argc, char* argv[])
   app.setApplicationName("KittehPlayer");
 
   QSettings settings;
-  QString backendSetting = settings.value("Backend/backend", "mpv").toString();
-  if (backendSetting == "mpv") {
-    qDebug() << "Using MPV backend.";
-    backend = Enums::Backends::MpvBackend;
-  } else if (backendSetting == "direct-mpv") {
-    qDebug() << "Using Direct MPV backend.";
-    backend = Enums::Backends::DirectMpvBackend;
+  QString backendSetting = settings.value("Backend/backend", "").toString();
+  if (backendSetting.length() == 0) {
+#ifndef DISABLE_MpvPlayerBackend
+    settings.setValue("Backend/backend", "mpv");
+#else
+    settings.setValue("Backend/backend", "direct-mpv");
+#endif
   }
+
+  qDebug() << backendSetting;
 
   for (int i = 1; i < argc; ++i) {
     if (!qstrcmp(argv[i], "--update")) {
       Utils::updateAppImage();
-    } else if (!qstrcmp(argv[i], "--backend=mpv")) {
-      qDebug() << "Using MPV backend.";
+    } else if (!qstrcmp(argv[i], "--backend=mpv") || backendSetting == "mpv") {
       backend = Enums::Backends::MpvBackend;
-    } else if (!qstrcmp(argv[i], "--backend=direct-mpv")) {
-      qDebug() << "Using Direct MPV backend.";
+    } else if (!qstrcmp(argv[i], "--backend=direct-mpv") ||
+               backendSetting == "direct-mpv") {
       backend = Enums::Backends::DirectMpvBackend;
     }
   }
@@ -128,23 +132,25 @@ main(int argc, char* argv[])
   setenv("PATH", newpath.toUtf8().constData(), 1);
 
   qmlRegisterUncreatableMetaObject(
-    Enums::staticMetaObject, // static meta object
-    "player",                // import statement (can be any string)
-    1,
-    0,                  // major and minor version of the import
-    "Enums",            // name in QML (does not have to match C++ name)
-    "Error: only enums" // error in case someone tries to create a MyNamespace
-                        // object
-  );
+    Enums::staticMetaObject, "player", 1, 0, "Enums", "Error: only enums");
   qRegisterMetaType<Enums::PlayStatus>("Enums.PlayStatus");
   qRegisterMetaType<Enums::VolumeStatus>("Enums.VolumeStatus");
   qRegisterMetaType<Enums::Backends>("Enums.Backends");
 
   qRegisterMetaType<Enums::Commands>("Enums.Commands");
 
+  qmlRegisterType<UtilsClass>("player", 1, 0, "Utils");
+
   switch (backend) {
     case Enums::Backends::MpvBackend: {
+#ifndef DISABLE_MpvPlayerBackend
       qmlRegisterType<MpvPlayerBackend>("player", 1, 0, "PlayerBackend");
+#else
+      qDebug() << "Normal MPV backend not available, resetting backend option "
+                  "to blank.";
+      settings.setValue("Backend/backend", "direct-mpv");
+      app.exit();
+#endif
       break;
     }
     case Enums::Backends::DirectMpvBackend: {

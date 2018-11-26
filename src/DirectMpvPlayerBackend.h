@@ -1,4 +1,4 @@
-#ifndef DirectMpvPlayerBackend_Hc
+#ifndef DirectMpvPlayerBackend_H
 #define DirectMpvPlayerBackend_H
 
 #include <mpv/client.h>

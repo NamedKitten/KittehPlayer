@@ -4,6 +4,8 @@
 
 #include "MpvPlayerBackend.h"
 
+#ifndef DISABLE_MpvPlayerBackend
+
 #include "utils.hpp"
 #include <QApplication>
 #include <QOpenGLContext>
@@ -183,6 +185,7 @@ MpvPlayerBackend::~MpvPlayerBackend()
 {
   printf("Shutting down...\n");
   Utils::SetDPMS(true);
+  command("quit-watch-later");
   mpv_render_context_free(mpv_gl);
   mpv_terminate_destroy(mpv);
   printf("MPV terminated.\n");
@@ -580,3 +583,5 @@ MpvPlayerBackend::createRenderer() const
   window()->setPersistentSceneGraph(true);
   return new MpvRenderer(const_cast<MpvPlayerBackend*>(this));
 }
+
+#endif

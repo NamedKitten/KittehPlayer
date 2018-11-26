@@ -16,6 +16,8 @@ Window {
     width: 720
     height: 480
 
+    property bool onTop: false
+    
     Translator {
         id: translate
     }
@@ -116,31 +118,26 @@ Window {
             mainWindow.visibility = lastScreenVisibility
         }
     }
-
+    
+    Utils {
+        id: utils
+    }
+    
     PlayerBackend {
         id: player
         anchors.fill: parent
         width: parent.width
         height: parent.height
         z: 1
-        property bool controlsShowing: true
-
         function startPlayer() {
-            console.log(player)
-            console.log(typeof (player))
             var args = Qt.application.arguments
             var len = Qt.application.arguments.length
             var argNo = 0
 
             if (!appearance.useMpvSubs) {
-                player.setOption("sub-font", "Noto Sans")
-                player.setOption("sub-font-size", "24")
                 player.setOption("sub-ass-override", "force")
                 player.setOption("sub-ass", "off")
                 player.setOption("sub-border-size", "0")
-                player.setOption("sub-bold", "off")
-                player.setOption("sub-scale-by-window", "on")
-                player.setOption("sub-scale-with-window", "on")
                 player.setOption("sub-color", "0.0/0.0/0.0/0.0")
                 player.setOption("sub-border-color", "0.0/0.0/0.0/0.0")
                 player.setOption("sub-back-color", "0.0/0.0/0.0/0.0")
@@ -198,6 +195,15 @@ Window {
                 }
             }
         }
+    }
+    
+    Item {
+        id: controlsOverlay
+        anchors.centerIn: player
+        height: player.height
+        width: player.width
+        property bool controlsShowing: true
+        z: 2
 
         function hideControls(force) {
             if (!menuBar.anythingOpen() || force) {
@@ -212,13 +218,7 @@ Window {
                 mouseAreaPlayer.cursorShape = Qt.ArrowCursor
             }
         }
-    }
-    Item {
-        anchors.centerIn: player
-        height: player.height
-        width: player.width
-        z: 2
-
+        
         MouseArea {
             id: mouseAreaBar
 
@@ -278,18 +278,18 @@ Window {
                 running: true
                 repeat: false
                 onTriggered: {
-                    player.hideControls()
+                    controlsOverlay.hideControls()
                 }
             }
             onPositionChanged: {
-                player.showControls()
+                controlsOverlay.showControls()
                 mouseAreaPlayerTimer.restart()
             }
         }
 
         MainMenu {
             id: menuBar
-            visible: player.controlsShowing
+            visible: controlsOverlay.controlsShowing
         }
 
         Rectangle {
@@ -298,7 +298,7 @@ Window {
             anchors.right: parent.right
             anchors.left: menuBar.right
             anchors.top: parent.top
-            visible: player.controlsShowing
+            visible: controlsOverlay.controlsShowing
 
             color: appearance.mainBackground
 
@@ -319,7 +319,7 @@ Window {
                 font.pixelSize: 14
                 font.bold: true
                 opacity: 1
-                visible: player.controlsShowing
+                visible: controlsOverlay.controlsShowing
                          && ((!appearance.titleOnlyOnFullscreen)
                              || (mainWindow.visibility == Window.FullScreen))
                 Component.onCompleted: {
@@ -332,7 +332,7 @@ Window {
 
         ControlsBar {
             id: controlsBar
-            visible: player.controlsShowing
+            visible: controlsOverlay.controlsShowing
         }
     }
 }

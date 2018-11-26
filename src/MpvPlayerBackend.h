@@ -1,8 +1,15 @@
-#ifndef MpvPlayerBackend_Hc
+#ifndef MpvPlayerBackend_H
 #define MpvPlayerBackend_H
 
 #include <mpv/client.h>
 #include <mpv/qthelper.hpp>
+
+#if MPV_CLIENT_API_VERSION <= MPV_MAKE_VERSION(1, 28)
+#define DISABLE_MpvPlayerBackend
+#endif
+
+#ifndef DISABLE_MpvPlayerBackend
+
 #include <mpv/render_gl.h>
 
 #include <QObject>
@@ -11,6 +18,7 @@
 
 #include "backendinterface.hpp"
 #include "enums.hpp"
+#include "utils.hpp"
 
 class MpvRenderer;
 
@@ -84,4 +92,5 @@ private:
 #endif
 };
 
+#endif
 #endif

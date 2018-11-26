@@ -133,16 +133,21 @@ Item {
                 var x = Math.max(Screen.height / 256, fun.nyanCat ? 12 : 2)
                 return isMouse & !fun.nyanCat ? x * 2 : x
             }
-
             MouseArea {
                 id: mouseAreaProgressBar
-                y: parent.height
                 width: parent.width
                 height: parent.height
                 anchors.fill: parent
+                y: parent.y
+                x: parent.x
                 hoverEnabled: true
-                propagateComposedEvents: true
+                propagateComposedEvents: false
                 acceptedButtons: Qt.NoButton
+                z: 1
+                onPositionChanged: {
+                        var a = (mouseAreaProgressBar.mouseX * (progressBar.to / (progressBackground.width)));
+                        hoverProgressLabel.text = utils.createTimestamp(a)
+                    }
             }
 
             background: Rectangle {
@@ -153,6 +158,28 @@ Item {
                 height: progressBar.getProgressBarHeight(
                             fun.nyanCat, mouseAreaProgressBar.containsMouse)
                 color: appearance.progressBackgroundColor
+
+                
+                Rectangle {
+                    x: (mouseAreaProgressBar.mouseX - width / 2) + progressBar.leftPadding
+                    y: progressBackground.y - 20 - height
+                    visible: mouseAreaProgressBar.containsMouse
+                    color: appearance.mainBackground
+                    height: 20
+                    width: 50
+                    z: 80
+                    Text {
+                        id: hoverProgressLabel
+                        text: "0:00"
+                        color: "white"
+                        padding: 2
+                        font.family: appearance.fontName
+                        font.pixelSize: 14
+                        verticalAlignment: Text.AlignVCenter
+                        renderType: Text.NativeRendering
+                    }
+                }
+
                 ProgressBar {
                     id: cachedLength
                     background: Item {
@@ -178,7 +205,6 @@ Item {
                         player.chaptersChanged.connect(chaptersChanged)
                     }
                     function chaptersChanged(chapters) {
-                        console.log(JSON.stringify(chapters))
                         for (var i = 0, len = chapters.length; i < len; i++) {
                             var chapter = chapters[i]
                             var component = Qt.createComponent(
@@ -197,7 +223,6 @@ Item {
                     z: 50
                     anchors.left: progressBackground.left
                     width: progressBar.visualPosition * parent.width
-                           + (progressBar.handle.width / 2)
                     height: parent.height
                     color: appearance.progressSliderColor
                     Image {
