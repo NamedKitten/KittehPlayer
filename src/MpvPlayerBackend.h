@@ -1,6 +1,3 @@
-#ifndef MpvPlayerBackend_H
-#define MpvPlayerBackend_H
-
 #include <mpv/client.h>
 #include <mpv/qthelper.hpp>
 
@@ -8,7 +5,9 @@
 #define DISABLE_MpvPlayerBackend
 #endif
 
-#ifndef DISABLE_MpvPlayerBackend
+#ifndef MpvPlayerBackend_H
+#define MpvPlayerBackend_H
+
 
 #include <mpv/render_gl.h>
 
@@ -31,7 +30,9 @@ class MpvPlayerBackend
   Q_OBJECT
 
   mpv_handle* mpv;
+#ifndef DISABLE_MpvPlayerBackend
   mpv_render_context* mpv_gl;
+#endif
   bool onTop = false;
   QString totalDurationString;
 
@@ -92,5 +93,4 @@ private:
 #endif
 };
 
-#endif
 #endif
