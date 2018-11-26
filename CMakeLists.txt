@@ -21,14 +21,19 @@ pkg_check_modules(MPV REQUIRED mpv)
 pkg_check_modules(X11 REQUIRED x11)
 pkg_check_modules(Xext REQUIRED xext)
 
-
 set(SOURCES
     src/main.cpp
-    src/MpvPlayerBackend.cpp
     src/DirectMpvPlayerBackend.cpp
     src/utils.cpp
     src/enums.hpp
 )
+
+
+if(MPV_VERSION VERSION_GREATER_EQUAL "1.28.0")
+set(SOURCES ${SOURCES} src/MpvPlayerBackend.cpp)
+else()
+add_definitions(-DDISABLE_MpvPlayerBackend)
+endif(MPV_VERSION VERSION_GREATER_EQUAL "1.28.0")
 
 find_program(CCACHE_FOUND ccache)
 if(CCACHE_FOUND)

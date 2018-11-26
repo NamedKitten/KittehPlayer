@@ -4,8 +4,6 @@
 
 #include "MpvPlayerBackend.h"
 
-#ifndef DISABLE_MpvPlayerBackend
-
 #include "utils.hpp"
 #include <QApplication>
 #include <QOpenGLContext>
@@ -584,4 +582,3 @@ MpvPlayerBackend::createRenderer() const
   return new MpvRenderer(const_cast<MpvPlayerBackend*>(this));
 }
 
-#endif
