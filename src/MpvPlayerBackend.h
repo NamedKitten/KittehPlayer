@@ -4,7 +4,7 @@
 #include <mpv/client.h>
 #include <mpv/qthelper.hpp>
 
-#if MPV_CLIENT_API_VERSION <= MPV_MAKE_VERSION(1, 28)
+#if MPV_CLIENT_API_VERSION <= MPV_MAKE_VERSION(1, 27)
 #define DISABLE_MpvPlayerBackend
 #endif
 
