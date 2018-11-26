@@ -145,7 +145,7 @@ Item {
                 acceptedButtons: Qt.NoButton
                 z: 1
                 onPositionChanged: {
-                        var a = (mouseAreaProgressBar.mouseX * (progressBar.to / (progressBackground.width)));
+                        var a = (progressBar.to / progressBar.width ) * mouseAreaProgressBar.mouseX
                         hoverProgressLabel.text = utils.createTimestamp(a)
                     }
             }
