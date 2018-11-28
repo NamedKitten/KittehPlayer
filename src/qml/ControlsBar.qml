@@ -31,7 +31,7 @@ Item {
 
         var component = Qt.createComponent(themeName + "ButtonLayout.qml")
         component.createObject(controlsBar, {
-                                   anchors.fill: controlsBar
+                                   "anchors.fill": controlsBar
                                })
     }
 
