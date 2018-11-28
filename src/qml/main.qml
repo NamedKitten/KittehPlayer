@@ -17,7 +17,7 @@ Window {
     height: 480
 
     property bool onTop: false
-
+    
     Translator {
         id: translate
     }
@@ -44,7 +44,8 @@ Window {
         property string chapterMarkerColor: "#fc0"
         property string volumeSliderBackground: "white"
     }
-
+    
+    
     Settings {
         id: i18n
         category: "I18N"
@@ -121,11 +122,11 @@ Window {
             mainWindow.visibility = lastScreenVisibility
         }
     }
-
+    
     Utils {
         id: utils
     }
-
+    
     PlayerBackend {
         id: player
         anchors.fill: parent
@@ -199,7 +200,7 @@ Window {
             }
         }
     }
-
+    
     Item {
         id: controlsOverlay
         anchors.centerIn: player
@@ -221,7 +222,7 @@ Window {
                 mouseAreaPlayer.cursorShape = Qt.ArrowCursor
             }
         }
-
+        
         MouseArea {
             id: mouseAreaBar
 
@@ -326,9 +327,9 @@ Window {
                          && ((!appearance.titleOnlyOnFullscreen)
                              || (mainWindow.visibility == Window.FullScreen))
                 Connections {
-                    target: player
-                    enabled: true
-                    onTitleChanged: function (title) {
+                        target: player
+                        enabled: true
+                        onTitleChanged: function (title) {
                         titleLabel.text = title
                     }
                 }
@@ -337,7 +338,6 @@ Window {
 
         ControlsBar {
             id: controlsBar
-            visible: controlsOverlay.controlsShowing
         }
     }
 }

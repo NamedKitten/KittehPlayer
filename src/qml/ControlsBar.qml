@@ -107,6 +107,7 @@ Item {
         Layout.fillWidth: true
         Layout.fillHeight: true
         color: appearance.mainBackground
+        visible: controlsOverlay.controlsShowing
     }
 
     Item {
@@ -118,7 +119,7 @@ Item {
         anchors.leftMargin: parent.width / 128
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 2
-        visible: true
+        visible: controlsOverlay.controlsShowing
         VideoProgress {
             id: progressBar
             anchors.bottom: parent.top
