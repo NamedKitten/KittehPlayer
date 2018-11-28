@@ -1,32 +1,51 @@
 <RCC>
-    <qresource prefix="/player">
+    <qresource prefix="/">
         <file>main.qml</file>
-        <file>ChapterMarker.qml</file>
-        <file>PlaylistDialog.qml</file>
-        <file>CustomComboBox.qml</file>
-        <file>CustomMenuItem.qml</file>
         <file>CustomMenu.qml</file>
         <file>ControlsBar.qml</file>
         <file>MainMenu.qml</file>
-        <file>TrackItem.qml</file>
-        <file>AudioDeviceItem.qml</file>
-        <file>Translator.qml</file>
-        <file>translations.js</file>
-        <file>icons/play.svg</file>
-        <file>icons/pause.svg</file>
-        <file>icons/forward.svg</file>
-        <file>icons/backward.svg</file>
-        <file>icons/settings.svg</file>
-        <file>icons/fullscreen.svg</file>
-        <file>icons/volume-up.svg</file>
-        <file>icons/volume-mute.svg</file>
-        <file>icons/volume-down.svg</file>
-        <file>icons/next.svg</file>
-        <file>icons/prev.svg</file>
-        <file>icons/subtitles.svg</file>
+        <file>YouTubeButtonLayout.qml</file>
+        <file>NiconicoButtonLayout.qml</file>
+        <file alias="PlaylistPrevButton.qml">UIComponents/PlaylistPrevButton.qml</file>
+        <file alias="PlayPauseButton.qml">UIComponents/PlayPauseButton.qml</file>
+        <file alias="VideoProgress.qml">UIComponents/VideoProgress.qml</file>
+        <file alias="VolumeButton.qml">UIComponents/VolumeButton.qml</file>
+        <file alias="VolumeSlider.qml">UIComponents/VolumeSlider.qml</file>
+        <file alias="TimeLabel.qml">UIComponents/TimeLabel.qml</file>
+        <file alias="SettingsButton.qml">UIComponents/SettingsButton.qml</file>
+        <file alias="FullscreenButton.qml">UIComponents/FullscreenButton.qml</file>
+        <file alias="PlaylistNextButton.qml">UIComponents/PlaylistNextButton.qml</file>
+        <file alias="codes.js">Utils/codes.js</file>
+        <file alias="Translator.qml">Utils/Translator.qml</file>
+        <file alias="translations.js">Utils/translations.js</file>        
+        <file alias="ChapterMarkerItem.qml">Items/ChapterMarkerItem.qml</file>
+        <file alias="TrackItem.qml">Items/TrackItem.qml</file>
+        <file alias="AudioDeviceItem.qml">Items/AudioDeviceItem.qml</file>
+        <file alias="CustomMenuItem.qml">Items/CustomMenuItem.qml</file>
+        <file alias="PlaylistDialog.qml">Dialogs/PlaylistDialog.qml</file>
+        <file>icons/YouTube/play.svg</file>
+        <file>icons/YouTube/pause.svg</file>
+        <file>icons/YouTube/forward.svg</file>
+        <file>icons/YouTube/backward.svg</file>
+        <file>icons/YouTube/settings.svg</file>
+        <file>icons/YouTube/fullscreen.svg</file>
+        <file>icons/YouTube/volume-up.svg</file>
+        <file>icons/YouTube/volume-mute.svg</file>
+        <file>icons/YouTube/volume-down.svg</file>
+        <file>icons/YouTube/next.svg</file>
+        <file>icons/YouTube/prev.svg</file>
+        <file>icons/YouTube/subtitles.svg</file>
+        <file>icons/YouTube/playlist.svg</file>
+        <file>icons/Niconico/play.svg</file>
+        <file>icons/Niconico/pause.svg</file>
+        <file>icons/Niconico/settings.svg</file>
+        <file>icons/Niconico/volume-up.svg</file>
+        <file>icons/Niconico/volume-down.svg</file>
+        <file>icons/Niconico/volume-mute.svg</file>
+        <file>icons/Niconico/prev.svg</file>
+        <file>icons/Niconico/next.svg</file>
+        <file>icons/Niconico/fullscreen.svg</file>
         <file>icons/nyancat.gif</file>
         <file>icons/rainbow.png</file> 
-        <file>icons/playlist.svg</file>
-        <file>codes.js</file>
     </qresource>
 </RCC>

@@ -17,7 +17,7 @@ Window {
     height: 480
 
     property bool onTop: false
-    
+
     Translator {
         id: translate
     }
@@ -34,6 +34,7 @@ Window {
         property bool titleOnlyOnFullscreen: true
         property bool clickToPause: true
         property bool useMpvSubs: false
+        property string themeName: "YouTube"
         property string fontName: "Roboto"
         property string mainBackground: "#9C000000"
         property string progressBackgroundColor: "#3CFFFFFF"
@@ -41,7 +42,9 @@ Window {
         property string buttonColor: "white"
         property string progressSliderColor: "red"
         property string chapterMarkerColor: "#fc0"
+        property string volumeSliderBackground: "white"
     }
+
     Settings {
         id: i18n
         category: "I18N"
@@ -118,11 +121,11 @@ Window {
             mainWindow.visibility = lastScreenVisibility
         }
     }
-    
+
     Utils {
         id: utils
     }
-    
+
     PlayerBackend {
         id: player
         anchors.fill: parent
@@ -196,7 +199,7 @@ Window {
             }
         }
     }
-    
+
     Item {
         id: controlsOverlay
         anchors.centerIn: player
@@ -218,7 +221,7 @@ Window {
                 mouseAreaPlayer.cursorShape = Qt.ArrowCursor
             }
         }
-        
+
         MouseArea {
             id: mouseAreaBar
 
@@ -322,10 +325,12 @@ Window {
                 visible: controlsOverlay.controlsShowing
                          && ((!appearance.titleOnlyOnFullscreen)
                              || (mainWindow.visibility == Window.FullScreen))
-                Component.onCompleted: {
-                    player.titleChanged.connect(function (title) {
-                        text = title
-                    })
+                Connections {
+                    target: player
+                    enabled: true
+                    onTitleChanged: function (title) {
+                        titleLabel.text = title
+                    }
                 }
             }
         }

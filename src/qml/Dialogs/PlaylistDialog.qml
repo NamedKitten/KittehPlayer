@@ -12,19 +12,20 @@ Dialog {
     height: Math.max(480, childrenRect.height * playlistListView.count)
     width: 720
     modality: Qt.NonModal
-    Component.onCompleted: {
-        player.playlistChanged.connect(updatePlaylistMenu)
-    }
-    function updatePlaylistMenu(playlist) {
-        playlistModel.clear()
-        for (var thing in playlist) {
-            var item = playlist[thing]
-            playlistModel.append({
-                                     playlistItemTitle: item["title"],
-                                     playlistItemFilename: item["filename"],
-                                     current: item["current"],
-                                     playlistPos: thing
-                                 })
+    Connections {
+        target: player
+        enabled: true
+        onPlaylistChanged: function(playlist) {
+            playlistModel.clear()
+            for (var thing in playlist) {
+                var item = playlist[thing]
+                playlistModel.append({
+                                        playlistItemTitle: item["title"],
+                                        playlistItemFilename: item["filename"],
+                                        current: item["current"],
+                                        playlistPos: thing
+                                    })
+            }
         }
     }
 

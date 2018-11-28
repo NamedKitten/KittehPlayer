@@ -7,8 +7,10 @@ Rectangle {
     id: chapterMarker
     property int time: 0
     color: appearance.chapterMarkerColor
-    Component.onCompleted: {
-        player.chaptersChanged.connect(chapterMarker.destroy)
+    Connections {
+        target: player
+        enabled: true
+        onChaptersChanged: {chapterMarker.destroy()}
     }
 
     width: 4

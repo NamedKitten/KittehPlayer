@@ -581,4 +581,3 @@ MpvPlayerBackend::createRenderer() const
   window()->setPersistentSceneGraph(true);
   return new MpvRenderer(const_cast<MpvPlayerBackend*>(this));
 }
-

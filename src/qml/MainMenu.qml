@@ -20,8 +20,12 @@ MenuBar {
         }
     }
 
-    Component.onCompleted: {
-        player.tracksChanged.connect(updateTracks)
+    Connections {
+        target: player
+        enabled: true
+        onTracksChanged: function (tracks) {
+            menuBar.updateTracks(tracks)
+        }
     }
 
     function updateTracks(tracks) {
@@ -340,8 +344,12 @@ MenuBar {
             id: audioDeviceMenu
             objectName: "audioDeviceMenu"
 
-            Component.onCompleted: {
-                player.audioDevicesChanged.connect(updateAudioDevices)
+            Connections {
+                target: player
+                enabled: true
+                onAudioDevicesChanged: function (ad) {
+                    audioDeviceMenu.updateAudioDevices(ad)
+                }
             }
             function updateAudioDevices(audioDevices) {
                 for (var i = 0, len = audioDeviceMenu.count; i < len; i++) {

@@ -106,23 +106,22 @@ main(int argc, char* argv[])
   QSettings settings;
   QString backendSetting = settings.value("Backend/backend", "").toString();
   if (backendSetting.length() == 0) {
-      #ifndef DISABLE_MpvPlayerBackend
-      settings.setValue("Backend/backend", "mpv");
-      #else
-      settings.setValue("Backend/backend", "direct-mpv");
-      #endif
+#ifndef DISABLE_MpvPlayerBackend
+    settings.setValue("Backend/backend", "mpv");
+#else
+    settings.setValue("Backend/backend", "direct-mpv");
+#endif
   }
 
-    qDebug() << backendSetting;
+  qDebug() << backendSetting;
 
   for (int i = 1; i < argc; ++i) {
     if (!qstrcmp(argv[i], "--update")) {
       Utils::updateAppImage();
-    } 
-    else if (!qstrcmp(argv[i], "--backend=mpv") || backendSetting == "mpv") {
+    } else if (!qstrcmp(argv[i], "--backend=mpv") || backendSetting == "mpv") {
       backend = Enums::Backends::MpvBackend;
-    } 
-    else if (!qstrcmp(argv[i], "--backend=direct-mpv") || backendSetting == "direct-mpv") {
+    } else if (!qstrcmp(argv[i], "--backend=direct-mpv") ||
+               backendSetting == "direct-mpv") {
       backend = Enums::Backends::DirectMpvBackend;
     }
   }
@@ -141,19 +140,20 @@ main(int argc, char* argv[])
   qRegisterMetaType<Enums::Backends>("Enums.Backends");
 
   qRegisterMetaType<Enums::Commands>("Enums.Commands");
-  
+
   qmlRegisterType<UtilsClass>("player", 1, 0, "Utils");
 
   switch (backend) {
     case Enums::Backends::MpvBackend: {
-        #ifndef DISABLE_MpvPlayerBackend
-            qmlRegisterType<MpvPlayerBackend>("player", 1, 0, "PlayerBackend");
-        #else
-            qDebug() << "Normal MPV backend not available, resetting backend option to blank.";
-            settings.setValue("Backend/backend", "direct-mpv");
-            app.exit();
-        #endif
-        break;
+#ifndef DISABLE_MpvPlayerBackend
+      qmlRegisterType<MpvPlayerBackend>("player", 1, 0, "PlayerBackend");
+#else
+      qDebug() << "Normal MPV backend not available, resetting backend option "
+                  "to blank.";
+      settings.setValue("Backend/backend", "direct-mpv");
+      app.exit();
+#endif
+      break;
     }
     case Enums::Backends::DirectMpvBackend: {
       qmlRegisterType<DirectMpvPlayerBackend>("player", 1, 0, "PlayerBackend");
@@ -171,7 +171,7 @@ main(int argc, char* argv[])
   rt->setMainQmlFilename("main.qml");
   rt->reload();
 #else
-  engine.load(QUrl(QStringLiteral("qrc:///player/main.qml")));
+  engine.load(QUrl(QStringLiteral("qrc:///main.qml")));
 #endif
 
   return app.exec();
