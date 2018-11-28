@@ -10,12 +10,14 @@
 #include <QtCore>
 
 #ifdef __linux__
+#ifdef ENABLE_X11
 #include <QX11Info>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #include <X11/extensions/Xrandr.h>
 #include <X11/extensions/dpms.h>
 #include <X11/keysym.h>
+#endif
 #endif
 
 namespace Utils {
@@ -70,6 +72,7 @@ SetDPMS(bool on)
   if (getPlatformName() != "xcb") {
     return;
   }
+#ifdef ENABLE_X11
   Display* dpy = QX11Info::display();
   if (on) {
     DPMSEnable(dpy);
@@ -78,17 +81,21 @@ SetDPMS(bool on)
     DPMSDisable(dpy);
     qDebug() << "Disabled DPMS.";
   }
+#endif
 }
 void
 ResetScreensaver()
 {
+#ifdef ENABLE_X11
   Display* display = QX11Info::display();
   XResetScreenSaver(display);
+#endif
 }
 
 void
 AlwaysOnTop(WId wid, bool on)
 {
+#ifdef ENABLE_X11
   Display* display = QX11Info::display();
   XEvent event;
   event.xclient.type = ClientMessage;
@@ -110,6 +117,7 @@ AlwaysOnTop(WId wid, bool on)
              False,
              SubstructureRedirectMask | SubstructureNotifyMask,
              &event);
+#endif
 }
 
 #else

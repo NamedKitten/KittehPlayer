@@ -18,8 +18,13 @@ qtquick_compiler_add_resources(qml_QRC src/qml/qml.qrc)
 
 find_package(PkgConfig)
 pkg_check_modules(MPV REQUIRED mpv)
-pkg_check_modules(X11 REQUIRED x11)
-pkg_check_modules(Xext REQUIRED xext)
+pkg_check_modules(X11 x11)
+pkg_check_modules(Xext xext)
+
+if(X11_FOUND AND Xext_FOUND)
+add_definitions(-DENABLE_X11)
+endif(X11_FOUND AND Xext_FOUND)
+
 
 set(SOURCES
     src/main.cpp

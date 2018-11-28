@@ -1,7 +1,7 @@
 TARGET = KittehPlayer
 
 TEMPLATE = app
-QT += qml quickcontrols2 widgets x11extras
+QT += qml quickcontrols2 widgets
 
 SOURCES += src/main.cpp src/MpvPlayerBackend.cpp  src/DirectMpvPlayerBackend.cpp src/utils.cpp
 
@@ -16,7 +16,6 @@ unix {
     isEmpty {
         PREFIX = /usr
     }
-    PKGCONFIG += x11 xext
 
     target.path = $$PREFIX/bin
 
