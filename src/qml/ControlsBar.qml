@@ -30,7 +30,9 @@ Item {
         }
 
         var component = Qt.createComponent(themeName + "ButtonLayout.qml")
-        component.createObject(controlsBar, {})
+        component.createObject(controlsBar, {
+
+                               })
     }
 
     Item {
