@@ -6,6 +6,8 @@
         <file>MainMenu.qml</file>
         <file>YouTubeButtonLayout.qml</file>
         <file>NiconicoButtonLayout.qml</file>
+        <file alias="ForwardButton.qml">UIComponents/ForwardButton.qml</file>
+        <file alias="BackwardButton.qml">UIComponents/BackwardButton.qml</file>
         <file alias="PlaylistPrevButton.qml">UIComponents/PlaylistPrevButton.qml</file>
         <file alias="PlayPauseButton.qml">UIComponents/PlayPauseButton.qml</file>
         <file alias="VideoProgress.qml">UIComponents/VideoProgress.qml</file>
@@ -45,6 +47,8 @@
         <file>icons/Niconico/prev.svg</file>
         <file>icons/Niconico/next.svg</file>
         <file>icons/Niconico/fullscreen.svg</file>
+        <file>icons/Niconico/forward.svg</file>
+        <file>icons/Niconico/backward.svg</file>
         <file>icons/nyancat.gif</file>
         <file>icons/rainbow.png</file> 
     </qresource>

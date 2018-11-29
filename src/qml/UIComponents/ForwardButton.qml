@@ -8,17 +8,13 @@ import Qt.labs.platform 1.0 as LabsPlatform
 import player 1.0
 
 Button {
-    id: fullscreenButton
-    //icon.name: "fullscreen"
-    icon.source: "icons/" + appearance.themeName + "/fullscreen.svg"
+    id: forwardButton
+    icon.source: "icons/" + appearance.themeName + "/forward.svg"
     icon.color: appearance.buttonColor
-    Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
-
     display: AbstractButton.IconOnly
     onClicked: {
-        toggleFullscreen()
+        player.playerCommand(Enums.Commands.Seek, "10")
     }
-
     background: Item {
     }
 }

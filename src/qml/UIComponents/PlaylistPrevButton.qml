@@ -7,31 +7,29 @@ import Qt.labs.settings 1.0
 import Qt.labs.platform 1.0 as LabsPlatform
 import player 1.0
 
-
 Button {
-                id: playlistPrevButton
-                objectName: "playlistPrevButton"
-                icon.source: "icons/" + appearance.themeName + "/prev.svg"
-                icon.color: appearance.buttonColor
-                display: AbstractButton.IconOnly
-                visible: appearance.themeName == "Youtube" ? false : true
-                onClicked: {
-                    player.playerCommand(Enums.Commands.PreviousPlaylistItem)
-                }
-                background: Item {
-                }
-                Connections {
-                    target: player
-                    enabled: true
-                    onPlaylistPositionChanged: function (position) {
-                        if (appearance.themeName == "YouTube") {
-                        if (position != 0) {
-                            visible = true
-                            
-                        } else {
-                            visible = false
-                        }
-                        }
-                    }
+    id: playlistPrevButton
+    objectName: "playlistPrevButton"
+    icon.source: "icons/" + appearance.themeName + "/prev.svg"
+    icon.color: appearance.buttonColor
+    display: AbstractButton.IconOnly
+    visible: appearance.themeName == "Youtube" ? false : true
+    onClicked: {
+        player.playerCommand(Enums.Commands.PreviousPlaylistItem)
+    }
+    background: Item {
+    }
+    Connections {
+        target: player
+        enabled: true
+        onPlaylistPositionChanged: function (position) {
+            if (appearance.themeName == "YouTube") {
+                if (position != 0) {
+                    visible = true
+                } else {
+                    visible = false
                 }
             }
+        }
+    }
+}

@@ -15,16 +15,16 @@ Dialog {
     Connections {
         target: player
         enabled: true
-        onPlaylistChanged: function(playlist) {
+        onPlaylistChanged: function (playlist) {
             playlistModel.clear()
             for (var thing in playlist) {
                 var item = playlist[thing]
                 playlistModel.append({
-                                        playlistItemTitle: item["title"],
-                                        playlistItemFilename: item["filename"],
-                                        current: item["current"],
-                                        playlistPos: thing
-                                    })
+                                         playlistItemTitle: item["title"],
+                                         playlistItemFilename: item["filename"],
+                                         current: item["current"],
+                                         playlistPos: thing
+                                     })
             }
         }
     }

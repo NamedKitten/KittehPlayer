@@ -10,6 +10,7 @@ import player 1.0
 Item {
     objectName: "buttonLayout"
     id: layout
+    anchors.fill: controlsBar
 
     PlayPauseButton {
         id: playPauseButton
@@ -36,11 +37,19 @@ Item {
 
     PlaylistPrevButton {
         id: playlistPrevButton
-        anchors.right: timeLabel.left
+        anchors.right: backwardButton.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         icon.height: 16
         icon.width: 16
+    }
+    BackwardButton {
+        id: backwardButton
+        anchors.right: timeLabel.left
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        icon.height: 32
+        icon.width: 32
     }
     TimeLabel {
         id: timeLabel
@@ -48,9 +57,17 @@ Item {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
     }
+    ForwardButton {
+        id: forwardButton
+        anchors.left: timeLabel.right
+        anchors.top: parent.top
+        anchors.bottom: parent.bottom
+        icon.height: 32
+        icon.width: 32
+    }
     PlaylistNextButton {
         id: playlistNextButton
-        anchors.left: timeLabel.right
+        anchors.left: forwardButton.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         icon.height: 16

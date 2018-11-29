@@ -10,6 +10,7 @@ import player 1.0
 Item {
     objectName: "buttonLayout"
     id: layout
+    anchors.fill: controlsBar
 
     PlaylistPrevButton {
         id: playlistPrevButton

@@ -10,7 +10,9 @@ Rectangle {
     Connections {
         target: player
         enabled: true
-        onChaptersChanged: {chapterMarker.destroy()}
+        onChaptersChanged: {
+            chapterMarker.destroy()
+        }
     }
 
     width: 4
