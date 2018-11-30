@@ -42,7 +42,10 @@ class DirectMpvPlayerBackend
   mpv_opengl_cb_context* mpv_gl;
   MpvRenderer* renderer;
   bool onTop = false;
+  int lastTime = 0;
+  double lastSpeed = 0;
   QString totalDurationString;
+  QString lastPositionString;
 
 public:
   static void on_update(void* ctx);
@@ -92,7 +95,7 @@ signals:
 private slots:
   void doUpdate();
   void on_mpv_events();
-  void updateDurationString();
+  void updateDurationString(int numTime);
   void handleWindowChanged(QQuickWindow* win);
 
 private:

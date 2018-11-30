@@ -449,13 +449,31 @@ MpvPlayerBackend::on_mpv_events()
 }
 
 void
-MpvPlayerBackend::updateDurationString()
+MpvPlayerBackend::updateDurationString(int numTime)
 {
-  emit durationStringChanged(
-    QString("%1  / %2 (%3x)")
-      .arg(Utils::createTimestamp(getProperty("time-pos").toInt()),
-           totalDurationString,
-           getProperty("speed").toString()));
+  QVariant speed = getProperty("speed");
+  QMetaMethod metaMethod = sender()->metaObject()->method(senderSignalIndex());
+  if (metaMethod.name() == "positionChanged") {
+    if (speed != lastSpeed) {
+      lastSpeed = speed.toDouble();
+    } else {
+      if (numTime == lastTime) {
+        return;
+      }
+    }
+    lastTime = numTime;
+    lastPositionString = Utils::createTimestamp(lastTime);
+  } else if (metaMethod.name() == "durationChanged") {
+    totalDurationString = Utils::createTimestamp(numTime);
+  }
+  QString durationString;
+  durationString += lastPositionString;
+  durationString += " / ";
+  durationString += totalDurationString;
+  if (lastSpeed != 1) {
+    durationString += " (" + speed.toString() + "x)";
+  }
+  emit durationStringChanged(durationString);
 }
 
 void
@@ -496,13 +514,12 @@ MpvPlayerBackend::handle_mpv_event(mpv_event* event)
         if (prop->format == MPV_FORMAT_DOUBLE) {
           double time = *(double*)prop->data;
           emit positionChanged(time);
-          Utils::ResetScreensaver();
         }
       } else if (strcmp(prop->name, "duration") == 0) {
         if (prop->format == MPV_FORMAT_DOUBLE) {
           double time = *(double*)prop->data;
-          totalDurationString = Utils::createTimestamp(time);
           emit durationChanged(time);
+          Utils::ResetScreensaver();
         }
       } else if (strcmp(prop->name, "mute") == 0 ||
                  strcmp(prop->name, "volume") == 0) {

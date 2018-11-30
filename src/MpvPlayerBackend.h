@@ -27,7 +27,10 @@ class MpvPlayerBackend
   mpv_handle* mpv;
   mpv_render_context* mpv_gl;
   bool onTop = false;
+  int lastTime = 0;
+  double lastSpeed = 0;
   QString totalDurationString;
+  QString lastPositionString;
 
   friend class MpvRenderer;
 
@@ -77,7 +80,7 @@ signals:
 private slots:
   void doUpdate();
   void on_mpv_events();
-  void updateDurationString();
+  void updateDurationString(int numTime);
 
 private:
   void handle_mpv_event(mpv_event* event);
