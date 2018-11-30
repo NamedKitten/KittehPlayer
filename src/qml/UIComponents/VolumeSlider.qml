@@ -33,9 +33,9 @@ Slider {
     handle: Rectangle {
         x: volumeBar.leftPadding + volumeBar.visualPosition * (volumeBar.availableWidth - width)
         y: volumeBar.topPadding + volumeBar.availableHeight / 2 - height / 2
-        implicitWidth: 12
-        implicitHeight: 12
-        radius: 12
+        implicitWidth: height
+        implicitHeight: layout.height / 2.6
+        radius: height
         visible: appearance.themeName == "Niconico" ? false : true
         color: "#f6f6f6"
         border.color: "#f6f6f6"
@@ -44,8 +44,8 @@ Slider {
     background: Rectangle {
         x: volumeBar.leftPadding
         y: volumeBar.topPadding + volumeBar.availableHeight / 2 - height / 2
-        implicitWidth: appearance.themeName == "Niconico" ? 80 : 60
-        implicitHeight: appearance.themeName == "Niconico" ? 4 : 3
+        implicitWidth: layout.width / 11
+        implicitHeight: appearance.themeName == "Niconico" ? layout.height / 8 : layout.height / 10
         width: volumeBar.availableWidth
         height: implicitHeight
         color: appearance.progressBackgroundColor

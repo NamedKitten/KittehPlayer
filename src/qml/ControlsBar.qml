@@ -75,7 +75,7 @@ Item {
                     color: "white"
                     anchors.horizontalCenter: parent.horizontalCenter
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                    font.pixelSize: Screen.height / 24
+                    font.pixelSize: mainWindow.virtualHeight / 24
                     font.family: appearance.fontName
                     horizontalAlignment: Text.AlignHCenter
                     opacity: 1
@@ -112,13 +112,13 @@ Item {
 
     Item {
         id: controlsBar
-        height: controlsBar.visible ? Screen.height / 24 : 0
+        height: controlsBar.visible ? mainWindow.virtualHeight / 24 : 0
         anchors.right: parent.right
         anchors.rightMargin: parent.width / 128
         anchors.left: parent.left
         anchors.leftMargin: parent.width / 128
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: 2
+        anchors.bottomMargin: 0
         visible: controlsOverlay.controlsShowing
         VideoProgress {
             id: progressBar

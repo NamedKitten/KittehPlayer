@@ -11,6 +11,7 @@ Item {
     objectName: "buttonLayout"
     id: layout
     anchors.fill: controlsBar
+    height: parent.height
 
     PlaylistPrevButton {
         id: playlistPrevButton
@@ -18,18 +19,25 @@ Item {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         width: visible ? playlistNextButton.width : 0
+        icon.height: parent.height / 2
+        icon.width: parent.height / 2
     }
     PlayPauseButton {
         id: playPauseButton
         anchors.left: playlistPrevButton.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
+        icon.height: parent.height / 2
+        icon.width: parent.height / 2
+
     }
     PlaylistNextButton {
         id: playlistNextButton
         anchors.left: playPauseButton.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
+        icon.height: parent.height / 2
+        icon.width: parent.height / 2
     }
 
     VolumeButton {
@@ -37,12 +45,15 @@ Item {
         anchors.left: playlistNextButton.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
+        icon.height: parent.height / 2
+        icon.width: parent.height / 2
     }
     VolumeSlider {
         id: volumeSlider
         anchors.left: volumeButton.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
+        height: parent.height
     }
     TimeLabel {
         anchors.left: volumeSlider.right
@@ -55,11 +66,15 @@ Item {
         anchors.right: fullscreenButton.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
+        icon.height: parent.height / 2
+        icon.width: parent.height / 2
     }
     FullscreenButton {
         id: fullscreenButton
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
+        icon.height: parent.height / 2
+        icon.width: parent.height / 2
     }
 }

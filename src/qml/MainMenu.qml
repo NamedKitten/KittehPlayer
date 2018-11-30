@@ -11,7 +11,7 @@ import "codes.js" as LanguageCodes
 MenuBar {
     id: menuBar
     //width: parent.width
-    height: Screen.height / 32
+    height: mainWindow.virtualHeight / 32
     function anythingOpen() {
         for (var i = 0, len = menuBar.count; i < len; i++) {
             if (menuBar.menuAt(i).opened) {
@@ -145,7 +145,7 @@ MenuBar {
             id: menuBarItemText
             text: menuBarItem.text
             font.family: appearance.fontName
-            font.pixelSize: 14
+            font.pixelSize: menuBar.height / 2
             font.bold: menuBarItem.highlighted
             opacity: 1
             color: menuBarItem.highlighted ? "#5a50da" : "white"
@@ -496,11 +496,6 @@ MenuBar {
                 playlistDialog.open()
             }
         }
-    }
-    CustomMenu {
-        id: aboutMenuBarItem
-        title: translate.getTranslation("ABOUT", i18n.language)
-
         Action {
             text: translate.getTranslation("ABOUT_QT", i18n.language)
             onTriggered: {

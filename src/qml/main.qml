@@ -15,6 +15,8 @@ Window {
     visible: true
     width: 720
     height: 480
+    property int virtualHeight: Screen.height * appearance.scaleFactor
+    property int virtualWidth: Screen.width * appearance.scaleFactor
 
     property bool onTop: false
 
@@ -43,6 +45,7 @@ Window {
         property string progressSliderColor: "red"
         property string chapterMarkerColor: "#fc0"
         property string volumeSliderBackground: "white"
+        property double scaleFactor: 1.0
     }
 
     Settings {
@@ -234,6 +237,19 @@ Window {
                 mouseAreaPlayerTimer.stop()
             }
         }
+        
+        Action {
+                onTriggered: {
+                    appearance.scaleFactor += 0.1
+                }
+                shortcut: "Ctrl+Shift+="
+        }
+        Action {
+                onTriggered: {
+                    appearance.scaleFactor -= 0.1
+                }
+                shortcut: "Ctrl+Shift+-"
+        }
 
         MouseArea {
             id: mouseAreaPlayer
@@ -315,11 +331,10 @@ Window {
                 anchors.left: parent.left
                 anchors.leftMargin: 10
                 anchors.bottom: parent.bottom
-                topPadding: 4
-                bottomPadding: 4
+                anchors.bottomMargin: 8
                 anchors.top: parent.top
                 font.family: appearance.fontName
-                font.pixelSize: 14
+                font.pixelSize: menuBar.height - (anchors.bottomMargin + anchors.topMargin)
                 font.bold: true
                 opacity: 1
                 visible: controlsOverlay.controlsShowing

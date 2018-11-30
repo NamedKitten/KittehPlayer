@@ -16,18 +16,16 @@ Item {
         id: playPauseButton
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        height: 16
-        width: 26
-        icon.height: 16
-        icon.width: 26
+        icon.height: parent.height / 2
+        icon.width: parent.height / 2
     }
     VolumeButton {
         id: volumeButton
         anchors.left: playPauseButton.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        icon.height: 16
-        icon.width: 16
+        icon.height: parent.height / 2
+        icon.width: parent.height / 2
     }
     VolumeSlider {
         anchors.left: volumeButton.right
@@ -40,16 +38,17 @@ Item {
         anchors.right: backwardButton.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        icon.height: 16
-        icon.width: 16
+        icon.height: parent.height / 2
+        icon.width: parent.height / 2
+
     }
     BackwardButton {
         id: backwardButton
         anchors.right: timeLabel.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        icon.height: 32
-        icon.width: 32
+        icon.height: parent.height / 2
+        icon.width: parent.height / 2
     }
     TimeLabel {
         id: timeLabel
@@ -62,16 +61,18 @@ Item {
         anchors.left: timeLabel.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        icon.height: 32
-        icon.width: 32
+        icon.height: parent.height / 2
+        icon.width: parent.height / 2
+
     }
     PlaylistNextButton {
         id: playlistNextButton
         anchors.left: forwardButton.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        icon.height: 16
-        icon.width: 16
+        icon.height: parent.height / 2
+        icon.width: parent.height / 2
+
     }
 
     FullscreenButton {
@@ -79,15 +80,17 @@ Item {
         anchors.right: settingsButton.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        icon.height: 16
-        icon.width: 16
+        icon.height: parent.height / 2
+        icon.width: parent.height / 2
+
     }
     SettingsButton {
         id: settingsButton
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        icon.height: 16
-        icon.width: 16
+        icon.height: parent.height / 2
+        icon.width: parent.height / 2
+
     }
 }

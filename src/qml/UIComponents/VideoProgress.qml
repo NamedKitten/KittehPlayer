@@ -32,7 +32,7 @@ Slider {
     }
 
     function getProgressBarHeight(nyan, isMouse) {
-        var x = Math.max(Screen.height / 256, fun.nyanCat ? 12 : 2)
+        var x = fun.nyanCat ? mainWindow.virtualHeight / 64 : Screen.height / 380
         if (appearance.themeName == "Niconico" && !fun.nyanCat) {
             return x * 2
         } else if (isMouse & !fun.nyanCat) {
@@ -78,12 +78,12 @@ Slider {
         color: appearance.progressBackgroundColor
 
         Rectangle {
-            x: (mouseAreaProgressBar.mouseX - width / 2) + progressBar.leftPadding
-            y: progressBackground.y - 20 - height
+            x: (mouseAreaProgressBar.mouseX - hoverProgressLabel.width / 2)
+            y: progressBackground.y - 20 - hoverProgressLabel.height
             visible: mouseAreaProgressBar.containsMouse
             color: appearance.mainBackground
-            height: 20
-            width: 50
+            height: hoverProgressLabel.height
+            width: hoverProgressLabel.width
             z: 80
             Text {
                 id: hoverProgressLabel
@@ -91,7 +91,7 @@ Slider {
                 color: "white"
                 padding: 2
                 font.family: appearance.fontName
-                font.pixelSize: 14
+                font.pixelSize: mainWindow.virtualHeight / 50
                 verticalAlignment: Text.AlignVCenter
                 renderType: Text.NativeRendering
             }
@@ -168,7 +168,7 @@ Slider {
             z: 80
             visible: fun.nyanCat
             paused: progressBar.pressed
-            height: 30
+            height: mainWindow.virtualHeight / 28
             id: nyanimation
             anchors.centerIn: parent
             source: "qrc:/icons/nyancat.gif"

@@ -14,7 +14,7 @@ Text {
     color: "white"
     padding: 2
     font.family: appearance.fontName
-    font.pixelSize: 14
+    font.pixelSize: layout.height / 2.5
     verticalAlignment: Text.AlignVCenter
     renderType: Text.NativeRendering
     Connections {
