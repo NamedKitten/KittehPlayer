@@ -92,6 +92,8 @@ Window {
         property string increaseVolume: "*"
         property string decreaseVolume: "/"
         property string mute: "m"
+        property string increaseScale: "Ctrl+Shift+="
+        property string decreaseScale: "Ctrl+Shift+-"
         property string customKeybind0: ""
         property string customKeybind0Command: ""
         property string customKeybind1: ""
@@ -242,13 +244,13 @@ Window {
                 onTriggered: {
                     appearance.scaleFactor += 0.1
                 }
-                shortcut: "Ctrl+Shift+="
+                shortcut: appearance.increaseScale
         }
         Action {
                 onTriggered: {
                     appearance.scaleFactor -= 0.1
                 }
-                shortcut: "Ctrl+Shift+-"
+                shortcut: appearance.decreaseScale
         }
 
         MouseArea {
