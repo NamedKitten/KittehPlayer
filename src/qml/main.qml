@@ -70,7 +70,7 @@ Window {
         property string buttonColor: "white"
         property string progressSliderColor: "#007cff"
         property string chapterMarkerColor: "#fc0"
-        property string volumeSliderBackground: "#0077cff"
+        property string volumeSliderBackground: "#007cff"
     }
 
     Settings {
