@@ -159,6 +159,7 @@ DirectMpvPlayerBackend::sync()
 {
 
   if (!renderer) {
+    window()->setIcon(QIcon(":/icon.png"));
     renderer = new MpvRenderer(mpv, mpv_gl);
     connect(window(),
             &QQuickWindow::beforeRendering,

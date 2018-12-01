@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
+        <file>icon.png</file>
         <file>main.qml</file>
         <file>CustomMenu.qml</file>
         <file>ControlsBar.qml</file>

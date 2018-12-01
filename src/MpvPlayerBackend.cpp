@@ -601,6 +601,7 @@ MpvPlayerBackend::handle_mpv_event(mpv_event* event)
 QQuickFramebufferObject::Renderer*
 MpvPlayerBackend::createRenderer() const
 {
+  window()->setIcon(QIcon(":/icon.png"));
   window()->setPersistentOpenGLContext(true);
   window()->setPersistentSceneGraph(true);
   return new MpvRenderer(const_cast<MpvPlayerBackend*>(this));
