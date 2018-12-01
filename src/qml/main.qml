@@ -51,7 +51,7 @@ Window {
 
     Settings {
         id: youTubeAppearance
-        category: "Appearance"
+        category: "YouTubeAppearance"
         property string mainBackground: "#9C000000"
         property string progressBackgroundColor: "#3CFFFFFF"
         property string progressCachedColor: "white"
@@ -63,7 +63,7 @@ Window {
 
     Settings {
         id: nicoNicoAppearance
-        category: "Appearance"
+        category: "NicoNicoAppearance"
         property string mainBackground: "#9C000000"
         property string progressBackgroundColor: "#444"
         property string progressCachedColor: "white"

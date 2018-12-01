@@ -97,7 +97,7 @@ add_executable(KittehPlayer ${SOURCES} ${qml_QRC})
 
 # Use the Qml/Quick modules from Qt 5.
 target_link_libraries(KittehPlayer ${MPV_LIBRARIES} ${X11_LIBRARIES} ${Xext_LIBRARIES} Qt5::X11Extras)
-
+include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
 qt5_use_modules(KittehPlayer Qml Quick Core Gui Widgets X11Extras)
 
 install (TARGETS ${PROJECT_NAME} DESTINATION bin)

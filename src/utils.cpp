@@ -68,9 +68,11 @@ SetScreensaver(WId wid, bool on)
   QProcess xdgScreensaver;
   xdgScreensaver.setProcessChannelMode(QProcess::ForwardedChannels);
   if (on) {
+    qDebug() << "Enabling screensaver.";
     xdgScreensaver.start("xdg-screensaver",
                          QStringList() << "resume" << QString::number(wid));
   } else {
+    qDebug() << "Disabling screensaver.";
     xdgScreensaver.start("xdg-screensaver",
                          QStringList() << "suspend" << QString::number(wid));
   }

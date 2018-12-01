@@ -1,7 +1,6 @@
 #include <clocale>
 #include <stdbool.h>
 #include <stdexcept>
-
 #include "MpvPlayerBackend.h"
 
 #include "utils.hpp"
@@ -20,6 +19,8 @@
 #include <QX11Info>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#include <QtX11Extras/QX11Info>
+#include <qpa/qplatformnativeinterface.h>
 #endif
 
 namespace {
@@ -33,7 +34,7 @@ wakeup(void* ctx)
 void
 on_mpv_redraw(void* ctx)
 {
-  MpvPlayerBackend::on_update(ctx);
+    QMetaObject::invokeMethod(reinterpret_cast<MpvPlayerBackend*>(ctx), "update");
 }
 
 static void*
@@ -74,8 +75,22 @@ public:
         { MPV_RENDER_PARAM_API_TYPE,
           const_cast<char*>(MPV_RENDER_API_TYPE_OPENGL) },
         { MPV_RENDER_PARAM_OPENGL_INIT_PARAMS, &gl_init_params },
+        { MPV_RENDER_PARAM_INVALID, nullptr },
         { MPV_RENDER_PARAM_INVALID, nullptr }
       };
+#if __linux__
+    if (QGuiApplication::platformName().contains("xcb")) {
+        params[2].type = MPV_RENDER_PARAM_X11_DISPLAY;
+        params[2].data = QX11Info::display();
+        qDebug() << "On Xorg.";
+    } else if (QGuiApplication::platformName().contains("wayland")) {
+        QPlatformNativeInterface *native = QGuiApplication::platformNativeInterface();
+        params[2].type = MPV_RENDER_PARAM_WL_DISPLAY;
+        params[2].data = native->nativeResourceForWindow("display", nullptr);
+        qDebug() << "On wayland.";
+    }
+#endif
+      
       if (mpv_render_context_create(&obj->mpv_gl, obj->mpv, params) < 0)
         throw std::runtime_error("failed to initialize mpv GL context");
       mpv_render_context_set_update_callback(obj->mpv_gl, on_mpv_redraw, obj);
@@ -95,23 +110,15 @@ public:
                           .h = fbo->height(),
                           .internal_format = 0 };
     int flip_y{ 0 };
-#ifdef __linux__
-    Display* dpy = QX11Info::display();
-#endif
     mpv_render_param params[] = {
-      // Specify the default framebuffer (0) as target. This will
-      // render onto the entire screen. If you want to show the video
-      // in a smaller rectangle or apply fancy transformations, you'll
-      // need to render into a separate FBO and draw it manually.
       { MPV_RENDER_PARAM_OPENGL_FBO, &mpfbo },
-#ifdef __linux__
-      { MPV_RENDER_PARAM_X11_DISPLAY, dpy },
-#endif
 
       // Flip rendering (needed due to flipped GL coordinate system).
       { MPV_RENDER_PARAM_FLIP_Y, &flip_y },
       { MPV_RENDER_PARAM_INVALID, nullptr }
     };
+
+    
     // See render_gl.h on what OpenGL environment mpv expects, and
     // other API details.
     mpv_render_context_render(obj->mpv_gl, params);
