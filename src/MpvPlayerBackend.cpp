@@ -159,7 +159,7 @@ MpvPlayerBackend::MpvPlayerBackend(QQuickItem* parent)
   mpv_observe_property(mpv, 0, "sub-text", MPV_FORMAT_STRING);
   mpv_observe_property(mpv, 0, "time-pos", MPV_FORMAT_DOUBLE);
   mpv_observe_property(mpv, 0, "demuxer-cache-duration", MPV_FORMAT_DOUBLE);
-  mpv_observe_property(mpv, 0, "pause", MPV_FORMAT_DOUBLE);
+  mpv_observe_property(mpv, 0, "pause", MPV_FORMAT_NODE);
   mpv_observe_property(mpv, 0, "playlist", MPV_FORMAT_NODE);
   mpv_set_wakeup_callback(mpv, wakeup, this);
 
@@ -519,7 +519,6 @@ MpvPlayerBackend::handle_mpv_event(mpv_event* event)
         if (prop->format == MPV_FORMAT_DOUBLE) {
           double time = *(double*)prop->data;
           emit durationChanged(time);
-          Utils::ResetScreensaver();
         }
       } else if (strcmp(prop->name, "mute") == 0 ||
                  strcmp(prop->name, "volume") == 0) {
@@ -558,11 +557,12 @@ MpvPlayerBackend::handle_mpv_event(mpv_event* event)
         }
       } else if (strcmp(prop->name, "pause") == 0) {
         mpv_node* nod = (mpv_node*)prop->data;
-        qDebug() << mpv::qt::node_to_variant(nod);
-        if (getProperty("pause").toBool()) {
+        if (mpv::qt::node_to_variant(nod).toBool()) {
           emit playStatusChanged(Enums::PlayStatus::Paused);
+          Utils::SetScreensaver(window()->winId(), true);
         } else {
           emit playStatusChanged(Enums::PlayStatus::Playing);
+          Utils::SetScreensaver(window()->winId(), false);
         }
       } else if (strcmp(prop->name, "track-list") == 0) {
         mpv_node* nod = (mpv_node*)prop->data;

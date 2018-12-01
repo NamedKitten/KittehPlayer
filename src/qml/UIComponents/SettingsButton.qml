@@ -11,7 +11,7 @@ Button {
     id: settingsButton
     //icon.name: "settings"
     icon.source: "icons/" + appearance.themeName + "/settings.svg"
-    icon.color: appearance.buttonColor
+    icon.color: getAppearanceValueForTheme(appearance.themeName, "buttonColor")
     Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
     display: AbstractButton.IconOnly
     onClicked: {

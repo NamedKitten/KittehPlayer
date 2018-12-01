@@ -14,9 +14,6 @@
 #include <QX11Info>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
-#include <X11/extensions/Xrandr.h>
-#include <X11/extensions/dpms.h>
-#include <X11/keysym.h>
 #endif
 #endif
 
@@ -65,36 +62,53 @@ createTimestamp(int seconds)
   }
 }
 
-#ifdef __linux__
+void
+SetScreensaver(WId wid, bool on)
+{
+  QProcess xdgScreensaver;
+  xdgScreensaver.setProcessChannelMode(QProcess::ForwardedChannels);
+  if (on) {
+    xdgScreensaver.start("xdg-screensaver",
+                         QStringList() << "resume" << QString::number(wid));
+  } else {
+    xdgScreensaver.start("xdg-screensaver",
+                         QStringList() << "suspend" << QString::number(wid));
+  }
+  xdgScreensaver.waitForFinished();
+}
+
 void
 SetDPMS(bool on)
 {
+#ifdef __linux__
   if (getPlatformName() != "xcb") {
     return;
   }
-#ifdef ENABLE_X11
-  Display* dpy = QX11Info::display();
+  QProcess xsetProcess;
+  xsetProcess.setProcessChannelMode(QProcess::ForwardedChannels);
   if (on) {
-    DPMSEnable(dpy);
     qDebug() << "Enabled DPMS.";
+    xsetProcess.start("xset",
+                      QStringList() << "s"
+                                    << "on"
+                                    << "+dpms");
   } else {
-    DPMSDisable(dpy);
     qDebug() << "Disabled DPMS.";
+    xsetProcess.start("xset",
+                      QStringList() << "s"
+                                    << "off"
+                                    << "-dpms");
   }
-#endif
-}
-void
-ResetScreensaver()
-{
-#ifdef ENABLE_X11
-  Display* display = QX11Info::display();
-  XResetScreenSaver(display);
+  xsetProcess.waitForFinished();
+#else
+  qDebug() << "Can't set DPMS for platform: " << getPlatformName();
 #endif
 }
 
 void
 AlwaysOnTop(WId wid, bool on)
 {
+#ifdef __linux__
 #ifdef ENABLE_X11
   Display* display = QX11Info::display();
   XEvent event;
@@ -118,27 +132,8 @@ AlwaysOnTop(WId wid, bool on)
              SubstructureRedirectMask | SubstructureNotifyMask,
              &event);
 #endif
-}
-
 #else
-
-void
-AlwaysOnTop(WId wid, bool on)
-{
   qDebug() << "Can't set on top for platform: " << getPlatformName();
-}
-
-void
-SetDPMS(bool on)
-{
-  qDebug() << "Can't set DPMS for platform: " << getPlatformName();
-}
-
-void
-ResetScreensaver()
-{
-  qDebug() << "Can't reset screensaver for: " << getPlatformName();
-}
-
 #endif
+}
 }

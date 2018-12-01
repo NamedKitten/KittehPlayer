@@ -40,7 +40,6 @@ Item {
         anchors.bottom: parent.bottom
         icon.height: parent.height / 2
         icon.width: parent.height / 2
-
     }
     BackwardButton {
         id: backwardButton
@@ -63,7 +62,6 @@ Item {
         anchors.bottom: parent.bottom
         icon.height: parent.height / 2
         icon.width: parent.height / 2
-
     }
     PlaylistNextButton {
         id: playlistNextButton
@@ -72,7 +70,6 @@ Item {
         anchors.bottom: parent.bottom
         icon.height: parent.height / 2
         icon.width: parent.height / 2
-
     }
 
     FullscreenButton {
@@ -82,7 +79,6 @@ Item {
         anchors.bottom: parent.bottom
         icon.height: parent.height / 2
         icon.width: parent.height / 2
-
     }
     SettingsButton {
         id: settingsButton
@@ -91,6 +87,5 @@ Item {
         anchors.bottom: parent.bottom
         icon.height: parent.height / 2
         icon.width: parent.height / 2
-
     }
 }

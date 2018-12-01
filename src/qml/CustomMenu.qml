@@ -6,7 +6,8 @@ Menu {
     background: Rectangle {
         implicitWidth: parent.width
         implicitHeight: 10
-        color: appearance.mainBackground
+        color: getAppearanceValueForTheme(appearance.themeName,
+                                          "mainBackground")
     }
     delegate: CustomMenuItem {
     }

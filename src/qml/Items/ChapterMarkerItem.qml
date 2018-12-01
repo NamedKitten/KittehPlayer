@@ -6,7 +6,8 @@ import player 1.0
 Rectangle {
     id: chapterMarker
     property int time: 0
-    color: appearance.chapterMarkerColor
+    color: getAppearanceValueForTheme(appearance.themeName,
+                                      "chapterMarkerColor")
     Connections {
         target: player
         enabled: true

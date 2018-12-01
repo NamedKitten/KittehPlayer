@@ -75,13 +75,15 @@ Slider {
         width: progressBar.availableWidth
         height: progressBar.getProgressBarHeight(
                     fun.nyanCat, mouseAreaProgressBar.containsMouse)
-        color: appearance.progressBackgroundColor
+        color: getAppearanceValueForTheme(appearance.themeName,
+                                          "progressBackgroundColor")
 
         Rectangle {
             x: (mouseAreaProgressBar.mouseX - hoverProgressLabel.width / 2)
             y: progressBackground.y - 20 - hoverProgressLabel.height
             visible: mouseAreaProgressBar.containsMouse
-            color: appearance.mainBackground
+            color: getAppearanceValueForTheme(appearance.themeName,
+                                              "mainBackground")
             height: hoverProgressLabel.height
             width: hoverProgressLabel.width
             z: 80
@@ -105,7 +107,8 @@ Slider {
                 Rectangle {
                     width: cachedLength.visualPosition * parent.width
                     height: parent.height
-                    color: appearance.progressCachedColor
+                    color: getAppearanceValueForTheme(appearance.themeName,
+                                                      "progressCachedColor")
                 }
             }
             z: 40
@@ -124,7 +127,6 @@ Slider {
                 onChaptersChanged: function (chapters) {
                     for (var i = 0, len = chapters.length; i < len; i++) {
                         var component = Qt.createComponent("ChapterMarker.qml")
-
                         var marker = component.createObject(chapterMarkers, {
                                                                 time: chapters[i]["time"]
                                                             })
@@ -139,7 +141,8 @@ Slider {
             anchors.left: progressBackground.left
             width: progressBar.visualPosition * parent.width
             height: parent.height
-            color: appearance.progressSliderColor
+            color: getAppearanceValueForTheme(appearance.themeName,
+                                              "progressSliderColor")
             Image {
                 visible: fun.nyanCat
                 id: rainbow
@@ -161,7 +164,8 @@ Slider {
         implicitHeight: radius
         implicitWidth: radius
         radius: 12 + (progressBackground.height / 2)
-        color: fun.nyanCat ? "transparent" : appearance.progressSliderColor
+        color: fun.nyanCat ? "transparent" : getAppearanceValueForTheme(
+                                 appearance.themeName, "progressSliderColor")
         visible: getHandleVisibility(appearance.themeName,
                                      mouseAreaProgressBar.containsMouse)
         AnimatedImage {

@@ -11,7 +11,7 @@ Button {
     id: playlistNextButton
     //icon.name: "next"
     icon.source: "icons/" + appearance.themeName + "/next.svg"
-    icon.color: appearance.buttonColor
+    icon.color: getAppearanceValueForTheme(appearance.themeName, "buttonColor")
     display: AbstractButton.IconOnly
     onClicked: {
         player.playerCommand(Enums.Commands.NextPlaylistItem)

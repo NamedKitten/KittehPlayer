@@ -20,6 +20,14 @@ Window {
 
     property bool onTop: false
 
+    function getAppearanceValueForTheme(themeName, name) {
+        if (themeName == "YouTube") {
+            return youTubeAppearance[name]
+        } else if (themeName == "Niconico") {
+            return nicoNicoAppearance[name]
+        }
+    }
+
     Translator {
         id: translate
     }
@@ -38,6 +46,12 @@ Window {
         property bool useMpvSubs: false
         property string themeName: "YouTube"
         property string fontName: "Roboto"
+        property double scaleFactor: 1.0
+    }
+
+    Settings {
+        id: youTubeAppearance
+        category: "Appearance"
         property string mainBackground: "#9C000000"
         property string progressBackgroundColor: "#3CFFFFFF"
         property string progressCachedColor: "white"
@@ -45,7 +59,18 @@ Window {
         property string progressSliderColor: "red"
         property string chapterMarkerColor: "#fc0"
         property string volumeSliderBackground: "white"
-        property double scaleFactor: 1.0
+    }
+
+    Settings {
+        id: nicoNicoAppearance
+        category: "Appearance"
+        property string mainBackground: "#9C000000"
+        property string progressBackgroundColor: "#444"
+        property string progressCachedColor: "white"
+        property string buttonColor: "white"
+        property string progressSliderColor: "#007cff"
+        property string chapterMarkerColor: "#fc0"
+        property string volumeSliderBackground: "#0077cff"
     }
 
     Settings {
@@ -93,6 +118,7 @@ Window {
         property string decreaseVolume: "/"
         property string mute: "m"
         property string increaseScale: "Ctrl+Shift+="
+        property string resetScale: "Ctrl+Shift+0"
         property string decreaseScale: "Ctrl+Shift+-"
         property string customKeybind0: ""
         property string customKeybind0Command: ""
@@ -137,6 +163,26 @@ Window {
         width: parent.width
         height: parent.height
         z: 1
+
+        Action {
+            onTriggered: {
+                appearance.scaleFactor += 0.1
+            }
+            shortcut: keybinds.increaseScale
+        }
+        Action {
+            onTriggered: {
+                appearance.scaleFactor = 1
+            }
+            shortcut: keybinds.resetScale
+        }
+        Action {
+            onTriggered: {
+                appearance.scaleFactor -= 0.1
+            }
+            shortcut: keybinds.decreaseScale
+        }
+
         function startPlayer() {
             var args = Qt.application.arguments
             var len = Qt.application.arguments.length
@@ -239,19 +285,6 @@ Window {
                 mouseAreaPlayerTimer.stop()
             }
         }
-        
-        Action {
-                onTriggered: {
-                    appearance.scaleFactor += 0.1
-                }
-                shortcut: appearance.increaseScale
-        }
-        Action {
-                onTriggered: {
-                    appearance.scaleFactor -= 0.1
-                }
-                shortcut: appearance.decreaseScale
-        }
 
         MouseArea {
             id: mouseAreaPlayer
@@ -268,7 +301,7 @@ Window {
             anchors.topMargin: 0
             hoverEnabled: true
             onDoubleClicked: {
-                playTimer.stop()
+                player.playerCommand(Enums.Commands.TogglePlayPause)
                 toggleFullscreen()
             }
             Action {
@@ -279,18 +312,9 @@ Window {
                 }
                 shortcut: "Esc"
             }
-            Timer {
-                id: playTimer
-                interval: 200
-                running: false
-                repeat: false
-                onTriggered: {
-                    player.playerCommand(Enums.Commands.TogglePlayPause)
-                }
-            }
             onClicked: {
                 if (appearance.clickToPause) {
-                    playTimer.start()
+                    player.playerCommand(Enums.Commands.TogglePlayPause)
                 }
             }
             Timer {
@@ -321,7 +345,8 @@ Window {
             anchors.top: parent.top
             visible: controlsOverlay.controlsShowing
 
-            color: appearance.mainBackground
+            color: getAppearanceValueForTheme(appearance.themeName,
+                                              "mainBackground")
 
             Text {
                 id: titleLabel

@@ -48,11 +48,13 @@ Slider {
         implicitHeight: appearance.themeName == "Niconico" ? layout.height / 8 : layout.height / 10
         width: volumeBar.availableWidth
         height: implicitHeight
-        color: appearance.progressBackgroundColor
+        color: getAppearanceValueForTheme(appearance.themeName,
+                                          "progressBackgroundColor")
         Rectangle {
             width: volumeBar.visualPosition * parent.width
             height: parent.height
-            color: appearance.volumeSliderBackground
+            color: getAppearanceValueForTheme(appearance.themeName,
+                                              "volumeSliderBackground")
         }
     }
 }

@@ -10,7 +10,7 @@ import player 1.0
 Button {
     id: backwardButton
     icon.source: "icons/" + appearance.themeName + "/backward.svg"
-    icon.color: appearance.buttonColor
+    icon.color: getAppearanceValueForTheme(appearance.themeName, "buttonColor")
     display: AbstractButton.IconOnly
     onClicked: {
         player.playerCommand(Enums.Commands.Seek, "-10")

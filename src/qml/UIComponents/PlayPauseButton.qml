@@ -10,7 +10,7 @@ import player 1.0
 Button {
     id: playPauseButton
     icon.source: "icons/" + appearance.themeName + "/pause.svg"
-    icon.color: appearance.buttonColor
+    icon.color: getAppearanceValueForTheme(appearance.themeName, "buttonColor")
     display: AbstractButton.IconOnly
     onClicked: {
         player.playerCommand(Enums.Commands.TogglePlayPause)

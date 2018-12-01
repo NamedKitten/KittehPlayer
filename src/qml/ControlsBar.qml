@@ -81,7 +81,8 @@ Item {
                     opacity: 1
                     background: Rectangle {
                         id: subsBackground
-                        color: appearance.mainBackground
+                        color: getAppearanceValueForTheme(appearance.themeName,
+                                                          "mainBackground")
                         width: subsContainer.childrenRect.width
                         height: subsContainer.childrenRect.height
                     }
@@ -106,7 +107,8 @@ Item {
         anchors.right: parent.right
         Layout.fillWidth: true
         Layout.fillHeight: true
-        color: appearance.mainBackground
+        color: getAppearanceValueForTheme(appearance.themeName,
+                                          "mainBackground")
         visible: controlsOverlay.controlsShowing
     }
 

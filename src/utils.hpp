@@ -10,13 +10,13 @@ Q_NAMESPACE
 void
 SetDPMS(bool on);
 void
+SetScreensaver(WId wid, bool on);
+void
 AlwaysOnTop(WId wid, bool on);
 void
 updateAppImage();
 QString
 createTimestamp(int seconds);
-void
-ResetScreensaver();
 }
 
 class UtilsClass : public QObject
@@ -30,7 +30,6 @@ public slots:
   {
     return Utils::createTimestamp(seconds);
   };
-  void ResetScreensaver() { Utils::ResetScreensaver(); };
 };
 
 #endif

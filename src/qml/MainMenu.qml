@@ -166,7 +166,8 @@ MenuBar {
     background: Rectangle {
         width: parent.width
         implicitHeight: 10
-        color: appearance.mainBackground
+        color: getAppearanceValueForTheme(appearance.themeName,
+                                          "mainBackground")
     }
 
     CustomMenu {
