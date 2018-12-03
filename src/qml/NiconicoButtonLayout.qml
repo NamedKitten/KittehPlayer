@@ -14,7 +14,7 @@ Item {
 
     PlayPauseButton {
         id: playPauseButton
-        anchors.left: owo.right
+        anchors.left: parent.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         icon.height: parent.height / 2
