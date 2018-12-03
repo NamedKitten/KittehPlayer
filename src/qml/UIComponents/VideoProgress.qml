@@ -164,8 +164,10 @@ Slider {
         implicitHeight: radius
         implicitWidth: radius
         radius: 12 + (progressBackground.height / 2)
-        color: fun.nyanCat ? "transparent" : getAppearanceValueForTheme(
-                                 appearance.themeName, "progressSliderColor")
+        color: appearance.themeName
+               == "RoosterTeeth" ? "white" : fun.nyanCat ? "transparent" : getAppearanceValueForTheme(
+                                                               appearance.themeName,
+                                                               "progressSliderColor")
         visible: getHandleVisibility(appearance.themeName,
                                      mouseAreaProgressBar.containsMouse)
         AnimatedImage {

@@ -8,6 +8,7 @@
 #include <QObject>
 #include <QOpenGLContext>
 #include <QQuickFramebufferObject>
+#include <QSettings>
 #include <QWidget>
 
 #include "backendinterface.hpp"
@@ -46,6 +47,7 @@ class DirectMpvPlayerBackend
   double lastSpeed = 0;
   QString totalDurationString;
   QString lastPositionString;
+  QSettings settings;
 
 public:
   static void on_update(void* ctx);
@@ -91,6 +93,7 @@ signals:
   void audioDevicesChanged(const QVariantMap& devices);
   void playlistChanged(const QVariantList& devices);
   void chaptersChanged(const QVariantList& devices);
+  void speedChanged(const double& speed);
 
 private slots:
   void doUpdate();

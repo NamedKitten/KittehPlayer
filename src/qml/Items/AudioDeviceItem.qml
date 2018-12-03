@@ -6,7 +6,7 @@ import player 1.0
 Action {
     id: audioDeviceItem
     property string deviceID: "none"
-    checkable: true
+    checkable: false
     checked: false
 
     onTriggered: {

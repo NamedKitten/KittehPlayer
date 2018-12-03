@@ -111,6 +111,7 @@ DirectMpvPlayerBackend::DirectMpvPlayerBackend(QQuickItem* parent)
   mpv_observe_property(mpv, 0, "demuxer-cache-duration", MPV_FORMAT_DOUBLE);
   mpv_observe_property(mpv, 0, "pause", MPV_FORMAT_NODE);
   mpv_observe_property(mpv, 0, "playlist", MPV_FORMAT_NODE);
+  mpv_observe_property(mpv, 0, "speed", MPV_FORMAT_DOUBLE);
   mpv_set_wakeup_callback(mpv, wakeup, this);
 
   if (mpv_initialize(mpv) < 0)
@@ -494,7 +495,10 @@ DirectMpvPlayerBackend::updateDurationString(int numTime)
   durationString += " / ";
   durationString += totalDurationString;
   if (lastSpeed != 1) {
-    durationString += " (" + speed.toString() + "x)";
+    if (settings.value("Appearance/themeName", "").toString() !=
+        "RoosterTeeth") {
+      durationString += " (" + speed.toString() + "x)";
+    }
   }
   emit durationStringChanged(durationString);
 }
@@ -598,6 +602,9 @@ DirectMpvPlayerBackend::handle_mpv_event(mpv_event* event)
       } else if (strcmp(prop->name, "chapter-list") == 0) {
         mpv_node* nod = (mpv_node*)prop->data;
         emit chaptersChanged(mpv::qt::node_to_variant(nod).toList());
+      } else if (strcmp(prop->name, "speed") == 0) {
+        double speed = *(double*)prop->data;
+        emit speedChanged(speed);
       }
 #ifdef DISCORD
       updateDiscord();

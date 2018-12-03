@@ -7,6 +7,9 @@
         <file>MainMenu.qml</file>
         <file>YouTubeButtonLayout.qml</file>
         <file>NiconicoButtonLayout.qml</file>
+        <file>RoosterTeethButtonLayout.qml</file>
+        <file alias="VerticalVolume.qml">UIComponents/VerticalVolume.qml</file>
+        <file alias="SpeedText.qml">UIComponents/SpeedText.qml</file>
         <file alias="ForwardButton.qml">UIComponents/ForwardButton.qml</file>
         <file alias="BackwardButton.qml">UIComponents/BackwardButton.qml</file>
         <file alias="PlaylistPrevButton.qml">UIComponents/PlaylistPrevButton.qml</file>
@@ -39,6 +42,21 @@
         <file>icons/YouTube/prev.svg</file>
         <file>icons/YouTube/subtitles.svg</file>
         <file>icons/YouTube/playlist.svg</file>
+        
+        <file>icons/RoosterTeeth/play.svg</file>
+        <file>icons/RoosterTeeth/pause.svg</file>
+        <file>icons/RoosterTeeth/forward.svg</file>
+        <file>icons/RoosterTeeth/backward.svg</file>
+        <file>icons/RoosterTeeth/settings.svg</file>
+        <file>icons/RoosterTeeth/fullscreen.svg</file>
+        <file>icons/RoosterTeeth/volume-up.svg</file>
+        <file>icons/RoosterTeeth/volume-mute.svg</file>
+        <file>icons/RoosterTeeth/volume-down.svg</file>
+        <file>icons/RoosterTeeth/next.svg</file>
+        <file>icons/RoosterTeeth/prev.svg</file>
+        <file>icons/RoosterTeeth/subtitles.svg</file>
+        <file>icons/RoosterTeeth/playlist.svg</file>
+        
         <file>icons/Niconico/play.svg</file>
         <file>icons/Niconico/pause.svg</file>
         <file>icons/Niconico/settings.svg</file>

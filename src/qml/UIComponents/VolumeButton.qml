@@ -11,7 +11,11 @@ Button {
     id: volumeButton
     objectName: "volumeButton"
     icon.source: "icons/" + appearance.themeName + "/volume-up.svg"
-    icon.color: getAppearanceValueForTheme(appearance.themeName, "buttonColor")
+    hoverEnabled: true
+    icon.color: hovered ? getAppearanceValueForTheme(
+                              appearance.themeName,
+                              "buttonHoverColor") : getAppearanceValueForTheme(
+                              appearance.themeName, "buttonColor")
     display: AbstractButton.IconOnly
     onClicked: {
         player.playerCommand(Enums.Commands.ToggleMute)

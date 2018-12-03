@@ -10,7 +10,11 @@ import player 1.0
 Button {
     id: fullscreenButton
     icon.source: "icons/" + appearance.themeName + "/fullscreen.svg"
-    icon.color: getAppearanceValueForTheme(appearance.themeName, "buttonColor")
+    hoverEnabled: true
+    icon.color: hovered ? getAppearanceValueForTheme(
+                              appearance.themeName,
+                              "buttonHoverColor") : getAppearanceValueForTheme(
+                              appearance.themeName, "buttonColor")
     Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
 
     display: AbstractButton.IconOnly

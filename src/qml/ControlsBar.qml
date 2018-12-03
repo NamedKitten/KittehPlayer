@@ -30,6 +30,9 @@ Item {
         }
 
         var component = Qt.createComponent(themeName + "ButtonLayout.qml")
+        if (component.status == Component.Error) {
+            console.log("Error loading component:", component.errorString())
+        }
         component.createObject(controlsBar, {
 
                                })
@@ -100,8 +103,7 @@ Item {
 
     Rectangle {
         id: controlsBackground
-        height: controlsBar.visible ? controlsBar.height + progressBar.topPadding
-                                      + (fun.nyanCat ? 0 : 1) : 0
+        height: controlsBar.visible ? controlsBar.height + (appearance.themeName == "RoosterTeeth" ? 0 : progressBar.topPadding + (fun.nyanCat ? 0 : 1)) : 0
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right
@@ -124,6 +126,7 @@ Item {
         visible: controlsOverlay.controlsShowing
         VideoProgress {
             id: progressBar
+            visible: appearance.themeName == "RoosterTeeth" ? false : true
             anchors.bottom: parent.top
             anchors.left: parent.left
             anchors.right: parent.right

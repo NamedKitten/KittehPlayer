@@ -11,11 +11,17 @@ Button {
     id: settingsButton
     //icon.name: "settings"
     icon.source: "icons/" + appearance.themeName + "/settings.svg"
-    icon.color: getAppearanceValueForTheme(appearance.themeName, "buttonColor")
+    hoverEnabled: true
+    icon.color: hovered ? getAppearanceValueForTheme(
+                              appearance.themeName,
+                              "buttonHoverColor") : getAppearanceValueForTheme(
+                              appearance.themeName, "buttonColor")
     Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
     display: AbstractButton.IconOnly
     onClicked: {
-        appearance.themeName = appearance.themeName == "YouTube" ? "Niconico" : "YouTube"
+        var aptn = appearance.themeName
+        appearance.themeName = aptn == "YouTube" ? "RoosterTeeth" : aptn
+                                                   == "RoosterTeeth" ? "Niconico" : "YouTube"
         controlsBarItem.setControlsTheme(appearance.themeName)
         console.log("Settings Menu Not Yet Implemented.")
     }

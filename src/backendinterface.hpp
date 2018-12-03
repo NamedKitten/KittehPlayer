@@ -42,6 +42,7 @@ signals:
   virtual void audioDevicesChanged(const QVariantMap& devices) = 0;
   virtual void playlistChanged(const QVariantList& devices) = 0;
   virtual void chaptersChanged(const QVariantList& devices) = 0;
+  virtual void speedChanged(const double& speed) = 0;
 };
 Q_DECLARE_INTERFACE(BackendInterface, "NamedKitten.BackendInterface");
 

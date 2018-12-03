@@ -25,6 +25,8 @@ Window {
             return youTubeAppearance[name]
         } else if (themeName == "Niconico") {
             return nicoNicoAppearance[name]
+        } else if (themeName == "RoosterTeeth") {
+            return roosterTeethAppearance[name]
         }
     }
 
@@ -56,6 +58,7 @@ Window {
         property string progressBackgroundColor: "#3CFFFFFF"
         property string progressCachedColor: "white"
         property string buttonColor: "white"
+        property string buttonHoverColor: "white"
         property string progressSliderColor: "red"
         property string chapterMarkerColor: "#fc0"
         property string volumeSliderBackground: "white"
@@ -68,9 +71,23 @@ Window {
         property string progressBackgroundColor: "#444"
         property string progressCachedColor: "white"
         property string buttonColor: "white"
+        property string buttonHoverColor: "white"
         property string progressSliderColor: "#007cff"
         property string chapterMarkerColor: "#fc0"
         property string volumeSliderBackground: "#007cff"
+    }
+
+    Settings {
+        id: roosterTeethAppearance
+        category: "RoosterTeethAppearance"
+        property string mainBackground: "#CC2B333F"
+        property string progressBackgroundColor: "#444"
+        property string progressCachedColor: "white"
+        property string buttonColor: "white"
+        property string buttonHoverColor: "#c9373f"
+        property string progressSliderColor: "#c9373f"
+        property string chapterMarkerColor: "#fc0"
+        property string volumeSliderBackground: "#c9373f"
     }
 
     Settings {

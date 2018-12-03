@@ -11,7 +11,11 @@ Button {
     id: playlistPrevButton
     objectName: "playlistPrevButton"
     icon.source: "icons/" + appearance.themeName + "/prev.svg"
-    icon.color: getAppearanceValueForTheme(appearance.themeName, "buttonColor")
+    hoverEnabled: true
+    icon.color: hovered ? getAppearanceValueForTheme(
+                              appearance.themeName,
+                              "buttonHoverColor") : getAppearanceValueForTheme(
+                              appearance.themeName, "buttonColor")
     display: AbstractButton.IconOnly
     visible: appearance.themeName == "Youtube" ? false : true
     onClicked: {

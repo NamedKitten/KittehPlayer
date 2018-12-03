@@ -102,7 +102,7 @@ main(int argc, char* argv[])
   app.setOrganizationName("KittehPlayer");
   app.setOrganizationDomain("namedkitten.pw");
   app.setApplicationName("KittehPlayer");
-  
+
   QSettings settings;
   QString backendSetting = settings.value("Backend/backend", "").toString();
   if (backendSetting.length() == 0) {

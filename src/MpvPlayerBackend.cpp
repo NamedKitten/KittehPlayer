@@ -1,10 +1,11 @@
+#include "MpvPlayerBackend.h"
 #include <clocale>
 #include <stdbool.h>
 #include <stdexcept>
-#include "MpvPlayerBackend.h"
 
 #include "utils.hpp"
 #include <QApplication>
+#include <QElapsedTimer>
 #include <QOpenGLContext>
 #include <QOpenGLFramebufferObject>
 #include <QQuickWindow>
@@ -17,9 +18,9 @@
 
 #ifdef __linux__
 #include <QX11Info>
+#include <QtX11Extras/QX11Info>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
-#include <QtX11Extras/QX11Info>
 #include <qpa/qplatformnativeinterface.h>
 #endif
 
@@ -34,7 +35,8 @@ wakeup(void* ctx)
 void
 on_mpv_redraw(void* ctx)
 {
-    QMetaObject::invokeMethod(reinterpret_cast<MpvPlayerBackend*>(ctx), "update");
+  QMetaObject::invokeMethod(
+    reinterpret_cast<MpvPlayerBackend*>(ctx), "update", Qt::QueuedConnection);
 }
 
 static void*
@@ -79,18 +81,19 @@ public:
         { MPV_RENDER_PARAM_INVALID, nullptr }
       };
 #if __linux__
-    if (QGuiApplication::platformName().contains("xcb")) {
+      if (QGuiApplication::platformName().contains("xcb")) {
         params[2].type = MPV_RENDER_PARAM_X11_DISPLAY;
         params[2].data = QX11Info::display();
         qDebug() << "On Xorg.";
-    } else if (QGuiApplication::platformName().contains("wayland")) {
-        QPlatformNativeInterface *native = QGuiApplication::platformNativeInterface();
+      } else if (QGuiApplication::platformName().contains("wayland")) {
+        QPlatformNativeInterface* native =
+          QGuiApplication::platformNativeInterface();
         params[2].type = MPV_RENDER_PARAM_WL_DISPLAY;
         params[2].data = native->nativeResourceForWindow("display", nullptr);
         qDebug() << "On wayland.";
-    }
+      }
 #endif
-      
+
       if (mpv_render_context_create(&obj->mpv_gl, obj->mpv, params) < 0)
         throw std::runtime_error("failed to initialize mpv GL context");
       mpv_render_context_set_update_callback(obj->mpv_gl, on_mpv_redraw, obj);
@@ -118,7 +121,6 @@ public:
       { MPV_RENDER_PARAM_INVALID, nullptr }
     };
 
-    
     // See render_gl.h on what OpenGL environment mpv expects, and
     // other API details.
     mpv_render_context_render(obj->mpv_gl, params);
@@ -157,7 +159,7 @@ MpvPlayerBackend::MpvPlayerBackend(QQuickItem* parent)
   mpv_observe_property(mpv, 0, "playback-abort", MPV_FORMAT_NONE);
   mpv_observe_property(mpv, 0, "chapter-list", MPV_FORMAT_NODE);
   mpv_observe_property(mpv, 0, "track-list", MPV_FORMAT_NODE);
-  mpv_observe_property(mpv, 0, "audio-device-list", MPV_FORMAT_NONE);
+  mpv_observe_property(mpv, 0, "audio-device-list", MPV_FORMAT_NODE);
   mpv_observe_property(mpv, 0, "playlist-pos", MPV_FORMAT_DOUBLE);
   mpv_observe_property(mpv, 0, "volume", MPV_FORMAT_NONE);
   mpv_observe_property(mpv, 0, "mute", MPV_FORMAT_NONE);
@@ -168,6 +170,7 @@ MpvPlayerBackend::MpvPlayerBackend(QQuickItem* parent)
   mpv_observe_property(mpv, 0, "demuxer-cache-duration", MPV_FORMAT_DOUBLE);
   mpv_observe_property(mpv, 0, "pause", MPV_FORMAT_NODE);
   mpv_observe_property(mpv, 0, "playlist", MPV_FORMAT_NODE);
+  mpv_observe_property(mpv, 0, "speed", MPV_FORMAT_DOUBLE);
   mpv_set_wakeup_callback(mpv, wakeup, this);
 
   if (mpv_initialize(mpv) < 0)
@@ -180,10 +183,14 @@ MpvPlayerBackend::MpvPlayerBackend(QQuickItem* parent)
           Qt::QueuedConnection);
   connect(this,
           &MpvPlayerBackend::positionChanged,
-          &MpvPlayerBackend::updateDurationString);
+          this,
+          &MpvPlayerBackend::updateDurationString,
+          Qt::QueuedConnection);
   connect(this,
           &MpvPlayerBackend::durationChanged,
-          &MpvPlayerBackend::updateDurationString);
+          this,
+          &MpvPlayerBackend::updateDurationString,
+          Qt::QueuedConnection);
 }
 
 MpvPlayerBackend::~MpvPlayerBackend()
@@ -218,13 +225,16 @@ MpvPlayerBackend::getProperty(const QString& name) const
 void
 MpvPlayerBackend::command(const QVariant& params)
 {
-  mpv::qt::command_variant(mpv, params);
+  mpv::qt::node_builder node(params);
+  mpv_command_node(mpv, node.node(), nullptr);
 }
 
 void
 MpvPlayerBackend::setProperty(const QString& name, const QVariant& value)
 {
-  mpv::qt::set_property_variant(mpv, name, value);
+  mpv::qt::node_builder node(value);
+  qDebug() << "Setting property" << name << "to" << value;
+  mpv_set_property(mpv, name.toUtf8().data(), MPV_FORMAT_NODE, node.node());
 }
 
 void
@@ -478,7 +488,10 @@ MpvPlayerBackend::updateDurationString(int numTime)
   durationString += " / ";
   durationString += totalDurationString;
   if (lastSpeed != 1) {
-    durationString += " (" + speed.toString() + "x)";
+    if (settings.value("Appearance/themeName", "").toString() !=
+        "RoosterTeeth") {
+      durationString += " (" + speed.toString() + "x)";
+    }
   }
   emit durationStringChanged(durationString);
 }
@@ -490,24 +503,15 @@ MpvPlayerBackend::updateAppImage()
 }
 
 QVariantMap
-MpvPlayerBackend::getAudioDevices() const
+MpvPlayerBackend::getAudioDevices(const QVariant& drivers) const
 {
-  QVariant drivers = getProperty("audio-device-list");
-  QVariant currentDevice = getProperty("audio-device");
-
   QVariantMap newDrivers;
 
   QSequentialIterable iterable = drivers.value<QSequentialIterable>();
   foreach (const QVariant& v, iterable) {
     QVariantMap item = v.toMap();
-    item["selected"] = currentDevice == item["name"];
     newDrivers[item["description"].toString()] = item;
   }
-  QMap<QString, QVariant> pulseItem;
-  pulseItem["name"] = "pulse";
-  pulseItem["description"] = "Default (pulseaudio)";
-  pulseItem["selected"] = currentDevice == "pulse";
-  newDrivers[pulseItem["description"].toString()] = pulseItem;
   return newDrivers;
 }
 
@@ -566,22 +570,27 @@ MpvPlayerBackend::handle_mpv_event(mpv_event* event)
         mpv_node* nod = (mpv_node*)prop->data;
         if (mpv::qt::node_to_variant(nod).toBool()) {
           emit playStatusChanged(Enums::PlayStatus::Paused);
-          Utils::SetScreensaver(window()->winId(), true);
+          // Utils::SetScreensaver(window()->winId(), true);
         } else {
           emit playStatusChanged(Enums::PlayStatus::Playing);
-          Utils::SetScreensaver(window()->winId(), false);
+          // Utils::SetScreensaver(window()->winId(), false);
         }
       } else if (strcmp(prop->name, "track-list") == 0) {
         mpv_node* nod = (mpv_node*)prop->data;
         emit tracksChanged(mpv::qt::node_to_variant(nod).toList());
       } else if (strcmp(prop->name, "audio-device-list") == 0) {
-        emit audioDevicesChanged(getAudioDevices());
+        mpv_node* nod = (mpv_node*)prop->data;
+        emit audioDevicesChanged(
+          getAudioDevices(mpv::qt::node_to_variant(nod)));
       } else if (strcmp(prop->name, "playlist") == 0) {
         mpv_node* nod = (mpv_node*)prop->data;
         emit playlistChanged(mpv::qt::node_to_variant(nod).toList());
       } else if (strcmp(prop->name, "chapter-list") == 0) {
         mpv_node* nod = (mpv_node*)prop->data;
         emit chaptersChanged(mpv::qt::node_to_variant(nod).toList());
+      } else if (strcmp(prop->name, "speed") == 0) {
+        double speed = *(double*)prop->data;
+        emit speedChanged(speed);
       }
 #ifdef DISCORD
       updateDiscord();

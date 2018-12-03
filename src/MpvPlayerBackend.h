@@ -9,6 +9,7 @@
 #include <QObject>
 #include <QOpenGLContext>
 #include <QQuickFramebufferObject>
+#include <QSettings>
 
 #include "backendinterface.hpp"
 #include "enums.hpp"
@@ -26,6 +27,7 @@ class MpvPlayerBackend
 
   mpv_handle* mpv;
   mpv_render_context* mpv_gl;
+  QSettings settings;
   bool onTop = false;
   int lastTime = 0;
   double lastSpeed = 0;
@@ -53,7 +55,7 @@ public slots:
   void setOption(const QString& name, const QVariant& value);
   QVariant getProperty(const QString& name) const;
   // Just used for adding missing audio devices to list.
-  QVariantMap getAudioDevices() const;
+  QVariantMap getAudioDevices(const QVariant& drivers) const;
   bool event(QEvent* event);
 
 signals:
@@ -76,6 +78,7 @@ signals:
   void audioDevicesChanged(const QVariantMap& devices);
   void playlistChanged(const QVariantList& devices);
   void chaptersChanged(const QVariantList& devices);
+  void speedChanged(const double& speed);
 
 private slots:
   void doUpdate();

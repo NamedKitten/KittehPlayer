@@ -47,7 +47,8 @@ MenuBar {
             var trackType = track["type"]
             var trackLang = LanguageCodes.localeCodeToEnglish(
                         String(track["lang"]))
-            var trackTitle = track["title"]
+            trackLang = trackLang == undefined ? "" : trackLang
+            var trackTitle = track["title"] == undefined ? "" : track["title"] + " "
             var component = Qt.createComponent("TrackItem.qml")
             if (trackType == "sub") {
                 var action = component.createObject(subMenu, {
@@ -61,7 +62,7 @@ MenuBar {
                 subMenu.addAction(action)
             } else if (trackType == "audio") {
                 var action = component.createObject(audioMenu, {
-                                                        text: (trackTitle == undefined ? "" : trackTitle + " ") + (trackLang == "undefined" ? "" : trackLang),
+                                                        text: trackTitle + trackLang,
                                                         trackID: String(
                                                                      trackID),
                                                         trackType: "aid",
@@ -71,7 +72,7 @@ MenuBar {
                 audioMenu.addAction(action)
             } else if (trackType == "video") {
                 var action = component.createObject(videoMenu, {
-                                                        text: "Video " + trackID,
+                                                        text: "Video " + trackID + trackTitle,
                                                         trackID: String(
                                                                      trackID),
                                                         trackType: "vid",
@@ -358,15 +359,11 @@ MenuBar {
                 }
                 for (var thing in audioDevices) {
                     var audioDevice = audioDevices[thing]
-                    var name = audioDevice["name"]
-                    var description = audioDevice["description"]
-                    var selected = audioDevice["selected"]
                     var component = Qt.createComponent("AudioDeviceItem.qml")
                     var action = component.createObject(audioDeviceMenu, {
-                                                            text: description,
+                                                            text: audioDevices[thing]["description"],
                                                             deviceID: String(
-                                                                          name),
-                                                            checked: audioDevice["selected"]
+                                                                          audioDevices[thing]["name"])
                                                         })
                     action.ActionGroup.group = audioDeviceMenuGroup
                     audioDeviceMenu.addAction(action)
