@@ -33,12 +33,10 @@ Item {
         acceptedButtons: Qt.NoButton
 
         onEntered: {
-            volumeSliderArea.visible = true
             mouseAreaPlayerTimer.stop()
         }
 
         onExited: {
-            volumeSliderArea.visible = false
             mouseAreaPlayerTimer.restart()
         }
     }

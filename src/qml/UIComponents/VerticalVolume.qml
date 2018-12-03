@@ -9,7 +9,7 @@ import player 1.0
 
 Rectangle {
     id: volumeSliderArea
-    height: 70
+    height: visible ? 70 : 0
     color: getAppearanceValueForTheme(appearance.themeName, "mainBackground")
     visible: false
     Slider {
