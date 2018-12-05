@@ -54,14 +54,14 @@ Window {
     Settings {
         id: youTubeAppearance
         category: "YouTubeAppearance"
-        property string mainBackground: "#9C000000"
-        property string progressBackgroundColor: "#3CFFFFFF"
-        property string progressCachedColor: "white"
-        property string buttonColor: "white"
-        property string buttonHoverColor: "white"
-        property string progressSliderColor: "red"
-        property string chapterMarkerColor: "#fc0"
-        property string volumeSliderBackground: "white"
+        property color mainBackground: "#9C000000"
+        property color progressBackgroundColor: "#33FFFFFF"
+        property color progressCachedColor: "#66FFFFFF"
+        property color buttonColor: "white"
+        property color buttonHoverColor: "white"
+        property color progressSliderColor: "red"
+        property color chapterMarkerColor: "#fc0"
+        property color volumeSliderBackground: "white"
     }
 
     Settings {
@@ -69,7 +69,7 @@ Window {
         category: "NicoNicoAppearance"
         property string mainBackground: "#9C000000"
         property string progressBackgroundColor: "#444"
-        property string progressCachedColor: "white"
+        property string progressCachedColor: "#66FFFFFF"
         property string buttonColor: "white"
         property string buttonHoverColor: "white"
         property string progressSliderColor: "#007cff"

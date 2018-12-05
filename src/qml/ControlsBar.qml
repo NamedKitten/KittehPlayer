@@ -22,6 +22,11 @@ Item {
         setControlsTheme(appearance.themeName)
     }
 
+    Connections {
+        target: appearance
+        onThemeNameChanged: setControlsTheme(appearance.themeName)
+    }
+
     function setControlsTheme(themeName) {
         for (var i = 0; i < controlsBar.children.length; ++i) {
             if (controlsBar.children[i].objectName == "buttonLayout") {
@@ -103,7 +108,9 @@ Item {
 
     Rectangle {
         id: controlsBackground
-        height: controlsBar.visible ? controlsBar.height + (appearance.themeName == "RoosterTeeth" ? 0 : progressBar.topPadding + (fun.nyanCat ? 0 : 1)) : 0
+        height: controlsBar.visible ? controlsBar.height
+                                      + (appearance.themeName
+                                         == "RoosterTeeth" ? 0 : progressBar.topPadding) : 0
         anchors.bottom: parent.bottom
         anchors.left: parent.left
         anchors.right: parent.right

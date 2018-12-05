@@ -459,6 +459,29 @@ MenuBar {
         id: viewMenuBarItem
         title: translate.getTranslation("VIEW", i18n.language)
 
+        CustomMenu {
+            title: translate.getTranslation("THEME", i18n.language)
+            id: themeMenu
+            Action {
+                text: "YouTube"
+                onTriggered: appearance.themeName = text
+                checkable: true
+                checked: appearance.themeName == text
+            }
+            Action {
+                text: "Niconico"
+                onTriggered: appearance.themeName = text
+                checkable: true
+                checked: appearance.themeName == text
+            }
+            Action {
+                text: "RoosterTeeth"
+                onTriggered: appearance.themeName = text
+                checkable: true
+                checked: appearance.themeName == text
+            }
+        }
+
         Action {
             text: translate.getTranslation("FULLSCREEN", i18n.language)
             onTriggered: {

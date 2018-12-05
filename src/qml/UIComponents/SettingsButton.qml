@@ -18,12 +18,12 @@ Button {
                               appearance.themeName, "buttonColor")
     Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
     display: AbstractButton.IconOnly
+    
+    
     onClicked: {
         var aptn = appearance.themeName
         appearance.themeName = aptn == "YouTube" ? "RoosterTeeth" : aptn
                                                    == "RoosterTeeth" ? "Niconico" : "YouTube"
-        controlsBarItem.setControlsTheme(appearance.themeName)
-        console.log("Settings Menu Not Yet Implemented.")
     }
     background: Item {
     }

@@ -43,7 +43,8 @@ var translations = {
         DISABLE_TRACK: "Disable Track",
         AUDIO_DEVICES: "Audio Devices",
         UPDATE: "Update",
-        PLAYLIST_MENU: "Playlist Menu"
+        PLAYLIST_MENU: "Playlist Menu",
+        THEME: "Theme"
     },
     spanish: {
         SAVE_SCREENSHOT: "Guardar captura en",
