@@ -533,7 +533,6 @@ MpvPlayerBackend::handle_mpv_event(mpv_event* event)
         }
       } else if (strcmp(prop->name, "mute") == 0 ||
                  strcmp(prop->name, "volume") == 0) {
-        return;
         double volume = getProperty("volume").toDouble();
         bool mute = getProperty("mute").toBool();
         if (mute || volume == 0) {

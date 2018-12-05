@@ -22,10 +22,8 @@ Button {
     }
     background: Item {
     }
-    Connections {
-        target: player
-        enabled: true
-        onVolumeStatusChanged: function (status) {
+    
+    function updateStatus(status) {
             if (volumeButton == null)
                 console.log("OwO")
 
@@ -37,5 +35,10 @@ Button {
                 volumeButton.icon.source = "qrc:/icons/" + appearance.themeName + "/volume-up.svg"
             }
         }
+        
+    Connections {
+        target: player
+        enabled: true
+        onVolumeStatusChanged: updateStatus
     }
 }

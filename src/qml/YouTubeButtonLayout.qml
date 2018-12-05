@@ -39,6 +39,19 @@ Item {
         icon.width: parent.height / 2
     }
 
+    MouseArea {
+        id: mouseAreaVolumeArea
+        anchors.bottom: parent.bottom
+        anchors.left: volumeButton.left
+        anchors.right: volumeSlider.right
+        anchors.top: parent.top
+        width: volumeButton.width
+                + (volumeSlider.visible ? volumeSlider.width : 0)
+        hoverEnabled: true
+        propagateComposedEvents: true
+        acceptedButtons: Qt.NoButton
+    }
+    
     VolumeButton {
         id: volumeButton
         anchors.left: playlistNextButton.right
@@ -53,6 +66,8 @@ Item {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         height: parent.height
+        visible: mouseAreaVolumeArea.containsMouse || volumeButton.hovered
+        width: visible ? implicitWidth : 0
     }
     TimeLabel {
         anchors.left: volumeSlider.right
