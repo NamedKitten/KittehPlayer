@@ -52,6 +52,7 @@ catchUnixSignals(std::initializer_list<int> quitSignals)
 int
 main(int argc, char* argv[])
 {
+
 #ifdef DISABLE_MpvPlayerBackend
   Enums::Backends backend = Enums::Backends::DirectMpvBackend;
 #else
@@ -63,43 +64,55 @@ main(int argc, char* argv[])
   catchUnixSignals({ SIGQUIT, SIGINT, SIGTERM, SIGHUP });
 #endif
 
-#ifdef GIT_COMMIT_HASH
-  QString current_version = QString(GIT_COMMIT_HASH);
-  qDebug() << "Current Version: " << current_version;
-
-  QNetworkRequest request(QUrl("https://api.github.com/repos/NamedKitten/"
-                               "KittehPlayer/releases/tags/continuous"));
-  QNetworkAccessManager nam;
-  QNetworkReply* reply = nam.get(request);
-
-  while (!reply->isFinished()) {
-    qApp->processEvents();
-  }
-  QByteArray response_data = reply->readAll();
-  QJsonDocument json = QJsonDocument::fromJson(response_data);
-
-  if (json["target_commitish"].toString().length() != 0) {
-    if (json["target_commitish"].toString().endsWith(current_version) == 0) {
-      qDebug() << "Latest Version: " << json["target_commitish"].toString();
-      qDebug() << "Update Available. Please update ASAP.";
-      QProcess notifier;
-      notifier.setProcessChannelMode(QProcess::ForwardedChannels);
-      notifier.start("notify-send",
-                     QStringList() << "KittehPlayer"
-                                   << "New update avalable!"
-                                   << "--icon=KittehPlayer");
-      notifier.waitForFinished();
-    }
-  } else {
-    qDebug() << "Couldn't check for new version.";
-  }
-#endif
-
   app.setOrganizationName("KittehPlayer");
   app.setOrganizationDomain("namedkitten.pw");
   app.setApplicationName("KittehPlayer");
 
   QSettings settings;
+
+#ifdef GIT_COMMIT_HASH
+  bool checkForUpdates =
+    settings.value("Backend/checkForUpdatesOnLaunch", false).toBool();
+  for (int i = 1; i < argc; ++i) {
+    if (!qstrcmp(argv[i], "--no-update-check")) {
+      checkForUpdates = false;
+    }
+  }
+
+  if (checkForUpdates) {
+    QString current_version = QString(GIT_COMMIT_HASH);
+    qDebug() << "Current Version: " << current_version;
+
+    QNetworkRequest request(QUrl("https://api.github.com/repos/NamedKitten/"
+                                 "KittehPlayer/releases/tags/continuous"));
+
+    QNetworkAccessManager nam;
+    QNetworkReply* reply = nam.get(request);
+
+    while (!reply->isFinished()) {
+      qApp->processEvents();
+    }
+    QByteArray response_data = reply->readAll();
+    QJsonDocument json = QJsonDocument::fromJson(response_data);
+
+    if (json["target_commitish"].toString().length() != 0) {
+      if (json["target_commitish"].toString().endsWith(current_version) == 0) {
+        qDebug() << "Latest Version: " << json["target_commitish"].toString();
+        qDebug() << "Update Available. Please update ASAP.";
+        QProcess notifier;
+        notifier.setProcessChannelMode(QProcess::ForwardedChannels);
+        notifier.start("notify-send",
+                       QStringList() << "KittehPlayer"
+                                     << "New update avalable!"
+                                     << "--icon=KittehPlayer");
+        notifier.waitForFinished();
+      }
+    } else {
+      qDebug() << "Couldn't check for new version.";
+    }
+  }
+#endif
+
   QString backendSetting = settings.value("Backend/backend", "").toString();
   if (backendSetting.length() == 0) {
 #ifndef DISABLE_MpvPlayerBackend

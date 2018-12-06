@@ -38,6 +38,7 @@ Window {
         id: backendSettings
         category: "Backend"
         property string backend: "mpv"
+        property bool checkForUpdatesOnLaunch: true
     }
 
     Settings {
