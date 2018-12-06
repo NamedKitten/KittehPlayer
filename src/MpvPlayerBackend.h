@@ -46,9 +46,7 @@ public:
 public slots:
   QVariant playerCommand(const Enums::Commands& command, const QVariant& args);
   QVariant playerCommand(const Enums::Commands& command);
-  void launchAboutQt();
   void toggleOnTop();
-  void updateAppImage();
   // Optional but handy for MPV or custom backend settings.
   void command(const QVariant& params);
   void setProperty(const QString& name, const QVariant& value);
@@ -87,9 +85,6 @@ private slots:
 
 private:
   void handle_mpv_event(mpv_event* event);
-#ifdef DISCORD
-  void updateDiscord();
-#endif
 };
 
 #endif

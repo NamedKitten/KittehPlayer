@@ -14,10 +14,6 @@
 #include <QSequentialIterable>
 #include <math.h>
 
-#ifdef DISCORD
-#include "discord_rpc.h"
-#endif
-
 void
 wakeup(void* ctx)
 {
@@ -78,12 +74,6 @@ DirectMpvPlayerBackend::DirectMpvPlayerBackend(QQuickItem* parent)
   mpv = mpv_create();
   if (!mpv)
     throw std::runtime_error("could not create mpv context");
-
-#ifdef DISCORD
-  DiscordEventHandlers handlers;
-  memset(&handlers, 0, sizeof(handlers));
-  Discord_Initialize("511220330996432896", &handlers, 1, NULL);
-#endif
 
   mpv_set_option_string(mpv, "terminal", "yes");
   mpv_set_option_string(mpv, "msg-level", "all=v");
@@ -234,25 +224,6 @@ DirectMpvPlayerBackend::launchAboutQt()
   qapp->aboutQt();
 }
 
-#ifdef DISCORD
-void
-DirectMpvPlayerBackend::updateDiscord()
-{
-  char buffer[256];
-  DiscordRichPresence discordPresence;
-  memset(&discordPresence, 0, sizeof(discordPresence));
-  discordPresence.state = getProperty("pause").toBool() ? "Paused" : "Playing";
-  sprintf(buffer,
-          "Currently Playing: Video %s",
-          getProperty("media-title").toString().toUtf8().constData());
-  discordPresence.details = buffer;
-  discordPresence.startTimestamp = time(0);
-  discordPresence.endTimestamp = time(0) + (getProperty("duration").toFloat() -
-                                            getProperty("time-pos").toFloat());
-  discordPresence.instance = 0;
-  Discord_UpdatePresence(&discordPresence);
-}
-#endif
 QVariant
 DirectMpvPlayerBackend::playerCommand(const Enums::Commands& cmd)
 {
@@ -606,9 +577,6 @@ DirectMpvPlayerBackend::handle_mpv_event(mpv_event* event)
         double speed = *(double*)prop->data;
         emit speedChanged(speed);
       }
-#ifdef DISCORD
-      updateDiscord();
-#endif
       break;
     }
     case MPV_EVENT_SHUTDOWN: {

@@ -22,20 +22,20 @@ Button {
     }
     background: Item {
     }
-    
-    function updateStatus(status) {
-            if (volumeButton == null)
-                console.log("OwO")
 
-            if (status == Enums.VolumeStatus.Muted) {
-                volumeButton.icon.source = "qrc:/icons/" + appearance.themeName + "/volume-mute.svg"
-            } else if (status == Enums.VolumeStatus.Low) {
-                volumeButton.icon.source = "qrc:/icons/" + appearance.themeName + "/volume-down.svg"
-            } else if (status == Enums.VolumeStatus.Normal) {
-                volumeButton.icon.source = "qrc:/icons/" + appearance.themeName + "/volume-up.svg"
-            }
+    function updateStatus(status) {
+        if (volumeButton == null)
+            console.log("OwO")
+
+        if (status == Enums.VolumeStatus.Muted) {
+            volumeButton.icon.source = "qrc:/icons/" + appearance.themeName + "/volume-mute.svg"
+        } else if (status == Enums.VolumeStatus.Low) {
+            volumeButton.icon.source = "qrc:/icons/" + appearance.themeName + "/volume-down.svg"
+        } else if (status == Enums.VolumeStatus.Normal) {
+            volumeButton.icon.source = "qrc:/icons/" + appearance.themeName + "/volume-up.svg"
         }
-        
+    }
+
     Connections {
         target: player
         enabled: true

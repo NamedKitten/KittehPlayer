@@ -1,7 +1,3 @@
-#ifdef QRC_SOURCE_PATH
-#include "runtimeqml/runtimeqml.h"
-#endif
-
 #include "DirectMpvPlayerBackend.h"
 #ifndef DISABLE_MpvPlayerBackend
 #include "MpvPlayerBackend.h"
@@ -138,7 +134,6 @@ main(int argc, char* argv[])
   qRegisterMetaType<Enums::PlayStatus>("Enums.PlayStatus");
   qRegisterMetaType<Enums::VolumeStatus>("Enums.VolumeStatus");
   qRegisterMetaType<Enums::Backends>("Enums.Backends");
-
   qRegisterMetaType<Enums::Commands>("Enums.Commands");
 
   qmlRegisterType<UtilsClass>("player", 1, 0, "Utils");
@@ -164,15 +159,7 @@ main(int argc, char* argv[])
   std::setlocale(LC_NUMERIC, "C");
 
   QQmlApplicationEngine engine;
-#ifdef QRC_SOURCE_PATH
-  RuntimeQML* rt = new RuntimeQML(&engine, QRC_SOURCE_PATH "/qml.qrc");
-
-  rt->setAutoReload(true);
-  rt->setMainQmlFilename("main.qml");
-  rt->reload();
-#else
   engine.load(QUrl(QStringLiteral("qrc:///main.qml")));
-#endif
 
   return app.exec();
 }

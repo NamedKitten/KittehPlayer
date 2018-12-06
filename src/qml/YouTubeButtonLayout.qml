@@ -45,13 +45,12 @@ Item {
         anchors.left: volumeButton.left
         anchors.right: volumeSlider.right
         anchors.top: parent.top
-        width: volumeButton.width
-                + (volumeSlider.visible ? volumeSlider.width : 0)
+        width: volumeButton.width + (volumeSlider.visible ? volumeSlider.width : 0)
         hoverEnabled: true
         propagateComposedEvents: true
         acceptedButtons: Qt.NoButton
     }
-    
+
     VolumeButton {
         id: volumeButton
         anchors.left: playlistNextButton.right

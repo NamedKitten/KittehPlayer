@@ -17,9 +17,7 @@ public slots:
   virtual QVariant playerCommand(const Enums::Commands& command,
                                  const QVariant& args) = 0;
   virtual QVariant playerCommand(const Enums::Commands& command) = 0;
-  virtual void launchAboutQt() = 0;
   virtual void toggleOnTop() = 0;
-  virtual void updateAppImage() = 0;
   // Optional but handy for MPV or custom backend settings.
   virtual void command(const QVariant& params) = 0;
   virtual void setProperty(const QString& name, const QVariant& value) = 0;

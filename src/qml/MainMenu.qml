@@ -218,7 +218,7 @@ MenuBar {
         }
         Action {
             text: translate.getTranslation("UPDATE", i18n.language)
-            onTriggered: player.updateAppImage()
+            onTriggered: utils.updateAppImage()
         }
     }
 
@@ -520,7 +520,7 @@ MenuBar {
         Action {
             text: translate.getTranslation("ABOUT_QT", i18n.language)
             onTriggered: {
-                player.launchAboutQt()
+                utils.launchAboutQt()
             }
         }
     }

@@ -27,13 +27,12 @@ pacman -S git cmake qt5-svg qt5-declarative qt5-quickcontrols qt5-quickcontrols2
 ``` 
 sudo add-apt-repository ppa:beineri/opt-qt-5.11.1-xenial -y
 sudo apt update
-sudo apt install build-essential git nasm qt511-meta-minimal qt511quickcontrols qt511quickcontrols2 qt511imageformats qt511svg libgl1-mesa-dev
+sudo apt install build-essential git nasm qt511-meta-minimal qt511quickcontrols qt511quickcontrols2 qt511imageformats qt511svg libgl1-mesa-dev libmpv-dev
 sudo apt-get build-dep mpv libmpv* ffmpeg
 ```
 #### Instructions 
 - `git clone https://github.com/NamedKitten/KittehPlayer KittehPlayer`
 - `cd KittehPlayer`
-- If you are running Ubuntu you will need to run `sudo ./scripts/build-mpv.sh` because ubuntu's MPV version is way too old.
 - `mkdir build && cd build`
 - `cmake .. -DCMAKE_INSTALL_PREFIX=/usr`
 - `make`

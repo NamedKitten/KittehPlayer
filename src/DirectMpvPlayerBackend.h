@@ -103,9 +103,6 @@ private slots:
 
 private:
   void handle_mpv_event(mpv_event* event);
-#ifdef DISCORD
-  void updateDiscord();
-#endif
 };
 
 #endif

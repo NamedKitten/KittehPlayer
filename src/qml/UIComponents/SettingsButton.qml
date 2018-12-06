@@ -18,8 +18,7 @@ Button {
                               appearance.themeName, "buttonColor")
     Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
     display: AbstractButton.IconOnly
-    
-    
+
     onClicked: {
         var aptn = appearance.themeName
         appearance.themeName = aptn == "YouTube" ? "RoosterTeeth" : aptn

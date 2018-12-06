@@ -123,7 +123,7 @@ Item {
 
     Item {
         id: controlsBar
-        height: controlsBar.visible ? mainWindow.virtualHeight / 24 : 0
+        height: controlsBar.visible ? mainWindow.virtualHeight / 20 : 0
         anchors.right: parent.right
         anchors.rightMargin: parent.width / 128
         anchors.left: parent.left

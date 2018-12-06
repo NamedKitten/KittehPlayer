@@ -25,6 +25,15 @@ getPlatformName()
     qobject_cast<QGuiApplication*>(QCoreApplication::instance());
   return qapp->platformName();
 }
+
+void
+launchAboutQt()
+{
+  QApplication* qapp =
+    qobject_cast<QApplication*>(QCoreApplication::instance());
+  qapp->aboutQt();
+}
+
 void
 updateAppImage()
 {

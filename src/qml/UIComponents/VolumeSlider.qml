@@ -45,7 +45,7 @@ Slider {
         x: volumeBar.leftPadding
         y: volumeBar.topPadding + volumeBar.availableHeight / 2 - height / 2
         implicitWidth: layout.width / 11
-        implicitHeight: appearance.themeName == "Niconico" ? layout.height / 8 : layout.height / 10
+        implicitHeight: appearance.themeName == "Niconico" ? layout.height / 6 : layout.height / 10
         width: volumeBar.availableWidth
         height: implicitHeight
         color: getAppearanceValueForTheme(appearance.themeName,
