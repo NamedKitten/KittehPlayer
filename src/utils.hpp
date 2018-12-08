@@ -14,9 +14,9 @@ SetScreensaver(WId wid, bool on);
 void
 AlwaysOnTop(WId wid, bool on);
 void
+checkForUpdates();
+void
 updateAppImage();
-int
-fast_mod(const int input, const int ceil);
 QString
 createTimestamp(int seconds);
 void

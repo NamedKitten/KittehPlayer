@@ -7,23 +7,19 @@
 #include "utils.hpp"
 #include <cstdlib>
 
+#include "Process.h"
 #include "enums.hpp"
 #include <QApplication>
 #include <QProcessEnvironment>
 #include <QQmlApplicationEngine>
 #include <QtCore>
+#include <QtQml>
 #include <stdbool.h>
-
 #ifdef WIN32
 #include "setenv_mingw.hpp"
 #endif
 
-#ifdef GIT_COMMIT_HASH
-#include <QJsonDocument>
-#include <QSequentialIterable>
-#include <QtNetwork>
-
-#endif
+#include "ThumbnailCache.h"
 
 #ifdef __linux__
 #include <initializer_list>
@@ -80,36 +76,7 @@ main(int argc, char* argv[])
   }
 
   if (checkForUpdates) {
-    QString current_version = QString(GIT_COMMIT_HASH);
-    qDebug() << "Current Version: " << current_version;
-
-    QNetworkRequest request(QUrl("https://api.github.com/repos/NamedKitten/"
-                                 "KittehPlayer/releases/tags/continuous"));
-
-    QNetworkAccessManager nam;
-    QNetworkReply* reply = nam.get(request);
-
-    while (!reply->isFinished()) {
-      qApp->processEvents();
-    }
-    QByteArray response_data = reply->readAll();
-    QJsonDocument json = QJsonDocument::fromJson(response_data);
-
-    if (json["target_commitish"].toString().length() != 0) {
-      if (json["target_commitish"].toString().endsWith(current_version) == 0) {
-        qDebug() << "Latest Version: " << json["target_commitish"].toString();
-        qDebug() << "Update Available. Please update ASAP.";
-        QProcess notifier;
-        notifier.setProcessChannelMode(QProcess::ForwardedChannels);
-        notifier.start("notify-send",
-                       QStringList() << "KittehPlayer"
-                                     << "New update avalable!"
-                                     << "--icon=KittehPlayer");
-        notifier.waitForFinished();
-      }
-    } else {
-      qDebug() << "Couldn't check for new version.";
-    }
+    Utils::checkForUpdates();
   }
 #endif
 
@@ -148,6 +115,8 @@ main(int argc, char* argv[])
   qRegisterMetaType<Enums::VolumeStatus>("Enums.VolumeStatus");
   qRegisterMetaType<Enums::Backends>("Enums.Backends");
   qRegisterMetaType<Enums::Commands>("Enums.Commands");
+  qmlRegisterType<Process>("player", 1, 0, "Process");
+  qmlRegisterType<ThumbnailCache>("player", 1, 0, "ThumbnailCache");
 
   qmlRegisterType<UtilsClass>("player", 1, 0, "Utils");
 

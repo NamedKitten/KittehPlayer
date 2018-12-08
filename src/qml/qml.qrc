@@ -27,6 +27,8 @@
         <file alias="ChapterMarkerItem.qml">Items/ChapterMarkerItem.qml</file>
         <file alias="TrackItem.qml">Items/TrackItem.qml</file>
         <file alias="AudioDeviceItem.qml">Items/AudioDeviceItem.qml</file>
+        <file alias="ThumbnailProcess.qml">Items/ThumbnailProcess.qml</file>
+        <file alias="TitleProcess.qml">Items/TitleProcess.qml</file>
         <file alias="CustomMenuItem.qml">Items/CustomMenuItem.qml</file>
         <file alias="PlaylistDialog.qml">Dialogs/PlaylistDialog.qml</file>
         <file>icons/YouTube/play.svg</file>

@@ -25,6 +25,8 @@ set(SOURCES
     src/DirectMpvPlayerBackend.cpp
     src/utils.cpp
     src/enums.hpp
+    src/Process.cpp
+    src/ThumbnailCache.cpp
 )
 
 if(MPV_VERSION VERSION_GREATER_EQUAL "1.28.0")

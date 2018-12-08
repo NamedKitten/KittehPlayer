@@ -1,0 +1,77 @@
+#include "ThumbnailCache.h"
+#include <QCryptographicHash>
+#include <QPixmap>
+
+ThumbnailCache::ThumbnailCache(QObject* parent)
+  : QObject(parent)
+  , manager(new QNetworkAccessManager(this))
+{
+  cacheFolder =
+    QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) +
+         "/thumbs");
+  if (!cacheFolder.exists()) {
+    cacheFolder.mkpath(".");
+  }
+}
+
+void
+ThumbnailCache::addURL(const QString& mediaURL)
+{
+
+  QString hashedURL =
+    QString(QCryptographicHash::hash(mediaURL.toUtf8(), QCryptographicHash::Md5)
+              .toHex());
+  qDebug() << hashedURL;
+  QString cacheFilename = hashedURL + ".png";
+  QString cachedFilePath = cacheFolder.absoluteFilePath(cacheFilename);
+  if (cacheFolder.exists(cacheFilename)) {
+    qDebug() << mediaURL << " is in cache at " << cachedFilePath;
+    emit thumbnailReady(mediaURL, "file://" + cachedFilePath);
+    return;
+  }
+  QProcess* thumbnailerProcess = new QProcess(this);
+  QStringList params;
+  params << "--get-thumbnail" << mediaURL;
+  
+  connect(thumbnailerProcess, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+    [=](int exitCode, QProcess::ExitStatus exitStatus){ /* ... */ });
+  
+   connect(thumbnailerProcess, static_cast<void(QProcess::*)(int, QProcess::ExitStatus)>(&QProcess::finished),
+
+[=]  (int exitCode, QProcess::ExitStatus exitStatus) 
+{
+       qDebug() << "finished. Exit code: " + exitCode ;
+    });
+
+   
+   /*
+  connect(thumbnailerProcess,
+          static_cast<void (QProcess::*)(int, QProcess::ExitStatus)>(
+            &QProcess::finished),
+          [=](int, QProcess::ExitStatus) {
+            qDebug() << "NYA!";
+            QString url(thumbnailerProcess->readAll());
+
+            QNetworkRequest request(url);
+
+            QNetworkReply* reply = manager->get(request);
+
+            connect(reply, &QNetworkReply::finished, [=] {
+              QByteArray response_data = reply->readAll();
+
+              QPixmap p;
+              p.loadFromData(response_data);
+              p.save(cachedFilePath, "PNG");
+              QString extension =
+                url.right(url.length() - url.lastIndexOf(".") - 1).toUpper();
+              qDebug() << extension;
+
+              emit thumbnailReady(mediaURL, "file://" + cachedFilePath);
+            });
+          });*/
+  thumbnailerProcess->start("youtube-dl", params);
+  while (thumbnailerProcess->exitStatus() == QProcess::NormalExit) {
+    qDebug() << "NYA!";
+      
+}
+}

@@ -3,11 +3,14 @@
 
 #include <QApplication>
 #include <QGuiApplication>
+#include <QJsonDocument>
 #include <QProcessEnvironment>
 #include <QQmlApplicationEngine>
+#include <QSequentialIterable>
 #include <QString>
 #include <QVariant>
 #include <QtCore>
+#include <QtNetwork>
 
 #ifdef __linux__
 #ifdef ENABLE_X11
@@ -35,6 +38,45 @@ launchAboutQt()
 }
 
 void
+checkForUpdates()
+{
+#ifdef GIT_COMMIT_HASH
+  QString current_version = QString(GIT_COMMIT_HASH);
+#else
+  QString current_version = QString("Unknown");
+#endif
+  qDebug() << "Current Version: " << current_version;
+
+  QNetworkRequest request(QUrl("https://api.github.com/repos/NamedKitten/"
+                               "KittehPlayer/releases/tags/continuous"));
+
+  QNetworkAccessManager nam;
+  QNetworkReply* reply = nam.get(request);
+
+  while (!reply->isFinished()) {
+    qApp->processEvents();
+  }
+  QByteArray response_data = reply->readAll();
+  QJsonDocument json = QJsonDocument::fromJson(response_data);
+
+  if (json["target_commitish"].toString().length() != 0) {
+    if (json["target_commitish"].toString().endsWith(current_version) == 0) {
+      qDebug() << "Latest Version: " << json["target_commitish"].toString();
+      qDebug() << "Update Available. Please update ASAP.";
+      QProcess notifier;
+      notifier.setProcessChannelMode(QProcess::ForwardedChannels);
+      notifier.start("notify-send",
+                     QStringList() << "KittehPlayer"
+                                   << "New update avalable!"
+                                   << "--icon=KittehPlayer");
+      notifier.waitForFinished();
+    }
+  } else {
+    qDebug() << "Couldn't check for new version.";
+  }
+}
+
+void
 updateAppImage()
 {
   QString program =
@@ -50,19 +92,19 @@ updateAppImage()
 }
 
 // https://www.youtube.com/watch?v=nXaxk27zwlk&feature=youtu.be&t=56m34s
-int
+inline const int
 fast_mod(const int input, const int ceil)
 {
   return input >= ceil ? input % ceil : input;
 }
 
 QString
-createTimestamp(int seconds)
+createTimestamp(const int seconds)
 {
 
-  int s = fast_mod(seconds, 60);
-  int m = fast_mod(seconds, 3600) / 60;
-  int h = fast_mod(seconds, 86400) / 3600;
+  const int s = fast_mod(seconds, 60);
+  const int m = fast_mod(seconds, 3600) / 60;
+  const int h = fast_mod(seconds, 86400) / 3600;
 
   if (h > 0) {
     return QString::asprintf("%02d:%02d:%02d", h, m, s);
