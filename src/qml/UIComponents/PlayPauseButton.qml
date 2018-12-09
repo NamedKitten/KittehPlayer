@@ -25,7 +25,6 @@ Button {
         target: player
         enabled: true
         onPlayStatusChanged: function (status) {
-            console.log(icon.height)
             if (status == Enums.PlayStatus.Playing) {
                 icon.source = "qrc:/icons/" + appearance.themeName + "/pause.svg"
             } else if (status == Enums.PlayStatus.Paused) {

@@ -4,8 +4,13 @@ project(KittehPlayer)
 include_directories(${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR}) 
 set(CMAKE_AUTOMOC ON)
 
+include(ExternalProject)
+
+
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
+find_package(Qt5Concurrent REQUIRED)
+
 find_package(Qt5 CONFIG REQUIRED COMPONENTS Qml Quick Gui Widgets Core X11Extras)
 
 find_package(Qt5QuickCompiler)
@@ -15,6 +20,16 @@ find_package(PkgConfig)
 pkg_check_modules(MPV REQUIRED mpv)
 pkg_check_modules(X11 x11)
 pkg_check_modules(Xext xext)
+
+
+execute_process(
+  COMMAND git clone --depth 1 https://github.com/gabime/spdlog.git
+  WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+)
+
+include_directories(${CMAKE_BINARY_DIR}/spdlog/include)
+
+
 
 if(X11_FOUND AND Xext_FOUND)
 add_definitions(-DENABLE_X11)
@@ -27,6 +42,7 @@ set(SOURCES
     src/enums.hpp
     src/Process.cpp
     src/ThumbnailCache.cpp
+    src/logger.cpp
 )
 
 if(MPV_VERSION VERSION_GREATER_EQUAL "1.28.0")
@@ -58,7 +74,7 @@ add_executable(KittehPlayer ${SOURCES} ${qml_QRC})
 
 # Use the Qml/Quick modules from Qt 5.
 target_link_libraries(KittehPlayer ${MPV_LIBRARIES} ${X11_LIBRARIES} ${Xext_LIBRARIES} Qt5::X11Extras)
-include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
+include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS} ${Qt5Concurrent_INCLUDE_DIRS})
 qt5_use_modules(KittehPlayer Qml Quick Core Gui Widgets X11Extras)
 
 install (TARGETS ${PROJECT_NAME} DESTINATION bin)

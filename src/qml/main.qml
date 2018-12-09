@@ -202,6 +202,8 @@ Window {
         }
 
         function startPlayer() {
+            console.info("OwO!")
+
             var args = Qt.application.arguments
             var len = Qt.application.arguments.length
             var argNo = 0

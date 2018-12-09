@@ -1,4 +1,6 @@
 #include "utils.hpp"
+#include "logger.h"
+
 #include <stdbool.h>
 
 #include <QApplication>
@@ -19,6 +21,9 @@
 #include <X11/Xutil.h>
 #endif
 #endif
+
+auto utilsLogger = initLogger("utils");
+auto updaterLogger = initLogger("updater");
 
 namespace Utils {
 QString
@@ -45,7 +50,8 @@ checkForUpdates()
 #else
   QString current_version = QString("Unknown");
 #endif
-  qDebug() << "Current Version: " << current_version;
+  updaterLogger->info("Current Version: {}",
+                      current_version.toUtf8().constData());
 
   QNetworkRequest request(QUrl("https://api.github.com/repos/NamedKitten/"
                                "KittehPlayer/releases/tags/continuous"));
@@ -61,8 +67,10 @@ checkForUpdates()
 
   if (json["target_commitish"].toString().length() != 0) {
     if (json["target_commitish"].toString().endsWith(current_version) == 0) {
-      qDebug() << "Latest Version: " << json["target_commitish"].toString();
-      qDebug() << "Update Available. Please update ASAP.";
+      updaterLogger->info(
+        "Latest Version: {}",
+        json["target_commitish"].toString().toUtf8().constData());
+      updaterLogger->info("Update Available. Please update ASAP.");
       QProcess notifier;
       notifier.setProcessChannelMode(QProcess::ForwardedChannels);
       notifier.start("notify-send",
@@ -72,13 +80,14 @@ checkForUpdates()
       notifier.waitForFinished();
     }
   } else {
-    qDebug() << "Couldn't check for new version.";
+    updaterLogger->error("Couldn't check for new version.");
   }
 }
 
 void
 updateAppImage()
 {
+  updaterLogger->info("Launching updater");
   QString program =
     QProcessEnvironment::systemEnvironment().value("APPDIR", "") +
     "/usr/bin/appimageupdatetool";
@@ -119,11 +128,11 @@ SetScreensaver(WId wid, bool on)
   QProcess xdgScreensaver;
   xdgScreensaver.setProcessChannelMode(QProcess::ForwardedChannels);
   if (on) {
-    qDebug() << "Enabling screensaver.";
+    utilsLogger->info("Enabling screensaver.");
     xdgScreensaver.start("xdg-screensaver",
                          QStringList() << "resume" << QString::number(wid));
   } else {
-    qDebug() << "Disabling screensaver.";
+    utilsLogger->info("Disabling screensaver.");
     xdgScreensaver.start("xdg-screensaver",
                          QStringList() << "suspend" << QString::number(wid));
   }
@@ -140,13 +149,13 @@ SetDPMS(bool on)
   QProcess xsetProcess;
   xsetProcess.setProcessChannelMode(QProcess::ForwardedChannels);
   if (on) {
-    qDebug() << "Enabled DPMS.";
+    utilsLogger->info("Enabled DPMS.");
     xsetProcess.start("xset",
                       QStringList() << "s"
                                     << "on"
                                     << "+dpms");
   } else {
-    qDebug() << "Disabled DPMS.";
+    utilsLogger->info("Disabled DPMS.");
     xsetProcess.start("xset",
                       QStringList() << "s"
                                     << "off"
@@ -154,7 +163,8 @@ SetDPMS(bool on)
   }
   xsetProcess.waitForFinished();
 #else
-  qDebug() << "Can't set DPMS for platform: " << getPlatformName();
+  utilsLogger->error("Can't set DPMS for platform: {}",
+                     getPlatformName().toUtf8().constData());
 #endif
 }
 
@@ -186,7 +196,8 @@ AlwaysOnTop(WId wid, bool on)
              &event);
 #endif
 #else
-  qDebug() << "Can't set on top for platform: " << getPlatformName();
+  utilsLogger->error("Can't set on top for platform: {}",
+                     getPlatformName().toUtf8().constData());
 #endif
 }
 }

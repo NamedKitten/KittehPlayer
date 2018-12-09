@@ -36,7 +36,7 @@ Item {
 
         var component = Qt.createComponent(themeName + "ButtonLayout.qml")
         if (component.status == Component.Error) {
-            console.log("Error loading component:", component.errorString())
+            console.error("Error loading component: " + component.errorString())
         }
         component.createObject(controlsBar, {
 

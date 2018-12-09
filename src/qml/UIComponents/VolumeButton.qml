@@ -24,9 +24,6 @@ Button {
     }
 
     function updateStatus(status) {
-        if (volumeButton == null)
-            console.log("OwO")
-
         if (status == Enums.VolumeStatus.Muted) {
             volumeButton.icon.source = "qrc:/icons/" + appearance.themeName + "/volume-mute.svg"
         } else if (status == Enums.VolumeStatus.Low) {
