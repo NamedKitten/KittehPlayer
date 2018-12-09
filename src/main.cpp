@@ -4,6 +4,7 @@
 #endif
 
 #include "enums.hpp"
+#include "logger.h"
 #include "utils.hpp"
 #include <cstdlib>
 
@@ -12,6 +13,7 @@
 #include <QApplication>
 #include <QProcessEnvironment>
 #include <QQmlApplicationEngine>
+#include <QtConcurrent>
 #include <QtCore>
 #include <QtQml>
 #include <stdbool.h>
@@ -45,10 +47,50 @@ catchUnixSignals(std::initializer_list<int> quitSignals)
 }
 #endif
 
+auto qmlLogger = initLogger("qml");
+auto miscLogger = initLogger("misc");
+
+void
+spdLogger(QtMsgType type, const QMessageLogContext& context, const QString& msg)
+{
+  std::string localMsg = msg.toUtf8().constData();
+  std::shared_ptr<spdlog::logger> logger;
+  if (QString(context.category).startsWith(QString("qml"))) {
+    logger = qmlLogger;
+  } else {
+    logger = miscLogger;
+  }
+
+  switch (type) {
+    case QtDebugMsg:
+      logger->debug("{}", localMsg);
+      break;
+    case QtInfoMsg:
+      logger->info("{}", localMsg);
+      break;
+    case QtWarningMsg:
+      logger->warn("{}", localMsg);
+      break;
+    case QtCriticalMsg:
+      logger->critical("{}", localMsg);
+      break;
+    case QtFatalMsg:
+      logger->critical("{}", localMsg);
+      abort();
+  }
+}
+
 int
 main(int argc, char* argv[])
 {
 
+  qInstallMessageHandler(spdLogger);
+
+  auto launcherLogger = initLogger("launcher");
+
+  launcherLogger->info("Starting up!");
+
+  QString backendString;
 #ifdef DISABLE_MpvPlayerBackend
   Enums::Backends backend = Enums::Backends::DirectMpvBackend;
 #else
@@ -66,7 +108,6 @@ main(int argc, char* argv[])
 
   QSettings settings;
 
-#ifdef GIT_COMMIT_HASH
   bool checkForUpdates =
     settings.value("Backend/checkForUpdatesOnLaunch", false).toBool();
   for (int i = 1; i < argc; ++i) {
@@ -76,9 +117,8 @@ main(int argc, char* argv[])
   }
 
   if (checkForUpdates) {
-    Utils::checkForUpdates();
+    QtConcurrent::run(Utils::checkForUpdates);
   }
-#endif
 
   QString backendSetting = settings.value("Backend/backend", "").toString();
   if (backendSetting.length() == 0) {
@@ -88,19 +128,22 @@ main(int argc, char* argv[])
     settings.setValue("Backend/backend", "direct-mpv");
 #endif
   }
-
-  qDebug() << backendSetting;
+  backendString = backendSetting;
 
   for (int i = 1; i < argc; ++i) {
     if (!qstrcmp(argv[i], "--update")) {
       Utils::updateAppImage();
     } else if (!qstrcmp(argv[i], "--backend=mpv") || backendSetting == "mpv") {
       backend = Enums::Backends::MpvBackend;
+      backendString = QString("mpv");
     } else if (!qstrcmp(argv[i], "--backend=direct-mpv") ||
                backendSetting == "direct-mpv") {
+      backendString = QString("direct-mpv");
       backend = Enums::Backends::DirectMpvBackend;
     }
   }
+
+  launcherLogger->info("Using backend={}", backendString.toUtf8().constData());
 
   Utils::SetDPMS(false);
 
@@ -116,6 +159,7 @@ main(int argc, char* argv[])
   qRegisterMetaType<Enums::Backends>("Enums.Backends");
   qRegisterMetaType<Enums::Commands>("Enums.Commands");
   qmlRegisterType<Process>("player", 1, 0, "Process");
+
   qmlRegisterType<ThumbnailCache>("player", 1, 0, "ThumbnailCache");
 
   qmlRegisterType<UtilsClass>("player", 1, 0, "Utils");
@@ -139,6 +183,7 @@ main(int argc, char* argv[])
   }
 
   std::setlocale(LC_NUMERIC, "C");
+  launcherLogger->info("Loading player...");
 
   QQmlApplicationEngine engine;
   engine.load(QUrl(QStringLiteral("qrc:///main.qml")));

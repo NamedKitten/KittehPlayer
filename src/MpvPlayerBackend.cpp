@@ -1,8 +1,5 @@
 #include "MpvPlayerBackend.h"
-#include <clocale>
-#include <stdbool.h>
-#include <stdexcept>
-
+#include "logger.h"
 #include "utils.hpp"
 #include <QApplication>
 #include <QElapsedTimer>
@@ -10,7 +7,10 @@
 #include <QOpenGLFramebufferObject>
 #include <QQuickWindow>
 #include <QSequentialIterable>
+#include <clocale>
 #include <math.h>
+#include <stdbool.h>
+#include <stdexcept>
 
 #ifdef __linux__
 #include <QX11Info>
@@ -19,6 +19,8 @@
 #include <X11/Xutil.h>
 #include <qpa/qplatformnativeinterface.h>
 #endif
+
+auto mpvLogger = initLogger("mpv");
 
 namespace {
 
@@ -80,13 +82,11 @@ public:
       if (QGuiApplication::platformName().contains("xcb")) {
         params[2].type = MPV_RENDER_PARAM_X11_DISPLAY;
         params[2].data = QX11Info::display();
-        qDebug() << "On Xorg.";
       } else if (QGuiApplication::platformName().contains("wayland")) {
         QPlatformNativeInterface* native =
           QGuiApplication::platformNativeInterface();
         params[2].type = MPV_RENDER_PARAM_WL_DISPLAY;
         params[2].data = native->nativeResourceForWindow("display", nullptr);
-        qDebug() << "On wayland.";
       }
 #endif
 
@@ -129,10 +129,11 @@ MpvPlayerBackend::MpvPlayerBackend(QQuickItem* parent)
   , mpv{ mpv_create() }
   , mpv_gl(nullptr)
 {
+  mpvLogger->set_pattern("%^[%d-%m-%Y %T.%e][%l][%n]%v%$");
   if (!mpv)
     throw std::runtime_error("could not create mpv context");
 
-  mpv_set_option_string(mpv, "terminal", "off");
+  mpv_set_option_string(mpv, "terminal", "on");
   mpv_set_option_string(mpv, "msg-level", "all=v");
 
   // Fix?
@@ -161,6 +162,9 @@ MpvPlayerBackend::MpvPlayerBackend(QQuickItem* parent)
   mpv_observe_property(mpv, 0, "pause", MPV_FORMAT_NODE);
   mpv_observe_property(mpv, 0, "playlist", MPV_FORMAT_NODE);
   mpv_observe_property(mpv, 0, "speed", MPV_FORMAT_DOUBLE);
+
+  mpv_request_log_messages(mpv, "debug");
+
   mpv_set_wakeup_callback(mpv, wakeup, this);
 
   if (mpv_initialize(mpv) < 0)
@@ -548,6 +552,20 @@ MpvPlayerBackend::handle_mpv_event(mpv_event* event)
         double speed = *(double*)prop->data;
         emit speedChanged(speed);
       }
+      break;
+    }
+
+    case MPV_EVENT_LOG_MESSAGE: {
+      struct mpv_event_log_message* msg =
+        (struct mpv_event_log_message*)event->data;
+      QString logMsg = "[" + QString(msg->prefix) + "] " + QString(msg->text);
+      QString msgLevel = QString(msg->level);
+      if (msgLevel.startsWith("d")) {
+        mpvLogger->debug("{}", logMsg.toUtf8().constData());
+      } else if (msgLevel.startsWith("v") || msgLevel.startsWith("i")) {
+        mpvLogger->info("{}", logMsg.toUtf8().constData());
+      }
+
       break;
     }
     case MPV_EVENT_SHUTDOWN: {
