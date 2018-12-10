@@ -32,7 +32,7 @@ Slider {
     }
 
     function getProgressBarHeight(nyan, isMouse) {
-        var x = fun.nyanCat ? mainWindow.virtualHeight / 64 : Screen.height / 380
+        var x = fun.nyanCat ? mainWindow.virtualHeight / 64 : mainWindow.virtualHeight / 380
         if (appearance.themeName == "Niconico" && !fun.nyanCat) {
             return x * 2
         } else if (isMouse & !fun.nyanCat) {
@@ -80,7 +80,7 @@ Slider {
 
         Rectangle {
             x: (mouseAreaProgressBar.mouseX - hoverProgressLabel.width / 2)
-            y: progressBackground.y - 20 - hoverProgressLabel.height
+            y: progressBackground.y - (hoverProgressLabel.height * 2)
             visible: mouseAreaProgressBar.containsMouse
             color: getAppearanceValueForTheme(appearance.themeName,
                                               "mainBackground")
@@ -163,7 +163,7 @@ Slider {
         y: progressBar.topPadding + progressBar.availableHeight / 2 - height / 2
         implicitHeight: radius
         implicitWidth: radius
-        radius: 12 + (progressBackground.height / 2)
+        radius: mainWindow.virtualHeight / 59
         color: appearance.themeName
                == "RoosterTeeth" ? "white" : fun.nyanCat ? "transparent" : getAppearanceValueForTheme(
                                                                appearance.themeName,

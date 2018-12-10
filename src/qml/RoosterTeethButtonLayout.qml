@@ -16,8 +16,8 @@ Item {
         id: playPauseButton
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        icon.height: parent.height / 2
-        icon.width: parent.height / 2
+        icon.height: parent.height / 1.25
+        icon.width: parent.height / 1.25
     }
 
     MouseArea {
@@ -46,8 +46,8 @@ Item {
         anchors.left: playPauseButton.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        icon.height: parent.height / 2
-        icon.width: parent.height / 2
+        icon.height: parent.height / 1.25
+        icon.width: parent.height / 1.25
         icon.color: hovered
                     || mouseAreaVolumeArea.containsMouse ? getAppearanceValueForTheme(
                                                                appearance.themeName,
@@ -95,15 +95,15 @@ Item {
         anchors.right: settingsButton.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        icon.height: parent.height / 2
-        icon.width: parent.height / 2
+        icon.height: parent.height / 1.25
+        icon.width: parent.height / 1.25
     }
     SettingsButton {
         id: settingsButton
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        icon.height: parent.height / 2
-        icon.width: parent.height / 2
+        icon.height: parent.height / 1.25
+        icon.width: parent.height / 1.25
     }
 }

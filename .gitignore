@@ -19,3 +19,4 @@ src_qml*
 qmlcache*
 qrc_src*
 discord-rpc
+*.kate-swp

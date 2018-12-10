@@ -19,24 +19,24 @@ Item {
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         width: visible ? playlistNextButton.width : 0
-        icon.height: parent.height / 2
-        icon.width: parent.height / 2
+        icon.height: parent.height / 1.25
+        icon.width: parent.height / 1.25
     }
     PlayPauseButton {
         id: playPauseButton
         anchors.left: playlistPrevButton.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        icon.height: parent.height / 2
-        icon.width: parent.height / 2
+        icon.height: parent.height / 1.25
+        icon.width: parent.height / 1.25
     }
     PlaylistNextButton {
         id: playlistNextButton
         anchors.left: playPauseButton.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        icon.height: parent.height / 2
-        icon.width: parent.height / 2
+        icon.height: parent.height / 1.25
+        icon.width: parent.height / 1.25
     }
 
     MouseArea {
@@ -56,8 +56,8 @@ Item {
         anchors.left: playlistNextButton.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        icon.height: parent.height / 2
-        icon.width: parent.height / 2
+        icon.height: parent.height / 1.25
+        icon.width: parent.height / 1.25
     }
     VolumeSlider {
         id: volumeSlider
@@ -79,15 +79,15 @@ Item {
         anchors.right: fullscreenButton.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        icon.height: parent.height / 2
-        icon.width: parent.height / 2
+        icon.height: parent.height / 1.25
+        icon.width: parent.height / 1.25
     }
     FullscreenButton {
         id: fullscreenButton
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        icon.height: parent.height / 2
-        icon.width: parent.height / 2
+        icon.height: parent.height / 1.25
+        icon.width: parent.height / 1.25
     }
 }
