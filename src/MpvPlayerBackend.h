@@ -24,11 +24,14 @@ class MpvPlayerBackend
   Q_INTERFACES(BackendInterface)
 
   Q_OBJECT
+  Q_PROPERTY(bool logging READ logging WRITE setLogging)
 
   mpv_handle* mpv;
   mpv_render_context* mpv_gl;
   QSettings settings;
   bool onTop = false;
+  bool m_logging = true;
+
   int lastTime = 0;
   double lastSpeed = 0;
   QString totalDurationString;
@@ -42,6 +45,14 @@ public:
   MpvPlayerBackend(QQuickItem* parent = 0);
   virtual ~MpvPlayerBackend();
   virtual Renderer* createRenderer() const;
+
+  void setLogging(bool a)
+  {
+    if (a != m_logging) {
+      m_logging = a;
+    }
+  }
+  bool logging() const { return m_logging; }
 
 public slots:
   QVariant playerCommand(const Enums::Commands& command, const QVariant& args);
@@ -60,7 +71,6 @@ signals:
   void onUpdate();
   void mpv_events();
   void onMpvEvent(mpv_event* event);
-
   // All below required for Player API
   void playStatusChanged(const Enums::PlayStatus& status);
   void volumeStatusChanged(const Enums::VolumeStatus& status);

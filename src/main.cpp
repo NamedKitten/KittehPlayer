@@ -87,9 +87,8 @@ main(int argc, char* argv[])
   qInstallMessageHandler(spdLogger);
 
   auto launcherLogger = initLogger("launcher");
-
   launcherLogger->info("Starting up!");
-
+  
   QString backendString;
 #ifdef DISABLE_MpvPlayerBackend
   Enums::Backends backend = Enums::Backends::DirectMpvBackend;
@@ -98,13 +97,15 @@ main(int argc, char* argv[])
 #endif
   setenv("QT_QUICK_CONTROLS_STYLE", "Desktop", 1);
   QApplication app(argc, argv);
-#ifdef __linux__
-  catchUnixSignals({ SIGQUIT, SIGINT, SIGTERM, SIGHUP });
-#endif
 
   app.setOrganizationName("KittehPlayer");
   app.setOrganizationDomain("namedkitten.pw");
   app.setApplicationName("KittehPlayer");
+  
+#ifdef __linux__
+  catchUnixSignals({ SIGQUIT, SIGINT, SIGTERM, SIGHUP });
+#endif
+
 
   QSettings settings;
 

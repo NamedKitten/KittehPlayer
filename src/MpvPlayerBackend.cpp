@@ -133,7 +133,7 @@ MpvPlayerBackend::MpvPlayerBackend(QQuickItem* parent)
   if (!mpv)
     throw std::runtime_error("could not create mpv context");
 
-  mpv_set_option_string(mpv, "terminal", "on");
+  mpv_set_option_string(mpv, "terminal", "off");
   mpv_set_option_string(mpv, "msg-level", "all=v");
 
   // Fix?
@@ -395,6 +395,13 @@ MpvPlayerBackend::playerCommand(const Enums::Commands& cmd,
 
       break;
     }
+    
+    case Enums::Commands::ForcePause: {
+
+      command(QVariantList() << "set" << "pause" << "yes");
+
+      break;
+    }
 
     default: {
       qDebug() << "Command not found: " << cmd;
@@ -556,6 +563,7 @@ MpvPlayerBackend::handle_mpv_event(mpv_event* event)
     }
 
     case MPV_EVENT_LOG_MESSAGE: {
+        if (m_logging) {
       struct mpv_event_log_message* msg =
         (struct mpv_event_log_message*)event->data;
       QString logMsg = "[" + QString(msg->prefix) + "] " + QString(msg->text);
@@ -565,6 +573,7 @@ MpvPlayerBackend::handle_mpv_event(mpv_event* event)
       } else if (msgLevel.startsWith("v") || msgLevel.startsWith("i")) {
         mpvLogger->info("{}", logMsg.toUtf8().constData());
       }
+        }
 
       break;
     }

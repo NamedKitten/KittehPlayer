@@ -38,6 +38,7 @@ class DirectMpvPlayerBackend
   Q_INTERFACES(BackendInterface)
 
   Q_OBJECT
+  Q_PROPERTY(bool logging READ logging WRITE setLogging)
 
   mpv_handle* mpv;
   mpv_opengl_cb_context* mpv_gl;
@@ -45,12 +46,21 @@ class DirectMpvPlayerBackend
   bool onTop = false;
   int lastTime = 0;
   double lastSpeed = 0;
+  bool m_logging = true;
   QString totalDurationString;
   QString lastPositionString;
   QSettings settings;
 
 public:
   static void on_update(void* ctx);
+
+  void setLogging(bool a)
+  {
+    if (a != m_logging) {
+      m_logging = a;
+    }
+  }
+  bool logging() const { return m_logging; }
 
   DirectMpvPlayerBackend(QQuickItem* parent = 0);
   virtual ~DirectMpvPlayerBackend();

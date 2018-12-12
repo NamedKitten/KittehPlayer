@@ -10,6 +10,7 @@ import player 1.0
 Slider {
     id: progressBar
     objectName: "progressBar"
+    property string currentMediaURL: ""
     to: 1
     value: 0.0
     Connections {
@@ -52,19 +53,24 @@ Slider {
     }
     MouseArea {
         id: mouseAreaProgressBar
-        width: parent.width
+        width: progressBar.width
         height: parent.height
         anchors.fill: parent
-        y: parent.y
-        x: parent.x
+
         hoverEnabled: true
         propagateComposedEvents: false
         acceptedButtons: Qt.NoButton
-        z: 1
+        z: 100
+        property string currentTime: ""
+
+        onEntered: progressBarTimePreview.visible = true
+        onExited: progressBarTimePreview.visible = false
 
         onPositionChanged: {
-            var a = (progressBar.to / progressBar.width) * mouseAreaProgressBar.mouseX
-            hoverProgressLabel.text = utils.createTimestamp(a)
+            var a = (progressBar.to / progressBar.availableWidth) * (mouseAreaProgressBar.mapToItem(progressBar, mouseAreaProgressBar.mouseX, 0).x - 2)
+            progressBarTimePreview.playerCommand(Enums.Commands.SeekAbsolute, a)
+            progressBarTimePreview.x = mouseAreaProgressBar.mapToItem(controlsOverlay, mouseAreaProgressBar.mouseX, 0).x - progressBarTimePreview.width / 2
+            progressBarTimePreview.y = progressBackground.y - progressBarTimePreview.height - controlsBar.height * 2 
         }
     }
 
@@ -75,29 +81,7 @@ Slider {
         width: progressBar.availableWidth
         height: progressBar.getProgressBarHeight(
                     fun.nyanCat, mouseAreaProgressBar.containsMouse)
-        color: getAppearanceValueForTheme(appearance.themeName,
-                                          "progressBackgroundColor")
-
-        Rectangle {
-            x: (mouseAreaProgressBar.mouseX - hoverProgressLabel.width / 2)
-            y: progressBackground.y - (hoverProgressLabel.height * 2)
-            visible: mouseAreaProgressBar.containsMouse
-            color: getAppearanceValueForTheme(appearance.themeName,
-                                              "mainBackground")
-            height: hoverProgressLabel.height
-            width: hoverProgressLabel.width
-            z: 80
-            Text {
-                id: hoverProgressLabel
-                text: "0:00"
-                color: "white"
-                padding: 2
-                font.family: appearance.fontName
-                font.pixelSize: mainWindow.virtualHeight / 50
-                verticalAlignment: Text.AlignVCenter
-                renderType: Text.NativeRendering
-            }
-        }
+        color: getAppearanceValueForTheme(appearance.themeName,"progressBackgroundColor")
 
         ProgressBar {
             id: cachedLength
@@ -155,6 +139,7 @@ Slider {
         }
     }
 
+    
     handle: Rectangle {
         z: 70
         id: handleRect

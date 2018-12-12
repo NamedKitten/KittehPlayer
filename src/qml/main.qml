@@ -33,7 +33,16 @@ Window {
     Translator {
         id: translate
     }
+    
+    Settings {
+        id: loggingSettings
+        category: "Logging"
+        property string logFile: "/tmp/KittehPlayer.log"
+        property bool logBackend: true
+        property bool logPreview: false
+    }
 
+    
     Settings {
         id: backendSettings
         category: "Backend"
@@ -163,12 +172,15 @@ Window {
     property int lastScreenVisibility
 
     function toggleFullscreen() {
+        console.error("a", mainWindow.visibility, Window.FullScreen, lastScreenVisibility)
         if (mainWindow.visibility != Window.FullScreen) {
             lastScreenVisibility = mainWindow.visibility
             mainWindow.visibility = Window.FullScreen
         } else {
             mainWindow.visibility = lastScreenVisibility
         }
+        console.error("b", mainWindow.visibility, Window.FullScreen, lastScreenVisibility)
+
     }
 
     Utils {
@@ -181,6 +193,15 @@ Window {
         width: parent.width
         height: parent.height
         z: 1
+        logging: loggingSettings.logBackend
+
+        onPlaylistChanged: function (playlist) {
+            for (var thing in playlist) {
+                var item = playlist[thing]
+                if (playlist[thing]["current"]) {progressBarTimePreview.playerCommand(Enums.Commands.LoadFile, String(playlist[thing]["filename"]))}
+                progressBarTimePreview.playerCommand(Enums.Commands.ForcePause)
+            }
+        }
 
         Action {
             onTriggered: {
@@ -376,9 +397,9 @@ Window {
                 width: parent.width
                 height: parent.height
                 anchors.left: parent.left
-                anchors.leftMargin: 10
+                anchors.leftMargin: 4
                 anchors.bottom: parent.bottom
-                anchors.bottomMargin: 8
+                anchors.bottomMargin: 4
                 anchors.top: parent.top
                 font.family: appearance.fontName
                 font.pixelSize: menuBar.height - (anchors.bottomMargin + anchors.topMargin)
@@ -399,6 +420,43 @@ Window {
 
         ControlsBar {
             id: controlsBar
+            PlayerBackend {
+                id: progressBarTimePreview
+                height: 144
+                width: 256
+                z: 80
+                visible: true
+                logging: loggingSettings.logPreview
+
+                onDurationStringChanged: function (durationString) {
+                    hoverProgressLabel.text = durationString
+                }
+                function startPlayer() {
+                    update()
+                    progressBarTimePreview.playerCommand(Enums.Commands.SetTrack, ["aid", "no"])
+                    progressBarTimePreview.playerCommand(Enums.Commands.SetTrack, ["sid", "no"])
+                    progressBarTimePreview.setOption("ytdl-format", "worstvideo[height<=?" + String(height) + "]/worst")
+                }
+    
+                Rectangle { 
+                    anchors.bottom: parent.bottom
+                    width: hoverProgressLabel.width
+                    height: hoverProgressLabel.height
+                    anchors.right: parent.right
+                    color: getAppearanceValueForTheme(appearance.themeName, "mainBackground")
+                    Text {
+                        id: hoverProgressLabel
+                        text: "0:00"
+                        color: "white"
+                        padding: 2
+                        z: 90
+                        font.family: appearance.fontName
+                        font.pixelSize: mainWindow.virtualHeight / 50
+                        verticalAlignment: Text.AlignVCenter
+                        renderType: Text.NativeRendering
+                    }
+                }
+            }
         }
     }
 }

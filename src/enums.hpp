@@ -44,6 +44,7 @@ enum class Commands : int
   BackwardFrame = 20,
   SetTrack = 21,
   SetPlaylistPos = 22,
+  ForcePause = 23,
 };
 Q_ENUM_NS(Commands)
 enum class Backends : int
