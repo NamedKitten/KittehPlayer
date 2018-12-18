@@ -129,7 +129,7 @@ MpvPlayerBackend::MpvPlayerBackend(QQuickItem* parent)
   , mpv{ mpv_create() }
   , mpv_gl(nullptr)
 {
-  mpvLogger->set_pattern("%^[%d-%m-%Y %T.%e][%l][%n]%v%$");
+  mpvLogger->set_pattern("[%n]%v%$");
   if (!mpv)
     throw std::runtime_error("could not create mpv context");
 
@@ -395,10 +395,12 @@ MpvPlayerBackend::playerCommand(const Enums::Commands& cmd,
 
       break;
     }
-    
+
     case Enums::Commands::ForcePause: {
 
-      command(QVariantList() << "set" << "pause" << "yes");
+      command(QVariantList() << "set"
+                             << "pause"
+                             << "yes");
 
       break;
     }
@@ -563,17 +565,17 @@ MpvPlayerBackend::handle_mpv_event(mpv_event* event)
     }
 
     case MPV_EVENT_LOG_MESSAGE: {
-        if (m_logging) {
-      struct mpv_event_log_message* msg =
-        (struct mpv_event_log_message*)event->data;
-      QString logMsg = "[" + QString(msg->prefix) + "] " + QString(msg->text);
-      QString msgLevel = QString(msg->level);
-      if (msgLevel.startsWith("d")) {
-        mpvLogger->debug("{}", logMsg.toUtf8().constData());
-      } else if (msgLevel.startsWith("v") || msgLevel.startsWith("i")) {
-        mpvLogger->info("{}", logMsg.toUtf8().constData());
-      }
+      if (m_logging) {
+        struct mpv_event_log_message* msg =
+          (struct mpv_event_log_message*)event->data;
+        QString logMsg = "[" + QString(msg->prefix) + "] " + QString(msg->text);
+        QString msgLevel = QString(msg->level);
+        if (msgLevel.startsWith("d")) {
+          mpvLogger->debug("{}", logMsg.toUtf8().constData());
+        } else if (msgLevel.startsWith("v") || msgLevel.startsWith("i")) {
+          mpvLogger->info("{}", logMsg.toUtf8().constData());
         }
+      }
 
       break;
     }

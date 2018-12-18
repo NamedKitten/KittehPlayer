@@ -140,8 +140,7 @@ DirectMpvPlayerBackend::DirectMpvPlayerBackend(QQuickItem* parent)
 DirectMpvPlayerBackend::~DirectMpvPlayerBackend()
 {
   printf("Shutting down...\n");
-
-  exit(0);
+  qApp->quit();
   printf("MPV terminated.\n");
 }
 
