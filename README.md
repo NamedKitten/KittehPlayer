@@ -1,8 +1,14 @@
 # KittehPlayer
+
 ![made with c++](https://forthebadge.com/images/badges/made-with-c-plus-plus.svg)]
+
 ![works 60 percent of the time every time](https://forthebadge.com/images/badges/60-percent-of-the-time-works-every-time.svg)]
+
 ![libmpv 2.29+](https://img.shields.io/badge/libmpv-2.29+-blue.svg?logo=qt&style=for-the-badge)
+
 ![qt 5.12](https://img.shields.io/badge/Qt-5.12-41cd52.svg?logo=qt&style=for-the-badge)
+
+
 A video player based on Qt, QML and libmpv with themes for many online video players.. 
 
 ## Themes
