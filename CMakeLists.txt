@@ -37,16 +37,17 @@ endif(X11_FOUND AND Xext_FOUND)
 
 set(SOURCES
     src/main.cpp
-    src/DirectMpvPlayerBackend.cpp
+    src/Backends/DirectMPV/DirectMPVBackend.cpp
     src/utils.cpp
     src/enums.hpp
     src/Process.cpp
     src/ThumbnailCache.cpp
     src/logger.cpp
+    src/qmldebugger.cpp
 )
 
 if(MPV_VERSION VERSION_GREATER_EQUAL "1.28.0")
-set(SOURCES ${SOURCES} src/MpvPlayerBackend.cpp)
+set(SOURCES ${SOURCES} src/Backends/MPV/MPVBackend.cpp)
 else()
 add_definitions(-DDISABLE_MpvPlayerBackend)
 endif(MPV_VERSION VERSION_GREATER_EQUAL "1.28.0")

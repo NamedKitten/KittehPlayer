@@ -2,9 +2,9 @@
 #include <stdbool.h>
 #include <stdexcept>
 
-#include "DirectMpvPlayerBackend.h"
+#include "src/Backends/DirectMPV/DirectMPVBackend.hpp"
 
-#include "utils.hpp"
+#include "src/utils.hpp"
 #include <QApplication>
 #include <QMainWindow>
 #include <QOpenGLContext>
@@ -17,7 +17,7 @@
 void
 wakeup(void* ctx)
 {
-  QCoreApplication::postEvent((DirectMpvPlayerBackend*)ctx,
+  QCoreApplication::postEvent((DirectMPVBackend*)ctx,
                               new QEvent(QEvent::User));
 }
 
@@ -66,7 +66,7 @@ MpvRenderer::paint()
   window->resetOpenGLState();
 }
 
-DirectMpvPlayerBackend::DirectMpvPlayerBackend(QQuickItem* parent)
+DirectMPVBackend::DirectMPVBackend(QQuickItem* parent)
   : QQuickItem(parent)
   , mpv_gl(0)
   , renderer(0)
@@ -117,27 +117,27 @@ DirectMpvPlayerBackend::DirectMpvPlayerBackend(QQuickItem* parent)
   if (!mpv_gl)
     throw std::runtime_error("OpenGL not compiled in");
   mpv_opengl_cb_set_update_callback(
-    mpv_gl, DirectMpvPlayerBackend::on_update, (void*)this);
+    mpv_gl, DirectMPVBackend::on_update, (void*)this);
 
   connect(this,
-          &DirectMpvPlayerBackend::onUpdate,
+          &DirectMPVBackend::onUpdate,
           this,
-          &DirectMpvPlayerBackend::doUpdate,
+          &DirectMPVBackend::doUpdate,
           Qt::QueuedConnection);
   connect(this,
-          &DirectMpvPlayerBackend::positionChanged,
-          &DirectMpvPlayerBackend::updateDurationString);
+          &DirectMPVBackend::positionChanged,
+          &DirectMPVBackend::updateDurationString);
   connect(this,
-          &DirectMpvPlayerBackend::durationChanged,
-          &DirectMpvPlayerBackend::updateDurationString);
+          &DirectMPVBackend::durationChanged,
+          &DirectMPVBackend::updateDurationString);
 
   connect(this,
           &QQuickItem::windowChanged,
           this,
-          &DirectMpvPlayerBackend::handleWindowChanged);
+          &DirectMPVBackend::handleWindowChanged);
 }
 
-DirectMpvPlayerBackend::~DirectMpvPlayerBackend()
+DirectMPVBackend::~DirectMPVBackend()
 {
   printf("Shutting down...\n");
   qApp->quit();
@@ -145,7 +145,7 @@ DirectMpvPlayerBackend::~DirectMpvPlayerBackend()
 }
 
 void
-DirectMpvPlayerBackend::sync()
+DirectMPVBackend::sync()
 {
 
   if (!renderer) {
@@ -163,13 +163,13 @@ DirectMpvPlayerBackend::sync()
 }
 
 void
-DirectMpvPlayerBackend::swapped()
+DirectMPVBackend::swapped()
 {
   mpv_opengl_cb_report_flip(mpv_gl, 0);
 }
 
 void
-DirectMpvPlayerBackend::cleanup()
+DirectMPVBackend::cleanup()
 {
   if (renderer) {
     delete renderer;
@@ -178,45 +178,45 @@ DirectMpvPlayerBackend::cleanup()
 }
 
 void
-DirectMpvPlayerBackend::on_update(void* ctx)
+DirectMPVBackend::on_update(void* ctx)
 {
-  DirectMpvPlayerBackend* self = (DirectMpvPlayerBackend*)ctx;
+  DirectMPVBackend* self = (DirectMPVBackend*)ctx;
   emit self->onUpdate();
 }
 
 void
-DirectMpvPlayerBackend::doUpdate()
+DirectMPVBackend::doUpdate()
 {
   window()->update();
   update();
 }
 
 QVariant
-DirectMpvPlayerBackend::getProperty(const QString& name) const
+DirectMPVBackend::getProperty(const QString& name) const
 {
   return mpv::qt::get_property_variant(mpv, name);
 }
 
 void
-DirectMpvPlayerBackend::command(const QVariant& params)
+DirectMPVBackend::command(const QVariant& params)
 {
   mpv::qt::command_variant(mpv, params);
 }
 
 void
-DirectMpvPlayerBackend::setProperty(const QString& name, const QVariant& value)
+DirectMPVBackend::setProperty(const QString& name, const QVariant& value)
 {
   mpv::qt::set_property_variant(mpv, name, value);
 }
 
 void
-DirectMpvPlayerBackend::setOption(const QString& name, const QVariant& value)
+DirectMPVBackend::setOption(const QString& name, const QVariant& value)
 {
   mpv::qt::set_option_variant(mpv, name, value);
 }
 
 void
-DirectMpvPlayerBackend::launchAboutQt()
+DirectMPVBackend::launchAboutQt()
 {
   QApplication* qapp =
     qobject_cast<QApplication*>(QCoreApplication::instance());
@@ -224,13 +224,13 @@ DirectMpvPlayerBackend::launchAboutQt()
 }
 
 QVariant
-DirectMpvPlayerBackend::playerCommand(const Enums::Commands& cmd)
+DirectMPVBackend::playerCommand(const Enums::Commands& cmd)
 {
   return playerCommand(cmd, QVariant("NoArgProvided"));
 }
 
 QVariant
-DirectMpvPlayerBackend::playerCommand(const Enums::Commands& cmd,
+DirectMPVBackend::playerCommand(const Enums::Commands& cmd,
                                       const QVariant& args)
 {
   switch (cmd) {
@@ -392,37 +392,37 @@ DirectMpvPlayerBackend::playerCommand(const Enums::Commands& cmd,
 }
 
 void
-DirectMpvPlayerBackend::handleWindowChanged(QQuickWindow* win)
+DirectMPVBackend::handleWindowChanged(QQuickWindow* win)
 {
   if (!win)
     return;
   connect(win,
           &QQuickWindow::beforeSynchronizing,
           this,
-          &DirectMpvPlayerBackend::sync,
+          &DirectMPVBackend::sync,
           Qt::DirectConnection);
   connect(win,
           &QQuickWindow::sceneGraphInvalidated,
           this,
-          &DirectMpvPlayerBackend::cleanup,
+          &DirectMPVBackend::cleanup,
           Qt::DirectConnection);
   connect(win,
           &QQuickWindow::frameSwapped,
           this,
-          &DirectMpvPlayerBackend::swapped,
+          &DirectMPVBackend::swapped,
           Qt::DirectConnection);
   win->setClearBeforeRendering(false);
 }
 
 void
-DirectMpvPlayerBackend::toggleOnTop()
+DirectMPVBackend::toggleOnTop()
 {
   onTop = !onTop;
   Utils::AlwaysOnTop(window()->winId(), onTop);
 }
 
 bool
-DirectMpvPlayerBackend::event(QEvent* event)
+DirectMPVBackend::event(QEvent* event)
 {
   if (event->type() == QEvent::User) {
     on_mpv_events();
@@ -431,7 +431,7 @@ DirectMpvPlayerBackend::event(QEvent* event)
 }
 
 void
-DirectMpvPlayerBackend::on_mpv_events()
+DirectMPVBackend::on_mpv_events()
 {
   while (mpv) {
     mpv_event* event = mpv_wait_event(mpv, 0);
@@ -443,7 +443,7 @@ DirectMpvPlayerBackend::on_mpv_events()
 }
 
 void
-DirectMpvPlayerBackend::updateDurationString(int numTime)
+DirectMPVBackend::updateDurationString(int numTime)
 {
   QVariant speed = getProperty("speed");
   QMetaMethod metaMethod = sender()->metaObject()->method(senderSignalIndex());
@@ -474,13 +474,13 @@ DirectMpvPlayerBackend::updateDurationString(int numTime)
 }
 
 void
-DirectMpvPlayerBackend::updateAppImage()
+DirectMPVBackend::updateAppImage()
 {
   Utils::updateAppImage();
 }
 
 QVariantMap
-DirectMpvPlayerBackend::getAudioDevices() const
+DirectMPVBackend::getAudioDevices() const
 {
   QVariant drivers = getProperty("audio-device-list");
   QVariant currentDevice = getProperty("audio-device");
@@ -502,7 +502,7 @@ DirectMpvPlayerBackend::getAudioDevices() const
 }
 
 void
-DirectMpvPlayerBackend::handle_mpv_event(mpv_event* event)
+DirectMPVBackend::handle_mpv_event(mpv_event* event)
 {
   switch (event->event_id) {
     case MPV_EVENT_PROPERTY_CHANGE: {

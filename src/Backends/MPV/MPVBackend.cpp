@@ -1,6 +1,6 @@
-#include "MpvPlayerBackend.h"
-#include "logger.h"
-#include "utils.hpp"
+#include "src/Backends/MPV/MPVBackend.hpp"
+#include "src/logger.h"
+#include "src/utils.hpp"
 #include <QApplication>
 #include <QElapsedTimer>
 #include <QOpenGLContext>
@@ -27,14 +27,14 @@ namespace {
 void
 wakeup(void* ctx)
 {
-  QCoreApplication::postEvent((MpvPlayerBackend*)ctx, new QEvent(QEvent::User));
+  QCoreApplication::postEvent((MPVBackend*)ctx, new QEvent(QEvent::User));
 }
 
 void
 on_mpv_redraw(void* ctx)
 {
   QMetaObject::invokeMethod(
-    reinterpret_cast<MpvPlayerBackend*>(ctx), "update", Qt::QueuedConnection);
+    reinterpret_cast<MPVBackend*>(ctx), "update", Qt::QueuedConnection);
 }
 
 static void*
@@ -53,10 +53,10 @@ get_proc_address_mpv(void* ctx, const char* name)
 
 class MpvRenderer : public QQuickFramebufferObject::Renderer
 {
-  MpvPlayerBackend* obj;
+  MPVBackend* obj;
 
 public:
-  MpvRenderer(MpvPlayerBackend* new_obj)
+  MpvRenderer(MPVBackend* new_obj)
     : obj{ new_obj }
   {}
 
@@ -124,7 +124,7 @@ public:
   }
 };
 
-MpvPlayerBackend::MpvPlayerBackend(QQuickItem* parent)
+MPVBackend::MPVBackend(QQuickItem* parent)
   : QQuickFramebufferObject(parent)
   , mpv{ mpv_create() }
   , mpv_gl(nullptr)
@@ -171,23 +171,23 @@ MpvPlayerBackend::MpvPlayerBackend(QQuickItem* parent)
     throw std::runtime_error("could not initialize mpv context");
 
   connect(this,
-          &MpvPlayerBackend::onUpdate,
+          &MPVBackend::onUpdate,
           this,
-          &MpvPlayerBackend::doUpdate,
+          &MPVBackend::doUpdate,
           Qt::QueuedConnection);
   connect(this,
-          &MpvPlayerBackend::positionChanged,
+          &MPVBackend::positionChanged,
           this,
-          &MpvPlayerBackend::updateDurationString,
+          &MPVBackend::updateDurationString,
           Qt::QueuedConnection);
   connect(this,
-          &MpvPlayerBackend::durationChanged,
+          &MPVBackend::durationChanged,
           this,
-          &MpvPlayerBackend::updateDurationString,
+          &MPVBackend::updateDurationString,
           Qt::QueuedConnection);
 }
 
-MpvPlayerBackend::~MpvPlayerBackend()
+MPVBackend::~MPVBackend()
 {
   printf("Shutting down...\n");
   Utils::SetDPMS(true);
@@ -198,33 +198,33 @@ MpvPlayerBackend::~MpvPlayerBackend()
 }
 
 void
-MpvPlayerBackend::on_update(void* ctx)
+MPVBackend::on_update(void* ctx)
 {
-  MpvPlayerBackend* self = (MpvPlayerBackend*)ctx;
+  MPVBackend* self = (MPVBackend*)ctx;
   emit self->onUpdate();
 }
 
 void
-MpvPlayerBackend::doUpdate()
+MPVBackend::doUpdate()
 {
   update();
 }
 
 QVariant
-MpvPlayerBackend::getProperty(const QString& name) const
+MPVBackend::getProperty(const QString& name) const
 {
   return mpv::qt::get_property_variant(mpv, name);
 }
 
 void
-MpvPlayerBackend::command(const QVariant& params)
+MPVBackend::command(const QVariant& params)
 {
   mpv::qt::node_builder node(params);
   mpv_command_node(mpv, node.node(), nullptr);
 }
 
 void
-MpvPlayerBackend::setProperty(const QString& name, const QVariant& value)
+MPVBackend::setProperty(const QString& name, const QVariant& value)
 {
   mpv::qt::node_builder node(value);
   qDebug() << "Setting property" << name << "to" << value;
@@ -232,19 +232,19 @@ MpvPlayerBackend::setProperty(const QString& name, const QVariant& value)
 }
 
 void
-MpvPlayerBackend::setOption(const QString& name, const QVariant& value)
+MPVBackend::setOption(const QString& name, const QVariant& value)
 {
   mpv::qt::set_option_variant(mpv, name, value);
 }
 
 QVariant
-MpvPlayerBackend::playerCommand(const Enums::Commands& cmd)
+MPVBackend::playerCommand(const Enums::Commands& cmd)
 {
   return playerCommand(cmd, QVariant("NoArgProvided"));
 }
 
 QVariant
-MpvPlayerBackend::playerCommand(const Enums::Commands& cmd,
+MPVBackend::playerCommand(const Enums::Commands& cmd,
                                 const QVariant& args)
 {
   switch (cmd) {
@@ -414,14 +414,14 @@ MpvPlayerBackend::playerCommand(const Enums::Commands& cmd,
 }
 
 void
-MpvPlayerBackend::toggleOnTop()
+MPVBackend::toggleOnTop()
 {
   onTop = !onTop;
   Utils::AlwaysOnTop(window()->winId(), onTop);
 }
 
 bool
-MpvPlayerBackend::event(QEvent* event)
+MPVBackend::event(QEvent* event)
 {
   if (event->type() == QEvent::User) {
     on_mpv_events();
@@ -430,7 +430,7 @@ MpvPlayerBackend::event(QEvent* event)
 }
 
 void
-MpvPlayerBackend::on_mpv_events()
+MPVBackend::on_mpv_events()
 {
   while (mpv) {
     mpv_event* event = mpv_wait_event(mpv, 0);
@@ -442,7 +442,7 @@ MpvPlayerBackend::on_mpv_events()
 }
 
 void
-MpvPlayerBackend::updateDurationString(int numTime)
+MPVBackend::updateDurationString(int numTime)
 {
   QVariant speed = getProperty("speed");
   QMetaMethod metaMethod = sender()->metaObject()->method(senderSignalIndex());
@@ -473,7 +473,7 @@ MpvPlayerBackend::updateDurationString(int numTime)
 }
 
 QVariantMap
-MpvPlayerBackend::getAudioDevices(const QVariant& drivers) const
+MPVBackend::getAudioDevices(const QVariant& drivers) const
 {
   QVariantMap newDrivers;
 
@@ -486,7 +486,7 @@ MpvPlayerBackend::getAudioDevices(const QVariant& drivers) const
 }
 
 void
-MpvPlayerBackend::handle_mpv_event(mpv_event* event)
+MPVBackend::handle_mpv_event(mpv_event* event)
 {
   switch (event->event_id) {
     case MPV_EVENT_PROPERTY_CHANGE: {
@@ -590,10 +590,10 @@ MpvPlayerBackend::handle_mpv_event(mpv_event* event)
 }
 
 QQuickFramebufferObject::Renderer*
-MpvPlayerBackend::createRenderer() const
+MPVBackend::createRenderer() const
 {
   window()->setIcon(QIcon(":/icon.png"));
   window()->setPersistentOpenGLContext(true);
   window()->setPersistentSceneGraph(true);
-  return new MpvRenderer(const_cast<MpvPlayerBackend*>(this));
+  return new MpvRenderer(const_cast<MPVBackend*>(this));
 }

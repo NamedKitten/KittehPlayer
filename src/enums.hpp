@@ -50,8 +50,8 @@ Q_ENUM_NS(Commands)
 
 enum class Backends : int
 {
-  MpvBackend = 0,
-  DirectMpvBackend = 1
+  MPVBackend = 0,
+  DirectMPVBackend = 1
 };
 Q_ENUM_NS(Backends)
 

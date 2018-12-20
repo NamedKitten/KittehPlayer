@@ -1,24 +1,38 @@
-#ifndef MpvPlayerBackend_H
-#define MpvPlayerBackend_H
+#ifndef DirectMPVBackend_H
+#define DirectMPVBackend_H
 
 #include <mpv/client.h>
+#include <mpv/opengl_cb.h>
 #include <mpv/qthelper.hpp>
-
-#include <mpv/render_gl.h>
 
 #include <QObject>
 #include <QOpenGLContext>
 #include <QQuickFramebufferObject>
 #include <QSettings>
+#include <QWidget>
 
-#include "backendinterface.hpp"
-#include "enums.hpp"
-#include "utils.hpp"
+#include "src/backendinterface.hpp"
+#include "src/enums.hpp"
 
-class MpvRenderer;
+class MpvRenderer : public QObject
+{
+  Q_OBJECT
+  mpv_handle* mpv;
+  mpv_opengl_cb_context* mpv_gl;
 
-class MpvPlayerBackend
-  : public QQuickFramebufferObject
+public:
+  QQuickWindow* window;
+  QSize size;
+
+  friend class MpvObject;
+  MpvRenderer(mpv_handle* a_mpv, mpv_opengl_cb_context* a_mpv_gl);
+  virtual ~MpvRenderer();
+public slots:
+  void paint();
+};
+
+class DirectMPVBackend
+  : public QQuickItem
   , public BackendInterface
 {
   Q_INTERFACES(BackendInterface)
@@ -27,24 +41,18 @@ class MpvPlayerBackend
   Q_PROPERTY(bool logging READ logging WRITE setLogging)
 
   mpv_handle* mpv;
-  mpv_render_context* mpv_gl;
-  QSettings settings;
+  mpv_opengl_cb_context* mpv_gl;
+  MpvRenderer* renderer;
   bool onTop = false;
-  bool m_logging = true;
-
   int lastTime = 0;
   double lastSpeed = 0;
+  bool m_logging = true;
   QString totalDurationString;
   QString lastPositionString;
-
-  friend class MpvRenderer;
+  QSettings settings;
 
 public:
   static void on_update(void* ctx);
-
-  MpvPlayerBackend(QQuickItem* parent = 0);
-  virtual ~MpvPlayerBackend();
-  virtual Renderer* createRenderer() const;
 
   void setLogging(bool a)
   {
@@ -54,23 +62,32 @@ public:
   }
   bool logging() const { return m_logging; }
 
+  DirectMPVBackend(QQuickItem* parent = 0);
+  virtual ~DirectMPVBackend();
+
 public slots:
   QVariant playerCommand(const Enums::Commands& command, const QVariant& args);
   QVariant playerCommand(const Enums::Commands& command);
+  void launchAboutQt();
   void toggleOnTop();
+  void updateAppImage();
   // Optional but handy for MPV or custom backend settings.
   void command(const QVariant& params);
   void setProperty(const QString& name, const QVariant& value);
   void setOption(const QString& name, const QVariant& value);
   QVariant getProperty(const QString& name) const;
+
+  void sync();
+  void swapped();
+  void cleanup();
+
   // Just used for adding missing audio devices to list.
-  QVariantMap getAudioDevices(const QVariant& drivers) const;
+  QVariantMap getAudioDevices() const;
   bool event(QEvent* event);
 
 signals:
   void onUpdate();
   void mpv_events();
-  void onMpvEvent(mpv_event* event);
   // All below required for Player API
   void playStatusChanged(const Enums::PlayStatus& status);
   void volumeStatusChanged(const Enums::VolumeStatus& status);
@@ -92,6 +109,7 @@ private slots:
   void doUpdate();
   void on_mpv_events();
   void updateDurationString(int numTime);
+  void handleWindowChanged(QQuickWindow* win);
 
 private:
   void handle_mpv_event(mpv_event* event);

@@ -1,8 +1,9 @@
-#include "DirectMpvPlayerBackend.h"
+#include "Backends/DirectMPV/DirectMPVBackend.hpp"
 #ifndef DISABLE_MpvPlayerBackend
-#include "MpvPlayerBackend.h"
+#include "Backends/MPV/MPVBackend.hpp"
 #endif
 
+#include "qmldebugger.h"
 #include "enums.hpp"
 #include "logger.h"
 #include "utils.hpp"
@@ -159,14 +160,15 @@ main(int argc, char* argv[])
   qRegisterMetaType<Enums::Commands>("Enums.Commands");
   qmlRegisterType<Process>("player", 1, 0, "Process");
 
+  qmlRegisterType<QMLDebugger>("player", 1, 0, "QMLDebugger");
   qmlRegisterType<ThumbnailCache>("player", 1, 0, "ThumbnailCache");
 
   qmlRegisterType<UtilsClass>("player", 1, 0, "Utils");
 
   if (backendString == "mpv") {
-    backend = Enums::Backends::MpvBackend;
+    backend = Enums::Backends::MPVBackend;
   } else if (backendString == "direct-mpv") {
-    backend = Enums::Backends::DirectMpvBackend;
+    backend = Enums::Backends::DirectMPVBackend;
   } else {
     launcherLogger->error("Invalid backend {}.",
                           backendString.toUtf8().constData());
@@ -176,9 +178,9 @@ main(int argc, char* argv[])
   launcherLogger->info("Using backend={}", backendString.toUtf8().constData());
 
   switch (backend) {
-    case Enums::Backends::MpvBackend: {
+    case Enums::Backends::MPVBackend: {
 #ifndef DISABLE_MpvPlayerBackend
-      qmlRegisterType<MpvPlayerBackend>("player", 1, 0, "PlayerBackend");
+      qmlRegisterType<MPVBackend>("player", 1, 0, "PlayerBackend");
 #else
       qDebug() << "Normal MPV backend not available, resetting backend option "
                   "to blank.";
@@ -187,8 +189,8 @@ main(int argc, char* argv[])
 #endif
       break;
     }
-    case Enums::Backends::DirectMpvBackend: {
-      qmlRegisterType<DirectMpvPlayerBackend>("player", 1, 0, "PlayerBackend");
+    case Enums::Backends::DirectMPVBackend: {
+      qmlRegisterType<DirectMPVBackend>("player", 1, 0, "PlayerBackend");
       break;
     }
   }

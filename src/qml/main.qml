@@ -20,6 +20,10 @@ Window {
 
     property bool onTop: false
 
+    QMLDebugger {
+        id: qmlDebugger
+    }
+    
     function getAppearanceValueForTheme(themeName, name) {
         if (themeName == "YouTube") {
             return youTubeAppearance[name]
@@ -223,6 +227,7 @@ Window {
         }
 
         function startPlayer() {
+            console.info(qmlDebugger.properties(player))
             console.info("OwO!")
 
             var args = Qt.application.arguments
