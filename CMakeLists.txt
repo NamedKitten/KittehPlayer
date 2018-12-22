@@ -14,7 +14,11 @@ find_package(Qt5Concurrent REQUIRED)
 find_package(Qt5 CONFIG REQUIRED COMPONENTS Qml Quick Gui Widgets Core X11Extras)
 
 find_package(Qt5QuickCompiler)
+if(Qt5QuickCompiler_FOUND)
 qtquick_compiler_add_resources(qml_QRC src/qml/qml.qrc)
+else()
+qt5_add_resources(RESOURCES src/qml/qml.qrc)
+endif()
 
 find_package(PkgConfig)
 pkg_check_modules(MPV REQUIRED mpv)
