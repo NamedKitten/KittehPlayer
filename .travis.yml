@@ -1,7 +1,7 @@
 language: cpp
 compiler: gcc
 sudo: require
-dist: xenial
+dist: trusty
 cache:
   ccache: true
   directories:
@@ -13,11 +13,11 @@ before_install:
   - mkdir -p $HOME/.cache/apt/partial
   - sudo rm -rf /var/cache/apt/archives
   - sudo ln -s $HOME/.cache/apt /var/cache/apt/archives
-  - sudo add-apt-repository ppa:beineri/opt-qt-5.11.1-xenial -y
+  - sudo add-apt-repository ppa:beineri/opt-qt-5.10.1-xenial -y
   - sudo apt-get update 
 
 install:
-  - sudo apt-get -y install ccache qt511-meta-minimal qt511quickcontrols python3-setuptools qt511quickcontrols2 qt511svg libgl1-mesa-dev x11proto-xext-dev libx11-dev qt511x11extras
+  - sudo apt-get -y install ccache qt510-meta-minimal qt510quickcontrols python3-setuptools qt510quickcontrols2 qt510svg libgl1-mesa-dev x11proto-xext-dev libx11-dev qt510x11extras
   - sudo apt-get build-dep mpv
   - source /opt/qt*/bin/qt*-env.sh
 
