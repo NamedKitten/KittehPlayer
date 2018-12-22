@@ -490,7 +490,7 @@ MenuBar {
         Action {
             text: translate.getTranslation("STATS", i18n.language)
             onTriggered: {
-                player.playerCommand(Enums.Commands.ToggleStats)
+                statsForNerdsText.visible = !statsForNerdsText.visible
             }
             shortcut: keybinds.statsForNerds
         }

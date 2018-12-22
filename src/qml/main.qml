@@ -377,6 +377,41 @@ Window {
                 mouseAreaPlayerTimer.restart()
             }
         }
+        
+        Timer {
+            id: statsUpdater
+            interval: 1000
+            running: true
+            repeat: true
+            onTriggered: {
+                if (statsForNerdsText.visible) {
+                    statsForNerdsText.text = player.getStats()
+                }
+            }
+        }
+        
+        Text {
+            id: statsForNerdsText
+            text: ""
+            color: "white"
+            visible: false
+            height: parent.height
+            width: parent.width
+            anchors.fill: parent
+            //padding: mainWindow.virtualHeight / 20
+            font.family: appearance.fontName
+            textFormat: Text.RichText
+            font.pixelSize: mainWindow.virtualHeight / 50
+            horizontalAlignment: Text.AlignLeft
+            verticalAlignment: Text.AlignTop
+            renderType: Text.NativeRendering
+            lineHeight: 1
+            Component.onCompleted: {
+                console.error(statsForNerdsText.lineHeight, font.pixelSize)
+            }
+            
+        }
+
 
         MainMenu {
             id: menuBar

@@ -17,7 +17,6 @@
 #include <QtX11Extras/QX11Info>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
-#include <qpa/qplatformnativeinterface.h>
 #endif
 
 auto mpvLogger = initLogger("mpv");
@@ -82,11 +81,6 @@ public:
       if (QGuiApplication::platformName().contains("xcb")) {
         params[2].type = MPV_RENDER_PARAM_X11_DISPLAY;
         params[2].data = QX11Info::display();
-      } else if (QGuiApplication::platformName().contains("wayland")) {
-        QPlatformNativeInterface* native =
-          QGuiApplication::platformNativeInterface();
-        params[2].type = MPV_RENDER_PARAM_WL_DISPLAY;
-        params[2].data = native->nativeResourceForWindow("display", nullptr);
       }
 #endif
 
@@ -109,16 +103,9 @@ public:
                           .h = fbo->height(),
                           .internal_format = 0 };
     int flip_y{ 0 };
-    mpv_render_param params[] = {
-      { MPV_RENDER_PARAM_OPENGL_FBO, &mpfbo },
-
-      // Flip rendering (needed due to flipped GL coordinate system).
-      { MPV_RENDER_PARAM_FLIP_Y, &flip_y },
-      { MPV_RENDER_PARAM_INVALID, nullptr }
-    };
-
-    // See render_gl.h on what OpenGL environment mpv expects, and
-    // other API details.
+    mpv_render_param params[] = { { MPV_RENDER_PARAM_OPENGL_FBO, &mpfbo },
+                                  { MPV_RENDER_PARAM_FLIP_Y, &flip_y },
+                                  { MPV_RENDER_PARAM_INVALID, nullptr } };
     mpv_render_context_render(obj->mpv_gl, params);
     obj->window()->resetOpenGLState();
   }
@@ -129,7 +116,6 @@ MPVBackend::MPVBackend(QQuickItem* parent)
   , mpv{ mpv_create() }
   , mpv_gl(nullptr)
 {
-  mpvLogger->set_pattern("[%n]%v%$");
   if (!mpv)
     throw std::runtime_error("could not create mpv context");
 
@@ -139,12 +125,10 @@ MPVBackend::MPVBackend(QQuickItem* parent)
   // Fix?
   mpv_set_option_string(mpv, "ytdl", "yes");
   mpv_set_option_string(mpv, "vo", "libmpv");
-  // mpp_set_option_string(mpv, "no-sub-ass", "yes)
 
   mpv_set_option_string(mpv, "slang", "en");
 
   mpv_set_option_string(mpv, "config", "yes");
-  // mpv_set_option_string(mpv, "sub-visibility", "no");
   mpv_observe_property(mpv, 0, "tracks-menu", MPV_FORMAT_NONE);
   mpv_observe_property(mpv, 0, "chapter-list", MPV_FORMAT_NODE);
   mpv_observe_property(mpv, 0, "playback-abort", MPV_FORMAT_NONE);
@@ -163,7 +147,7 @@ MPVBackend::MPVBackend(QQuickItem* parent)
   mpv_observe_property(mpv, 0, "playlist", MPV_FORMAT_NODE);
   mpv_observe_property(mpv, 0, "speed", MPV_FORMAT_DOUBLE);
 
-  mpv_request_log_messages(mpv, "debug");
+  mpv_request_log_messages(mpv, "trace");
 
   mpv_set_wakeup_callback(mpv, wakeup, this);
 
@@ -191,8 +175,12 @@ MPVBackend::~MPVBackend()
 {
   printf("Shutting down...\n");
   Utils::SetDPMS(true);
-  command("quit-watch-later");
-  mpv_render_context_free(mpv_gl);
+  command("write-watch-later-config");
+
+  if (mpv_gl) {
+    mpv_render_context_free(mpv_gl);
+  }
+
   mpv_terminate_destroy(mpv);
   printf("MPV terminated.\n");
 }
@@ -244,8 +232,7 @@ MPVBackend::playerCommand(const Enums::Commands& cmd)
 }
 
 QVariant
-MPVBackend::playerCommand(const Enums::Commands& cmd,
-                                const QVariant& args)
+MPVBackend::playerCommand(const Enums::Commands& cmd, const QVariant& args)
 {
   switch (cmd) {
     case Enums::Commands::TogglePlayPause: {
@@ -571,9 +558,9 @@ MPVBackend::handle_mpv_event(mpv_event* event)
         QString logMsg = "[" + QString(msg->prefix) + "] " + QString(msg->text);
         QString msgLevel = QString(msg->level);
         if (msgLevel.startsWith("d")) {
-          mpvLogger->debug("{}", logMsg.toUtf8().constData());
+          mpvLogger->debug("{}", logMsg.toStdString());
         } else if (msgLevel.startsWith("v") || msgLevel.startsWith("i")) {
-          mpvLogger->info("{}", logMsg.toUtf8().constData());
+          mpvLogger->info("{}", logMsg.toStdString());
         }
       }
 
@@ -587,6 +574,45 @@ MPVBackend::handle_mpv_event(mpv_event* event)
       break;
     }
   }
+}
+
+QString
+MPVBackend::getStats()
+{
+  QString stats;
+  stats =
+    "<style> blockquote { text-indent: 0px; margin-left:40px; margin-top: 0px; "
+    "margin-bottom: 0px; padding-bottom: 0px; padding-top: 0px; padding-left: "
+    "0px; } b span p br { margin-bottom: 0px; margin-top: 0px; padding-top: "
+    "0px; padding-botom: 0px; text-indent: 0px; } </style>";
+  stats += "<b>File:</b>  " + getProperty("filename").toString();
+  stats += "<blockquote>";
+  stats += "<b>Format/Protocol:</b>  " + getProperty("file-format").toString() +
+           "<br>";
+  QLocale a;
+
+  stats +=
+    "<b>Cache:</b>  " +
+    a.formattedDataSize(getProperty("cache-used").toDouble()) + " (" +
+    Utils::createTimestamp(getProperty("demuxer-cache-duration").toInt()) +
+
+    ")<br>";
+  stats += "<b>Size:</b>  " +
+           a.formattedDataSize(getProperty("file-size").toInt()) + "<br>";
+
+  stats += "</blockquote>";
+
+  stats += "<b>Video:</b>  " + getProperty("video-codec").toString();
+  stats += "<blockquote>";
+  QString avsync = QString::number(getProperty("avsync").toDouble(), 'f', 3);
+  stats += "<b>A-V:</b>  " + QString(avsync) + "<br>";
+  stats += "<b>Dropped Frames:</b>  " +
+           getProperty("decoder-frame-drop-count").toString() + " (decoder) " +
+           getProperty("frame-drop-count").toString() + " (output)<br>";
+
+  stats += "</blockquote>";
+
+  return stats;
 }
 
 QQuickFramebufferObject::Renderer*

@@ -17,8 +17,7 @@
 void
 wakeup(void* ctx)
 {
-  QCoreApplication::postEvent((DirectMPVBackend*)ctx,
-                              new QEvent(QEvent::User));
+  QCoreApplication::postEvent((DirectMPVBackend*)ctx, new QEvent(QEvent::User));
 }
 
 static void*
@@ -231,7 +230,7 @@ DirectMPVBackend::playerCommand(const Enums::Commands& cmd)
 
 QVariant
 DirectMPVBackend::playerCommand(const Enums::Commands& cmd,
-                                      const QVariant& args)
+                                const QVariant& args)
 {
   switch (cmd) {
     case Enums::Commands::TogglePlayPause: {

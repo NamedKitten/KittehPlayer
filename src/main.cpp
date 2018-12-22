@@ -3,9 +3,9 @@
 #include "Backends/MPV/MPVBackend.hpp"
 #endif
 
-#include "qmldebugger.h"
 #include "enums.hpp"
 #include "logger.h"
+#include "qmldebugger.h"
 #include "utils.hpp"
 #include <cstdlib>
 

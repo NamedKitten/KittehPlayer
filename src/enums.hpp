@@ -63,5 +63,4 @@ class Dummy : public QObject
   Q_OBJECT
 };
 
-
 #endif
