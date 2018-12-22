@@ -43,7 +43,7 @@ set(SOURCES
     src/main.cpp
     src/Backends/DirectMPV/DirectMPVBackend.cpp
     src/utils.cpp
-    src/enums.hpp
+    src/enums.cpp
     src/Process.cpp
     src/ThumbnailCache.cpp
     src/logger.cpp
