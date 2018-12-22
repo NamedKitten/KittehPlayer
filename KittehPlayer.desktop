@@ -1,7 +1,7 @@
 [Desktop Entry]
 Type=Application
 Name=KittehPlayer
-Comment=KittehPlayer
+Comment=Video Player
 Icon=KittehPlayer
 Exec=KittehPlayer %U
 Terminal=false
