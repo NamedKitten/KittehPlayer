@@ -12,9 +12,11 @@
 A video player based on Qt, QML and libmpv with themes for many online video players.. 
 
 ## Themes
-- YouTube
-- NicoNico
-- RoosterTeeth
+- YouTube ![YouTube Screenshot](https://raw.githubusercontent.com/NamedKitten/KittehPlayer/master/screenshots/YouTube.png)
+- NicoNico ![NicoNico Screenshot](https://raw.githubusercontent.com/NamedKitten/KittehPlayer/master/screenshots/NicoNico.png)
+- RoosterTeeth ![RoosterTeeth Screenshot](https://raw.githubusercontent.com/NamedKitten/KittehPlayer/master/screenshots/RoosterTeeth.png)
+
+
 
 ## How to install
 ### Windows
