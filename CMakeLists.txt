@@ -17,7 +17,7 @@ find_package(Qt5QuickCompiler)
 if(Qt5QuickCompiler_FOUND)
 qtquick_compiler_add_resources(qml_QRC src/qml/qml.qrc)
 else()
-qt5_add_resources(RESOURCES src/qml/qml.qrc)
+qt5_add_resources(qml_QRC src/qml/qml.qrc)
 endif()
 
 find_package(PkgConfig)
