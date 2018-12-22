@@ -57,4 +57,11 @@ Q_ENUM_NS(Backends)
 
 }
 
+// Forces meta generation.
+class Dummy : public QObject
+{
+  Q_OBJECT
+};
+
+
 #endif
