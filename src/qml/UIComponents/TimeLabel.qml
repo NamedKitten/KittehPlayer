@@ -1,4 +1,4 @@
-import QtQuick 2.11
+import QtQuick 2.0
 import QtQuick.Controls 2.4
 import QtQuick.Dialogs 1.3
 import QtQuick.Layouts 1.11
@@ -12,14 +12,12 @@ Text {
     objectName: "timeLabel"
     text: "0:00 / 0:00"
     color: "white"
-    padding: 2
     font.family: appearance.fontName
     font.pixelSize: layout.height / 2.5
     verticalAlignment: Text.AlignVCenter
     renderType: Text.NativeRendering
     Connections {
         target: player
-        enabled: true
         onDurationStringChanged: function (durationString) {
             timeLabel.text = durationString
         }

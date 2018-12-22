@@ -1,4 +1,4 @@
-import QtQuick 2.11
+import QtQuick 2.0
 import QtQuick.Controls 2.4
 import QtQuick.Dialogs 1.3
 import QtQuick.Layouts 1.11
@@ -15,7 +15,6 @@ Slider {
     value: 0.0
     Connections {
         target: player
-        enabled: true
         onPositionChanged: function (position) {
             if (!pressed) {
                 progressBar.value = position
@@ -107,7 +106,6 @@ Slider {
             id: chapterMarkers
             Connections {
                 target: player
-                enabled: true
                 onChaptersChanged: function (chapters) {
                     for (var i = 0, len = chapters.length; i < len; i++) {
                         var component = Qt.createComponent("ChapterMarker.qml")

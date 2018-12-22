@@ -1,4 +1,4 @@
-import QtQuick 2.11
+import QtQuick 2.0
 import QtQuick.Controls 2.4
 import QtQuick.Dialogs 1.3
 import QtQuick.Window 2.11
@@ -22,7 +22,6 @@ MenuBar {
 
     Connections {
         target: player
-        enabled: true
         onTracksChanged: function (tracks) {
             menuBar.updateTracks(tracks)
         }
@@ -348,7 +347,6 @@ MenuBar {
 
             Connections {
                 target: player
-                enabled: true
                 onAudioDevicesChanged: function (ad) {
                     audioDeviceMenu.updateAudioDevices(ad)
                 }

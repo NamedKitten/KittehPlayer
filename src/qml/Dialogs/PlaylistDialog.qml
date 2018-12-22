@@ -1,4 +1,4 @@
-import QtQuick 2.11
+import QtQuick 2.0
 import QtQuick.Controls 2.4
 import QtQuick.Dialogs 1.3
 import QtQuick.Window 2.11
@@ -98,7 +98,6 @@ Dialog {
 
     Connections {
         target: player
-        enabled: true
         onPlaylistChanged: function (playlist) {
             playlistModel.clear()
             thumbnailJobs = []
@@ -171,7 +170,6 @@ Dialog {
                 contentItem: Text {
                     id: playlistItemText
                     font: parent.font
-                    bottomPadding: 0
                     color: "white"
                     text: playlistItem.getText(itemTitle, itemURL)
                     height: parent.height

@@ -1,4 +1,4 @@
-import QtQuick 2.11
+import QtQuick 2.0
 import QtQuick.Controls 2.4
 import QtQuick.Dialogs 1.3
 import QtQuick.Layouts 1.11
@@ -415,7 +415,6 @@ Window {
                              || (mainWindow.visibility == Window.FullScreen))
                 Connections {
                     target: player
-                    enabled: true
                     onTitleChanged: function (title) {
                         titleLabel.text = title
                     }
@@ -453,7 +452,6 @@ Window {
                         id: hoverProgressLabel
                         text: "0:00"
                         color: "white"
-                        padding: 2
                         z: 90
                         font.family: appearance.fontName
                         font.pixelSize: mainWindow.virtualHeight / 50
