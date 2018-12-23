@@ -23,7 +23,7 @@ Window {
     QMLDebugger {
         id: qmlDebugger
     }
-    
+
     function getAppearanceValueForTheme(themeName, name) {
         if (themeName == "YouTube") {
             return youTubeAppearance[name]
@@ -37,7 +37,7 @@ Window {
     Translator {
         id: translate
     }
-    
+
     Settings {
         id: loggingSettings
         category: "Logging"
@@ -46,7 +46,6 @@ Window {
         property bool logPreview: false
     }
 
-    
     Settings {
         id: backendSettings
         category: "Backend"
@@ -58,6 +57,7 @@ Window {
         id: appearance
         category: "Appearance"
         property bool titleOnlyOnFullscreen: true
+        property bool updatePreviewWhilstPlaying: true
         property bool clickToPause: true
         property bool useMpvSubs: false
         property string themeName: "YouTube"
@@ -176,15 +176,16 @@ Window {
     property int lastScreenVisibility
 
     function toggleFullscreen() {
-        console.error("a", mainWindow.visibility, Window.FullScreen, lastScreenVisibility)
+        console.error("a", mainWindow.visibility, Window.FullScreen,
+                      lastScreenVisibility)
         if (mainWindow.visibility != Window.FullScreen) {
             lastScreenVisibility = mainWindow.visibility
             mainWindow.visibility = Window.FullScreen
         } else {
             mainWindow.visibility = lastScreenVisibility
         }
-        console.error("b", mainWindow.visibility, Window.FullScreen, lastScreenVisibility)
-
+        console.error("b", mainWindow.visibility, Window.FullScreen,
+                      lastScreenVisibility)
     }
 
     Utils {
@@ -202,7 +203,11 @@ Window {
         onPlaylistChanged: function (playlist) {
             for (var thing in playlist) {
                 var item = playlist[thing]
-                if (playlist[thing]["current"]) {progressBarTimePreview.playerCommand(Enums.Commands.LoadFile, String(playlist[thing]["filename"]))}
+                if (playlist[thing]["current"]) {
+                    progressBarTimePreview.playerCommand(
+                                Enums.Commands.LoadFile,
+                                String(playlist[thing]["filename"]))
+                }
                 progressBarTimePreview.playerCommand(Enums.Commands.ForcePause)
             }
         }
@@ -377,7 +382,7 @@ Window {
                 mouseAreaPlayerTimer.restart()
             }
         }
-        
+
         Timer {
             id: statsUpdater
             interval: 1000
@@ -389,7 +394,7 @@ Window {
                 }
             }
         }
-        
+
         Text {
             id: statsForNerdsText
             text: ""
@@ -410,9 +415,7 @@ Window {
             Component.onCompleted: {
                 console.error(statsForNerdsText.lineHeight, font.pixelSize)
             }
-            
         }
-
 
         MainMenu {
             id: menuBar
@@ -460,39 +463,52 @@ Window {
 
         ControlsBar {
             id: controlsBar
-            PlayerBackend {
-                id: progressBarTimePreview
+            Item {
+                id: previewRect
                 height: 144
                 width: 256
                 z: 80
-                visible: true
-                logging: loggingSettings.logPreview
+                visible: false
 
-                onDurationStringChanged: function (durationString) {
-                    hoverProgressLabel.text = durationString
-                }
-                function startPlayer() {
-                    update()
-                    progressBarTimePreview.playerCommand(Enums.Commands.SetTrack, ["aid", "no"])
-                    progressBarTimePreview.playerCommand(Enums.Commands.SetTrack, ["sid", "no"])
-                    progressBarTimePreview.setOption("ytdl-format", "worstvideo[height<=?" + String(height) + "]/worst")
-                }
-    
-                Rectangle { 
+                Rectangle {
                     anchors.bottom: parent.bottom
+                    anchors.right: parent.right
                     width: hoverProgressLabel.width
                     height: hoverProgressLabel.height
-                    anchors.right: parent.right
-                    color: getAppearanceValueForTheme(appearance.themeName, "mainBackground")
+                    z: 100
+                    color: getAppearanceValueForTheme(appearance.themeName,
+                                                      "mainBackground")
                     Text {
                         id: hoverProgressLabel
                         text: "0:00"
                         color: "white"
-                        z: 90
                         font.family: appearance.fontName
                         font.pixelSize: mainWindow.virtualHeight / 50
                         verticalAlignment: Text.AlignVCenter
                         renderType: Text.NativeRendering
+                    }
+                }
+
+                PlayerBackend {
+                    z: 90
+                    id: progressBarTimePreview
+                    height: parent.height
+                    width: parent.width
+                    logging: loggingSettings.logPreview
+
+                    onDurationStringChanged: function (durationString) {
+                        hoverProgressLabel.text = durationString
+                    }
+                    function startPlayer() {
+                        update()
+                        progressBarTimePreview.playerCommand(
+                                    Enums.Commands.SetTrack, ["aid", "no"])
+                        progressBarTimePreview.playerCommand(
+                                    Enums.Commands.SetTrack, ["sid", "no"])
+                        progressBarTimePreview.setOption(
+                                    "ytdl-format",
+                                    "worstvideo[height<=?" + String(
+                                        height) + "]/worst")
                     }
                 }
             }

@@ -11,10 +11,18 @@ Slider {
     id: progressBar
     objectName: "progressBar"
     property string currentMediaURL: ""
+    property bool playing: false
     to: 1
     value: 0.0
     Connections {
         target: player
+        onPlayStatusChanged: function (status) {
+            if (status == Enums.PlayStatus.Playing) {
+                progressBar.playing = true
+            } else if (status == status == Enums.PlayStatus.Paused) {
+                progressBar.playing = false
+            }
+        }
         onPositionChanged: function (position) {
             if (!pressed) {
                 progressBar.value = position
@@ -62,14 +70,31 @@ Slider {
         z: 100
         property string currentTime: ""
 
-        onEntered: progressBarTimePreview.visible = true
-        onExited: progressBarTimePreview.visible = false
+        onEntered: previewRect.visible = true
+        onExited: previewRect.visible = false
 
         onPositionChanged: {
-            var a = (progressBar.to / progressBar.availableWidth) * (mouseAreaProgressBar.mapToItem(progressBar, mouseAreaProgressBar.mouseX, 0).x - 2)
-            progressBarTimePreview.playerCommand(Enums.Commands.SeekAbsolute, a)
-            progressBarTimePreview.x = mouseAreaProgressBar.mapToItem(controlsOverlay, mouseAreaProgressBar.mouseX, 0).x - progressBarTimePreview.width / 2
-            progressBarTimePreview.y = progressBackground.y - progressBarTimePreview.height - controlsBar.height * 2 
+            var a = (progressBar.to / progressBar.availableWidth)
+                    * (mouseAreaProgressBar.mapToItem(
+                           progressBar, mouseAreaProgressBar.mouseX, 0).x - 2)
+            var shouldSeek = false
+            if (!appearance.updatePreviewWhilstPlaying) {
+                if (!progressBar.playing) {
+                    shouldSeek = true
+                }
+            } else {
+                shouldSeek = true
+            }
+            if (shouldSeek) {
+                progressBarTimePreview.playerCommand(
+                            Enums.Commands.SeekAbsolute, a)
+            } else {
+                hoverProgressLabel.text = utils.createTimestamp(a)
+            }
+            previewRect.x = mouseAreaProgressBar.mapToItem(
+                        controlsOverlay, mouseAreaProgressBar.mouseX,
+                        0).x - previewRect.width / 2
+            previewRect.y = progressBackground.y - previewRect.height - controlsBar.height * 2
         }
     }
 
@@ -80,7 +105,8 @@ Slider {
         width: progressBar.availableWidth
         height: progressBar.getProgressBarHeight(
                     fun.nyanCat, mouseAreaProgressBar.containsMouse)
-        color: getAppearanceValueForTheme(appearance.themeName,"progressBackgroundColor")
+        color: getAppearanceValueForTheme(appearance.themeName,
+                                          "progressBackgroundColor")
 
         ProgressBar {
             id: cachedLength
@@ -137,7 +163,6 @@ Slider {
         }
     }
 
-    
     handle: Rectangle {
         z: 70
         id: handleRect
