@@ -398,7 +398,8 @@ Window {
             height: parent.height
             width: parent.width
             anchors.fill: parent
-            //padding: mainWindow.virtualHeight / 20
+            anchors.topMargin: mainWindow.virtualHeight / 20
+            anchors.leftMargin: mainWindow.virtualHeight / 20
             font.family: appearance.fontName
             textFormat: Text.RichText
             font.pixelSize: mainWindow.virtualHeight / 50
