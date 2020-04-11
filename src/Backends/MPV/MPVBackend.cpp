@@ -77,10 +77,14 @@ public:
         { MPV_RENDER_PARAM_INVALID, nullptr },
         { MPV_RENDER_PARAM_INVALID, nullptr }
       };
-#if __linux__
+#if defined(__linux__) || defined(__FREEBSD__)
       if (QGuiApplication::platformName().contains("xcb")) {
         params[2].type = MPV_RENDER_PARAM_X11_DISPLAY;
         params[2].data = QX11Info::display();
+      } else if (QGuiApplication::platformName().contains("wayland")) {
+        params[2].type = MPV_RENDER_PARAM_WAYLAND_DISPLAY;
+        auto *native = QGuiApplication::platformNativeInterface();
+        params[2].data = native->nativeResourceForWindow("display", NULL);
       }
 #endif
 
