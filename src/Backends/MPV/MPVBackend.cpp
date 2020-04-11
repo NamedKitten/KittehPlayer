@@ -82,7 +82,7 @@ public:
         params[2].type = MPV_RENDER_PARAM_X11_DISPLAY;
         params[2].data = QX11Info::display();
       } else if (QGuiApplication::platformName().contains("wayland")) {
-        params[2].type = MPV_RENDER_PARAM_WAYLAND_DISPLAY;
+        params[2].type = MPV_RENDER_PARAM_WL_DISPLAY;
         auto *native = QGuiApplication::platformNativeInterface();
         params[2].data = native->nativeResourceForWindow("display", NULL);
       }
