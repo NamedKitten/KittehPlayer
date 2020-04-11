@@ -36,12 +36,6 @@ on_mpv_redraw(void* ctx)
     reinterpret_cast<MPVBackend*>(ctx), "update", Qt::QueuedConnection);
 }
 
-} // namespace
-
-class MpvRenderer : public QQuickFramebufferObject::Renderer
-{
-  MPVBackend* obj;
-
 static void*
 get_proc_address_mpv(void* ctx, const char* name)
 {
@@ -51,10 +45,14 @@ get_proc_address_mpv(void* ctx, const char* name)
       std::cerr << "No GLCTX :(" << std::endl;
       return nullptr;
     }
-
-
   return reinterpret_cast<void*>(glctx->getProcAddress(QByteArray(name)));
 }
+
+} // namespace
+
+class MpvRenderer : public QQuickFramebufferObject::Renderer
+{
+  MPVBackend* obj;
 
 public:
   MpvRenderer(MPVBackend* new_obj)
@@ -70,7 +68,6 @@ public:
   {
     // init mpv_gl:
     if (!obj->mpv_gl) {
-      QOpenGLContext* glctx = QOpenGLContext::currentContext();
       mpv_opengl_init_params gl_init_params{ get_proc_address_mpv,
                                              nullptr,
                                              nullptr };
