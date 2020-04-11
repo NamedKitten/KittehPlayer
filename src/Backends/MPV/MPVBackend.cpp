@@ -11,6 +11,7 @@
 #include <math.h>
 #include <stdbool.h>
 #include <stdexcept>
+#include <iostream>
 
 #include <QX11Info>
 #include <QtX11Extras/QX11Info>
@@ -38,10 +39,9 @@ on_mpv_redraw(void* ctx)
 static void*
 get_proc_address_mpv(void* ctx, const char* name)
 {
-  Q_UNUSED(ctx)
-
-  QOpenGLContext* glctx = QOpenGLContext::currentContext();
+  QOpenGLContext* glctx = reinterpret_cast<QOpenGLContext*>(ctx)->currentContext();
   if (!glctx)
+    std::cerr << "No GLCTX :(" << std::endl;
     return nullptr;
 
   return reinterpret_cast<void*>(glctx->getProcAddress(QByteArray(name)));
@@ -66,8 +66,9 @@ public:
   {
     // init mpv_gl:
     if (!obj->mpv_gl) {
+      QOpenGLContext* glctx = QOpenGLContext::currentContext();
       mpv_opengl_init_params gl_init_params{ get_proc_address_mpv,
-                                             nullptr,
+                                             glctx,
                                              nullptr };
       mpv_render_param params[]{
         { MPV_RENDER_PARAM_API_TYPE,
