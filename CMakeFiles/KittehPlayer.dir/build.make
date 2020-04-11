@@ -158,22 +158,9 @@ CMakeFiles/KittehPlayer.dir/src/main.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/KittehPlayer.dir/src/main.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/kitteh/kittehplayer/src/main.cpp -o CMakeFiles/KittehPlayer.dir/src/main.cpp.s
 
-CMakeFiles/KittehPlayer.dir/src/Backends/DirectMPV/DirectMPVBackend.cpp.o: CMakeFiles/KittehPlayer.dir/flags.make
-CMakeFiles/KittehPlayer.dir/src/Backends/DirectMPV/DirectMPVBackend.cpp.o: /home/kitteh/kittehplayer/src/Backends/DirectMPV/DirectMPVBackend.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/usr/home/kitteh/kittehplayer/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/KittehPlayer.dir/src/Backends/DirectMPV/DirectMPVBackend.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/KittehPlayer.dir/src/Backends/DirectMPV/DirectMPVBackend.cpp.o -c /home/kitteh/kittehplayer/src/Backends/DirectMPV/DirectMPVBackend.cpp
-
-CMakeFiles/KittehPlayer.dir/src/Backends/DirectMPV/DirectMPVBackend.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/KittehPlayer.dir/src/Backends/DirectMPV/DirectMPVBackend.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/kitteh/kittehplayer/src/Backends/DirectMPV/DirectMPVBackend.cpp > CMakeFiles/KittehPlayer.dir/src/Backends/DirectMPV/DirectMPVBackend.cpp.i
-
-CMakeFiles/KittehPlayer.dir/src/Backends/DirectMPV/DirectMPVBackend.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/KittehPlayer.dir/src/Backends/DirectMPV/DirectMPVBackend.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/kitteh/kittehplayer/src/Backends/DirectMPV/DirectMPVBackend.cpp -o CMakeFiles/KittehPlayer.dir/src/Backends/DirectMPV/DirectMPVBackend.cpp.s
-
 CMakeFiles/KittehPlayer.dir/src/utils.cpp.o: CMakeFiles/KittehPlayer.dir/flags.make
 CMakeFiles/KittehPlayer.dir/src/utils.cpp.o: /home/kitteh/kittehplayer/src/utils.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/usr/home/kitteh/kittehplayer/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/KittehPlayer.dir/src/utils.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/usr/home/kitteh/kittehplayer/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/KittehPlayer.dir/src/utils.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/KittehPlayer.dir/src/utils.cpp.o -c /home/kitteh/kittehplayer/src/utils.cpp
 
 CMakeFiles/KittehPlayer.dir/src/utils.cpp.i: cmake_force
@@ -186,7 +173,7 @@ CMakeFiles/KittehPlayer.dir/src/utils.cpp.s: cmake_force
 
 CMakeFiles/KittehPlayer.dir/src/enums.cpp.o: CMakeFiles/KittehPlayer.dir/flags.make
 CMakeFiles/KittehPlayer.dir/src/enums.cpp.o: /home/kitteh/kittehplayer/src/enums.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/usr/home/kitteh/kittehplayer/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/KittehPlayer.dir/src/enums.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/usr/home/kitteh/kittehplayer/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/KittehPlayer.dir/src/enums.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/KittehPlayer.dir/src/enums.cpp.o -c /home/kitteh/kittehplayer/src/enums.cpp
 
 CMakeFiles/KittehPlayer.dir/src/enums.cpp.i: cmake_force
@@ -199,7 +186,7 @@ CMakeFiles/KittehPlayer.dir/src/enums.cpp.s: cmake_force
 
 CMakeFiles/KittehPlayer.dir/src/Process.cpp.o: CMakeFiles/KittehPlayer.dir/flags.make
 CMakeFiles/KittehPlayer.dir/src/Process.cpp.o: /home/kitteh/kittehplayer/src/Process.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/usr/home/kitteh/kittehplayer/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/KittehPlayer.dir/src/Process.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/usr/home/kitteh/kittehplayer/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/KittehPlayer.dir/src/Process.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/KittehPlayer.dir/src/Process.cpp.o -c /home/kitteh/kittehplayer/src/Process.cpp
 
 CMakeFiles/KittehPlayer.dir/src/Process.cpp.i: cmake_force
@@ -212,7 +199,7 @@ CMakeFiles/KittehPlayer.dir/src/Process.cpp.s: cmake_force
 
 CMakeFiles/KittehPlayer.dir/src/ThumbnailCache.cpp.o: CMakeFiles/KittehPlayer.dir/flags.make
 CMakeFiles/KittehPlayer.dir/src/ThumbnailCache.cpp.o: /home/kitteh/kittehplayer/src/ThumbnailCache.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/usr/home/kitteh/kittehplayer/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/KittehPlayer.dir/src/ThumbnailCache.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/usr/home/kitteh/kittehplayer/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/KittehPlayer.dir/src/ThumbnailCache.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/KittehPlayer.dir/src/ThumbnailCache.cpp.o -c /home/kitteh/kittehplayer/src/ThumbnailCache.cpp
 
 CMakeFiles/KittehPlayer.dir/src/ThumbnailCache.cpp.i: cmake_force
@@ -225,7 +212,7 @@ CMakeFiles/KittehPlayer.dir/src/ThumbnailCache.cpp.s: cmake_force
 
 CMakeFiles/KittehPlayer.dir/src/logger.cpp.o: CMakeFiles/KittehPlayer.dir/flags.make
 CMakeFiles/KittehPlayer.dir/src/logger.cpp.o: /home/kitteh/kittehplayer/src/logger.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/usr/home/kitteh/kittehplayer/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/KittehPlayer.dir/src/logger.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/usr/home/kitteh/kittehplayer/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/KittehPlayer.dir/src/logger.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/KittehPlayer.dir/src/logger.cpp.o -c /home/kitteh/kittehplayer/src/logger.cpp
 
 CMakeFiles/KittehPlayer.dir/src/logger.cpp.i: cmake_force
@@ -238,7 +225,7 @@ CMakeFiles/KittehPlayer.dir/src/logger.cpp.s: cmake_force
 
 CMakeFiles/KittehPlayer.dir/src/qmldebugger.cpp.o: CMakeFiles/KittehPlayer.dir/flags.make
 CMakeFiles/KittehPlayer.dir/src/qmldebugger.cpp.o: /home/kitteh/kittehplayer/src/qmldebugger.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/usr/home/kitteh/kittehplayer/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/KittehPlayer.dir/src/qmldebugger.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/usr/home/kitteh/kittehplayer/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Building CXX object CMakeFiles/KittehPlayer.dir/src/qmldebugger.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/KittehPlayer.dir/src/qmldebugger.cpp.o -c /home/kitteh/kittehplayer/src/qmldebugger.cpp
 
 CMakeFiles/KittehPlayer.dir/src/qmldebugger.cpp.i: cmake_force
@@ -251,7 +238,7 @@ CMakeFiles/KittehPlayer.dir/src/qmldebugger.cpp.s: cmake_force
 
 CMakeFiles/KittehPlayer.dir/src/Backends/MPV/MPVBackend.cpp.o: CMakeFiles/KittehPlayer.dir/flags.make
 CMakeFiles/KittehPlayer.dir/src/Backends/MPV/MPVBackend.cpp.o: /home/kitteh/kittehplayer/src/Backends/MPV/MPVBackend.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/usr/home/kitteh/kittehplayer/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/KittehPlayer.dir/src/Backends/MPV/MPVBackend.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/usr/home/kitteh/kittehplayer/CMakeFiles --progress-num=$(CMAKE_PROGRESS_10) "Building CXX object CMakeFiles/KittehPlayer.dir/src/Backends/MPV/MPVBackend.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/KittehPlayer.dir/src/Backends/MPV/MPVBackend.cpp.o -c /home/kitteh/kittehplayer/src/Backends/MPV/MPVBackend.cpp
 
 CMakeFiles/KittehPlayer.dir/src/Backends/MPV/MPVBackend.cpp.i: cmake_force
@@ -264,7 +251,7 @@ CMakeFiles/KittehPlayer.dir/src/Backends/MPV/MPVBackend.cpp.s: cmake_force
 
 CMakeFiles/KittehPlayer.dir/qrc_qml.cpp.o: CMakeFiles/KittehPlayer.dir/flags.make
 CMakeFiles/KittehPlayer.dir/qrc_qml.cpp.o: qrc_qml.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/usr/home/kitteh/kittehplayer/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Building CXX object CMakeFiles/KittehPlayer.dir/qrc_qml.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/usr/home/kitteh/kittehplayer/CMakeFiles --progress-num=$(CMAKE_PROGRESS_11) "Building CXX object CMakeFiles/KittehPlayer.dir/qrc_qml.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/KittehPlayer.dir/qrc_qml.cpp.o -c /usr/home/kitteh/kittehplayer/qrc_qml.cpp
 
 CMakeFiles/KittehPlayer.dir/qrc_qml.cpp.i: cmake_force
@@ -279,7 +266,6 @@ CMakeFiles/KittehPlayer.dir/qrc_qml.cpp.s: cmake_force
 KittehPlayer_OBJECTS = \
 "CMakeFiles/KittehPlayer.dir/KittehPlayer_autogen/mocs_compilation.cpp.o" \
 "CMakeFiles/KittehPlayer.dir/src/main.cpp.o" \
-"CMakeFiles/KittehPlayer.dir/src/Backends/DirectMPV/DirectMPVBackend.cpp.o" \
 "CMakeFiles/KittehPlayer.dir/src/utils.cpp.o" \
 "CMakeFiles/KittehPlayer.dir/src/enums.cpp.o" \
 "CMakeFiles/KittehPlayer.dir/src/Process.cpp.o" \
@@ -294,7 +280,6 @@ KittehPlayer_EXTERNAL_OBJECTS =
 
 KittehPlayer: CMakeFiles/KittehPlayer.dir/KittehPlayer_autogen/mocs_compilation.cpp.o
 KittehPlayer: CMakeFiles/KittehPlayer.dir/src/main.cpp.o
-KittehPlayer: CMakeFiles/KittehPlayer.dir/src/Backends/DirectMPV/DirectMPVBackend.cpp.o
 KittehPlayer: CMakeFiles/KittehPlayer.dir/src/utils.cpp.o
 KittehPlayer: CMakeFiles/KittehPlayer.dir/src/enums.cpp.o
 KittehPlayer: CMakeFiles/KittehPlayer.dir/src/Process.cpp.o
@@ -312,7 +297,7 @@ KittehPlayer: /usr/local/lib/qt5/libQt5Network.so.5.13.2
 KittehPlayer: /usr/local/lib/qt5/libQt5Gui.so.5.13.2
 KittehPlayer: /usr/local/lib/qt5/libQt5Core.so.5.13.2
 KittehPlayer: CMakeFiles/KittehPlayer.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/usr/home/kitteh/kittehplayer/CMakeFiles --progress-num=$(CMAKE_PROGRESS_13) "Linking CXX executable KittehPlayer"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/usr/home/kitteh/kittehplayer/CMakeFiles --progress-num=$(CMAKE_PROGRESS_12) "Linking CXX executable KittehPlayer"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/KittehPlayer.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

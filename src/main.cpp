@@ -1,4 +1,3 @@
-#include "Backends/DirectMPV/DirectMPVBackend.hpp"
 #ifndef DISABLE_MpvPlayerBackend
 #include "Backends/MPV/MPVBackend.hpp"
 #endif
@@ -110,36 +109,6 @@ main(int argc, char* argv[])
 
   QSettings settings;
 
-  QString backendString =
-    settings.value("Backend/backend", defaultBackend).toString();
-
-  for (int i = 1; i < argc; ++i) {
-    QString arg = QString(argv[i]);
-    if (arg.startsWith("--")) {
-      QStringList arguments =
-        arg.right(arg.length() - QString("--").length()).split(QRegExp("="));
-      if (arguments.length() > 0) {
-        if (arguments[0] == "backend") {
-          qInfo() << arguments;
-          if (arguments.length() > 1 && arguments[1].length() > 0) {
-            backendString = arguments[1];
-          } else {
-            launcherLogger->warn("Available Backends:");
-#ifndef DISABLE_MpvPlayerBackend
-            launcherLogger->warn("mpv: MPV new Render API backend.");
-#endif
-            launcherLogger->warn("direct-mpv: Old deprecated opengl-cb API for "
-                                 "backwards compatibility.");
-            launcherLogger->warn(QString("The default is: " + defaultBackend)
-                                   .toUtf8()
-                                   .constData());
-            exit(0);
-          }
-        }
-      }
-    }
-  }
-
   Utils::SetDPMS(false);
 
   QString newpath =
@@ -159,36 +128,8 @@ main(int argc, char* argv[])
   qmlRegisterType<ThumbnailCache>("player", 1, 0, "ThumbnailCache");
 
   qmlRegisterType<UtilsClass>("player", 1, 0, "Utils");
+  qmlRegisterType<MPVBackend>("player", 1, 0, "PlayerBackend");
 
-  if (backendString == "mpv") {
-    backend = Enums::Backends::MPVBackend;
-  } else if (backendString == "direct-mpv") {
-    backend = Enums::Backends::DirectMPVBackend;
-  } else {
-    launcherLogger->error("Invalid backend {}.",
-                          backendString.toUtf8().constData());
-    exit(0);
-  }
-
-  launcherLogger->info("Using backend={}", backendString.toUtf8().constData());
-
-  switch (backend) {
-    case Enums::Backends::MPVBackend: {
-#ifndef DISABLE_MpvPlayerBackend
-      qmlRegisterType<MPVBackend>("player", 1, 0, "PlayerBackend");
-#else
-      qDebug() << "Normal MPV backend not available, resetting backend option "
-                  "to blank.";
-      settings.setValue("Backend/backend", "direct-mpv");
-      app.exit();
-#endif
-      break;
-    }
-    case Enums::Backends::DirectMPVBackend: {
-      qmlRegisterType<DirectMPVBackend>("player", 1, 0, "PlayerBackend");
-      break;
-    }
-  }
 
   setlocale(LC_NUMERIC, "C");
   launcherLogger->info("Loading player...");

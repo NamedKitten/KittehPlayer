@@ -6,7 +6,6 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_CXX
   "/usr/home/kitteh/kittehplayer/KittehPlayer_autogen/mocs_compilation.cpp" "/usr/home/kitteh/kittehplayer/CMakeFiles/KittehPlayer.dir/KittehPlayer_autogen/mocs_compilation.cpp.o"
   "/usr/home/kitteh/kittehplayer/qrc_qml.cpp" "/usr/home/kitteh/kittehplayer/CMakeFiles/KittehPlayer.dir/qrc_qml.cpp.o"
-  "/home/kitteh/kittehplayer/src/Backends/DirectMPV/DirectMPVBackend.cpp" "/usr/home/kitteh/kittehplayer/CMakeFiles/KittehPlayer.dir/src/Backends/DirectMPV/DirectMPVBackend.cpp.o"
   "/home/kitteh/kittehplayer/src/Backends/MPV/MPVBackend.cpp" "/usr/home/kitteh/kittehplayer/CMakeFiles/KittehPlayer.dir/src/Backends/MPV/MPVBackend.cpp.o"
   "/home/kitteh/kittehplayer/src/Process.cpp" "/usr/home/kitteh/kittehplayer/CMakeFiles/KittehPlayer.dir/src/Process.cpp.o"
   "/home/kitteh/kittehplayer/src/ThumbnailCache.cpp" "/usr/home/kitteh/kittehplayer/CMakeFiles/KittehPlayer.dir/src/ThumbnailCache.cpp.o"
@@ -24,7 +23,6 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
   "QT_CORE_LIB"
   "QT_GUI_LIB"
   "QT_NETWORK_LIB"
-  "QT_NO_DEBUG"
   "QT_QML_LIB"
   "QT_QUICK_LIB"
   "QT_WIDGETS_LIB"

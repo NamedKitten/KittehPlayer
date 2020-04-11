@@ -15,8 +15,6 @@
 #include "src/enums.hpp"
 #include "src/utils.hpp"
 
-class MpvRenderer;
-
 class MPVBackend
   : public QQuickFramebufferObject
   , public BackendInterface

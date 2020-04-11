@@ -55,7 +55,7 @@ include CMakeFiles/KittehPlayer_autogen.dir/progress.make
 
 CMakeFiles/KittehPlayer_autogen:
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --blue --bold --progress-dir=/usr/home/kitteh/kittehplayer/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Automatic MOC for target KittehPlayer"
-	/usr/local/bin/cmake -E cmake_autogen /usr/home/kitteh/kittehplayer/CMakeFiles/KittehPlayer_autogen.dir/AutogenInfo.json RELEASE
+	/usr/local/bin/cmake -E cmake_autogen /usr/home/kitteh/kittehplayer/CMakeFiles/KittehPlayer_autogen.dir/AutogenInfo.json DEBUG
 
 KittehPlayer_autogen: CMakeFiles/KittehPlayer_autogen
 KittehPlayer_autogen: CMakeFiles/KittehPlayer_autogen.dir/build.make

@@ -40,10 +40,10 @@ add_definitions(-DENABLE_X11)
 endif(X11_FOUND AND Xext_FOUND)
 
 link_directories(/usr/local/lib)
+    #src/Backends/DirectMPV/DirectMPVBackend.cpp
 
 set(SOURCES
     src/main.cpp
-    src/Backends/DirectMPV/DirectMPVBackend.cpp
     src/utils.cpp
     src/enums.cpp
     src/Process.cpp

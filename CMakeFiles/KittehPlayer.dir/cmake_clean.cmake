@@ -4,7 +4,6 @@ file(REMOVE_RECURSE
   "KittehPlayer_autogen"
   "CMakeFiles/KittehPlayer.dir/KittehPlayer_autogen/mocs_compilation.cpp.o"
   "CMakeFiles/KittehPlayer.dir/qrc_qml.cpp.o"
-  "CMakeFiles/KittehPlayer.dir/src/Backends/DirectMPV/DirectMPVBackend.cpp.o"
   "CMakeFiles/KittehPlayer.dir/src/Backends/MPV/MPVBackend.cpp.o"
   "CMakeFiles/KittehPlayer.dir/src/Process.cpp.o"
   "CMakeFiles/KittehPlayer.dir/src/ThumbnailCache.cpp.o"

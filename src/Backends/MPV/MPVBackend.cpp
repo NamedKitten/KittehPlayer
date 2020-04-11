@@ -36,22 +36,25 @@ on_mpv_redraw(void* ctx)
     reinterpret_cast<MPVBackend*>(ctx), "update", Qt::QueuedConnection);
 }
 
-static void*
-get_proc_address_mpv(void* ctx, const char* name)
-{
-  QOpenGLContext* glctx = reinterpret_cast<QOpenGLContext*>(ctx)->currentContext();
-  if (!glctx)
-    std::cerr << "No GLCTX :(" << std::endl;
-    return nullptr;
-
-  return reinterpret_cast<void*>(glctx->getProcAddress(QByteArray(name)));
-}
-
 } // namespace
 
 class MpvRenderer : public QQuickFramebufferObject::Renderer
 {
   MPVBackend* obj;
+
+static void*
+get_proc_address_mpv(void* ctx, const char* name)
+{
+  	(void)ctx;
+		QOpenGLContext *glctx = QOpenGLContext::currentContext();
+    if (!glctx) {
+      std::cerr << "No GLCTX :(" << std::endl;
+      return nullptr;
+    }
+
+
+  return reinterpret_cast<void*>(glctx->getProcAddress(QByteArray(name)));
+}
 
 public:
   MpvRenderer(MPVBackend* new_obj)
@@ -59,6 +62,7 @@ public:
   {}
 
   virtual ~MpvRenderer() {}
+
 
   // This function is called when a new FBO is needed.
   // This happens on the initial frame.
@@ -68,7 +72,7 @@ public:
     if (!obj->mpv_gl) {
       QOpenGLContext* glctx = QOpenGLContext::currentContext();
       mpv_opengl_init_params gl_init_params{ get_proc_address_mpv,
-                                             glctx,
+                                             nullptr,
                                              nullptr };
       mpv_render_param params[]{
         { MPV_RENDER_PARAM_API_TYPE,
