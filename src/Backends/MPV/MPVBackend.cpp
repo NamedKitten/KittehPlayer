@@ -12,12 +12,11 @@
 #include <stdbool.h>
 #include <stdexcept>
 
-#ifdef __linux__
 #include <QX11Info>
 #include <QtX11Extras/QX11Info>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
-#endif
+#include <qpa/qplatformnativeinterface.h>
 
 auto mpvLogger = initLogger("mpv");
 
