@@ -23,7 +23,6 @@
 #endif
 
 auto utilsLogger = initLogger("utils");
-auto updaterLogger = initLogger("updater");
 
 namespace Utils {
 QString
@@ -40,64 +39,6 @@ launchAboutQt()
   QApplication* qapp =
     qobject_cast<QApplication*>(QCoreApplication::instance());
   qapp->aboutQt();
-}
-
-void
-checkForUpdates()
-{
-#ifdef GIT_COMMIT_HASH
-  QString current_version = QString(GIT_COMMIT_HASH);
-#else
-  QString current_version = QString("Unknown");
-#endif
-  updaterLogger->info("Current Version: {}",
-                      current_version.toUtf8().constData());
-
-  QNetworkRequest request(QUrl("https://api.github.com/repos/NamedKitten/"
-                               "KittehPlayer/releases/tags/continuous"));
-
-  QNetworkAccessManager nam;
-  QNetworkReply* reply = nam.get(request);
-
-  while (!reply->isFinished()) {
-    qApp->processEvents();
-  }
-  QByteArray response_data = reply->readAll();
-  QJsonDocument json = QJsonDocument::fromJson(response_data);
-
-  if (json["target_commitish"].toString().length() != 0) {
-    if (json["target_commitish"].toString().endsWith(current_version) == 0) {
-      updaterLogger->info(
-        "Latest Version: {}",
-        json["target_commitish"].toString().toUtf8().constData());
-      updaterLogger->info("Update Available. Please update ASAP.");
-      QProcess notifier;
-      notifier.setProcessChannelMode(QProcess::ForwardedChannels);
-      notifier.start("notify-send",
-                     QStringList() << "KittehPlayer"
-                                   << "New update avalable!"
-                                   << "--icon=KittehPlayer");
-      notifier.waitForFinished();
-    }
-  } else {
-    updaterLogger->error("Couldn't check for new version.");
-  }
-}
-
-void
-updateAppImage()
-{
-  updaterLogger->info("Launching updater");
-  QString program =
-    QProcessEnvironment::systemEnvironment().value("APPDIR", "") +
-    "/usr/bin/appimageupdatetool";
-  QProcess updater;
-  updater.setProcessChannelMode(QProcess::ForwardedChannels);
-  updater.start(program,
-                QStringList() << QProcessEnvironment::systemEnvironment().value(
-                  "APPIMAGE", ""));
-  updater.waitForFinished();
-  qApp->exit();
 }
 
 // https://www.youtube.com/watch?v=nXaxk27zwlk&feature=youtu.be&t=56m34s

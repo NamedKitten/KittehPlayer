@@ -113,8 +113,6 @@ main(int argc, char* argv[])
   QString backendString =
     settings.value("Backend/backend", defaultBackend).toString();
 
-  bool checkForUpdates =
-    settings.value("Backend/checkForUpdatesOnLaunch", false).toBool();
   for (int i = 1; i < argc; ++i) {
     QString arg = QString(argv[i]);
     if (arg.startsWith("--")) {
@@ -122,6 +120,7 @@ main(int argc, char* argv[])
         arg.right(arg.length() - QString("--").length()).split(QRegExp("="));
       if (arguments.length() > 0) {
         if (arguments[0] == "backend") {
+          qInfo() << arguments;
           if (arguments.length() > 1 && arguments[1].length() > 0) {
             backendString = arguments[1];
           } else {
@@ -136,10 +135,6 @@ main(int argc, char* argv[])
                                    .constData());
             exit(0);
           }
-        } else if (arguments[0] == "no-update-check") {
-          checkForUpdates = false;
-        } else if (arguments[0] == "update") {
-          Utils::updateAppImage();
         }
       }
     }
@@ -195,15 +190,11 @@ main(int argc, char* argv[])
     }
   }
 
-  std::setlocale(LC_NUMERIC, "C");
+  setlocale(LC_NUMERIC, "C");
   launcherLogger->info("Loading player...");
 
   QQmlApplicationEngine engine;
   engine.load(QUrl(QStringLiteral("qrc:///main.qml")));
-
-  if (checkForUpdates) {
-    QtConcurrent::run(Utils::checkForUpdates);
-  }
 
   return app.exec();
 }

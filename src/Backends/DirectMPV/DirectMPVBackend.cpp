@@ -472,12 +472,6 @@ DirectMPVBackend::updateDurationString(int numTime)
   emit durationStringChanged(durationString);
 }
 
-void
-DirectMPVBackend::updateAppImage()
-{
-  Utils::updateAppImage();
-}
-
 QVariantMap
 DirectMPVBackend::getAudioDevices() const
 {

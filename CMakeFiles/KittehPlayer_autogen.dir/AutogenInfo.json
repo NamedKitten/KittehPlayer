@@ -1,0 +1,134 @@
+{
+	"BUILD_DIR" : "/usr/home/kitteh/kittehplayer/KittehPlayer_autogen",
+	"CMAKE_BINARY_DIR" : "/usr/home/kitteh/kittehplayer",
+	"CMAKE_CURRENT_BINARY_DIR" : "/usr/home/kitteh/kittehplayer",
+	"CMAKE_CURRENT_SOURCE_DIR" : "/home/kitteh/kittehplayer",
+	"CMAKE_EXECUTABLE" : "/usr/local/bin/cmake",
+	"CMAKE_SOURCE_DIR" : "/home/kitteh/kittehplayer",
+	"HEADERS" : 
+	[
+		[
+			"/home/kitteh/kittehplayer/src/Backends/DirectMPV/DirectMPVBackend.hpp",
+			"Mu",
+			"7N5O3JON6C/moc_DirectMPVBackend.cpp"
+		],
+		[
+			"/home/kitteh/kittehplayer/src/Backends/MPV/MPVBackend.hpp",
+			"Mu",
+			"HLWL3JXRQC/moc_MPVBackend.cpp"
+		],
+		[
+			"/home/kitteh/kittehplayer/src/Process.h",
+			"Mu",
+			"UVLADIE3JM/moc_Process.cpp"
+		],
+		[
+			"/home/kitteh/kittehplayer/src/ThumbnailCache.h",
+			"Mu",
+			"UVLADIE3JM/moc_ThumbnailCache.cpp"
+		],
+		[
+			"/home/kitteh/kittehplayer/src/enums.hpp",
+			"Mu",
+			"UVLADIE3JM/moc_enums.cpp"
+		],
+		[
+			"/home/kitteh/kittehplayer/src/logger.h",
+			"Mu",
+			"UVLADIE3JM/moc_logger.cpp"
+		],
+		[
+			"/home/kitteh/kittehplayer/src/qmldebugger.h",
+			"Mu",
+			"UVLADIE3JM/moc_qmldebugger.cpp"
+		],
+		[
+			"/home/kitteh/kittehplayer/src/utils.hpp",
+			"Mu",
+			"UVLADIE3JM/moc_utils.cpp"
+		]
+	],
+	"HEADER_EXTENSIONS" : [ "h", "hh", "h++", "hm", "hpp", "hxx", "in", "txx" ],
+	"INCLUDE_DIR" : "/usr/home/kitteh/kittehplayer/KittehPlayer_autogen/include",
+	"MOC_COMPILATION_FILE" : "/usr/home/kitteh/kittehplayer/KittehPlayer_autogen/mocs_compilation.cpp",
+	"MOC_DEFINITIONS" : 
+	[
+		"ENABLE_X11",
+		"QT_CORE_LIB",
+		"QT_GUI_LIB",
+		"QT_NETWORK_LIB",
+		"QT_NO_DEBUG",
+		"QT_QML_LIB",
+		"QT_QUICK_LIB",
+		"QT_WIDGETS_LIB",
+		"QT_X11EXTRAS_LIB"
+	],
+	"MOC_DEPEND_FILTERS" : 
+	[
+		[
+			"Q_PLUGIN_METADATA",
+			"[\n][ \t]*Q_PLUGIN_METADATA[ \t]*\\([^\\)]*FILE[ \t]*\"([^\"]+)\""
+		]
+	],
+	"MOC_INCLUDES" : 
+	[
+		"/home/kitteh/kittehplayer",
+		"/usr/home/kitteh/kittehplayer",
+		"/usr/home/kitteh/kittehplayer/spdlog/include",
+		"/usr/local/include/qt5/QtGui/5.13.2",
+		"/usr/local/include/qt5/QtGui/5.13.2/QtGui",
+		"/usr/local/include/qt5/QtCore/5.13.2",
+		"/usr/local/include/qt5/QtCore/5.13.2/QtCore",
+		"/usr/local/include/qt5/QtConcurrent",
+		"/usr/local/include/qt5",
+		"/usr/local/include/qt5/QtCore",
+		"/usr/local/lib/qt5/mkspecs/freebsd-clang",
+		"/usr/local/include/qt5/QtQml",
+		"/usr/local/include/qt5/QtNetwork",
+		"/usr/local/include/qt5/QtQuick",
+		"/usr/local/include/qt5/QtGui",
+		"/usr/local/include",
+		"/usr/local/include/qt5/QtWidgets",
+		"/usr/local/include/qt5/QtX11Extras",
+		"/usr/include/c++/v1",
+		"/usr/lib/clang/9.0.1/include",
+		"/usr/include"
+	],
+	"MOC_MACRO_NAMES" : [ "Q_OBJECT", "Q_GADGET", "Q_NAMESPACE" ],
+	"MOC_OPTIONS" : [],
+	"MOC_PATH_PREFIX" : true,
+	"MOC_PREDEFS_CMD" : 
+	[
+		"/usr/bin/c++",
+		"-dM",
+		"-E",
+		"-c",
+		"/usr/local/share/cmake/Modules/CMakeCXXCompilerABI.cpp"
+	],
+	"MOC_PREDEFS_FILE" : "/usr/home/kitteh/kittehplayer/KittehPlayer_autogen/moc_predefs.h",
+	"MOC_RELAXED_MODE" : false,
+	"MOC_SKIP" : [],
+	"MULTI_CONFIG" : false,
+	"PARALLEL" : 4,
+	"PARSE_CACHE_FILE" : "/usr/home/kitteh/kittehplayer/CMakeFiles/KittehPlayer_autogen.dir/ParseCache.txt",
+	"QT_MOC_EXECUTABLE" : "/usr/local/lib/qt5/bin/moc",
+	"QT_UIC_EXECUTABLE" : "",
+	"QT_VERSION_MAJOR" : 5,
+	"SETTINGS_FILE" : "/usr/home/kitteh/kittehplayer/CMakeFiles/KittehPlayer_autogen.dir/AutogenUsed.txt",
+	"SOURCES" : 
+	[
+		[
+			"/home/kitteh/kittehplayer/src/Backends/DirectMPV/DirectMPVBackend.cpp",
+			"Mu"
+		],
+		[ "/home/kitteh/kittehplayer/src/Backends/MPV/MPVBackend.cpp", "Mu" ],
+		[ "/home/kitteh/kittehplayer/src/Process.cpp", "Mu" ],
+		[ "/home/kitteh/kittehplayer/src/ThumbnailCache.cpp", "Mu" ],
+		[ "/home/kitteh/kittehplayer/src/enums.cpp", "Mu" ],
+		[ "/home/kitteh/kittehplayer/src/logger.cpp", "Mu" ],
+		[ "/home/kitteh/kittehplayer/src/main.cpp", "Mu" ],
+		[ "/home/kitteh/kittehplayer/src/qmldebugger.cpp", "Mu" ],
+		[ "/home/kitteh/kittehplayer/src/utils.cpp", "Mu" ]
+	],
+	"VERBOSITY" : 0
+}

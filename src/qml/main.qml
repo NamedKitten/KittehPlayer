@@ -31,6 +31,9 @@ Window {
             return nicoNicoAppearance[name]
         } else if (themeName == "RoosterTeeth") {
             return roosterTeethAppearance[name]
+        } else {
+            appearance.themeName = "YouTube"
+            return youTubeAppearance[name]
         }
     }
 

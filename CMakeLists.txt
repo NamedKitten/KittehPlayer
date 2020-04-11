@@ -14,11 +14,11 @@ find_package(Qt5Concurrent REQUIRED)
 find_package(Qt5 CONFIG REQUIRED COMPONENTS Qml Quick Gui Widgets Core X11Extras)
 
 find_package(Qt5QuickCompiler)
-if(Qt5QuickCompiler_FOUND)
-qtquick_compiler_add_resources(qml_QRC src/qml/qml.qrc)
-else()
+#if(Qt5QuickCompiler_FOUND)
+#qtquick_compiler_add_resources(qml_QRC src/qml/qml.qrc)
+#else()
 qt5_add_resources(qml_QRC src/qml/qml.qrc)
-endif()
+#endif()
 
 find_package(PkgConfig)
 pkg_check_modules(MPV REQUIRED mpv)
@@ -38,6 +38,8 @@ include_directories(${CMAKE_BINARY_DIR}/spdlog/include)
 if(X11_FOUND AND Xext_FOUND)
 add_definitions(-DENABLE_X11)
 endif(X11_FOUND AND Xext_FOUND)
+
+link_directories(/usr/local/lib)
 
 set(SOURCES
     src/main.cpp
@@ -62,7 +64,9 @@ if(CCACHE_FOUND)
     set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache)
 endif(CCACHE_FOUND)
 
-set(CMAKE_BUILD_TYPE RELEASE)
+set(CMAKE_BUILD_TYPE DEBUG)
+
+SET(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_CXX_FLAGS} -ggdb -g3 -Og")
 
 if(DEFINED ENV{TRAVIS})
 execute_process(
@@ -85,5 +89,3 @@ qt5_use_modules(KittehPlayer Qml Quick Core Gui Widgets X11Extras)
 install (TARGETS ${PROJECT_NAME} DESTINATION bin)
 install (FILES "${PROJECT_NAME}.desktop" DESTINATION share/applications)
 install (FILES "${PROJECT_NAME}.png" DESTINATION share/icons/hicolor/256x256/apps)
-
-
