@@ -39,13 +39,7 @@ on_mpv_redraw(void* ctx)
 static void*
 get_proc_address_mpv(void* ctx, const char* name)
 {
-  	(void)ctx;
-		QOpenGLContext *glctx = QOpenGLContext::currentContext();
-    if (!glctx) {
-      std::cerr << "No GLCTX :(" << std::endl;
-      return nullptr;
-    }
-  return reinterpret_cast<void*>(glctx->getProcAddress(QByteArray(name)));
+  return reinterpret_cast<void*>(reinterpret_cast<QOpenGLContext*>(ctx)->getProcAddress(QByteArray(name)));
 }
 
 } // namespace
@@ -69,7 +63,7 @@ public:
     // init mpv_gl:
     if (!obj->mpv_gl) {
       mpv_opengl_init_params gl_init_params{ get_proc_address_mpv,
-                                             nullptr,
+                                             QOpenGLContext::currentContext(),
                                              nullptr };
       mpv_render_param params[]{
         { MPV_RENDER_PARAM_API_TYPE,
