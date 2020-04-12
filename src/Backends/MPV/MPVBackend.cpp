@@ -23,6 +23,10 @@ auto mpvLogger = initLogger("mpv");
 
 bool usedirect = false;
 
+void setUseDirect(bool h) {
+  usedirect = h;
+}
+
 namespace {
 
 void
@@ -138,8 +142,6 @@ MPVBackend::MPVBackend(QQuickItem* parent)
 {
   if (!mpv)
     throw std::runtime_error("could not create mpv context");
-  QSettings settings;
-  usedirect = settings.value("Backend/direct", false).toBool();
 
   mpv_set_option_string(mpv, "terminal", "on");
   mpv_set_option_string(mpv, "msg-level", "all=v");

@@ -109,6 +109,8 @@ main(int argc, char* argv[])
 
   QSettings settings;
 
+  setUseDirect(settings.value("backend/direct", false).toBool());
+
   Utils::SetDPMS(false);
 
   QString newpath =

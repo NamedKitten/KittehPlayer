@@ -15,6 +15,8 @@
 #include "src/enums.hpp"
 #include "src/utils.hpp"
 
+void setUseDirect(bool);
+
 class MpvRenderer;
 
 class MPVBackend
