@@ -26,13 +26,7 @@ A video player based on Qt, QML and libmpv with themes for many online video pla
 - Arch Linux: `kittehplayer` in the AUR
 
 ### Linux AppImage
-- You can find the latest appimage of KittehPlayer automatically built by travis at: https://github.com/NamedKitten/KittehPlayer/releases
-- To easily install it so it can be easily updated run as your current user:
-```
-sudo wget https://github.com/NamedKitten/KittehPlayer/releases/download/continuous/KittehPlayer-x86_64.AppImage -O /usr/bin/KittehPlayer && sudo chmod +x /usr/bin/KittehPlayer && sudo chown $USER /usr/bin/KittehPlayer
-```
-- To update the AppImage run `KittehPlayer --update` periodically which will update it using as little bandwidth as needed. 
-
+- Discontinued for now.
 
 ### From source
 #### Dependencies
