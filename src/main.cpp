@@ -130,7 +130,6 @@ main(int argc, char* argv[])
   qmlRegisterType<UtilsClass>("player", 1, 0, "Utils");
   qmlRegisterType<MPVBackend>("player", 1, 0, "PlayerBackend");
 
-
   setlocale(LC_NUMERIC, "C");
   launcherLogger->info("Loading player...");
 

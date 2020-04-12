@@ -86,8 +86,8 @@ Slider {
                 shouldSeek = true
             }
             if (shouldSeek) {
-                /*progressBarTimePreview.playerCommand(
-                            Enums.Commands.SeekAbsolute, a)*/
+                progressBarTimePreview.playerCommand(
+                            Enums.Commands.SeekAbsolute, a)
             } else {
                 hoverProgressLabel.text = utils.createTimestamp(a)
             }

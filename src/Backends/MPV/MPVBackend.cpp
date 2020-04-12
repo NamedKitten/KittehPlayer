@@ -8,10 +8,10 @@
 #include <QQuickWindow>
 #include <QSequentialIterable>
 #include <clocale>
+#include <iostream>
 #include <math.h>
 #include <stdbool.h>
 #include <stdexcept>
-#include <iostream>
 
 #include <QX11Info>
 #include <QtX11Extras/QX11Info>
@@ -20,6 +20,8 @@
 #include <qpa/qplatformnativeinterface.h>
 
 auto mpvLogger = initLogger("mpv");
+
+bool usedirect = false;
 
 namespace {
 
@@ -39,7 +41,8 @@ on_mpv_redraw(void* ctx)
 static void*
 get_proc_address_mpv(void* ctx, const char* name)
 {
-  return reinterpret_cast<void*>(reinterpret_cast<QOpenGLContext*>(ctx)->getProcAddress(QByteArray(name)));
+  return reinterpret_cast<void*>(
+    reinterpret_cast<QOpenGLContext*>(ctx)->getProcAddress(QByteArray(name)));
 }
 
 } // namespace
@@ -51,17 +54,26 @@ class MpvRenderer : public QQuickFramebufferObject::Renderer
 public:
   MpvRenderer(MPVBackend* new_obj)
     : obj{ new_obj }
-  {}
+  {
+  if (usedirect) {
+      int r =
+        mpv_opengl_cb_init_gl(obj->mpv_gl_cb, NULL, get_proc_address_mpv, QOpenGLContext::currentContext());
+      if (r < 0) {
+        std::cout << "No." << std::endl;
+        throw std::runtime_error("failed to initialize mpv GL context");
+      }
+    }
+
+  }
 
   virtual ~MpvRenderer() {}
-
 
   // This function is called when a new FBO is needed.
   // This happens on the initial frame.
   QOpenGLFramebufferObject* createFramebufferObject(const QSize& size)
   {
     // init mpv_gl:
-    if (!obj->mpv_gl) {
+    if (!obj->mpv_gl && !usedirect) {
       mpv_opengl_init_params gl_init_params{ get_proc_address_mpv,
                                              QOpenGLContext::currentContext(),
                                              nullptr };
@@ -76,18 +88,21 @@ public:
       if (QGuiApplication::platformName().contains("xcb")) {
         params[2].type = MPV_RENDER_PARAM_X11_DISPLAY;
         params[2].data = QX11Info::display();
-      } /* else if (QGuiApplication::platformName().contains("wayland")) {
+      } else if (QGuiApplication::platformName().contains("wayland")) {
         params[2].type = MPV_RENDER_PARAM_WL_DISPLAY;
         auto *native = QGuiApplication::platformNativeInterface();
         params[2].data = native->nativeResourceForWindow("display", NULL);
-      } */
+      }
 #endif
 
-      if (mpv_render_context_create(&obj->mpv_gl, obj->mpv, params) < 0)
+      if (mpv_render_context_create(&obj->mpv_gl, obj->mpv, params) < 0) {
+        std::cout << "Failed to use render API, try setting Backend/direct to true in settings." << std::endl;
         throw std::runtime_error("failed to initialize mpv GL context");
+      }
       mpv_render_context_set_update_callback(obj->mpv_gl, on_mpv_redraw, obj);
-      QMetaObject::invokeMethod(obj, "startPlayer");
     }
+    QMetaObject::invokeMethod(obj, "startPlayer");
+
 
     return QQuickFramebufferObject::Renderer::createFramebufferObject(size);
   }
@@ -95,17 +110,21 @@ public:
   void render()
   {
     obj->window()->resetOpenGLState();
-
     QOpenGLFramebufferObject* fbo = framebufferObject();
-    mpv_opengl_fbo mpfbo{ .fbo = static_cast<int>(fbo->handle()),
-                          .w = fbo->width(),
-                          .h = fbo->height(),
-                          .internal_format = 0 };
-    int flip_y{ 0 };
-    mpv_render_param params[] = { { MPV_RENDER_PARAM_OPENGL_FBO, &mpfbo },
-                                  { MPV_RENDER_PARAM_FLIP_Y, &flip_y },
-                                  { MPV_RENDER_PARAM_INVALID, nullptr } };
-    mpv_render_context_render(obj->mpv_gl, params);
+    if (usedirect) {
+      mpv_opengl_cb_draw(obj->mpv_gl_cb, fbo->handle(), fbo->width(), fbo->height());
+    } else {
+      mpv_opengl_fbo mpfbo{ .fbo = static_cast<int>(fbo->handle()),
+                            .w = fbo->width(),
+                            .h = fbo->height(),
+                            .internal_format = 0 };
+      int flip_y{ 0 };
+      mpv_render_param params[] = { { MPV_RENDER_PARAM_OPENGL_FBO, &mpfbo },
+                                    { MPV_RENDER_PARAM_FLIP_Y, &flip_y },
+                                    { MPV_RENDER_PARAM_INVALID, nullptr } };
+      mpv_render_context_render(obj->mpv_gl, params);
+    }
+
     obj->window()->resetOpenGLState();
   }
 };
@@ -114,16 +133,19 @@ MPVBackend::MPVBackend(QQuickItem* parent)
   : QQuickFramebufferObject(parent)
   , mpv{ mpv_create() }
   , mpv_gl(nullptr)
+  , mpv_gl_cb(nullptr)
+
 {
   if (!mpv)
     throw std::runtime_error("could not create mpv context");
+  QSettings settings;
+  usedirect = settings.value("Backend/direct", false).toBool();
 
-  mpv_set_option_string(mpv, "terminal", "off");
+  mpv_set_option_string(mpv, "terminal", "on");
   mpv_set_option_string(mpv, "msg-level", "all=v");
 
   // Fix?
   mpv_set_option_string(mpv, "ytdl", "yes");
-  mpv_set_option_string(mpv, "vo", "libmpv");
 
   mpv_set_option_string(mpv, "slang", "en");
 
@@ -146,12 +168,22 @@ MPVBackend::MPVBackend(QQuickItem* parent)
   mpv_observe_property(mpv, 0, "playlist", MPV_FORMAT_NODE);
   mpv_observe_property(mpv, 0, "speed", MPV_FORMAT_DOUBLE);
 
-  mpv_request_log_messages(mpv, "trace");
+  mpv_request_log_messages(mpv, "verbose");
 
   mpv_set_wakeup_callback(mpv, wakeup, this);
 
   if (mpv_initialize(mpv) < 0)
     throw std::runtime_error("could not initialize mpv context");
+
+  if (usedirect) {
+    mpv_set_option_string(mpv, "vo", "libmpv");
+    mpv_gl_cb = (mpv_opengl_cb_context*)mpv_get_sub_api(mpv, MPV_SUB_API_OPENGL_CB);
+    if (!mpv_gl_cb)
+      throw std::runtime_error("OpenGL not compiled in");
+    mpv_opengl_cb_set_update_callback(mpv_gl_cb, on_mpv_redraw, (void*)this);
+  } else {
+    mpv_set_option_string(mpv, "vo", "libmpv");
+  }
 
   connect(this,
           &MPVBackend::onUpdate,
@@ -176,8 +208,10 @@ MPVBackend::~MPVBackend()
   Utils::SetDPMS(true);
   command("write-watch-later-config");
 
-  if (mpv_gl) {
+  if (usedirect) {
     mpv_render_context_free(mpv_gl);
+  } else {
+    mpv_opengl_cb_set_update_callback(mpv_gl_cb, NULL, NULL);
   }
 
   mpv_terminate_destroy(mpv);
@@ -556,10 +590,12 @@ MPVBackend::handle_mpv_event(mpv_event* event)
           (struct mpv_event_log_message*)event->data;
         QString logMsg = "[" + QString(msg->prefix) + "] " + QString(msg->text);
         QString msgLevel = QString(msg->level);
-        if (msgLevel.startsWith("d")) {
-          mpvLogger->debug("{}", logMsg.toStdString());
+        if (msgLevel.startsWith("d") || msgLevel.startsWith("t")) {
+          mpvLogger->info("{}", logMsg.toStdString());
         } else if (msgLevel.startsWith("v") || msgLevel.startsWith("i")) {
           mpvLogger->info("{}", logMsg.toStdString());
+        } else {
+          mpvLogger->debug("{}", logMsg.toStdString());
         }
       }
 

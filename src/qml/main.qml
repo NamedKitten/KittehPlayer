@@ -203,7 +203,7 @@ Window {
         z: 1
         logging: loggingSettings.logBackend
 
-        /*onPlaylistChanged: function (playlist) {
+        onPlaylistChanged: function (playlist) {
             for (var thing in playlist) {
                 var item = playlist[thing]
                 if (playlist[thing]["current"]) {
@@ -213,7 +213,7 @@ Window {
                 }
                 progressBarTimePreview.playerCommand(Enums.Commands.ForcePause)
             }
-        }*/
+        }
 
         Action {
             onTriggered: {
@@ -492,7 +492,7 @@ Window {
                     }
                 }
 
-                /*PlayerBackend {
+                PlayerBackend {
                     z: 90
                     id: progressBarTimePreview
                     height: parent.height
@@ -513,7 +513,7 @@ Window {
                                     "worstvideo[height<=?" + String(
                                         height) + "]/worst")
                     }
-                }*/
+                }
             }
         }
     }

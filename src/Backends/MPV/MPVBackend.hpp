@@ -2,8 +2,8 @@
 #define MPVBackend_H
 
 #include <mpv/client.h>
+#include <mpv/opengl_cb.h>
 #include <mpv/qthelper.hpp>
-
 #include <mpv/render_gl.h>
 
 #include <QObject>
@@ -28,6 +28,8 @@ class MPVBackend
 
   mpv_handle* mpv;
   mpv_render_context* mpv_gl;
+  mpv_opengl_cb_context* mpv_gl_cb;
+
   QSettings settings;
   bool onTop = false;
   bool m_logging = true;
