@@ -83,7 +83,7 @@ Item {
                     color: "white"
                     anchors.horizontalCenter: parent.horizontalCenter
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                    font.pixelSize: mainWindow.virtualHeight / 24
+                    font.pixelSize: appearance.subtitlesFontSize
                     font.family: appearance.fontName
                     horizontalAlignment: Text.AlignHCenter
                     opacity: 1

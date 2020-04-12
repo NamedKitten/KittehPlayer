@@ -66,6 +66,7 @@ Window {
         property string themeName: "YouTube"
         property string fontName: "Roboto"
         property double scaleFactor: 1.0
+        property int subtitlesFontSize: 18
     }
 
     Settings {
