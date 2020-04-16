@@ -46,7 +46,6 @@ Window {
         category: "Logging"
         property string logFile: "/tmp/KittehPlayer.log"
         property bool logBackend: true
-        property bool logPreview: false
     }
 
     Settings {
@@ -60,7 +59,6 @@ Window {
         id: appearance
         category: "Appearance"
         property bool titleOnlyOnFullscreen: true
-        property bool updatePreviewWhilstPlaying: true
         property bool clickToPause: true
         property bool useMpvSubs: false
         property string themeName: "YouTube"
@@ -204,18 +202,6 @@ Window {
         height: parent.height
         z: 1
         logging: loggingSettings.logBackend
-
-        onPlaylistChanged: function (playlist) {
-            for (var thing in playlist) {
-                var item = playlist[thing]
-                if (playlist[thing]["current"]) {
-                    progressBarTimePreview.playerCommand(
-                                Enums.Commands.LoadFile,
-                                String(playlist[thing]["filename"]))
-                }
-                progressBarTimePreview.playerCommand(Enums.Commands.ForcePause)
-            }
-        }
 
         Action {
             onTriggered: {
@@ -470,13 +456,13 @@ Window {
             id: controlsBar
             Item {
                 id: previewRect
-                height: 144
-                width: 256
                 z: 80
                 visible: false
+                width: hoverProgressLabel.width
 
                 Rectangle {
                     anchors.bottom: parent.bottom
+                    anchors.left: parent.left
                     anchors.right: parent.right
                     width: hoverProgressLabel.width
                     height: hoverProgressLabel.height
@@ -489,31 +475,8 @@ Window {
                         color: "white"
                         font.family: appearance.fontName
                         font.pixelSize: mainWindow.virtualHeight / 50
-                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
                         renderType: Text.NativeRendering
-                    }
-                }
-
-                PlayerBackend {
-                    z: 90
-                    id: progressBarTimePreview
-                    height: parent.height
-                    width: parent.width
-                    logging: loggingSettings.logPreview
-
-                    onDurationStringChanged: function (durationString) {
-                        hoverProgressLabel.text = durationString
-                    }
-                    function startPlayer() {
-                        update()
-                        progressBarTimePreview.playerCommand(
-                                    Enums.Commands.SetTrack, ["aid", "no"])
-                        progressBarTimePreview.playerCommand(
-                                    Enums.Commands.SetTrack, ["sid", "no"])
-                        progressBarTimePreview.setOption(
-                                    "ytdl-format",
-                                    "worstvideo[height<=?" + String(
-                                        height) + "]/worst")
                     }
                 }
             }

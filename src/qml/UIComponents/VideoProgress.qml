@@ -77,20 +77,7 @@ Slider {
             var a = (progressBar.to / progressBar.availableWidth)
                     * (mouseAreaProgressBar.mapToItem(
                            progressBar, mouseAreaProgressBar.mouseX, 0).x - 2)
-            var shouldSeek = false
-            if (!appearance.updatePreviewWhilstPlaying) {
-                if (!progressBar.playing) {
-                    shouldSeek = true
-                }
-            } else {
-                shouldSeek = true
-            }
-            if (shouldSeek) {
-                progressBarTimePreview.playerCommand(
-                            Enums.Commands.SeekAbsolute, a)
-            } else {
-                hoverProgressLabel.text = utils.createTimestamp(a)
-            }
+            hoverProgressLabel.text = utils.createTimestamp(a)
             previewRect.x = mouseAreaProgressBar.mapToItem(
                         controlsOverlay, mouseAreaProgressBar.mouseX,
                         0).x - previewRect.width / 2
