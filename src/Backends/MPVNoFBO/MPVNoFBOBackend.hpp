@@ -70,6 +70,7 @@ public slots:
   QVariant playerCommand(const Enums::Commands& command);
   void launchAboutQt();
   void toggleOnTop();
+  QString getStats();
   // Optional but handy for MPV or custom backend settings.
   void command(const QVariant& params);
   void setProperty(const QString& name, const QVariant& value);

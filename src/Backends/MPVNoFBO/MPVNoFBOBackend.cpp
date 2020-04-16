@@ -580,3 +580,186 @@ MPVNoFBOBackend::handle_mpv_event(mpv_event* event)
     }
   }
 }
+
+QString
+MPVNoFBOBackend::getStats()
+{
+  QString stats;
+  stats =
+    "<style> blockquote { text-indent: 0px; margin-left:40px; margin-top: 0px; "
+    "margin-bottom: 0px; padding-bottom: 0px; padding-top: 0px; padding-left: "
+    "0px; } b span p br { margin-bottom: 0px; margin-top: 0px; padding-top: "
+    "0px; padding-botom: 0px; text-indent: 0px; } </style>";
+  QString filename = getProperty("filename").toString();
+  // File Info
+  stats += "<b>File:</b>  " + filename;
+  stats += "<blockquote>";
+  QString title = getProperty("media-title").toString();
+  if (title != filename) {
+    stats += "<b>Title:</b>  " + title + "<br>";
+  }
+  QString fileFormat = getProperty("file-format").toString();
+  stats += "<b>Format/Protocol:</b>  " + fileFormat + "<br>";
+  QLocale a;
+  // a.formattedDataSize(
+  double cacheUsed = getProperty("cache-used").toDouble();
+  // Utils::createTimestamp(
+  int demuxerSecs = getProperty("demuxer-cache-duration").toInt();
+  QVariantMap demuxerState = getProperty("demuxer-cache-state").toMap();
+  int demuxerCache = demuxerState.value("fw-bytes", QVariant(0)).toInt();
+
+  if (demuxerSecs + demuxerCache + cacheUsed > 0) {
+    QString cacheStats;
+    cacheStats += "<b>Total Cache:</b>  ";
+    cacheStats += a.formattedDataSize(demuxerCache + cacheUsed);
+    cacheStats += " (<b>Demuxer:</b>  ";
+
+    cacheStats += a.formattedDataSize(demuxerCache);
+    cacheStats += ", ";
+    cacheStats += QString::number(demuxerSecs) + "s)  ";
+    double cacheSpeed = getProperty("cache-speed").toDouble();
+    if (cacheSpeed > 0) {
+      cacheStats += "<b>Speed:</b>  ";
+      cacheStats += a.formattedDataSize(demuxerSecs);
+      cacheStats += "/s";
+    }
+    cacheStats += "<br>";
+    stats += cacheStats;
+  }
+  QString fileSize =
+    a.formattedDataSize(getProperty("file-size").toInt()).remove("-");
+  stats += "<b>Size:</b>  " + fileSize + "<br>";
+
+  stats += "</blockquote>";
+  // Video Info
+  QVariant videoParams = getProperty("video-params");
+  if (videoParams.isNull()) {
+    videoParams = getProperty("video-out-params");
+  }
+  if (!videoParams.isNull()) {
+    stats += "<b>Video:</b>  " + getProperty("video-codec").toString();
+    stats += "<blockquote>";
+    QString avsync = QString::number(getProperty("avsync").toDouble(), 'f', 3);
+    stats += "<b>A-V:</b>  " + QString(avsync) + "<br>";
+
+    stats += "<b>Dropped Frames:</b>  ";
+    int dFDC = getProperty("decoder-frame-drop-count").toInt();
+    if (dFDC > 0) {
+      stats += QString::number(dFDC) + " (decoder) ";
+    }
+    int fDC = getProperty("frame-drop-count").toInt();
+    if (fDC > 0) {
+      stats += QString::number(fDC) + " (output)";
+    }
+    stats += "<br>";
+
+    int dFPS = getProperty("display-fps").toInt();
+    int eDFPS = getProperty("estimated-display-fps").toInt();
+    if ((dFPS + eDFPS) > 0) {
+      stats += "<b>Display FPS:</b>  ";
+
+      if (dFPS > 0) {
+        stats += QString::number(dFPS);
+        stats += " (specified)  ";
+      }
+      if (eDFPS > 0) {
+        stats += QString::number(eDFPS);
+        stats += " (estimated)";
+      }
+      stats += "<br>";
+    }
+
+    int cFPS = getProperty("container-fps").toInt();
+    int eVFPS = getProperty("estimated-vf-fps").toInt();
+    if ((cFPS + eVFPS) > 0) {
+      stats += "<b>FPS:</b>  ";
+
+      if (cFPS > 0) {
+        stats += QString::number(cFPS);
+        stats += " (specified)  ";
+      }
+      if (eVFPS > 0) {
+        stats += QString::number(eVFPS);
+        stats += " (estimated)";
+      }
+      stats += "<br>";
+    }
+    QVariantMap vPM = videoParams.toMap();
+    stats += "<b>Native Resolution:</b>  ";
+    stats += vPM["w"].toString() + " x " + vPM["h"].toString();
+    stats += "<br>";
+
+    stats += "<b>Window Scale:</b>  ";
+    stats += vPM["window-scale"].toString();
+    stats += "<br>";
+
+    stats += "<b>Aspect Ratio:</b>  ";
+    stats += vPM["aspect"].toString();
+    stats += "<br>";
+
+    stats += "<b>Pixel Format:</b>  ";
+    stats += vPM["pixelformat"].toString();
+    stats += "<br>";
+
+    stats += "<b>Primaries:</b>  ";
+    stats += vPM["primaries"].toString();
+    stats += "  <b>Colormatrix:</b>  ";
+    stats += vPM["colormatrix"].toString();
+    stats += "<br>";
+
+    stats += "<b>Levels:</b>  ";
+    stats += vPM["colorlevels"].toString();
+    double sigPeak = vPM.value("sig-peak", QVariant(0.0)).toInt();
+    if (sigPeak > 0) {
+      stats += " (HDR Peak: " + QString::number(sigPeak) + ")";
+    }
+    stats += "<br>";
+
+    stats += "<b>Gamma:</b>  ";
+    stats += vPM["gamma"].toString();
+    stats += "<br>";
+
+    int pVB = getProperty("packet-video-bitrate").toInt();
+    if (pVB > 0) {
+      stats += "<b>Bitrate:</b>  ";
+      stats += a.formattedDataSize(pVB) + "/s";
+      stats += "<br>";
+    }
+
+    stats += "</blockquote>";
+  }
+  QVariant audioParams = getProperty("audio-params");
+  if (audioParams.isNull()) {
+    audioParams = getProperty("audio-out-params");
+  }
+  if (!audioParams.isNull()) {
+    stats += "<b>Audio:</b>  " + getProperty("audio-codec").toString();
+    stats += "<blockquote>";
+    QVariantMap aPM = audioParams.toMap();
+
+    stats += "<b>Format:</b>  ";
+    stats += aPM["format"].toString();
+    stats += "<br>";
+
+    stats += "<b>Sample Rate:</b>  ";
+    stats += aPM["samplerate"].toString() + " Hz";
+    stats += "<br>";
+
+    stats += "<b>Channels:</b>  ";
+    stats += aPM["chanel-count"].toString();
+    stats += "<br>";
+
+    int pAB = getProperty("packet-audio-bitrate").toInt();
+    if (pAB > 0) {
+      stats += "<b>Bitrate:</b>  ";
+      stats += a.formattedDataSize(pAB) + "/s";
+      stats += "<br>";
+    }
+
+    stats += "</blockquote>";
+  }
+
+  return stats;
+}
+
+
