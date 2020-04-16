@@ -50,13 +50,9 @@ set(SOURCES
     src/ThumbnailCache.cpp
     src/logger.cpp
     src/qmldebugger.cpp
+    src/Backends/MPV/MPVBackend.cpp
+    src/Backends/MPVNoFBO/MPVNoFBOBackend.cpp
 )
-
-if(MPV_VERSION VERSION_GREATER_EQUAL "1.28.0")
-set(SOURCES ${SOURCES} src/Backends/MPV/MPVBackend.cpp)
-else()
-add_definitions(-DDISABLE_MpvPlayerBackend)
-endif(MPV_VERSION VERSION_GREATER_EQUAL "1.28.0")
 
 find_program(CCACHE_FOUND cache)
 if(CCACHE_FOUND)

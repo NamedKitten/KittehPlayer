@@ -19,9 +19,10 @@
 #include <X11/Xutil.h>
 #include <qpa/qplatformnativeinterface.h>
 
+bool usedirect = false;
+
 auto mpvLogger = initLogger("mpv");
 
-bool usedirect = false;
 
 namespace {
 

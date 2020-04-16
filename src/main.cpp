@@ -1,9 +1,9 @@
-#ifndef DISABLE_MpvPlayerBackend
+#include "logger.h"
 #include "Backends/MPV/MPVBackend.hpp"
-#endif
+#include "Backends/MPVNoFBO/MPVNoFBOBackend.hpp"
+
 
 #include "enums.hpp"
-#include "logger.h"
 #include "qmldebugger.h"
 #include "utils.hpp"
 #include <cstdlib>
@@ -89,13 +89,6 @@ main(int argc, char* argv[])
   auto launcherLogger = initLogger("launcher");
   launcherLogger->info("Starting up!");
 
-  Enums::Backends backend;
-  QString defaultBackend;
-#ifdef DISABLE_MpvPlayerBackend
-  defaultBackend = "direct-mpv";
-#else
-  defaultBackend = "mpv";
-#endif
   setenv("QT_QUICK_CONTROLS_STYLE", "Desktop", 1);
   QApplication app(argc, argv);
 
@@ -108,9 +101,6 @@ main(int argc, char* argv[])
 #endif
 
   QSettings settings;
-
-  usedirect = settings.value("Backend/direct", false).toBool();
-
   Utils::SetDPMS(false);
 
   QString newpath =
@@ -130,7 +120,12 @@ main(int argc, char* argv[])
   qmlRegisterType<ThumbnailCache>("player", 1, 0, "ThumbnailCache");
 
   qmlRegisterType<UtilsClass>("player", 1, 0, "Utils");
-  qmlRegisterType<MPVBackend>("player", 1, 0, "PlayerBackend");
+
+  if (settings.value("Backend/fbo", true).toBool()) {
+    qmlRegisterType<MPVNoFBOBackend>("player", 1, 0, "PlayerBackend");
+  } else {
+    qmlRegisterType<MPVBackend>("player", 1, 0, "PlayerBackend");
+  }
 
   setlocale(LC_NUMERIC, "C");
   launcherLogger->info("Loading player...");

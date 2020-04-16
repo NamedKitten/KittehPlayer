@@ -1,8 +1,0 @@
-/usr/home/kitteh/kittehplayer/CMakeFiles/install/local.dir
-/usr/home/kitteh/kittehplayer/CMakeFiles/install/strip.dir
-/usr/home/kitteh/kittehplayer/CMakeFiles/install.dir
-/usr/home/kitteh/kittehplayer/CMakeFiles/list_install_components.dir
-/usr/home/kitteh/kittehplayer/CMakeFiles/rebuild_cache.dir
-/usr/home/kitteh/kittehplayer/CMakeFiles/edit_cache.dir
-/usr/home/kitteh/kittehplayer/CMakeFiles/KittehPlayer.dir
-/usr/home/kitteh/kittehplayer/CMakeFiles/KittehPlayer_autogen.dir
