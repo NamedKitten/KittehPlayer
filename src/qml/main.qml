@@ -67,6 +67,7 @@ Window {
         property string fontName: "Roboto"
         property double scaleFactor: 1.0
         property int subtitlesFontSize: 18
+        property int uiFadeTimer: 1000
     }
 
     Settings {
@@ -374,7 +375,7 @@ Window {
             }
             Timer {
                 id: mouseAreaPlayerTimer
-                interval: 1000
+                interval: appearance.uiFadeTimer
                 running: true
                 repeat: false
                 onTriggered: {
