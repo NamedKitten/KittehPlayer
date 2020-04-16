@@ -122,9 +122,9 @@ main(int argc, char* argv[])
   qmlRegisterType<UtilsClass>("player", 1, 0, "Utils");
 
   if (settings.value("Backend/fbo", true).toBool()) {
-    qmlRegisterType<MPVNoFBOBackend>("player", 1, 0, "PlayerBackend");
-  } else {
     qmlRegisterType<MPVBackend>("player", 1, 0, "PlayerBackend");
+  } else {
+    qmlRegisterType<MPVNoFBOBackend>("player", 1, 0, "PlayerBackend");
   }
 
   setlocale(LC_NUMERIC, "C");
