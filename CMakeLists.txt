@@ -50,6 +50,7 @@ set(SOURCES
     src/ThumbnailCache.cpp
     src/logger.cpp
     src/qmldebugger.cpp
+    src/Backends/MPVCommon/MPVCommon.cpp
     src/Backends/MPV/MPVBackend.cpp
     src/Backends/MPVNoFBO/MPVNoFBOBackend.cpp
 )

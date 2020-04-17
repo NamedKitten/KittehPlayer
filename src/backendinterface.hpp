@@ -11,6 +11,10 @@ class BackendInterface
 {
 public:
   virtual ~BackendInterface(){};
+  int lastTime = 0;
+  double lastSpeed = 0;
+  QString totalDurationString;
+  QString lastPositionString;
 
 public slots:
   // All 5 required for Player API
@@ -23,6 +27,8 @@ public slots:
   virtual void setProperty(const QString& name, const QVariant& value) = 0;
   virtual void setOption(const QString& name, const QVariant& value) = 0;
   virtual QVariant getProperty(const QString& name) const = 0;
+  virtual QVariantMap getAudioDevices(const QVariant& drivers) const = 0;
+
 
 signals:
   // All below required for Player API

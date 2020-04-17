@@ -44,11 +44,7 @@ class MPVNoFBOBackend
   mpv_opengl_cb_context* mpv_gl;
   MPVNoFBORenderer* renderer;
   bool onTop = false;
-  int lastTime = 0;
-  double lastSpeed = 0;
   bool m_logging = true;
-  QString totalDurationString;
-  QString lastPositionString;
   QSettings settings;
 
 public:
@@ -64,6 +60,11 @@ public:
 
   MPVNoFBOBackend(QQuickItem* parent = 0);
   virtual ~MPVNoFBOBackend();
+
+  int lastTime = 0;
+  double lastSpeed = 0;
+  QString totalDurationString;
+  QString lastPositionString;
 
 public slots:
   QVariant playerCommand(const Enums::Commands& command, const QVariant& args);
@@ -82,7 +83,9 @@ public slots:
   void cleanup();
 
   // Just used for adding missing audio devices to list.
-  QVariantMap getAudioDevices() const;
+  QVariantMap getAudioDevices(const QVariant& drivers) const;
+
+  
   bool event(QEvent* event);
 
 signals:

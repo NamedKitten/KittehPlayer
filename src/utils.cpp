@@ -14,7 +14,7 @@
 #include <QtCore>
 #include <QtNetwork>
 
-#ifdef __linux__
+#if defined(__linux__) || defined(__FreeBSD__)
 #ifdef ENABLE_X11
 #include <QX11Info>
 #include <X11/Xlib.h>
@@ -83,7 +83,7 @@ SetScreensaver(WId wid, bool on)
 void
 SetDPMS(bool on)
 {
-#ifdef __linux__
+#if defined(__linux__) || defined(__FreeBSD__)
   if (getPlatformName() != "xcb") {
     return;
   }
@@ -112,13 +112,13 @@ SetDPMS(bool on)
 void
 AlwaysOnTop(WId wid, bool on)
 {
-#ifdef __linux__
+#if defined(__linux__) || defined(__FreeBSD__)
 #ifdef ENABLE_X11
   Display* display = QX11Info::display();
   XEvent event;
   event.xclient.type = ClientMessage;
   event.xclient.serial = 0;
-  event.xclient.send_event = True;
+  event.xclient.send_event = true;
   event.xclient.display = display;
   event.xclient.window = wid;
   event.xclient.message_type = XInternAtom(display, "_NET_WM_STATE", False);

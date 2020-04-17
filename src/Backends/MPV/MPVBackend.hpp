@@ -15,8 +15,6 @@
 #include "src/enums.hpp"
 #include "src/utils.hpp"
 
-extern bool usedirect;
-
 class MpvRenderer;
 
 class MPVBackend
@@ -36,11 +34,6 @@ class MPVBackend
   bool onTop = false;
   bool m_logging = true;
 
-  int lastTime = 0;
-  double lastSpeed = 0;
-  QString totalDurationString;
-  QString lastPositionString;
-
   friend class MpvRenderer;
 
 public:
@@ -57,6 +50,11 @@ public:
     }
   }
   bool logging() const { return m_logging; }
+
+  int lastTime = 0;
+  double lastSpeed = 0;
+  QString totalDurationString;
+  QString lastPositionString;
 
 public slots:
   QVariant playerCommand(const Enums::Commands& command, const QVariant& args);
