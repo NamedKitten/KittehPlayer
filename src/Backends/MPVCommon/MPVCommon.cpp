@@ -7,6 +7,42 @@
 
 auto mpvLogger = initLogger("mpv");
 
+static inline QVariant node_to_variant(const mpv_node *node)
+{
+    if (!node) {
+      return QVariant();
+    }
+
+    switch (node->format) {
+    case MPV_FORMAT_STRING:
+        return QVariant(QString::fromUtf8(node->u.string));
+    case MPV_FORMAT_FLAG:
+        return QVariant(static_cast<bool>(node->u.flag));
+    case MPV_FORMAT_INT64:
+        return QVariant(static_cast<qlonglong>(node->u.int64));
+    case MPV_FORMAT_DOUBLE:
+        return QVariant(node->u.double_);
+    case MPV_FORMAT_NODE_ARRAY: {
+        mpv_node_list *list = node->u.list;
+        QVariantList qlist;
+        for (int n = 0; n < list->num; n++)
+            qlist.append(node_to_variant(&list->values[n]));
+        return QVariant(qlist);
+    }
+    case MPV_FORMAT_NODE_MAP: {
+        mpv_node_list *list = node->u.list;
+        QVariantMap qmap;
+        for (int n = 0; n < list->num; n++) {
+            qmap.insert(QString::fromUtf8(list->keys[n]),
+                        node_to_variant(&list->values[n]));
+        }
+        return QVariant(qmap);
+    }
+    default: // MPV_FORMAT_NONE, unknown values (e.g. future extensions)
+        return QVariant();
+    }
+}
+
 
 namespace MPVCommon {
 QString getStats(BackendInterface *b) {
@@ -349,7 +385,7 @@ QVariant playerCommand(BackendInterface *b, const Enums::Commands& cmd, const QV
     }
 
     default: {
-      qDebug() << "Command not found: " << cmd;
+      //qDebug() << "Command not found: " << cmd;
       break;
     }
   }
@@ -438,7 +474,7 @@ handle_mpv_event(BackendInterface *b, mpv_event* event)
         }
       } else if (strcmp(prop->name, "pause") == 0) {
         mpv_node* nod = (mpv_node*)prop->data;
-        if (mpv::qt::node_to_variant(nod).toBool()) {
+        if (node_to_variant(nod).toBool()) {
           emit b->playStatusChanged(Enums::PlayStatus::Paused);
           // Utils::SetScreensaver(window()->winId(), true);
         } else {
@@ -447,16 +483,16 @@ handle_mpv_event(BackendInterface *b, mpv_event* event)
         }
       } else if (strcmp(prop->name, "track-list") == 0) {
         mpv_node* nod = (mpv_node*)prop->data;
-        emit b->tracksChanged(mpv::qt::node_to_variant(nod).toList());
+        emit b->tracksChanged(node_to_variant(nod).toList());
       } else if (strcmp(prop->name, "audio-device-list") == 0) {
         mpv_node* nod = (mpv_node*)prop->data;
-        emit b->audioDevicesChanged(b->getAudioDevices(mpv::qt::node_to_variant(nod)));
+        emit b->audioDevicesChanged(b->getAudioDevices(node_to_variant(nod)));
       } else if (strcmp(prop->name, "playlist") == 0) {
         mpv_node* nod = (mpv_node*)prop->data;
-        emit b->playlistChanged(mpv::qt::node_to_variant(nod).toList());
+        emit b->playlistChanged(node_to_variant(nod).toList());
       } else if (strcmp(prop->name, "chapter-list") == 0) {
         mpv_node* nod = (mpv_node*)prop->data;
-        emit b->chaptersChanged(mpv::qt::node_to_variant(nod).toList());
+        emit b->chaptersChanged(node_to_variant(nod).toList());
       } else if (strcmp(prop->name, "speed") == 0) {
         double speed = *(double*)prop->data;
         emit b->speedChanged(speed);
@@ -492,6 +528,9 @@ handle_mpv_event(BackendInterface *b, mpv_event* event)
 QVariantMap getAudioDevices(const QVariant& drivers)
 {
   QVariantMap newDrivers;
+  if (drivers.isNull()) {
+    return newDrivers;
+  }
 
   QSequentialIterable iterable = drivers.value<QSequentialIterable>();
   foreach (const QVariant& v, iterable) {

@@ -29,7 +29,6 @@ public slots:
   virtual QVariant getProperty(const QString& name) const = 0;
   virtual QVariantMap getAudioDevices(const QVariant& drivers) const = 0;
 
-
 signals:
   // All below required for Player API
   virtual void playStatusChanged(const Enums::PlayStatus& status) = 0;

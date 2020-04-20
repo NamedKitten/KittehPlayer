@@ -67,6 +67,7 @@ Window {
         property double scaleFactor: 1.0
         property int subtitlesFontSize: 18
         property int uiFadeTimer: 1000
+        property bool maximizeInsteadOfFullscreen: false
     }
 
     Settings {
@@ -180,16 +181,17 @@ Window {
     property int lastScreenVisibility
 
     function toggleFullscreen() {
-        console.error("a", mainWindow.visibility, Window.FullScreen,
-                      lastScreenVisibility)
-        if (mainWindow.visibility != Window.FullScreen) {
+        var fs = Window.FullScreen
+        if (appearance.maximizeInsteadOfFullscreen) {
+            fs = Window.Maximized
+        }
+
+        if (mainWindow.visibility != fs) {
             lastScreenVisibility = mainWindow.visibility
-            mainWindow.visibility = Window.FullScreen
+            mainWindow.visibility = fs
         } else {
             mainWindow.visibility = lastScreenVisibility
         }
-        console.error("b", mainWindow.visibility, Window.FullScreen,
-                      lastScreenVisibility)
     }
 
     Utils {
@@ -349,9 +351,7 @@ Window {
             }
             Action {
                 onTriggered: {
-                    if (mainWindow.visibility == Window.FullScreen) {
-                        toggleFullscreen()
-                    }
+                    toggleFullscreen()
                 }
                 shortcut: "Esc"
             }
@@ -438,12 +438,13 @@ Window {
                 anchors.bottomMargin: 4
                 anchors.top: parent.top
                 font.family: appearance.fontName
-                font.pixelSize: menuBar.height - (anchors.bottomMargin + anchors.topMargin)
+                fontSizeMode: Text.VerticalFit
+                font.pixelSize: appearance.scaleFactor*(height-anchors.topMargin-anchors.bottomMargin-2)
                 font.bold: true
                 opacity: 1
                 visible: controlsOverlay.controlsShowing
                          && ((!appearance.titleOnlyOnFullscreen)
-                             || (mainWindow.visibility == Window.FullScreen))
+                             || (mainWindow.visibility == Window.FullScreen || mainWindow.visibility == Window.Maximized))
                 Connections {
                     target: player
                     onTitleChanged: function (title) {
