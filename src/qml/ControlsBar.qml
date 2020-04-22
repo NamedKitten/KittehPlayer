@@ -135,6 +135,7 @@ Item {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottomMargin: 0
+            bottomPadding: 0
         }
     }
 }

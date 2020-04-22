@@ -20,7 +20,6 @@ Control {
     focusPolicy: Qt.NoFocus
 
     signal clicked
-    //onClicked: print('buttonClick')
     leftPadding: appearance.themeName
                  == "YouTube" ? iconWidth / 12 : appearance.themeName
                                 == "RoosterTeeth" ? iconWidth / 12 : iconWidth / 2.5
@@ -28,7 +27,6 @@ Control {
 
     contentItem: ButtonImage {
         id: icon
-        source: "cup.svg"
     }
 
     MouseArea {
