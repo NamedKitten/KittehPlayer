@@ -14,12 +14,12 @@ Slider {
     palette.dark: "#f00"
     hoverEnabled: true
 
-    implicitWidth: Math.max(background ? background.implicitWidth : 0,
-                                         (handle ? handle.implicitWidth : 0)
-                                         + leftPadding + rightPadding)
-    implicitHeight: Math.max(background ? background.implicitHeight : 0,
-                                          (handle ? handle.implicitHeight : 0)
-                                          + topPadding + bottomPadding)
+    implicitWidth: Math.max(
+                       background ? background.implicitWidth : 0,
+                       (handle ? handle.implicitWidth : 0) + leftPadding + rightPadding)
+    implicitHeight: Math.max(
+                        background ? background.implicitHeight : 0,
+                        (handle ? handle.implicitHeight : 0) + topPadding + bottomPadding)
     onMoved: {
         player.playerCommand(Enums.Commands.SetVolume,
                              Math.round(volumeBar.value).toString())

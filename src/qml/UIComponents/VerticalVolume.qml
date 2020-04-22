@@ -20,9 +20,9 @@ Rectangle {
 
         orientation: Qt.Vertical
 
-        implicitWidth: Math.max(background ? background.implicitWidth : 0,
-                                             (handle ? handle.implicitWidth : 0)
-                                             + leftPadding + rightPadding)
+        implicitWidth: Math.max(
+                           background ? background.implicitWidth : 0,
+                           (handle ? handle.implicitWidth : 0) + leftPadding + rightPadding)
         implicitHeight: Math.max(
                             background.implicitHeight,
                             handle.implicitHeight + topPadding + bottomPadding)

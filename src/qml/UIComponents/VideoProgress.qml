@@ -97,8 +97,7 @@ Slider {
 
         ProgressBar {
             id: cachedLength
-            background: Item {
-            }
+            background: Item {}
             contentItem: Item {
                 Rectangle {
                     width: cachedLength.visualPosition * parent.width
@@ -123,7 +122,7 @@ Slider {
                     for (var i = 0, len = chapters.length; i < len; i++) {
                         var component = Qt.createComponent("ChapterMarker.qml")
                         var marker = component.createObject(chapterMarkers, {
-                                                                time: chapters[i]["time"]
+                                                                "time": chapters[i]["time"]
                                                             })
                     }
                 }

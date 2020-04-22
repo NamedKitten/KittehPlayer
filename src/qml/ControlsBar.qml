@@ -38,9 +38,7 @@ Item {
         if (component.status == Component.Error) {
             console.error("Error loading component: " + component.errorString())
         }
-        component.createObject(controlsBar, {
-
-                               })
+        component.createObject(controlsBar, {})
     }
 
     Item {
@@ -137,7 +135,6 @@ Item {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottomMargin: 0
-            bottomPadding: 0
         }
     }
 }

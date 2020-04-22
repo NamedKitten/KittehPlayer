@@ -12,9 +12,9 @@ SmoothButton {
     iconSource: "icons/" + appearance.themeName + "/forward.svg"
     hoverEnabled: true
     iconColor: hovered ? getAppearanceValueForTheme(
-                              appearance.themeName,
-                              "buttonHoverColor") : getAppearanceValueForTheme(
-                              appearance.themeName, "buttonColor")
+                             appearance.themeName,
+                             "buttonHoverColor") : getAppearanceValueForTheme(
+                             appearance.themeName, "buttonColor")
     onClicked: {
         player.playerCommand(Enums.Commands.Seek, "10")
     }

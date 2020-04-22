@@ -439,12 +439,14 @@ Window {
                 anchors.top: parent.top
                 font.family: appearance.fontName
                 fontSizeMode: Text.VerticalFit
-                font.pixelSize: appearance.scaleFactor*(height-anchors.topMargin-anchors.bottomMargin-2)
+                font.pixelSize: appearance.scaleFactor
+                                * (height - anchors.topMargin - anchors.bottomMargin - 2)
                 font.bold: true
                 opacity: 1
                 visible: controlsOverlay.controlsShowing
                          && ((!appearance.titleOnlyOnFullscreen)
-                             || (mainWindow.visibility == Window.FullScreen || mainWindow.visibility == Window.Maximized))
+                             || (mainWindow.visibility == Window.FullScreen
+                                 || mainWindow.visibility == Window.Maximized))
                 Connections {
                     target: player
                     onTitleChanged: function (title) {

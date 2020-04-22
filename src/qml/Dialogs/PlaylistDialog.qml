@@ -50,7 +50,7 @@ Dialog {
                     var component = Qt.createComponent("ThumbnailProcess.qml")
                     var thumbnailerProcess = component.createObject(
                                 playlistDialog, {
-                                    name: thumbnailJobs[0]
+                                    "name": thumbnailJobs[0]
                                 })
                     if (String(titleJobs[0]).indexOf("://") !== -1) {
 
@@ -85,7 +85,7 @@ Dialog {
                     }
                     var component = Qt.createComponent("TitleProcess.qml")
                     var titleProcess = component.createObject(playlistDialog, {
-                                                                  name: titleJobs[0]
+                                                                  "name": titleJobs[0]
                                                               })
                     titleProcess.start("youtube-dl",
                                        ["--get-title", titleJobs[0]])
@@ -107,10 +107,10 @@ Dialog {
             for (var thing in playlist) {
                 var item = playlist[thing]
                 playlistModel.append({
-                                         playlistItemTitle: item["title"],
-                                         playlistItemFilename: item["filename"],
-                                         current: item["current"],
-                                         playlistPos: thing
+                                         "playlistItemTitle": item["title"],
+                                         "playlistItemFilename": item["filename"],
+                                         "current": item["current"],
+                                         "playlistPos": thing
                                      })
             }
         }
@@ -212,8 +212,7 @@ Dialog {
             id: playlistModel
         }
         delegate: playlistDelegate
-        highlight: Item {
-        }
+        highlight: Item {}
         snapMode: ListView.SnapToItem
         flickableDirection: Flickable.VerticalFlick
         boundsBehavior: Flickable.StopAtBounds

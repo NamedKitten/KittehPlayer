@@ -9,6 +9,5 @@ Menu {
         color: getAppearanceValueForTheme(appearance.themeName,
                                           "mainBackground")
     }
-    delegate: CustomMenuItem {
-    }
+    delegate: CustomMenuItem {}
 }

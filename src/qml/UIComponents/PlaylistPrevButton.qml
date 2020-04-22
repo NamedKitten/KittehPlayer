@@ -13,9 +13,9 @@ SmoothButton {
     iconSource: "icons/" + appearance.themeName + "/prev.svg"
     hoverEnabled: true
     iconColor: hovered ? getAppearanceValueForTheme(
-                              appearance.themeName,
-                              "buttonHoverColor") : getAppearanceValueForTheme(
-                              appearance.themeName, "buttonColor")
+                             appearance.themeName,
+                             "buttonHoverColor") : getAppearanceValueForTheme(
+                             appearance.themeName, "buttonColor")
     visible: appearance.themeName == "Youtube" ? false : true
     onClicked: {
         player.playerCommand(Enums.Commands.PreviousPlaylistItem)

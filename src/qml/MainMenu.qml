@@ -51,31 +51,31 @@ MenuBar {
             var component = Qt.createComponent("TrackItem.qml")
             if (trackType == "sub") {
                 var action = component.createObject(subMenu, {
-                                                        text: trackLang,
-                                                        trackID: String(
-                                                                     trackID),
-                                                        trackType: "sid",
-                                                        checked: track["selected"]
+                                                        "text": trackLang,
+                                                        "trackID": String(
+                                                                       trackID),
+                                                        "trackType": "sid",
+                                                        "checked": track["selected"]
                                                     })
                 action.ActionGroup.group = subMenuGroup
                 subMenu.addAction(action)
             } else if (trackType == "audio") {
                 var action = component.createObject(audioMenu, {
-                                                        text: trackTitle + trackLang,
-                                                        trackID: String(
-                                                                     trackID),
-                                                        trackType: "aid",
-                                                        checked: track["selected"]
+                                                        "text": trackTitle + trackLang,
+                                                        "trackID": String(
+                                                                       trackID),
+                                                        "trackType": "aid",
+                                                        "checked": track["selected"]
                                                     })
                 action.ActionGroup.group = audioMenuGroup
                 audioMenu.addAction(action)
             } else if (trackType == "video") {
                 var action = component.createObject(videoMenu, {
-                                                        text: "Video " + trackID + trackTitle,
-                                                        trackID: String(
-                                                                     trackID),
-                                                        trackType: "vid",
-                                                        checked: track["selected"]
+                                                        "text": "Video " + trackID + trackTitle,
+                                                        "trackID": String(
+                                                                       trackID),
+                                                        "trackType": "vid",
+                                                        "checked": track["selected"]
                                                     })
                 action.ActionGroup.group = videoMenuGroup
                 videoMenu.addAction(action)
@@ -337,8 +337,7 @@ MenuBar {
             shortcut: keybinds.mute
         }
 
-        MenuSeparator {
-        }
+        MenuSeparator {}
 
         CustomMenu {
             title: translate.getTranslation("AUDIO_DEVICES", i18n.language)
@@ -359,9 +358,9 @@ MenuBar {
                     var audioDevice = audioDevices[thing]
                     var component = Qt.createComponent("AudioDeviceItem.qml")
                     var action = component.createObject(audioDeviceMenu, {
-                                                            text: audioDevices[thing]["description"],
-                                                            deviceID: String(
-                                                                          audioDevices[thing]["name"])
+                                                            "text": audioDevices[thing]["description"],
+                                                            "deviceID": String(
+                                                                            audioDevices[thing]["name"])
                                                         })
                     action.ActionGroup.group = audioDeviceMenuGroup
                     audioDeviceMenu.addAction(action)
@@ -373,8 +372,7 @@ MenuBar {
             }
         }
 
-        MenuSeparator {
-        }
+        MenuSeparator {}
 
         CustomMenu {
             title: translate.getTranslation("AUDIO", i18n.language)
@@ -401,8 +399,7 @@ MenuBar {
             }
             shortcut: keybinds.cycleVideo
         }
-        MenuSeparator {
-        }
+        MenuSeparator {}
 
         CustomMenu {
             title: translate.getTranslation("VIDEO", i18n.language)
@@ -435,8 +432,7 @@ MenuBar {
             }
             shortcut: keybinds.cycleSubBackwards
         }
-        MenuSeparator {
-        }
+        MenuSeparator {}
 
         CustomMenu {
             title: translate.getTranslation("SUBTITLES", i18n.language)

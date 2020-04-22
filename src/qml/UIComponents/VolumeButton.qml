@@ -13,9 +13,9 @@ SmoothButton {
     iconSource: "icons/" + appearance.themeName + "/volume-up.svg"
     hoverEnabled: true
     iconColor: hovered ? getAppearanceValueForTheme(
-                              appearance.themeName,
-                              "buttonHoverColor") : getAppearanceValueForTheme(
-                              appearance.themeName, "buttonColor")
+                             appearance.themeName,
+                             "buttonHoverColor") : getAppearanceValueForTheme(
+                             appearance.themeName, "buttonColor")
     onClicked: {
         player.playerCommand(Enums.Commands.ToggleMute)
     }

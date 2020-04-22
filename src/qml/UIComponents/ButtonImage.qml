@@ -5,12 +5,13 @@ import QtGraphicalEffects 1.0
 Image {
     id: root
     smooth: true
-    
+
     property alias color: colorOverlay.color
-    property int size: 24
+    property int iconHeight: 24
+    property int iconWidth: 24
     fillMode: Image.PreserveAspectFit
-    sourceSize.width: size
-    sourceSize.height: size
+    sourceSize.height: iconHeight
+    sourceSize.width: iconWidth
 
     ColorOverlay {
         id: colorOverlay

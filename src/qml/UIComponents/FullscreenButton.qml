@@ -12,9 +12,9 @@ SmoothButton {
     iconSource: "icons/" + appearance.themeName + "/fullscreen.svg"
     hoverEnabled: true
     iconColor: hovered ? getAppearanceValueForTheme(
-                              appearance.themeName,
-                              "buttonHoverColor") : getAppearanceValueForTheme(
-                              appearance.themeName, "buttonColor")
+                             appearance.themeName,
+                             "buttonHoverColor") : getAppearanceValueForTheme(
+                             appearance.themeName, "buttonColor")
     Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
 
     onClicked: {

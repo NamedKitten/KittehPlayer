@@ -29,6 +29,7 @@ Item {
         anchors.bottom: parent.bottom
         iconHeight: parent.height / 1.25
         iconWidth: parent.height / 1.25
+        leftPadding: 14
     }
     PlaylistNextButton {
         id: playlistNextButton

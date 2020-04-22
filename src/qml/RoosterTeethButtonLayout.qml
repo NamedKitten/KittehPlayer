@@ -48,11 +48,11 @@ Item {
         iconWidth: parent.height / 1.25
         hoverEnabled: true
         iconColor: hovered
-                    || mouseAreaVolumeArea.containsMouse ? getAppearanceValueForTheme(
-                                                               appearance.themeName,
-                                                               "buttonHoverColor") : getAppearanceValueForTheme(
-                                                               appearance.themeName,
-                                                               "buttonColor")
+                   || mouseAreaVolumeArea.containsMouse ? getAppearanceValueForTheme(
+                                                              appearance.themeName,
+                                                              "buttonHoverColor") : getAppearanceValueForTheme(
+                                                              appearance.themeName,
+                                                              "buttonColor")
     }
 
     VerticalVolume {
