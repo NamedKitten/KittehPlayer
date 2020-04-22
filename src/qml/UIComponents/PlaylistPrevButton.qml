@@ -7,21 +7,18 @@ import Qt.labs.settings 1.0
 import Qt.labs.platform 1.0 as LabsPlatform
 import player 1.0
 
-Button {
+SmoothButton {
     id: playlistPrevButton
     objectName: "playlistPrevButton"
-    icon.source: "icons/" + appearance.themeName + "/prev.svg"
+    iconSource: "icons/" + appearance.themeName + "/prev.svg"
     hoverEnabled: true
-    icon.color: hovered ? getAppearanceValueForTheme(
+    iconColor: hovered ? getAppearanceValueForTheme(
                               appearance.themeName,
                               "buttonHoverColor") : getAppearanceValueForTheme(
                               appearance.themeName, "buttonColor")
-    display: AbstractButton.IconOnly
     visible: appearance.themeName == "Youtube" ? false : true
     onClicked: {
         player.playerCommand(Enums.Commands.PreviousPlaylistItem)
-    }
-    background: Item {
     }
     Connections {
         target: player

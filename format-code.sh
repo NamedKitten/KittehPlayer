@@ -1,5 +1,5 @@
 SOURCE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 pushd $SOURCE_DIR
-qmlfmt -w src/qml/*.qml src/qml/*/*.qml
-clang-format -style mozilla -i src/* src/Backends/*/*
-popd
+find . -name "*.qml" -exec qmlfmt -w {} \;
+find . -name "*.cpp" -o -name "*.hpp" -o -name "*.c" -o -name "*.h" -exec clang-format90 -style mozilla -i {} \;
+popdi i

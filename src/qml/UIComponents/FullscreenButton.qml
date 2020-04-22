@@ -7,21 +7,17 @@ import Qt.labs.settings 1.0
 import Qt.labs.platform 1.0 as LabsPlatform
 import player 1.0
 
-Button {
+SmoothButton {
     id: fullscreenButton
-    icon.source: "icons/" + appearance.themeName + "/fullscreen.svg"
+    iconSource: "icons/" + appearance.themeName + "/fullscreen.svg"
     hoverEnabled: true
-    icon.color: hovered ? getAppearanceValueForTheme(
+    iconColor: hovered ? getAppearanceValueForTheme(
                               appearance.themeName,
                               "buttonHoverColor") : getAppearanceValueForTheme(
                               appearance.themeName, "buttonColor")
     Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
 
-    display: AbstractButton.IconOnly
     onClicked: {
         toggleFullscreen()
-    }
-
-    background: Item {
     }
 }

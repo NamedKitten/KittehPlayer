@@ -7,19 +7,16 @@ import Qt.labs.settings 1.0
 import Qt.labs.platform 1.0 as LabsPlatform
 import player 1.0
 
-Button {
+SmoothButton {
     id: backwardButton
-    icon.source: "icons/" + appearance.themeName + "/backward.svg"
+    iconSource: "icons/" + appearance.themeName + "/backward.svg"
 
     hoverEnabled: true
-    icon.color: hovered ? getAppearanceValueForTheme(
+    iconColor: hovered ? getAppearanceValueForTheme(
                               appearance.themeName,
                               "buttonHoverColor") : getAppearanceValueForTheme(
                               appearance.themeName, "buttonColor")
-    display: AbstractButton.IconOnly
     onClicked: {
         player.playerCommand(Enums.Commands.Seek, "-10")
-    }
-    background: Item {
     }
 }

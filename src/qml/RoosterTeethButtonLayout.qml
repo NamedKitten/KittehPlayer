@@ -16,22 +16,20 @@ Item {
         id: playPauseButton
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        icon.height: parent.height / 1.25
-        icon.width: parent.height / 1.25
+        iconHeight: parent.height / 1.25
+        iconWidth: parent.height / 1.25
     }
 
     MouseArea {
         id: mouseAreaVolumeArea
-        anchors.bottom: volumeButton.bottom
-        anchors.left: volumeSliderArea.left
         anchors.right: volumeSliderArea.right
-        anchors.top: volumeSliderArea.top
-        height: layout.height + volumeButton.height
-                + (volumeSliderArea.visible ? volumeSliderArea.height : 0)
+        anchors.bottom: volumeButton.bottom
+        anchors.left: volumeButton.left
+        height: parent.height + (volumeSliderArea.visible ? volumeSliderArea.height : 0)
         hoverEnabled: true
+        z: 500
         propagateComposedEvents: true
         acceptedButtons: Qt.NoButton
-
         onEntered: {
             mouseAreaPlayerTimer.stop()
         }
@@ -46,9 +44,10 @@ Item {
         anchors.left: playPauseButton.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        icon.height: parent.height / 1.25
-        icon.width: parent.height / 1.25
-        icon.color: hovered
+        iconHeight: parent.height / 1.25
+        iconWidth: parent.height / 1.25
+        hoverEnabled: true
+        iconColor: hovered
                     || mouseAreaVolumeArea.containsMouse ? getAppearanceValueForTheme(
                                                                appearance.themeName,
                                                                "buttonHoverColor") : getAppearanceValueForTheme(
@@ -95,15 +94,15 @@ Item {
         anchors.right: settingsButton.left
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        icon.height: parent.height / 1.25
-        icon.width: parent.height / 1.25
+        iconHeight: parent.height / 1.25
+        iconWidth: parent.height / 1.25
     }
     SettingsButton {
         id: settingsButton
         anchors.right: parent.right
         anchors.top: parent.top
         anchors.bottom: parent.bottom
-        icon.height: parent.height / 1.25
-        icon.width: parent.height / 1.25
+        iconHeight: parent.height / 1.25
+        iconWidth: parent.height / 1.25
     }
 }

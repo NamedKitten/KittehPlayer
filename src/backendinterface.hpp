@@ -1,7 +1,7 @@
 #ifndef BackendInterface_H
 #define BackendInterface_H
-#include <QObject>
 #include "enums.hpp"
+#include <QObject>
 class BackendInterface
 {
 public:

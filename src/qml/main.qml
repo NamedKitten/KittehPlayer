@@ -226,7 +226,7 @@ Window {
         }
 
         function startPlayer() {
-            console.info(qmlDebugger.properties(player))
+            //console.info(qmlDebugger.properties(player))
             console.info("OwO!")
 
             var args = Qt.application.arguments

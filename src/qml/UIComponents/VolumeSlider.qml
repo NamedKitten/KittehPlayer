@@ -12,6 +12,7 @@ Slider {
     to: 100
     value: 100
     palette.dark: "#f00"
+    hoverEnabled: true
 
     implicitWidth: Math.max(background ? background.implicitWidth : 0,
                                          (handle ? handle.implicitWidth : 0)

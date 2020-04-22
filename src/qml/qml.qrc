@@ -8,6 +8,8 @@
         <file>YouTubeButtonLayout.qml</file>
         <file>NiconicoButtonLayout.qml</file>
         <file>RoosterTeethButtonLayout.qml</file>
+        <file alias="SmoothButton.qml">UIComponents/SmoothButton.qml</file>
+        <file alias="ButtonImage.qml">UIComponents/ButtonImage.qml</file>
         <file alias="VerticalVolume.qml">UIComponents/VerticalVolume.qml</file>
         <file alias="SpeedText.qml">UIComponents/SpeedText.qml</file>
         <file alias="ForwardButton.qml">UIComponents/ForwardButton.qml</file>

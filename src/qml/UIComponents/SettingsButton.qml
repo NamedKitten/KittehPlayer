@@ -7,23 +7,18 @@ import Qt.labs.settings 1.0
 import Qt.labs.platform 1.0 as LabsPlatform
 import player 1.0
 
-Button {
+SmoothButton {
     id: settingsButton
-    //icon.name: "settings"
-    icon.source: "icons/" + appearance.themeName + "/settings.svg"
+    iconSource: "icons/" + appearance.themeName + "/settings.svg"
     hoverEnabled: true
-    icon.color: hovered ? getAppearanceValueForTheme(
+    iconColor: hovered ? getAppearanceValueForTheme(
                               appearance.themeName,
                               "buttonHoverColor") : getAppearanceValueForTheme(
                               appearance.themeName, "buttonColor")
     Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
-    display: AbstractButton.IconOnly
-
     onClicked: {
         var aptn = appearance.themeName
         appearance.themeName = aptn == "YouTube" ? "RoosterTeeth" : aptn
                                                    == "RoosterTeeth" ? "Niconico" : "YouTube"
-    }
-    background: Item {
     }
 }
