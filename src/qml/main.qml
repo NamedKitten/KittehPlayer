@@ -67,6 +67,8 @@ Window {
         property double scaleFactor: 1.0
         property int subtitlesFontSize: 18
         property int uiFadeTimer: 1000
+        property bool doubleTapToSeek: false
+        property double doubleTapToSeekBy: 5
         property bool maximizeInsteadOfFullscreen: false
     }
 
@@ -345,9 +347,37 @@ Window {
             anchors.top: titleBar.bottom
             anchors.topMargin: 0
             hoverEnabled: true
-            onDoubleClicked: {
-                player.playerCommand(Enums.Commands.TogglePlayPause)
-                toggleFullscreen()
+
+            Timer{
+                id: mouseTapTimer
+                interval: 200
+                onTriggered: {
+                    if (appearance.clickToPause) {
+                        player.playerCommand(Enums.Commands.TogglePlayPause)
+                    }                
+                }
+            }
+
+            function doubleMouseClick(mouse) {
+                if (appearance.doubleTapToSeek) {
+                    if (mouse.x > (mouseAreaPlayer.width / 2)) {
+                        player.playerCommand(Enums.Commands.Seek, String(appearance.doubleTapToSeekBy))
+                    } else {
+                        player.playerCommand(Enums.Commands.Seek,"-" + String(appearance.doubleTapToSeekBy))
+                    }
+                } else {
+                    toggleFullscreen()
+                }
+            }
+
+
+            onClicked: function(mouse) {
+               if(mouseTapTimer.running) {
+                    doubleMouseClick(mouse)
+                    mouseTapTimer.stop()
+                } else {
+                    mouseTapTimer.restart()
+                }
             }
             Action {
                 onTriggered: {
@@ -355,11 +385,7 @@ Window {
                 }
                 shortcut: "Esc"
             }
-            onClicked: {
-                if (appearance.clickToPause) {
-                    player.playerCommand(Enums.Commands.TogglePlayPause)
-                }
-            }
+
             Timer {
                 id: mouseAreaPlayerTimer
                 interval: appearance.uiFadeTimer
