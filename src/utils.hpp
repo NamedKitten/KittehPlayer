@@ -1,9 +1,9 @@
 #ifndef UTILS_H
 #define UTILS_H
-#include <QObject>
-#include <QWindow>
-#include <QtGlobal>
-#include <stdbool.h>
+#include <qobject.h>
+#include <qobjectdefs.h>
+#include <qstring.h>
+#include <qwindowdefs.h>
 
 namespace Utils {
 Q_NAMESPACE

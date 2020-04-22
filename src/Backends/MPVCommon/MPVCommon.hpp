@@ -1,9 +1,14 @@
 #ifndef MPVCommon_H
 #define MPVCommon_H
 
-#include <QString>
-#include "src/backendinterface.hpp"
 #include <mpv/client.h>
+#include <qmetatype.h>
+#include <qstring.h>
+#include <qvariant.h>
+#include "src/enums.hpp"
+class BackendInterface;
+class QMetaMethod;
+
 
 namespace MPVCommon {
 

@@ -1,7 +1,8 @@
 #include "qmldebugger.h"
-
-#include <QMetaObject>
-#include <QMetaProperty>
+#include <qhash.h>
+#include <qmetaobject.h>
+#include <qquickitem.h>
+#include <qvariant.h>
 
 QString
 QMLDebugger::properties(QQuickItem* item, bool linebreak)

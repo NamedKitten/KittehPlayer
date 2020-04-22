@@ -1,9 +1,22 @@
-#include "logger.h"
-
-#include <QObject>
-#include <QSettings>
-#include <QString>
-#include <iostream>
+#include <qbytearray.h>
+#include <qsettings.h>
+#include <qstring.h>
+#include <qvariant.h>
+#include <spdlog/logger.h>
+#include <iterator>
+#include <vector>
+#include <iosfwd> // IWYU pragma: keep
+#include <memory> // IWYU pragma: keep
+#include <spdlog/spdlog.h> // IWYU pragma: export
+#include <spdlog/sinks/basic_file_sink.h> // IWYU pragma: export
+#include <spdlog/sinks/daily_file_sink.h> // IWYU pragma: export 
+#include <spdlog/sinks/stdout_color_sinks.h> // IWYU pragma: export
+#include "spdlog/common.h"
+#include "spdlog/details/file_helper-inl.h"
+#include "spdlog/sinks/ansicolor_sink-inl.h"
+#include "spdlog/sinks/base_sink-inl.h"
+#include "spdlog/sinks/basic_file_sink-inl.h"
+#include "spdlog/spdlog-inl.h"
 
 std::shared_ptr<spdlog::logger>
 initLogger(std::string name)

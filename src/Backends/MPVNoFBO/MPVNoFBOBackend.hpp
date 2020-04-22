@@ -3,16 +3,20 @@
 
 #include <mpv/client.h>
 #include <mpv/opengl_cb.h>
-#include <mpv/qthelper.hpp>
-
-#include <QObject>
-#include <QOpenGLContext>
-#include <QQuickFramebufferObject>
-#include <QSettings>
-#include <QWidget>
-
+#include <qevent.h> // IWYU pragma: keep
+#include <qmetatype.h>
+#include <qobject.h>
+#include <qobjectdefs.h>
+#include <qquickitem.h>
+#include <qquickwindow.h> // IWYU pragma: keep
+#include <qsettings.h>
+#include <qsize.h>
+#include <qstring.h>
+#include <qvariant.h>
 #include "src/backendinterface.hpp"
 #include "src/enums.hpp"
+
+class QEvent; // IWYU pragma: keep
 
 class MPVNoFBORenderer : public QObject
 {
@@ -85,7 +89,6 @@ public slots:
   // Just used for adding missing audio devices to list.
   QVariantMap getAudioDevices(const QVariant& drivers) const;
 
-  
   bool event(QEvent* event);
 
 signals:

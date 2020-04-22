@@ -1,5 +1,8 @@
-#include <QProcess>
-#include <QVariant>
+#include <qmetatype.h>
+#include <qobjectdefs.h>
+#include <qprocess.h>
+#include <qstring.h>
+class QObject;
 
 class Process : public QProcess
 {

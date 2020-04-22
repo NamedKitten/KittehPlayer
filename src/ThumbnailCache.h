@@ -1,15 +1,8 @@
-#include <QApplication>
-#include <QGuiApplication>
-#include <QJsonDocument>
-#include <QNetworkAccessManager>
-#include <QObject>
-#include <QProcessEnvironment>
-#include <QQmlApplicationEngine>
-#include <QSequentialIterable>
-#include <QString>
-#include <QVariant>
-#include <QtCore>
-#include <QtNetwork>
+#include <qdir.h>
+#include <qobject.h>
+#include <qobjectdefs.h>
+#include <qstring.h>
+class QNetworkAccessManager;
 
 class ThumbnailCache : public QObject
 {

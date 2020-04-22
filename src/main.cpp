@@ -1,28 +1,34 @@
-#include "logger.h"
+#include <QtCore/qglobal.h>
+#include <locale.h>
+#include <qapplication.h>
+#include <qbytearray.h>
+#include <qmetatype.h>
+#include <qprocess.h>
+#include <qqml.h>
+#include <qqmlapplicationengine.h>
+#include <qsettings.h>
+#include <qstring.h>
+#include <qstringliteral.h>
+#include <qurl.h>
+#include <qvariant.h>
+#include <spdlog/fmt/fmt.h>
+#include <cstdlib>
+#include <exception>
+#include <iosfwd>
+#include <memory>
 #include "Backends/MPV/MPVBackend.hpp"
 #include "Backends/MPVNoFBO/MPVNoFBOBackend.hpp"
-
-
-#include "enums.hpp"
-#include "qmldebugger.h"
-#include "utils.hpp"
-#include <cstdlib>
-
 #include "Process.h"
+#include "ThumbnailCache.h"
 #include "enums.hpp"
-#include <QApplication>
-#include <QProcessEnvironment>
-#include <QQmlApplicationEngine>
-#include <QtConcurrent>
-#include <QtCore>
-#include <QtQml>
-#include <stdbool.h>
+#include "logger.h"
+#include "qmldebugger.h"
+#include "spdlog/logger.h"
+#include "utils.hpp"
+
 #ifdef WIN32
 #include "setenv_mingw.hpp"
 #endif
-
-#include "ThumbnailCache.h"
-
 #ifdef __linux__
 #include <initializer_list>
 #include <signal.h>

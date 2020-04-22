@@ -1,9 +1,24 @@
 #include "src/Backends/MPVCommon/MPVCommon.hpp"
-#include "src/utils.hpp"
-#include <QSettings>
-#include <mpv/qthelper.hpp>
+#include <qbytearray.h>
+#include <qcbormap.h> // IWYU pragma: keep
+#include <qcoreapplication.h>
+#include <qglobal.h>
+#include <qjsonarray.h> // IWYU pragma: keep
+#include <qjsonobject.h> // IWYU pragma: keep
+#include <qlist.h>
+#include <qlocale.h>
+#include <qmap.h>
+#include <qmetaobject.h>
+#include <qobjectdefs.h>
+#include <qsettings.h>
+#include <spdlog/fmt/fmt.h>
+#include <string.h>
+#include <exception>
+#include <memory>
+#include "spdlog/logger.h"
+#include "src/backendinterface.hpp"
 #include "src/logger.h"
-
+#include "src/utils.hpp"
 
 auto mpvLogger = initLogger("mpv");
 

@@ -1,20 +1,22 @@
-#include <clocale>
-#include <stdbool.h>
-#include <stdexcept>
-
 #include "src/Backends/MPVNoFBO/MPVNoFBOBackend.hpp"
-
-#include "src/utils.hpp"
-#include <QApplication>
-#include <QMainWindow>
-#include <QOpenGLContext>
-#include <QOpenGLFramebufferObject>
-#include <QQuickWindow>
-
-#include <QSequentialIterable>
-#include <math.h>
-
+#include <QtCore/qglobal.h>
+#include <qapplication.h>
+#include <qbytearray.h>
+#include <qcoreapplication.h>
+#include <qcoreevent.h>
+#include <qdebug.h>
+#include <qicon.h>
+#include <qmetaobject.h>
+#include <qnamespace.h>
+#include <qopenglcontext.h>
+#include <qquickwindow.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <clocale>
+#include <mpv/qthelper.hpp>
+#include <stdexcept>
 #include "src/Backends/MPVCommon/MPVCommon.hpp"
+#include "src/utils.hpp"
 
 
 void

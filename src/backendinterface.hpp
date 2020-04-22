@@ -1,12 +1,7 @@
-#include <QObject>
-#include <QOpenGLContext>
-#include <QQuickFramebufferObject>
-
-#include "enums.hpp"
-
 #ifndef BackendInterface_H
 #define BackendInterface_H
-
+#include <QObject>
+#include "enums.hpp"
 class BackendInterface
 {
 public:

@@ -3,19 +3,18 @@
 
 #include <mpv/client.h>
 #include <mpv/opengl_cb.h>
-#include <mpv/qthelper.hpp>
-#include <mpv/render_gl.h>
-
-#include <QObject>
-#include <QOpenGLContext>
-#include <QQuickFramebufferObject>
-#include <QSettings>
-
+#include <mpv/render.h>
+#include <qmetatype.h>
+#include <qobjectdefs.h>
+#include <qquickframebufferobject.h>
+#include <qsettings.h>
+#include <qstring.h>
+#include <qvariant.h>
 #include "src/backendinterface.hpp"
 #include "src/enums.hpp"
-#include "src/utils.hpp"
-
-class MpvRenderer;
+class QEvent;
+class QObject;
+class QQuickItem;
 
 class MPVBackend
   : public QQuickFramebufferObject

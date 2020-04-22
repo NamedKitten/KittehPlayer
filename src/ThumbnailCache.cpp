@@ -1,6 +1,16 @@
 #include "ThumbnailCache.h"
-#include <QCryptographicHash>
-#include <QImageReader>
+#include <qbuffer.h>
+#include <qbytearray.h>
+#include <qcryptographichash.h>
+#include <qfileinfo.h>
+#include <qimage.h>
+#include <qimagereader.h>
+#include <qiodevice.h>
+#include <qnetworkaccessmanager.h>
+#include <qnetworkreply.h>
+#include <qnetworkrequest.h>
+#include <qstandardpaths.h>
+#include <qurl.h>
 
 ThumbnailCache::ThumbnailCache(QObject* parent)
   : QObject(parent)

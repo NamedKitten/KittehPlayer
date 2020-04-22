@@ -1,24 +1,39 @@
 #include "src/Backends/MPV/MPVBackend.hpp"
-#include "src/utils.hpp"
-#include <QApplication>
-#include <QElapsedTimer>
-#include <QOpenGLContext>
-#include <QOpenGLFramebufferObject>
-#include <QQuickWindow>
-#include <QSequentialIterable>
+#include <QtCore/qglobal.h>
+#include <mpv/render_gl.h>
+#include <qbytearray.h>
+#include <qcoreapplication.h>
+#include <qguiapplication.h> // IWYU pragma: keep
+#include <qcoreevent.h>
+#include <qdebug.h>
+#include <qicon.h>
+#include <qmetaobject.h>
+#include <qnamespace.h>
+#include <qobject.h>
+#include <qopenglcontext.h>
+#include <qopenglframebufferobject.h>
+#include <qquickwindow.h>
+#include <stdio.h>
 #include <clocale>
 #include <iostream>
-#include <math.h>
-#include <stdbool.h>
+#include <mpv/qthelper.hpp>
 #include <stdexcept>
-
-#include <QX11Info>
-#include <QtX11Extras/QX11Info>
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
-#include <qpa/qplatformnativeinterface.h>
-
 #include "src/Backends/MPVCommon/MPVCommon.hpp"
+#include "src/utils.hpp"
+class QQuickItem;
+class QSize;
+
+#if defined(__linux__) || defined(__FreeBSD__)
+#ifdef ENABLE_X11
+#include <QX11Info> // IWYU pragma: keep
+#include <QtX11Extras/QX11Info> // IWYU pragma: keep
+#include <qx11info_x11.h> // IWYU pragma: keep
+#include <X11/Xlib.h> // IWYU pragma: keep
+#include <X11/Xutil.h> // IWYU pragma: keep
+#endif
+#include <qpa/qplatformnativeinterface.h> // IWYU pragma: keep
+#endif
+
 
 
 bool usedirect = false;
@@ -84,11 +99,14 @@ public:
         { MPV_RENDER_PARAM_INVALID, nullptr },
         { MPV_RENDER_PARAM_INVALID, nullptr }
       };
-#if defined(__linux__) || defined(__FREEBSD__)
+#if defined(__linux__) || defined(__FreeBSD__)
+#ifdef ENABLE_X11
       if (QGuiApplication::platformName().contains("xcb")) {
         params[2].type = MPV_RENDER_PARAM_X11_DISPLAY;
         params[2].data = QX11Info::display();
-      } else if (QGuiApplication::platformName().contains("wayland")) {
+      } 
+#endif
+      if (QGuiApplication::platformName().contains("wayland")) {
         params[2].type = MPV_RENDER_PARAM_WL_DISPLAY;
         auto *native = QGuiApplication::platformNativeInterface();
         params[2].data = native->nativeResourceForWindow("display", NULL);

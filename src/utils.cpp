@@ -1,25 +1,19 @@
 #include "utils.hpp"
+#include <qapplication.h>
+#include <qcoreapplication.h>
+#include <qguiapplication.h>
+#include <qprocess.h>
+#include <qstringlist.h>
+#include <memory>
 #include "logger.h"
+#include "spdlog/logger.h"
 
-#include <stdbool.h>
-
-#include <QApplication>
-#include <QGuiApplication>
-#include <QJsonDocument>
-#include <QProcessEnvironment>
-#include <QQmlApplicationEngine>
-#include <QSequentialIterable>
-#include <QString>
-#include <QVariant>
-#include <QtCore>
-#include <QtNetwork>
-
-#if defined(__linux__) || defined(__FreeBSD__)
-#ifdef ENABLE_X11
-#include <QX11Info>
-#include <X11/Xlib.h>
-#include <X11/Xutil.h>
-#endif
+#if (defined(__linux__) || defined(__FreeBSD__)) && ENABLE_X11
+#include <X11/X.h> // IWYU pragma: keep
+#include <X11/Xlib.h> // IWYU pragma: keep
+#include <X11/Xutil.h> // IWYU pragma: keep
+#include <qx11info_x11.h> // IWYU pragma: keep
+#include <QX11Info> // IWYU pragma: keep
 #endif
 
 auto utilsLogger = initLogger("utils");
@@ -112,8 +106,7 @@ SetDPMS(bool on)
 void
 AlwaysOnTop(WId wid, bool on)
 {
-#if defined(__linux__) || defined(__FreeBSD__)
-#ifdef ENABLE_X11
+#if (defined(__linux__) || defined(__FreeBSD__)) && ENABLE_X11
   Display* display = QX11Info::display();
   XEvent event;
   event.xclient.type = ClientMessage;
@@ -135,7 +128,6 @@ AlwaysOnTop(WId wid, bool on)
              False,
              SubstructureRedirectMask | SubstructureNotifyMask,
              &event);
-#endif
 #else
   utilsLogger->error("Can't set on top for platform: {}",
                      getPlatformName().toUtf8().constData());

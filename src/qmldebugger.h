@@ -1,8 +1,10 @@
 #ifndef QMLDEBUGGER_H
 #define QMLDEBUGGER_H
 
-#include <QObject>
-#include <QQuickItem>
+#include <qobject.h>
+#include <qobjectdefs.h>
+#include <qstring.h>
+class QQuickItem;
 
 class QMLDebugger : public QObject
 {
