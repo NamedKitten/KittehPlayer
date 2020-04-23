@@ -117,6 +117,11 @@ main(int argc, char* argv[])
     if (fread(buf, 1, sizeof (buf), fd) > 0)
       launcherLogger->info("Running on sunxi, switching to NoFBO.");
       settings.setValue("Backend/fbo", false);
+      settings.setValue("Appearance/clickToPause", false);
+      settings.setValue("Appearance/doubleTapToSeek", true);
+      settings.setValue("Appearance/scaleFactor", 2.2);
+      settings.setValue("Appearance/subtitlesFontSize", 38);
+      settings.setValue("Appearance/uiFadeTimer", 2000);
   }
 
 #endif

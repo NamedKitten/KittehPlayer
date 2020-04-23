@@ -66,15 +66,16 @@ Window {
         id: appearance
         category: "Appearance"
         property bool titleOnlyOnFullscreen: true
-        property bool clickToPause: true
+        property bool clickToPause: false
         property bool useMpvSubs: false
         property string themeName: "YouTube"
         property string fontName: "Roboto"
         property double scaleFactor: 1.0
-        property int subtitlesFontSize: 18
+        property int subtitlesFontSize: 24
         property int uiFadeTimer: 1000
-        property bool doubleTapToSeek: false
+        property bool doubleTapToSeek: true
         property double doubleTapToSeekBy: 5
+        // Can fix some screen tearing on some devices.
         property bool maximizeInsteadOfFullscreen: false
     }
 
