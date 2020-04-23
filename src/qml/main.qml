@@ -311,9 +311,9 @@ Window {
             property real velocity: 0.0
             property int xStart: 0
             property int xPrev: 0
-            property bool tracing: false
             hoverEnabled: false
             propagateComposedEvents: true
+            anchors.bottomMargin: controlsBar.combinedHeight 
             z: 1010
             onPressed: {
                 xStart = mouse.x
