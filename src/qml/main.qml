@@ -26,8 +26,8 @@ Window {
 
     Item {
         id: globalConnections
-        signal showUI()
-        signal hideUI()
+        signal showUI
+        signal hideUI
     }
 
     function getAppearanceValueForTheme(themeName, name) {
@@ -305,37 +305,36 @@ Window {
     }
 
     MouseArea {
-            anchors.fill: parent
-            width: parent.width
-            height: parent.height
-            property real velocity: 0.0
-            property int xStart: 0
-            property int xPrev: 0
-            hoverEnabled: false
-            propagateComposedEvents: true
-            anchors.bottomMargin: controlsBar.combinedHeight 
-            z: 1010
-            onPressed: {
-                xStart = mouse.x
-                xPrev = mouse.x
-                velocity = 0
+        anchors.fill: parent
+        width: parent.width
+        height: parent.height
+        property real velocity: 0.0
+        property int xStart: 0
+        property int xPrev: 0
+        hoverEnabled: false
+        propagateComposedEvents: true
+        anchors.bottomMargin: controlsBar.combinedHeight
+        z: 1010
+        onPressed: {
+            xStart = mouse.x
+            xPrev = mouse.x
+            velocity = 0
+        }
+        onPositionChanged: {
+            var currVel = (mouse.x - xPrev)
+            velocity = (velocity + currVel) / 2.0
+            xPrev = mouse.x
+        }
+        onReleased: {
+            if (velocity > 2 && mouse.x > parent.width * 0.2) {
+                appearance.scaleFactor += 0.2
+            } else if (velocity < -2 && mouse.x > parent.width * 0.2) {
+                appearance.scaleFactor -= 0.2
+            } else {
+                console.info(velocity, mouse.x)
             }
-            onPositionChanged: {
-                var currVel = (mouse.x-xPrev)
-                velocity = (velocity + currVel)/2.0
-                xPrev = mouse.x
-            }
-            onReleased: {
-                if ( velocity > 2 && mouse.x > parent.width*0.2 ) {
-                    appearance.scaleFactor += 0.2
-                } else if ( velocity < -2  && mouse.x > parent.width*0.2 ) {
-                    appearance.scaleFactor -= 0.2
-                } else {
-                    console.info(velocity, mouse.x)
-                }
-            }
+        }
     }
-    
 
     Item {
         id: controlsOverlay
@@ -345,16 +344,15 @@ Window {
         property bool controlsShowing: true
         z: 2
 
-    Connections {
-        target: globalConnections
-        onHideUI: function() {
-            mouseAreaPlayer.cursorShape = Qt.BlankCursor
+        Connections {
+            target: globalConnections
+            onHideUI: function () {
+                mouseAreaPlayer.cursorShape = Qt.BlankCursor
+            }
+            onShowUI: {
+                mouseAreaPlayer.cursorShape = Qt.ArrowCursor
+            }
         }
-        onShowUI: {
-            mouseAreaPlayer.cursorShape = Qt.ArrowCursor
-        }
-    }
-
 
         MouseArea {
             id: mouseAreaBar
@@ -384,32 +382,32 @@ Window {
             hoverEnabled: true
             propagateComposedEvents: true
 
-
-            Timer{
+            Timer {
                 id: mouseTapTimer
                 interval: 200
                 onTriggered: {
                     if (appearance.clickToPause) {
                         player.playerCommand(Enums.Commands.TogglePlayPause)
-                    }                
+                    }
                 }
             }
 
             function doubleMouseClick(mouse) {
                 if (appearance.doubleTapToSeek) {
                     if (mouse.x > (mouseAreaPlayer.width / 2)) {
-                        player.playerCommand(Enums.Commands.Seek, String(appearance.doubleTapToSeekBy))
+                        player.playerCommand(Enums.Commands.Seek, String(
+                                                 appearance.doubleTapToSeekBy))
                     } else {
-                        player.playerCommand(Enums.Commands.Seek,"-" + String(appearance.doubleTapToSeekBy))
+                        player.playerCommand(Enums.Commands.Seek, "-" + String(
+                                                 appearance.doubleTapToSeekBy))
                     }
                 } else {
                     toggleFullscreen()
                 }
             }
 
-
-            onClicked: function(mouse) {
-               if(mouseTapTimer.running) {
+            onClicked: function (mouse) {
+                if (mouseTapTimer.running) {
                     doubleMouseClick(mouse)
                     mouseTapTimer.stop()
                 } else {

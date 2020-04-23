@@ -98,7 +98,6 @@ Slider {
         onEntered: timestampBox.visible = true
         onExited: timestampBox.visible = false
 
-
         onPositionChanged: {
             var a = (progressBar.to / progressBar.availableWidth)
                     * (mouseAreaProgressBar.mapToItem(
@@ -111,7 +110,7 @@ Slider {
 
     background: Rectangle {
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: progressBar.center ? (progressBar.height / 2)  - (height / 2) : 0
+        anchors.bottomMargin: progressBar.center ? (progressBar.height / 2) - (height / 2) : 0
         id: progressBackground
         z: 30
         width: progressBar.availableWidth
@@ -179,7 +178,8 @@ Slider {
         id: handleRect
         x: progressBar.visualPosition * (progressBar.availableWidth - width)
         anchors.bottom: parent.bottom
-        anchors.bottomMargin: progressBar.center ? (progressBar.height / 2)  - (height / 2) : -height / 4
+        anchors.bottomMargin: progressBar.center ? (progressBar.height / 2)
+                                                   - (height / 2) : -height / 4
         implicitHeight: radius
         implicitWidth: radius
         radius: mainWindow.virtualHeight / 59

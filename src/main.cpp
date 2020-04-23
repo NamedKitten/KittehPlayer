@@ -89,7 +89,6 @@ spdLogger(QtMsgType type, const QMessageLogContext& context, const QString& msg)
 int
 main(int argc, char* argv[])
 {
-
   qInstallMessageHandler(spdLogger);
 
   auto launcherLogger = initLogger("launcher");
@@ -102,12 +101,26 @@ main(int argc, char* argv[])
   app.setOrganizationDomain("namedkitten.pw");
   app.setApplicationName("KittehPlayer");
 
-#ifdef __linux__
-  catchUnixSignals({ SIGQUIT, SIGINT, SIGTERM, SIGHUP });
-#endif
-
   QSettings settings;
   Utils::SetDPMS(false);
+
+#ifdef __linux__
+  catchUnixSignals({ SIGQUIT, SIGINT, SIGTERM, SIGHUP }); 
+
+  // WARNING, THIS IS A BIG HACK
+  // this is only to make it so KittehPlayer works first try on pinephone.
+  // TODO: launch a opengl window or use offscreen to see if GL_ARB_framebuffer_object
+  // can be found
+  if (! settings.value("Backend/disableSunxiCheck", false).toBool()) {
+    FILE *fd = popen("grep sunxi /proc/modules", "r");
+    char buf[16];
+    if (fread(buf, 1, sizeof (buf), fd) > 0)
+      launcherLogger->info("Running on sunxi, switching to NoFBO.");
+      settings.setValue("Backend/fbo", false);
+  }
+
+#endif
+
 
   QString newpath =
     QProcessEnvironment::systemEnvironment().value("APPDIR", "") +

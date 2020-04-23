@@ -21,14 +21,13 @@ Item {
 
     Connections {
         target: globalConnections
-        onHideUI: function(force) {
-            controlsBarItem.controlsShowing=false
+        onHideUI: function (force) {
+            controlsBarItem.controlsShowing = false
         }
         onShowUI: {
-            controlsBarItem.controlsShowing=true
+            controlsBarItem.controlsShowing = true
         }
     }
-
 
     Component.onCompleted: {
         setControlsTheme(appearance.themeName)
@@ -115,16 +114,17 @@ Item {
         }
     }
 
-        VideoProgress {
-            id: progressBar
-            visible: controlsBarItem.controlsShowing && (appearance.themeName == "RoosterTeeth" ? false : true)
-            anchors.bottom: controlsBackground.top
-            anchors.left: controlsBackground.left
-            anchors.right: controlsBackground.right
-            anchors.bottomMargin: 0
-            bottomPadding: 0
-            z: 20
-        }
+    VideoProgress {
+        id: progressBar
+        visible: controlsBarItem.controlsShowing
+                 && (appearance.themeName == "RoosterTeeth" ? false : true)
+        anchors.bottom: controlsBackground.top
+        anchors.left: controlsBackground.left
+        anchors.right: controlsBackground.right
+        anchors.bottomMargin: 0
+        bottomPadding: 0
+        z: 20
+    }
 
     Rectangle {
         id: controlsBackground
