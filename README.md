@@ -16,6 +16,8 @@ A video player based on Qt, QML and libmpv with themes for many online video pla
 - NicoNico ![NicoNico Screenshot](https://raw.githubusercontent.com/NamedKitten/KittehPlayer/master/screenshots/NicoNico.png)
 - RoosterTeeth ![RoosterTeeth Screenshot](https://raw.githubusercontent.com/NamedKitten/KittehPlayer/master/screenshots/RoosterTeeth.png)
 
+## FOR PINEPHONE USERS
+- If you use a pinephone, you'll need config from the gist linked at very bottom.
 
 
 ## How to install
@@ -23,10 +25,7 @@ A video player based on Qt, QML and libmpv with themes for many online video pla
 - Coming Soon:tm:
 
 ### Distro Packages
-- Arch Linux: `kittehplayer` in the AUR
-
-### Linux AppImage
-- Discontinued for now.
+- None right now, if you want to then pop me a message on somewhere linked on [My Website](https://kitteh.pw/) and I'll be happy to help if stuff goes wrong.
 
 ### From source
 #### Dependencies
@@ -41,6 +40,12 @@ sudo apt update
 sudo apt install build-essential git nasm qt511-meta-minimal qt511quickcontrols qt511quickcontrols2 qt511imageformats qt511svg libgl1-mesa-dev libmpv-dev
 sudo apt-get build-dep mpv libmpv* ffmpeg
 ```
+##### Debian
+```
+sudo apt install build-essential cmake qtquickcontrols2-5-dev qtbase5-dev qtdeclarative5-dev libqt5x11extras5-dev libmpv-dev qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-extras qml-module-qtquick-layouts qml-module-qtquick-dialogs qml-module-qtquick-privatewidgets qml-module-qtquick-localstorage qml-module-qt-labs-settings qml-module-qt-labs-platform qtbase5-private libqt5svg5
+```
+- Note that I don't know if this is the full list yet, pop a issue up if building fails.
+
 #### Instructions 
 - `git clone https://github.com/NamedKitten/KittehPlayer KittehPlayer`
 - `cd KittehPlayer`
@@ -52,3 +57,4 @@ sudo apt-get build-dep mpv libmpv* ffmpeg
 
 ## Configuration
 - For docs on KittehPlayer please view DOCS.md or `man KittehPlayer`
+- For pinephone users or people with no opengl fbo support, see [Here](https://gist.github.com/NamedKitten/675ca8587a8f714a856c6d6d14a9562a) here for my pinephone config. 

@@ -174,10 +174,6 @@ MenuBar {
             onTriggered: Qt.quit()
             shortcut: keybinds.quit
         }
-        Action {
-            text: translate.getTranslation("UPDATE", i18n.language)
-            onTriggered: utils.updateAppImage()
-        }
     }
 
     CustomMenu {
