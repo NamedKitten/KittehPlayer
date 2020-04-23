@@ -13,7 +13,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <clocale>
-#include <mpv/qthelper.hpp>
+#include "src/qthelper.hpp"
 #include <stdexcept>
 #include "src/Backends/MPVCommon/MPVCommon.hpp"
 #include "src/utils.hpp"

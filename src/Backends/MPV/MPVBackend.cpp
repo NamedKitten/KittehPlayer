@@ -16,7 +16,7 @@
 #include <stdio.h>
 #include <clocale>
 #include <iostream>
-#include <mpv/qthelper.hpp>
+#include "src/qthelper.hpp"
 #include <stdexcept>
 #include "src/Backends/MPVCommon/MPVCommon.hpp"
 #include "src/utils.hpp"
