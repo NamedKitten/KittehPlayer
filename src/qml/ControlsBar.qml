@@ -14,7 +14,7 @@ Item {
     anchors.right: parent.right
 
     property var background: controlsBackground
-    property var progress: progressBar
+    property var combinedHeight: progressBar.height + controlsBackground.height
     property var controls: controlsBar
     property var duration: progressBar.to
     property bool controlsShowing: true

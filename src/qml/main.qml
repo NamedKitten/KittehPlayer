@@ -304,6 +304,39 @@ Window {
         }
     }
 
+    MouseArea {
+            anchors.fill: parent
+            width: parent.width
+            height: parent.height
+            property real velocity: 0.0
+            property int xStart: 0
+            property int xPrev: 0
+            property bool tracing: false
+            hoverEnabled: false
+            propagateComposedEvents: true
+            z: 1010
+            onPressed: {
+                xStart = mouse.x
+                xPrev = mouse.x
+                velocity = 0
+            }
+            onPositionChanged: {
+                var currVel = (mouse.x-xPrev)
+                velocity = (velocity + currVel)/2.0
+                xPrev = mouse.x
+            }
+            onReleased: {
+                if ( velocity > 2 && mouse.x > parent.width*0.2 ) {
+                    appearance.scaleFactor += 0.2
+                } else if ( velocity < -2  && mouse.x > parent.width*0.2 ) {
+                    appearance.scaleFactor -= 0.2
+                } else {
+                    console.info(velocity, mouse.x)
+                }
+            }
+    }
+    
+
     Item {
         id: controlsOverlay
         anchors.centerIn: player
@@ -326,7 +359,7 @@ Window {
         MouseArea {
             id: mouseAreaBar
             width: parent.width
-            height: (controlsBar.controls.height * 2) + controlsBar.progress.height
+            height: controlsBar.combinedHeight
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 0
             hoverEnabled: true
