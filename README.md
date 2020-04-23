@@ -17,7 +17,7 @@ A video player based on Qt, QML and libmpv with themes for many online video pla
 - RoosterTeeth ![RoosterTeeth Screenshot](https://raw.githubusercontent.com/NamedKitten/KittehPlayer/master/screenshots/RoosterTeeth.png)
 
 ## FOR PINEPHONE USERS
-- If you use a pinephone, you'll need config from the gist linked at very bottom.
+- If you use a pinephone, you MIGHT need config from the gist linked at very bottom.
 
 
 ## How to install
@@ -57,4 +57,4 @@ sudo apt install build-essential cmake qtquickcontrols2-5-dev qtbase5-dev qtdecl
 
 ## Configuration
 - For docs on KittehPlayer please view DOCS.md or `man KittehPlayer`
-- For pinephone users or people with no opengl fbo support, see [Here](https://gist.github.com/NamedKitten/675ca8587a8f714a856c6d6d14a9562a) here for my pinephone config. 
+- If you get a white screen when trying to play a video see [Here](https://gist.github.com/NamedKitten/675ca8587a8f714a856c6d6d14a9562a) for a config that may work.
