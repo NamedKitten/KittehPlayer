@@ -84,22 +84,6 @@ MenuBar {
     }
 
     LabsPlatform.FileDialog {
-        id: screenshotSaveDialog
-        title: translate.getTranslation("SAVE_SCREENSHOT", i18n.language)
-        fileMode: LabsPlatform.FileDialog.SaveFile
-        defaultSuffix: "png"
-        nameFilters: ["Images (*.png)", "All files (*)"]
-        onAccepted: {
-            player.grabToImage(function (result) {
-                var filepath = String(screenshotSaveDialog.file).replace(
-                            "file://", '')
-                result.saveToFile(filepath)
-                subtitlesBar.visible = appearance.useMpvSubs ? false : true
-            })
-        }
-    }
-
-    LabsPlatform.FileDialog {
         id: fileDialog
         title: translate.getTranslation("OPEN_FILE", i18n.language)
         nameFilters: ["All files (*)"]
@@ -184,31 +168,6 @@ MenuBar {
             text: translate.getTranslation("OPEN_URL", i18n.language)
             onTriggered: loadDialog.open()
             shortcut: keybinds.openURI
-        }
-        Action {
-            text: translate.getTranslation("SCREENSHOT", i18n.language)
-            onTriggered: {
-                player.hideControls(true)
-                screenshotSaveDialog.open()
-            }
-            shortcut: keybinds.screenshot
-        }
-        Action {
-            text: translate.getTranslation("SCREENSHOT_WITHOUT_SUBTITLES",
-                                           i18n.language)
-            onTriggered: {
-                player.hideControls(true)
-                subtitlesBar.visible = false
-                screenshotSaveDialog.open()
-            }
-            shortcut: keybinds.screenshotWithoutSubtitles
-        }
-        Action {
-            text: translate.getTranslation("FULL_SCREENSHOT", i18n.language)
-            onTriggered: {
-                screenshotSaveDialog.open()
-            }
-            shortcut: keybinds.fullScreenshot
         }
         Action {
             text: translate.getTranslation("EXIT", i18n.language)

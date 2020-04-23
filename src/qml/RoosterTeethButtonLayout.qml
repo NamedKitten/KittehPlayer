@@ -75,11 +75,14 @@ Item {
         id: videoProgressRoosterTeeth
         anchors.left: timeLabel.right
         anchors.right: speedText.left
+        anchors.leftMargin: parent.width / 128
+        anchors.rightMargin: parent.width / 128
         anchors.top: parent.top
         anchors.bottom: parent.bottom
         height: parent.height
         to: progressBar.to
         value: progressBar.value
+        center: true
     }
 
     SpeedText {

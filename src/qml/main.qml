@@ -11,7 +11,7 @@ import "codes.js" as LanguageCodes
 
 Window {
     id: mainWindow
-    title: titleLabel.text
+    title: "KittehPlayer"
     visible: true
     width: 720
     height: 480
@@ -22,6 +22,12 @@ Window {
 
     QMLDebugger {
         id: qmlDebugger
+    }
+
+    Item {
+        id: globalConnections
+        signal showUI()
+        signal hideUI()
     }
 
     function getAppearanceValueForTheme(themeName, name) {
@@ -306,23 +312,19 @@ Window {
         property bool controlsShowing: true
         z: 2
 
-        function hideControls(force) {
-            if (!menuBar.anythingOpen() || force) {
-                controlsShowing = false
-                mouseAreaPlayer.cursorShape = Qt.BlankCursor
-            }
+    Connections {
+        target: globalConnections
+        onHideUI: function() {
+            mouseAreaPlayer.cursorShape = Qt.BlankCursor
         }
+        onShowUI: {
+            mouseAreaPlayer.cursorShape = Qt.ArrowCursor
+        }
+    }
 
-        function showControls() {
-            if (!controlsShowing) {
-                controlsShowing = true
-                mouseAreaPlayer.cursorShape = Qt.ArrowCursor
-            }
-        }
 
         MouseArea {
             id: mouseAreaBar
-
             width: parent.width
             height: (controlsBar.controls.height * 2) + controlsBar.progress.height
             anchors.bottom: parent.bottom
@@ -344,9 +346,11 @@ Window {
             anchors.rightMargin: 0
             anchors.left: parent.left
             anchors.leftMargin: 0
-            anchors.top: titleBar.bottom
+            anchors.top: topBar.bottom
             anchors.topMargin: 0
             hoverEnabled: true
+            propagateComposedEvents: true
+
 
             Timer{
                 id: mouseTapTimer
@@ -392,11 +396,11 @@ Window {
                 running: true
                 repeat: false
                 onTriggered: {
-                    controlsOverlay.hideControls()
+                    globalConnections.hideUI()
                 }
             }
             onPositionChanged: {
-                controlsOverlay.showControls()
+                globalConnections.showUI()
                 mouseAreaPlayerTimer.restart()
             }
         }
@@ -404,12 +408,10 @@ Window {
         Timer {
             id: statsUpdater
             interval: 1000
-            running: true
+            running: statsForNerdsText.visible
             repeat: true
             onTriggered: {
-                if (statsForNerdsText.visible) {
-                    statsForNerdsText.text = player.getStats()
-                }
+                statsForNerdsText.text = player.getStats()
             }
         }
 
@@ -435,81 +437,12 @@ Window {
             }
         }
 
-        MainMenu {
-            id: menuBar
-            visible: controlsOverlay.controlsShowing
-        }
-
-        Rectangle {
-            id: titleBar
-            height: menuBar.height
-            anchors.right: parent.right
-            anchors.left: menuBar.right
-            anchors.top: parent.top
-            visible: controlsOverlay.controlsShowing
-
-            color: getAppearanceValueForTheme(appearance.themeName,
-                                              "mainBackground")
-
-            Text {
-                id: titleLabel
-                objectName: "titleLabel"
-                text: translate.getTranslation("TITLE", i18n.language)
-                color: "white"
-                width: parent.width
-                height: parent.height
-                anchors.left: parent.left
-                anchors.leftMargin: 4
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: 4
-                anchors.top: parent.top
-                font.family: appearance.fontName
-                fontSizeMode: Text.VerticalFit
-                font.pixelSize: appearance.scaleFactor
-                                * (height - anchors.topMargin - anchors.bottomMargin - 2)
-                font.bold: true
-                opacity: 1
-                visible: controlsOverlay.controlsShowing
-                         && ((!appearance.titleOnlyOnFullscreen)
-                             || (mainWindow.visibility == Window.FullScreen
-                                 || mainWindow.visibility == Window.Maximized))
-                Connections {
-                    target: player
-                    onTitleChanged: function (title) {
-                        titleLabel.text = title
-                    }
-                }
-            }
+        MenuTitleBar {
+            id: topBar
         }
 
         ControlsBar {
             id: controlsBar
-            Item {
-                id: previewRect
-                z: 80
-                visible: false
-                width: hoverProgressLabel.width
-
-                Rectangle {
-                    anchors.bottom: parent.bottom
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    width: hoverProgressLabel.width
-                    height: hoverProgressLabel.height
-                    z: 100
-                    color: getAppearanceValueForTheme(appearance.themeName,
-                                                      "mainBackground")
-                    Text {
-                        id: hoverProgressLabel
-                        text: "0:00"
-                        color: "white"
-                        font.family: appearance.fontName
-                        font.pixelSize: mainWindow.virtualHeight / 50
-                        horizontalAlignment: Text.AlignHCenter
-                        renderType: Text.NativeRendering
-                    }
-                }
-            }
         }
     }
 }

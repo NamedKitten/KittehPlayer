@@ -17,6 +17,18 @@ Item {
     property var progress: progressBar
     property var controls: controlsBar
     property var duration: progressBar.to
+    property bool controlsShowing: true
+
+    Connections {
+        target: globalConnections
+        onHideUI: function(force) {
+            controlsBarItem.controlsShowing=false
+        }
+        onShowUI: {
+            controlsBarItem.controlsShowing=true
+        }
+    }
+
 
     Component.onCompleted: {
         setControlsTheme(appearance.themeName)
@@ -103,6 +115,17 @@ Item {
         }
     }
 
+        VideoProgress {
+            id: progressBar
+            visible: controlsBarItem.controlsShowing && (appearance.themeName == "RoosterTeeth" ? false : true)
+            anchors.bottom: controlsBackground.top
+            anchors.left: controlsBackground.left
+            anchors.right: controlsBackground.right
+            anchors.bottomMargin: 0
+            bottomPadding: 0
+            z: 20
+        }
+
     Rectangle {
         id: controlsBackground
         height: controlsBar.visible ? controlsBar.height
@@ -115,7 +138,8 @@ Item {
         Layout.fillHeight: true
         color: getAppearanceValueForTheme(appearance.themeName,
                                           "mainBackground")
-        visible: controlsOverlay.controlsShowing
+        visible: controlsBarItem.controlsShowing
+        z: 10
     }
 
     Item {
@@ -127,15 +151,7 @@ Item {
         anchors.leftMargin: parent.width / 128
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 0
-        visible: controlsOverlay.controlsShowing
-        VideoProgress {
-            id: progressBar
-            visible: appearance.themeName == "RoosterTeeth" ? false : true
-            anchors.bottom: parent.top
-            anchors.left: parent.left
-            anchors.right: parent.right
-            anchors.bottomMargin: 0
-            bottomPadding: 0
-        }
+        visible: controlsBarItem.controlsShowing
+        z: 30
     }
 }

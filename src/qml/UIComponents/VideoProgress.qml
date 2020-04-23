@@ -12,8 +12,29 @@ Slider {
     objectName: "progressBar"
     property string currentMediaURL: ""
     property bool playing: false
+    property bool center: false
     to: 1
     value: 0.0
+
+    Rectangle {
+        id: timestampBox
+        visible: false
+        width: hoverProgressLabel.width
+        height: hoverProgressLabel.height
+        z: 100
+        color: getAppearanceValueForTheme(appearance.themeName,
+                                          "mainBackground")
+        Text {
+            id: hoverProgressLabel
+            text: "0:00"
+            color: "white"
+            font.family: appearance.fontName
+            font.pixelSize: mainWindow.virtualHeight / 50
+            horizontalAlignment: Text.AlignHCenter
+            renderType: Text.NativeRendering
+        }
+    }
+
     Connections {
         target: player
         onPlayStatusChanged: function (status) {
@@ -50,6 +71,10 @@ Slider {
         }
     }
     function getHandleVisibility(themeName, isMouse) {
+        if (fun.nyanCat) {
+            return true
+        }
+
         if (appearance.themeName == "Niconico" && isMouse) {
             return true
         } else if (appearance.themeName == "Niconico") {
@@ -65,30 +90,30 @@ Slider {
         anchors.fill: parent
 
         hoverEnabled: true
-        propagateComposedEvents: false
+        propagateComposedEvents: true
         acceptedButtons: Qt.NoButton
         z: 100
         property string currentTime: ""
 
-        onEntered: previewRect.visible = true
-        onExited: previewRect.visible = false
+        onEntered: timestampBox.visible = true
+        onExited: timestampBox.visible = false
+
 
         onPositionChanged: {
             var a = (progressBar.to / progressBar.availableWidth)
                     * (mouseAreaProgressBar.mapToItem(
                            progressBar, mouseAreaProgressBar.mouseX, 0).x - 2)
             hoverProgressLabel.text = utils.createTimestamp(a)
-            previewRect.x = mouseAreaProgressBar.mapToItem(
-                        controlsOverlay, mouseAreaProgressBar.mouseX,
-                        0).x - previewRect.width / 2
-            previewRect.y = progressBackground.y - previewRect.height - controlsBar.height * 2
+            timestampBox.x = mouseAreaProgressBar.mouseX - (timestampBox.width / 2)
+            timestampBox.y = progressBackground.y - timestampBox.height * 2
         }
     }
 
     background: Rectangle {
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: progressBar.center ? (progressBar.height / 2)  - (height / 2) : 0
         id: progressBackground
-        x: progressBar.leftPadding
-        y: progressBar.topPadding + progressBar.availableHeight / 2 - height / 2
+        z: 30
         width: progressBar.availableWidth
         height: progressBar.getProgressBarHeight(
                     fun.nyanCat, mouseAreaProgressBar.containsMouse)
@@ -152,9 +177,9 @@ Slider {
     handle: Rectangle {
         z: 70
         id: handleRect
-        x: progressBar.leftPadding + progressBar.visualPosition
-           * (progressBar.availableWidth - width)
-        y: progressBar.topPadding + progressBar.availableHeight / 2 - height / 2
+        x: progressBar.visualPosition * (progressBar.availableWidth - width)
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: progressBar.center ? (progressBar.height / 2)  - (height / 2) : -height / 4
         implicitHeight: radius
         implicitWidth: radius
         radius: mainWindow.virtualHeight / 59
