@@ -3,6 +3,7 @@
 #include <qcbormap.h> // IWYU pragma: keep
 #include <qcoreapplication.h>
 #include <qglobal.h>
+#include <qjsonvalue.h> // IWYU pragma: keep
 #include <qjsonarray.h> // IWYU pragma: keep
 #include <qjsonobject.h> // IWYU pragma: keep
 #include <qlist.h>
@@ -22,7 +23,7 @@
 
 auto mpvLogger = initLogger("mpv");
 
-static inline QVariant node_to_variant(const mpv_node *node)
+static inline QVariant mpvnode_to_variant(const mpv_node *node)
 {
     if (!node) {
       return QVariant();
@@ -41,7 +42,7 @@ static inline QVariant node_to_variant(const mpv_node *node)
         mpv_node_list *list = node->u.list;
         QVariantList qlist;
         for (int n = 0; n < list->num; n++)
-            qlist.append(node_to_variant(&list->values[n]));
+            qlist.append(mpvnode_to_variant(&list->values[n]));
         return QVariant(qlist);
     }
     case MPV_FORMAT_NODE_MAP: {
@@ -49,7 +50,7 @@ static inline QVariant node_to_variant(const mpv_node *node)
         QVariantMap qmap;
         for (int n = 0; n < list->num; n++) {
             qmap.insert(QString::fromUtf8(list->keys[n]),
-                        node_to_variant(&list->values[n]));
+                        mpvnode_to_variant(&list->values[n]));
         }
         return QVariant(qmap);
     }
@@ -489,7 +490,7 @@ handle_mpv_event(BackendInterface *b, mpv_event* event)
         }
       } else if (strcmp(prop->name, "pause") == 0) {
         mpv_node* nod = (mpv_node*)prop->data;
-        if (node_to_variant(nod).toBool()) {
+        if (mpvnode_to_variant(nod).toBool()) {
           emit b->playStatusChanged(Enums::PlayStatus::Paused);
           // Utils::SetScreensaver(window()->winId(), true);
         } else {
@@ -498,16 +499,16 @@ handle_mpv_event(BackendInterface *b, mpv_event* event)
         }
       } else if (strcmp(prop->name, "track-list") == 0) {
         mpv_node* nod = (mpv_node*)prop->data;
-        emit b->tracksChanged(node_to_variant(nod).toList());
+        emit b->tracksChanged(mpvnode_to_variant(nod).toList());
       } else if (strcmp(prop->name, "audio-device-list") == 0) {
         mpv_node* nod = (mpv_node*)prop->data;
-        emit b->audioDevicesChanged(b->getAudioDevices(node_to_variant(nod)));
+        emit b->audioDevicesChanged(b->getAudioDevices(mpvnode_to_variant(nod)));
       } else if (strcmp(prop->name, "playlist") == 0) {
         mpv_node* nod = (mpv_node*)prop->data;
-        emit b->playlistChanged(node_to_variant(nod).toList());
+        emit b->playlistChanged(mpvnode_to_variant(nod).toList());
       } else if (strcmp(prop->name, "chapter-list") == 0) {
         mpv_node* nod = (mpv_node*)prop->data;
-        emit b->chaptersChanged(node_to_variant(nod).toList());
+        emit b->chaptersChanged(mpvnode_to_variant(nod).toList());
       } else if (strcmp(prop->name, "speed") == 0) {
         double speed = *(double*)prop->data;
         emit b->speedChanged(speed);

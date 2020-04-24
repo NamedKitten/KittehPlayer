@@ -114,7 +114,7 @@ main(int argc, char* argv[])
   if (! settings.value("Backend/disableSunxiCheck", false).toBool()) {
     FILE *fd = popen("grep sunxi /proc/modules", "r");
     char buf[16];
-    if (fread(buf, 1, sizeof (buf), fd) > 0)
+    if (fread(buf, 1, sizeof (buf), fd) > 0) {
       launcherLogger->info("Running on sunxi, switching to NoFBO.");
       settings.setValue("Backend/fbo", false);
       settings.setValue("Appearance/clickToPause", false);
@@ -122,6 +122,7 @@ main(int argc, char* argv[])
       settings.setValue("Appearance/scaleFactor", 2.2);
       settings.setValue("Appearance/subtitlesFontSize", 38);
       settings.setValue("Appearance/uiFadeTimer", 2000);
+    }
   }
 
 #endif

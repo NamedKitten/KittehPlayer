@@ -474,10 +474,21 @@ MenuBar {
         }
     }
 
+    Item {
+        id: skipToNinthDuration
+        property var duration: 0
+        Connections {
+            target: player
+            onDurationChanged: function (duration) {
+                skipToNinthDuration.duration = duration
+            }
+        }
+    }
+
     function skipToNinth(val) {
         var skipto = 0
         if (val != 0) {
-            skipto = Math.floor(controlsBar.duration / 9 * val)
+            skipto = Math.floor(skipToNinthDuration.duration / 9 * val)
         }
         player.playerCommand(Enums.Commands.SeekAbsolute, skipto)
     }

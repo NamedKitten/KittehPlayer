@@ -31,7 +31,7 @@ A video player based on Qt, QML and libmpv with themes for many online video pla
 #### Dependencies
 ##### Arch Linux
 ```
-pacman -S git cmake qt5-svg qt5-declarative qt5-quickcontrols qt5-quickcontrols2 mpv
+pacman -S git cmake qt5-svg qt5-declarative qt5-quickcontrols qt5-quickcontrols2 qt5-graphicaleffects mpv
 ```
 ##### Ubuntu Xenial 
 ``` 

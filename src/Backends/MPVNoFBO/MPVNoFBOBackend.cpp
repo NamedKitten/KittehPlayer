@@ -20,7 +20,7 @@
 
 
 void
-wakeup(void* ctx)
+nofbowakeup(void* ctx)
 {
   QCoreApplication::postEvent((MPVNoFBOBackend*)ctx, new QEvent(QEvent::User));
 }
@@ -106,7 +106,7 @@ MPVNoFBOBackend::MPVNoFBOBackend(QQuickItem* parent)
   mpv_observe_property(mpv, 0, "pause", MPV_FORMAT_NODE);
   mpv_observe_property(mpv, 0, "playlist", MPV_FORMAT_NODE);
   mpv_observe_property(mpv, 0, "speed", MPV_FORMAT_DOUBLE);
-  mpv_set_wakeup_callback(mpv, wakeup, this);
+  mpv_set_wakeup_callback(mpv, nofbowakeup, this);
 
   if (mpv_initialize(mpv) < 0)
     throw std::runtime_error("could not initialize mpv context");

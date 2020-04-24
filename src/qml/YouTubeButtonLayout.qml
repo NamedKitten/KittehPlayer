@@ -43,14 +43,14 @@ Item {
     MouseArea {
         id: mouseAreaVolumeArea
         anchors.bottom: parent.bottom
-        anchors.left: volumeButton.left
-        anchors.right: volumeSlider.right
         anchors.top: parent.top
-        width: volumeButton.width + (volumeSlider.visible ? volumeSlider.width : 0)
+        anchors.left: volumeSlider.left
+        anchors.right: volumeSlider.right
+        width: volumeSlider.width
         hoverEnabled: true
         propagateComposedEvents: true
         acceptedButtons: Qt.NoButton
-        z: 500
+        z: 100
     }
 
     VolumeButton {
@@ -60,6 +60,7 @@ Item {
         anchors.bottom: parent.bottom
         iconHeight: parent.height / 1.25
         iconWidth: parent.height / 1.25
+        z: 50
     }
     VolumeSlider {
         id: volumeSlider

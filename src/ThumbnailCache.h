@@ -1,3 +1,5 @@
+#ifndef ThumbnailCache_H
+#define ThumbnailCache_H
 #include <qdir.h>
 #include <qobject.h>
 #include <qobjectdefs.h>
@@ -23,3 +25,4 @@ private:
   QNetworkAccessManager* manager;
   QDir cacheFolder;
 };
+#endif

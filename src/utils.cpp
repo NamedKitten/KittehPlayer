@@ -14,6 +14,7 @@
 #include <X11/Xutil.h> // IWYU pragma: keep
 #include <qx11info_x11.h> // IWYU pragma: keep
 #include <QX11Info> // IWYU pragma: keep
+#undef Bool
 #endif
 
 auto utilsLogger = initLogger("utils");
@@ -134,3 +135,4 @@ AlwaysOnTop(WId wid, bool on)
 #endif
 }
 }
+

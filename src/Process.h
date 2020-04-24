@@ -1,3 +1,6 @@
+#ifndef Process_H
+#define Process_H
+
 #include <qmetatype.h>
 #include <qobjectdefs.h>
 #include <qprocess.h>
@@ -15,3 +18,4 @@ public:
 
   Q_INVOKABLE QString getOutput();
 };
+#endif

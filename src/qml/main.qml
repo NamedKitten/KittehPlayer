@@ -75,6 +75,7 @@ Window {
         property int uiFadeTimer: 1000
         property bool doubleTapToSeek: true
         property double doubleTapToSeekBy: 5
+        property bool swipeToResize: true
         // Can fix some screen tearing on some devices.
         property bool maximizeInsteadOfFullscreen: false
     }
@@ -309,6 +310,7 @@ Window {
         anchors.fill: parent
         width: parent.width
         height: parent.height
+        enabled: appearance.swipeToResize
         property real velocity: 0.0
         property int xStart: 0
         property int xPrev: 0
@@ -331,8 +333,6 @@ Window {
                 appearance.scaleFactor += 0.2
             } else if (velocity < -2 && mouse.x > parent.width * 0.2) {
                 appearance.scaleFactor -= 0.2
-            } else {
-                console.info(velocity, mouse.x)
             }
         }
     }
@@ -369,7 +369,7 @@ Window {
 
         MouseArea {
             id: mouseAreaPlayer
-            z: 1000
+            z: 10
             focus: true
             width: parent.width
             anchors.bottom: mouseAreaBar.top

@@ -14,6 +14,8 @@ Control {
     property alias iconHeight: icon.iconHeight
     property alias iconWidth: icon.iconWidth
 
+    property alias containsMouse: mouseArea.containsMouse
+
     background: Item {}
     property bool iconRight: false
 
@@ -32,6 +34,7 @@ Control {
     MouseArea {
         id: mouseArea
         anchors.fill: parent
+        hoverEnabled: true
         propagateComposedEvents: true
         onClicked: root.clicked()
     }
