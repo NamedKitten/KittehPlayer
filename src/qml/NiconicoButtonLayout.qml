@@ -1,10 +1,4 @@
 import QtQuick 2.0
-import QtQuick.Controls 2.3
-import QtQuick.Dialogs 1.3
-import QtQuick.Layouts 1.2
-import QtQuick.Window 2.2
-import Qt.labs.settings 1.0
-import Qt.labs.platform 1.0 as LabsPlatform
 import player 1.0
 
 Item {
@@ -14,79 +8,83 @@ Item {
 
     PlayPauseButton {
         id: playPauseButton
-        anchors.left: parent.left
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        iconHeight: parent.height / 2
-        iconWidth: parent.height / 2
+        anchors {
+            left: parent.left
+            top: parent.top
+            bottom: parent.bottom
+        }
     }
     VolumeButton {
         id: volumeButton
-        anchors.left: playPauseButton.right
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        iconHeight: parent.height / 2
-        iconWidth: parent.height / 2
+        anchors {
+            left: playPauseButton.right
+            top: parent.top
+            bottom: parent.bottom
+        }
     }
     VolumeSlider {
-        anchors.left: volumeButton.right
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
+        anchors {
+            left: volumeButton.right
+            top: parent.top
+            bottom: parent.bottom
+        }
     }
 
     PlaylistPrevButton {
         id: playlistPrevButton
-        anchors.right: backwardButton.left
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        iconHeight: parent.height / 2
-        iconWidth: parent.height / 2
+        anchors {
+            right: backwardButton.left
+            top: parent.top
+            bottom: parent.bottom
+        }
     }
     BackwardButton {
         id: backwardButton
-        anchors.right: timeLabel.left
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        iconHeight: parent.height / 2
-        iconWidth: parent.height / 2
+        anchors {
+            right: timeLabel.left
+            top: parent.top
+            bottom: parent.bottom
+        }
     }
     TimeLabel {
         id: timeLabel
-        anchors.centerIn: parent
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
+        anchors {
+            centerIn: parent
+            top: parent.top
+            bottom: parent.bottom
+        }
     }
     ForwardButton {
         id: forwardButton
-        anchors.left: timeLabel.right
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        iconHeight: parent.height / 2
-        iconWidth: parent.height / 2
+        anchors {
+            left: timeLabel.right
+            top: parent.top
+            bottom: parent.bottom
+        }
     }
     PlaylistNextButton {
         id: playlistNextButton
-        anchors.left: forwardButton.right
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        iconHeight: parent.height / 2
-        iconWidth: parent.height / 2
+        anchors {
+            left: forwardButton.right
+            top: parent.top
+            bottom: parent.bottom
+        }
     }
 
     FullscreenButton {
         id: fullscreenButton
-        anchors.right: settingsButton.left
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        iconHeight: parent.height / 2
-        iconWidth: parent.height / 2
+        anchors {
+            right: settingsButton.left
+            top: parent.top
+            bottom: parent.bottom
+        }
     }
     SettingsButton {
         id: settingsButton
-        anchors.right: parent.right
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        iconHeight: parent.height / 2
-        iconWidth: parent.height / 2
+        anchors {
+            right: parent.right
+            top: parent.top
+            bottom: parent.bottom
+        }
     }
 }

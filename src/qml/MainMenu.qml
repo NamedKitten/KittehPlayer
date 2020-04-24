@@ -34,8 +34,10 @@ MenuBar {
             var menu = trackMenus[a]
             for (var i = 0, len = menu.count; i < len; i++) {
                 var action = menu.actionAt(i)
-                if (action.trackID != "no") {
-                    menu.removeAction(action)
+                if (action) {
+                    if (action.trackID != "no") {
+                        menu.removeAction(action)
+                    }
                 }
             }
         }
@@ -128,9 +130,11 @@ MenuBar {
         contentItem: Text {
             id: menuBarItemText
             text: menuBarItem.text
-            font.family: appearance.fontName
-            font.pixelSize: menuBar.height / 2
-            font.bold: menuBarItem.highlighted
+            font {
+                family: appearance.fontName
+                pixelSize: menuBar.height / 2
+                bold: menuBarItem.highlighted
+            }
             opacity: 1
             color: menuBarItem.highlighted ? "#5a50da" : "white"
             horizontalAlignment: Text.AlignLeft

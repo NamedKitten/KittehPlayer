@@ -8,19 +8,19 @@ MenuItem {
 
     contentItem: Text {
         text: menuItem.text
-
-        font.family: appearance.fontName
-        font.bold: menuItem.highlighted
         opacity: 1
         color: menuItem.highlighted ? "#5a50da" : "white"
         horizontalAlignment: Text.AlignLeft
         verticalAlignment: Text.AlignVCenter
         elide: Text.ElideRight
+        font {
+            family: appearance.fontName
+            bold: menuItem.highlighted
+        }
     }
 
     background: Rectangle {
-        width: parent.width
-        height: parent.height
+        anchors.fill: parent
         opacity: 1
         color: menuItem.highlighted ? "#c0c0f0" : "transparent"
     }

@@ -6,6 +6,9 @@
 #include <qprocess.h>
 #include <qqml.h>
 #include <qqmlapplicationengine.h>
+#ifdef QT_QML_DEBUG
+#include <qqmldebug.h>
+#endif
 #include <qsettings.h>
 #include <qstring.h>
 #include <qstringliteral.h>
@@ -98,8 +101,13 @@ main(int argc, char* argv[])
   QApplication app(argc, argv);
 
   app.setOrganizationName("KittehPlayer");
-  app.setOrganizationDomain("namedkitten.pw");
+  app.setOrganizationDomain("kitteh.pw");
   app.setApplicationName("KittehPlayer");
+
+#ifdef QT_QML_DEBUG
+  // Allows debug.
+  QQmlDebuggingEnabler enabler;
+#endif
 
   QSettings settings;
   Utils::SetDPMS(false);

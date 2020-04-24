@@ -7,10 +7,12 @@ import QtQuick.Window 2.2
 Item {
     id: menuTitleBar
     height: menuBar.height
-    anchors.left: parent.left
-    anchors.right: parent.right
-    anchors.top: parent.top
     visible: true
+    anchors {
+        left: parent.left
+        right: parent.right
+        top: parent.top
+    }
 
     Connections {
         target: globalConnections
@@ -29,13 +31,14 @@ Item {
     }
 
     Rectangle {
-        id: titleBar
         height: menuBar.height
-        anchors.right: parent.right
-        anchors.left: menuBar.right
-        anchors.top: parent.top
         color: getAppearanceValueForTheme(appearance.themeName,
                                           "mainBackground")
+        anchors {
+            right: parent.right
+            left: menuBar.right
+            top: parent.top
+        }
 
         Text {
             id: titleLabel
@@ -44,26 +47,31 @@ Item {
             color: "white"
             width: parent.width
             height: parent.height
-            anchors.left: parent.left
-            anchors.leftMargin: 4
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 4
-            anchors.top: parent.top
-            font.family: appearance.fontName
             fontSizeMode: Text.VerticalFit
-            font.pixelSize: appearance.scaleFactor * (height - anchors.topMargin
-                                                      - anchors.bottomMargin - 2)
-            font.bold: true
             opacity: 1
             visible: menuTitleBar.visible
                      && ((!appearance.titleOnlyOnFullscreen)
                          || (mainWindow.visibility == Window.FullScreen
                              || mainWindow.visibility == Window.Maximized))
+            font {
+                family: appearance.fontName
+                bold: true
+                pixelSize: appearance.scaleFactor * (height - anchors.topMargin
+                                                      - anchors.bottomMargin - 2)
+            }
+            anchors {
+                left: parent.left
+                leftMargin: 4
+                bottom: parent.bottom
+                bottomMargin: 4
+                top: parent.top
+            }
+
             Connections {
                 target: player
                 onTitleChanged: function (title) {
                     titleLabel.text = title
-                    mainWindow.title = title
+                    mainWindow.title = "KittehPlayer - " + title
                 }
             }
         }

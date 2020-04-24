@@ -10,11 +10,6 @@ import player 1.0
 SmoothButton {
     id: settingsButton
     iconSource: "icons/" + appearance.themeName + "/settings.svg"
-    hoverEnabled: true
-    iconColor: hovered ? getAppearanceValueForTheme(
-                             appearance.themeName,
-                             "buttonHoverColor") : getAppearanceValueForTheme(
-                             appearance.themeName, "buttonColor")
     Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
     onClicked: {
         var aptn = appearance.themeName

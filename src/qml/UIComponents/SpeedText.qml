@@ -10,18 +10,20 @@ import player 1.0
 Text {
     id: speedText
     text: "1x"
-    font.family: appearance.fontName
-    font.pixelSize: layout.height / 2.5
+    verticalAlignment: Text.AlignVCenter
     color: speedStatusMouseArea.containsMouse ? getAppearanceValueForTheme(
                                                     appearance.themeName,
                                                     "buttonHoverColor") : getAppearanceValueForTheme(
                                                     appearance.themeName,
                                                     "buttonColor")
-    verticalAlignment: Text.AlignVCenter
+    font {
+        family: appearance.fontName
+        pixelSize: layout.height / 2.5
+    }
     Connections {
         target: player
         onSpeedChanged: function (speed) {
-            speedText.text = String(speed) + "x"
+            text = String(speed) + "x"
         }
     }
     MouseArea {
@@ -29,7 +31,7 @@ Text {
         anchors.fill: parent
         height: parent.height
         hoverEnabled: true
-        propagateComposedEvents: false
+        propagateComposedEvents: true
         acceptedButtons: Qt.NoButton
     }
 }

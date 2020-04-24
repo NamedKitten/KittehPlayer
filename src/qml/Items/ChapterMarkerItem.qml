@@ -8,6 +8,15 @@ Rectangle {
     property int time: 0
     color: getAppearanceValueForTheme(appearance.themeName,
                                       "chapterMarkerColor")
+    width: 4
+    height: parent.height
+    x: progressBar.background.width / progressBar.to * time
+    z: 9000
+    anchors {
+        top: parent.top
+        bottom: parent.bottom
+    }
+
     Connections {
         target: player
         enabled: true
@@ -15,11 +24,4 @@ Rectangle {
             chapterMarker.destroy()
         }
     }
-
-    width: 4
-    height: parent.height
-    anchors.top: parent.top
-    anchors.bottom: parent.bottom
-    x: progressBar.background.width / progressBar.to * time
-    z: 9000
 }

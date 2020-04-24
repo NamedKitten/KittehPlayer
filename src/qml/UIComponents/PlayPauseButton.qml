@@ -8,13 +8,7 @@ import Qt.labs.platform 1.0 as LabsPlatform
 import player 1.0
 
 SmoothButton {
-    id: playPauseButton
     iconSource: "icons/" + appearance.themeName + "/pause.svg"
-    hoverEnabled: true
-    iconColor: hovered ? getAppearanceValueForTheme(
-                             appearance.themeName,
-                             "buttonHoverColor") : getAppearanceValueForTheme(
-                             appearance.themeName, "buttonColor")
     onClicked: {
         player.playerCommand(Enums.Commands.TogglePlayPause)
     }

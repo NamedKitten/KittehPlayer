@@ -13,12 +13,17 @@ find_package(Qt5Concurrent REQUIRED)
 
 find_package(Qt5 CONFIG REQUIRED COMPONENTS Qml Quick Gui Widgets Core X11Extras)
 
+option(QML_DEBUG "enable qml debug" OFF)
+if(QML_DEBUG)
+add_definitions(-DQT_QML_DEBUG)
+endif()
+
 find_package(Qt5QuickCompiler)
-#if(Qt5QuickCompiler_FOUND)
-#qtquick_compiler_add_resources(qml_QRC src/qml/qml.qrc)
-#else()
+if(Qt5QuickCompiler_FOUND)
+qtquick_compiler_add_resources(qml_QRC src/qml/qml.qrc)
+else()
 qt5_add_resources(qml_QRC src/qml/qml.qrc)
-#endif()
+endif()
 
 find_package(PkgConfig)
 pkg_check_modules(MPV REQUIRED mpv)

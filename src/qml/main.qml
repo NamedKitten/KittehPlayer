@@ -17,7 +17,6 @@ Window {
     height: 480
     property int virtualHeight: Screen.height * appearance.scaleFactor
     property int virtualWidth: Screen.width * appearance.scaleFactor
-
     property bool onTop: false
 
     QMLDebugger {
@@ -213,8 +212,8 @@ Window {
         anchors.fill: parent
         width: parent.width
         height: parent.height
-        z: 1
         logging: loggingSettings.logBackend
+        z: 1
 
         Action {
             onTriggered: {
@@ -307,7 +306,10 @@ Window {
     }
 
     MouseArea {
-        anchors.fill: parent
+        anchors {
+            fill: parent
+            bottomMargin: controlsBar.combinedHeight
+        }
         width: parent.width
         height: parent.height
         enabled: appearance.swipeToResize
@@ -316,7 +318,6 @@ Window {
         property int xPrev: 0
         hoverEnabled: false
         propagateComposedEvents: true
-        anchors.bottomMargin: controlsBar.combinedHeight
         z: 1010
         onPressed: {
             xStart = mouse.x
@@ -358,10 +359,12 @@ Window {
         MouseArea {
             id: mouseAreaBar
             width: parent.width
-            height: controlsBar.combinedHeight
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 0
+            height: controlsBar.combinedHeight * 1.5
             hoverEnabled: true
+            anchors {
+                bottom: parent.bottom
+                bottomMargin: 0
+            }
             onEntered: {
                 mouseAreaPlayerTimer.stop()
             }
@@ -372,16 +375,18 @@ Window {
             z: 10
             focus: true
             width: parent.width
-            anchors.bottom: mouseAreaBar.top
-            anchors.bottomMargin: 10
-            anchors.right: parent.right
-            anchors.rightMargin: 0
-            anchors.left: parent.left
-            anchors.leftMargin: 0
-            anchors.top: topBar.bottom
-            anchors.topMargin: 0
             hoverEnabled: true
             propagateComposedEvents: true
+            anchors {
+                bottom: mouseAreaBar.top
+                bottomMargin: 10
+                right: parent.right
+                rightMargin: 0
+                left: parent.left
+                leftMargin: 0
+                top: topBar.bottom
+                topMargin: 0
+            }
 
             Timer {
                 id: mouseTapTimer
@@ -454,16 +459,20 @@ Window {
             visible: false
             height: parent.height
             width: parent.width
-            anchors.fill: parent
-            anchors.topMargin: mainWindow.virtualHeight / 20
-            anchors.leftMargin: mainWindow.virtualHeight / 20
-            font.family: appearance.fontName
             textFormat: Text.RichText
-            font.pixelSize: mainWindow.virtualHeight / 50
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignTop
             renderType: Text.NativeRendering
             lineHeight: 1
+            font {
+                family: appearance.fontName
+                pixelSize: mainWindow.virtualHeight / 50
+            }
+            anchors {
+                fill: parent
+                topMargin: mainWindow.virtualHeight / 20
+                leftMargin: mainWindow.virtualHeight / 20
+            }
             Component.onCompleted: {
                 console.error(statsForNerdsText.lineHeight, font.pixelSize)
             }

@@ -1,10 +1,4 @@
 import QtQuick 2.0
-import QtQuick.Controls 2.3
-import QtQuick.Dialogs 1.3
-import QtQuick.Layouts 1.2
-import QtQuick.Window 2.2
-import Qt.labs.settings 1.0
-import Qt.labs.platform 1.0 as LabsPlatform
 import player 1.0
 
 Item {
@@ -14,17 +8,20 @@ Item {
 
     PlayPauseButton {
         id: playPauseButton
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        iconHeight: parent.height / 1.25
-        iconWidth: parent.height / 1.25
+        anchors {
+            top: parent.top
+            bottom: parent.bottom
+            left: parent.left
+        }
     }
 
     MouseArea {
         id: mouseAreaVolumeArea
-        anchors.right: volumeSliderArea.right
-        anchors.bottom: volumeButton.bottom
-        anchors.left: volumeButton.left
+        anchors {
+            right: volumeSliderArea.right
+            bottom: volumeButton.bottom
+            left: volumeButton.left
+        }
         height: parent.height + (volumeSliderArea.visible ? volumeSliderArea.height : 0)
         hoverEnabled: true
         z: 500
@@ -33,7 +30,6 @@ Item {
         onEntered: {
             mouseAreaPlayerTimer.stop()
         }
-
         onExited: {
             mouseAreaPlayerTimer.restart()
         }
@@ -41,44 +37,44 @@ Item {
 
     VolumeButton {
         id: volumeButton
-        anchors.left: playPauseButton.right
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        iconHeight: parent.height / 1.25
-        iconWidth: parent.height / 1.25
+        anchors {
+            left: playPauseButton.right
+            top: parent.top
+            bottom: parent.bottom
+        }
         hoverEnabled: true
-        iconColor: hovered
-                   || mouseAreaVolumeArea.containsMouse ? getAppearanceValueForTheme(
-                                                              appearance.themeName,
-                                                              "buttonHoverColor") : getAppearanceValueForTheme(
-                                                              appearance.themeName,
-                                                              "buttonColor")
     }
 
     VerticalVolume {
         id: volumeSliderArea
-        anchors.bottom: volumeButton.top
-        anchors.left: volumeButton.left
-        anchors.right: volumeButton.right
+        anchors {
+            bottom: volumeButton.top
+            left: volumeButton.left
+            right: volumeButton.right
+        }
         width: volumeButton.width
         visible: mouseAreaVolumeArea.containsMouse || volumeButton.hovered
     }
 
     TimeLabel {
         id: timeLabel
-        anchors.left: volumeButton.right
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
+        anchors {
+            left: volumeButton.right
+            top: parent.top
+            bottom: parent.bottom
+        }
     }
 
     VideoProgress {
         id: videoProgressRoosterTeeth
-        anchors.left: timeLabel.right
-        anchors.right: speedText.left
-        anchors.leftMargin: parent.width / 128
-        anchors.rightMargin: parent.width / 128
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
+        anchors {
+            top: parent.top
+            bottom: parent.bottom
+            left: timeLabel.right
+            leftMargin: parent.width / 128
+            right: speedText.left
+            rightMargin: parent.width / 128
+        }
         height: parent.height
         to: progressBar.to
         value: progressBar.value
@@ -87,25 +83,27 @@ Item {
 
     SpeedText {
         id: speedText
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        anchors.right: fullscreenButton.left
+        anchors {
+            top: parent.top
+            bottom: parent.bottom
+            right: fullscreenButton.left
+        }
     }
 
     FullscreenButton {
         id: fullscreenButton
-        anchors.right: settingsButton.left
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        iconHeight: parent.height / 1.25
-        iconWidth: parent.height / 1.25
+        anchors {
+            right: settingsButton.left
+            top: parent.top
+            bottom: parent.bottom
+        }
     }
     SettingsButton {
         id: settingsButton
-        anchors.right: parent.right
-        anchors.top: parent.top
-        anchors.bottom: parent.bottom
-        iconHeight: parent.height / 1.25
-        iconWidth: parent.height / 1.25
+        anchors {
+            right: parent.right
+            top: parent.top
+            bottom: parent.bottom
+        }
     }
 }

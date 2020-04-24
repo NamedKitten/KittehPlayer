@@ -9,13 +9,7 @@ import player 1.0
 
 SmoothButton {
     id: playlistPrevButton
-    objectName: "playlistPrevButton"
     iconSource: "icons/" + appearance.themeName + "/prev.svg"
-    hoverEnabled: true
-    iconColor: hovered ? getAppearanceValueForTheme(
-                             appearance.themeName,
-                             "buttonHoverColor") : getAppearanceValueForTheme(
-                             appearance.themeName, "buttonColor")
     visible: appearance.themeName == "Youtube" ? false : true
     onClicked: {
         player.playerCommand(Enums.Commands.PreviousPlaylistItem)

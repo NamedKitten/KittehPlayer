@@ -4,32 +4,41 @@ import QtQuick.Dialogs 1.3
 import QtQuick.Layouts 1.2
 import QtQuick.Window 2.2
 import Qt.labs.settings 1.0
+import QtGraphicalEffects 1.0
 
 import QtQuick 2.0
 
 Control {
     id: root
-    property alias iconSource: icon.source
-    property alias iconColor: icon.color
-    property alias iconHeight: icon.iconHeight
-    property alias iconWidth: icon.iconWidth
-
+    hoverEnabled: true
+    property alias iconSource: buttonImage.source
     property alias containsMouse: mouseArea.containsMouse
 
-    background: Item {}
-    property bool iconRight: false
+    background: null
 
     focusPolicy: Qt.NoFocus
 
     signal clicked
-    leftPadding: appearance.themeName
-                 == "YouTube" ? iconWidth / 12 : appearance.themeName
-                                == "RoosterTeeth" ? iconWidth / 12 : iconWidth / 2.5
+    leftPadding: root.height / (appearance.themeName == "Niconico" ?  2.5 : 12)
     rightPadding: root.leftPadding
 
-    contentItem: ButtonImage {
-        id: icon
+    contentItem: Image {
+        id: buttonImage
+        smooth: true
+        fillMode: Image.PreserveAspectFit
+        sourceSize.height: Math.floor(root.parent.height / (appearance.themeName == "Niconico" ? 2 : 1.25))
+        sourceSize.width: Math.floor(root.parent.height / (appearance.themeName == "Niconico" ? 2 : 1.25))
+        ColorOverlay {
+            id: colorOverlay
+            anchors.fill: parent
+            source: parent
+            color: root.hovered ? getAppearanceValueForTheme(
+                             appearance.themeName,
+                             "buttonHoverColor") : getAppearanceValueForTheme(
+                             appearance.themeName, "buttonColor")
+        }
     }
+
 
     MouseArea {
         id: mouseArea
