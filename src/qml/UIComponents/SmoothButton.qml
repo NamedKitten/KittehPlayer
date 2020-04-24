@@ -32,10 +32,14 @@ Control {
             id: colorOverlay
             anchors.fill: parent
             source: parent
-            color: root.hovered ? getAppearanceValueForTheme(
+            color: getAppearanceValueForTheme(appearance.themeName, "buttonColor")
+            Binding on color {
+                when: root.hovered
+                value: root.hovered ? getAppearanceValueForTheme(
                              appearance.themeName,
                              "buttonHoverColor") : getAppearanceValueForTheme(
                              appearance.themeName, "buttonColor")
+            }
         }
     }
 

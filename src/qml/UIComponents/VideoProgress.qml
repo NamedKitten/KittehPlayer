@@ -121,7 +121,7 @@ Slider {
 
         ProgressBar {
             id: cachedLength
-            background: Item {}
+            background: null
             contentItem: Item {
                 Rectangle {
                     width: cachedLength.visualPosition * parent.width
