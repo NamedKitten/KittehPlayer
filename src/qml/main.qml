@@ -1,13 +1,8 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.3
-import QtQuick.Dialogs 1.3
-import QtQuick.Layouts 1.2
 import QtQuick.Window 2.2
 import Qt.labs.settings 1.0
-import Qt.labs.platform 1.0 as LabsPlatform
 import player 1.0
-
-import "codes.js" as LanguageCodes
 
 Window {
     id: mainWindow
@@ -30,15 +25,16 @@ Window {
     }
 
     function getAppearanceValueForTheme(themeName, name) {
-        if (themeName == "YouTube") {
-            return youTubeAppearance[name]
-        } else if (themeName == "Niconico") {
-            return nicoNicoAppearance[name]
-        } else if (themeName == "RoosterTeeth") {
-            return roosterTeethAppearance[name]
-        } else {
-            appearance.themeName = "YouTube"
-            return youTubeAppearance[name]
+        switch(themeName) {
+            case"YouTube":
+                return youTubeAppearance[name]
+            case "Niconico":
+                return nicoNicoAppearance[name]
+            case "RoosterTeeth":
+                return roosterTeethAppearance[name]
+            default:
+                appearance.themeName = "YouTube"
+                return youTubeAppearance[name]
         }
     }
 

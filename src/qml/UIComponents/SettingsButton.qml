@@ -1,19 +1,21 @@
-import QtQuick 2.0
-import QtQuick.Controls 2.3
-import QtQuick.Dialogs 1.3
-import QtQuick.Layouts 1.2
-import QtQuick.Window 2.2
-import Qt.labs.settings 1.0
-import Qt.labs.platform 1.0 as LabsPlatform
 import player 1.0
 
 SmoothButton {
     id: settingsButton
     iconSource: "icons/" + appearance.themeName + "/settings.svg"
-    Layout.alignment: Qt.AlignVCenter | Qt.AlignRight
     onClicked: {
-        var aptn = appearance.themeName
-        appearance.themeName = aptn == "YouTube" ? "RoosterTeeth" : aptn
-                                                   == "RoosterTeeth" ? "Niconico" : "YouTube"
+        switch(appearance.themeName) {
+            case "YouTube":
+                appearance.themeName = "RoosterTeeth"
+                break
+            case "RoosterTeeth":
+                appearance.themeName = "Niconico"
+                break
+            case "Niconico":
+                appearance.themeName = "YouTube"
+                break
+            default:
+                appearance.themeName = "YouTube"
+        }
     }
 }
