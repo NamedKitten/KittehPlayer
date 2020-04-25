@@ -68,7 +68,13 @@ endif(CCACHE_FOUND)
 
 set(CMAKE_BUILD_TYPE DEBUG)
 
+option(DEBUG "debugging out" OFF)
+if(DEBUG)
 SET(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_CXX_FLAGS} -ggdb -g3 -O3")
+else()
+SET(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_CXX_FLAGS} -O3 -s")
+endif()
+
 
 if(DEFINED ENV{TRAVIS})
 execute_process(
