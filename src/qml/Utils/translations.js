@@ -137,7 +137,20 @@ var translations = {
         ABOUT_QT: "Über QT",
         TITLE: "Titel",
         TOGGLE_ALWAYS_ON_TOP: "Immer im Vordergrund",
-        DISABLE_TRACK: "Spur deaktivieren"
+        DISABLE_TRACK: "Spur deaktivieren",
+        AUDIO_DEVICES: "Audio Geräte",
+        PLAYLIST_MENU: "Menü Wiedergabelisten",
+        THEME: "Darstellung",
+        SETTINGS: "Einstellungen",
+        LANGUAGE: "Sprache",
+        APPEARANCE: "Aussehen",
+        TITLE_ONLY_ON_FULLSCREEN: "Titel nur in Vollbildmodus anzeigen",
+        CLICK_TO_PAUSE: "Tap/Klick pausiert",
+        DOUBLE_TAP_TO_SEEK: "Doppel-Tap/Klick spult",
+        DOUBLE_TAP_TO_SEEK_BY: "Spulen um",
+        FONT: "Schriftart",
+        SUBTITLES_FONT_SIZE: "Schriftgröße Untertitel",
+        UI_FADE_TIME: "Ausblendzeit Benutzeroberfläche (ms)"
     },
     french: {
         OPEN_FILE: "Ouvrir le fichier",
