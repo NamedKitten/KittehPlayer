@@ -5,7 +5,6 @@
 #include <QObject>
 #include <QProcess>
 #include <QString>
-class QObject;
 
 class Process : public QProcess
 {

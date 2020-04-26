@@ -6,7 +6,6 @@ set(CMAKE_AUTOMOC ON)
 
 include(ExternalProject)
 
-
 find_package(Qt5Core REQUIRED)
 find_package(Qt5Gui REQUIRED)
 find_package(Qt5Concurrent REQUIRED)
@@ -93,6 +92,8 @@ add_definitions(-DGIT_COMMIT_HASH="${GIT_COMMIT_HASH}")
 endif(DEFINED ENV{TRAVIS})
 
 add_executable(KittehPlayer ${SOURCES} ${qml_QRC})
+set_property(TARGET KittehPlayer PROPERTY CXX_STANDARD 14)
+
 
 # Use the Qml/Quick modules from Qt 5.
 target_link_libraries(KittehPlayer ${MPV_LIBRARIES} ${X11_LIBRARIES} ${Xext_LIBRARIES} Qt5::X11Extras)

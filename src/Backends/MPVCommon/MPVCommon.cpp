@@ -20,6 +20,24 @@
 
 auto mpvLogger = initLogger("mpv");
 
+QString humanSize(uint64_t bytes)
+{
+	char *suffix[] = {"B", "KB", "MB", "GB", "TB"};
+	char length = sizeof(suffix) / sizeof(suffix[0]);
+
+	int i = 0;
+	double dblBytes = bytes;
+
+	if (bytes > 1024) {
+		for (i = 0; (bytes / 1024) > 0 && i<length-1; i++, bytes /= 1024)
+			dblBytes = bytes / 1024.0;
+	}
+
+	static char output[200];
+	sprintf(output, "%.02lf %s", dblBytes, suffix[i]);
+	return QString(output);
+}
+
 static inline QVariant mpvnode_to_variant(const mpv_node *node)
 {
     if (!node) {
@@ -75,10 +93,7 @@ QString getStats(BackendInterface *b) {
   }
   QString fileFormat = b->getProperty("file-format").toString();
   stats += "<b>Format/Protocol:</b>  " + fileFormat + "<br>";
-  QLocale a;
-  // a.formattedDataSize(
   double cacheUsed = b->getProperty("cache-used").toDouble();
-  // Utils::createTimestamp(
   int demuxerSecs = b->getProperty("demuxer-cache-duration").toInt();
   QVariantMap demuxerState = b->getProperty("demuxer-cache-state").toMap();
   int demuxerCache = demuxerState.value("fw-bytes", QVariant(0)).toInt();
@@ -86,23 +101,23 @@ QString getStats(BackendInterface *b) {
   if (demuxerSecs + demuxerCache + cacheUsed > 0) {
     QString cacheStats;
     cacheStats += "<b>Total Cache:</b>  ";
-    cacheStats += a.formattedDataSize(demuxerCache + cacheUsed);
+    cacheStats += humanSize(demuxerCache + cacheUsed);
     cacheStats += " (<b>Demuxer:</b>  ";
 
-    cacheStats += a.formattedDataSize(demuxerCache);
+    cacheStats += humanSize(demuxerCache);
     cacheStats += ", ";
     cacheStats += QString::number(demuxerSecs) + "s)  ";
     double cacheSpeed = b->getProperty("cache-speed").toDouble();
     if (cacheSpeed > 0) {
       cacheStats += "<b>Speed:</b>  ";
-      cacheStats += a.formattedDataSize(demuxerSecs);
+      cacheStats += humanSize(demuxerSecs);
       cacheStats += "/s";
     }
     cacheStats += "<br>";
     stats += cacheStats;
   }
   QString fileSize =
-    a.formattedDataSize(b->getProperty("file-size").toInt()).remove("-");
+    humanSize(b->getProperty("file-size").toInt()).remove("-");
   stats += "<b>Size:</b>  " + fileSize + "<br>";
 
   stats += "</blockquote>";
@@ -197,7 +212,7 @@ QString getStats(BackendInterface *b) {
     int pVB = b->getProperty("packet-video-bitrate").toInt();
     if (pVB > 0) {
       stats += "<b>Bitrate:</b>  ";
-      stats += a.formattedDataSize(pVB) + "/s";
+      stats += humanSize(pVB) + "/s";
       stats += "<br>";
     }
 
@@ -227,7 +242,7 @@ QString getStats(BackendInterface *b) {
     int pAB = b->getProperty("packet-audio-bitrate").toInt();
     if (pAB > 0) {
       stats += "<b>Bitrate:</b>  ";
-      stats += a.formattedDataSize(pAB) + "/s";
+      stats += humanSize(pAB) + "/s";
       stats += "<br>";
     }
 
