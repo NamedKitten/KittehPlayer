@@ -8,8 +8,8 @@ Window {
     id: mainWindow
     title: "KittehPlayer"
     visible: true
-    width: 720
-    height: 480
+    width: Math.min(720, Screen.width)
+    height: Math.min(480, Screen.height)
     property int virtualHeight: Screen.height * appearance.scaleFactor
     property int virtualWidth: Screen.width * appearance.scaleFactor
     property bool onTop: false

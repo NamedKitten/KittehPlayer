@@ -9,6 +9,9 @@ Item {
             return "TranslationNotFound"
         }
         var text = String(Translations.translations[i18n.language][code])
+        if (text == "undefined"){
+            console.warn(code, "missing for language", language)
+        }
         var args = Array.prototype.slice.call(arguments, 1)
         var i = 0
         return text.replace(/%s/g, function () {

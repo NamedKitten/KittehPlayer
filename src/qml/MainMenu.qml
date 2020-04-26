@@ -116,6 +116,10 @@ MenuBar {
         id: playlistDialog
     }
 
+    SettingsDialog {
+        id: settingsDialog
+    }
+
     delegate: MenuBarItem {
         id: menuBarItem
 
@@ -469,6 +473,13 @@ MenuBar {
             }
         }
         Action {
+            text: translate.getTranslation("SETTINGS", i18n.language)
+            onTriggered: {
+                settingsDialog.open()
+            }
+        }
+        Action {
+            // Pretty sure for legal reasons this is needed unless I buy a Qt License
             text: translate.getTranslation("ABOUT_QT", i18n.language)
             onTriggered: {
                 utils.launchAboutQt()
