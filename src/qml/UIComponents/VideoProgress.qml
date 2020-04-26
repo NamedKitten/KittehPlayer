@@ -94,9 +94,8 @@ Slider {
         onExited: timestampBox.visible = false
 
         onPositionChanged: {
-            var a = (progressBar.to / progressBar.availableWidth)
-                    * (mouseAreaProgressBar.mapToItem(
-                           progressBar, mouseAreaProgressBar.mouseX, 0).x - 2)
+            // code taken from https://github.com/qt/qtquickcontrols2/blob/39892547145ba4e73bebee86352bd384732b5d19/src/quicktemplates2/qquickslider.cpp#L138
+            var a = ((mouseAreaProgressBar.mouseX - (handleRect.width / 2)) / (progressBar.availableWidth - handleRect.width)) * progressBar.to
             hoverProgressLabel.text = utils.createTimestamp(a)
             timestampBox.x = mouseAreaProgressBar.mouseX - (timestampBox.width / 2)
             timestampBox.y = progressBackground.y - timestampBox.height * 2

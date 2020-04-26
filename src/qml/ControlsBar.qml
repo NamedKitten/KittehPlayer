@@ -50,11 +50,15 @@ Item {
         id: progressBar
         visible: controlsBarItem.controlsShowing && appearance.themeName != "RoosterTeeth"
         bottomPadding: 0
+        rightPadding: 0
+        leftPadding: 0
         z: 20
         anchors {
             bottom: controlsBackground.top
             left: controlsBackground.left
             right: controlsBackground.right
+            leftMargin: parent.width / 128
+            rightMargin: parent.width / 128
             bottomMargin: 0
         }
     }

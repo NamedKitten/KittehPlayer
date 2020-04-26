@@ -147,7 +147,7 @@ var translations = {
         TITLE_ONLY_ON_FULLSCREEN: "Titel nur in Vollbildmodus anzeigen",
         CLICK_TO_PAUSE: "Tap/Klick pausiert",
         DOUBLE_TAP_TO_SEEK: "Doppel-Tap/Klick spult",
-        DOUBLE_TAP_TO_SEEK_BY: "Spulen um",
+        DOUBLE_TAP_TO_SEEK_BY: "Spulen um (s)",
         FONT: "Schriftart",
         SUBTITLES_FONT_SIZE: "Schriftgröße Untertitel",
         UI_FADE_TIME: "Ausblendzeit Benutzeroberfläche (ms)"

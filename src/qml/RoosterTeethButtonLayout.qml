@@ -75,6 +75,8 @@ Item {
             right: speedText.left
             rightMargin: parent.width / 128
         }
+        rightPadding: 0
+        leftPadding: 0
         height: parent.height
         to: progressBar.to
         value: progressBar.value
