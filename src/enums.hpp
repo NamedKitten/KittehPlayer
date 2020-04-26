@@ -1,9 +1,8 @@
 #ifndef ENUMS_HPP
 #define ENUMS_HPP
 
-#include <qobject.h>
-#include <qobjectdefs.h>
-#include <qstring.h>
+#include <QObject>
+#include <QString>
 
 namespace Enums {
 Q_NAMESPACE

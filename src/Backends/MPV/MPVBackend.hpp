@@ -4,17 +4,16 @@
 #include <mpv/client.h>
 #include <mpv/opengl_cb.h>
 #include <mpv/render.h>
-#include <qmetatype.h>
-#include <qobjectdefs.h>
-#include <qquickframebufferobject.h>
-#include <qsettings.h>
-#include <qstring.h>
-#include <qvariant.h>
+#include <QMetaType>
+#include <QObject>
+#include <QEvent>
+#include <QQuickItem>
+#include <QQuickFramebufferObject>
+#include <QSettings>
+#include <QString>
+#include <QVariant>
 #include "src/backendinterface.hpp"
 #include "src/enums.hpp"
-class QEvent;
-class QObject;
-class QQuickItem;
 
 class MPVBackend
   : public QQuickFramebufferObject

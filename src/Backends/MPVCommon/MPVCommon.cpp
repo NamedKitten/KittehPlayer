@@ -1,17 +1,14 @@
 #include "src/Backends/MPVCommon/MPVCommon.hpp"
-#include <qbytearray.h>
-#include <qcbormap.h> // IWYU pragma: keep
-#include <qcoreapplication.h>
-#include <qglobal.h>
-#include <qjsonvalue.h> // IWYU pragma: keep
-#include <qjsonarray.h> // IWYU pragma: keep
-#include <qjsonobject.h> // IWYU pragma: keep
-#include <qlist.h>
-#include <qlocale.h>
-#include <qmap.h>
-#include <qmetaobject.h>
-#include <qobjectdefs.h>
-#include <qsettings.h>
+#include <QByteArray>
+#include <QCoreApplication>
+#include <QJsonObject>
+#include <QList>
+#include <QLocale>
+#include <QMap>
+#include <QMetaObject>
+#include <QMetaMethod>
+#include <QObject>
+#include <QSettings>
 #include <spdlog/fmt/fmt.h>
 #include <string.h>
 #include <exception>

@@ -1,7 +1,7 @@
-#include <qbytearray.h>
-#include <qsettings.h>
-#include <qstring.h>
-#include <qvariant.h>
+#include <QByteArray>
+#include <QSettings>
+#include <QString>
+#include <QVariant>
 #include <spdlog/logger.h>
 #include <iterator>
 #include <vector>

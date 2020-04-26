@@ -3,20 +3,17 @@
 
 #include <mpv/client.h>
 #include <mpv/opengl_cb.h>
-#include <qevent.h> // IWYU pragma: keep
-#include <qmetatype.h>
-#include <qobject.h>
-#include <qobjectdefs.h>
-#include <qquickitem.h>
-#include <qquickwindow.h> // IWYU pragma: keep
-#include <qsettings.h>
-#include <qsize.h>
-#include <qstring.h>
-#include <qvariant.h>
+#include <QEvent>
+#include <QMetaType>
+#include <QObject>
+#include <QQuickItem>
+#include <QQuickWindow>
+#include <QSettings>
+#include <QSize>
+#include <QString>
+#include <QVariant>
 #include "src/backendinterface.hpp"
 #include "src/enums.hpp"
-
-class QEvent; // IWYU pragma: keep
 
 class MPVNoFBORenderer : public QObject
 {

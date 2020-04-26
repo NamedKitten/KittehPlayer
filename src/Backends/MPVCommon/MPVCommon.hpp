@@ -2,9 +2,9 @@
 #define MPVCommon_H
 
 #include <mpv/client.h>
-#include <qmetatype.h>
-#include <qstring.h>
-#include <qvariant.h>
+#include <QMetaType>
+#include <QString>
+#include <QVariant>
 #include "src/enums.hpp"
 class BackendInterface;
 class QMetaMethod;

@@ -1,10 +1,9 @@
 #ifndef ThumbnailCache_H
 #define ThumbnailCache_H
-#include <qdir.h>
-#include <qobject.h>
-#include <qobjectdefs.h>
-#include <qstring.h>
-class QNetworkAccessManager;
+#include <QDir>
+#include <QObject>
+#include <QString>
+#include <QNetworkAccessManager>
 
 class ThumbnailCache : public QObject
 {

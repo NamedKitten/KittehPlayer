@@ -1,9 +1,9 @@
 #include "utils.hpp"
-#include <qapplication.h>
-#include <qcoreapplication.h>
-#include <qguiapplication.h>
-#include <qprocess.h>
-#include <qstringlist.h>
+#include <QApplication>
+#include <QCoreApplication>
+#include <QGuiApplication>
+#include <QProcess>
+#include <QStringList>
 #include <memory>
 #include "logger.h"
 #include "spdlog/logger.h"

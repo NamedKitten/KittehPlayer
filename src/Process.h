@@ -1,10 +1,10 @@
 #ifndef Process_H
 #define Process_H
 
-#include <qmetatype.h>
-#include <qobjectdefs.h>
-#include <qprocess.h>
-#include <qstring.h>
+#include <QMetaType>
+#include <QObject>
+#include <QProcess>
+#include <QString>
 class QObject;
 
 class Process : public QProcess

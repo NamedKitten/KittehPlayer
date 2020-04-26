@@ -1,6 +1,6 @@
 #include "Process.h"
-#include <qstringlist.h>
-#include <qvariant.h>
+#include <QStringList>
+#include <QVariant>
 class QObject;
 
 Process::Process(QObject* parent)
