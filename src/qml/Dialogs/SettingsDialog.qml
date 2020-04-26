@@ -146,9 +146,6 @@ Dialog {
 
     }
 
-    Component.onCompleted: {
-        settingsDialog.open()
-    }
     Connections {
         target: settingsDialog
         onAccepted: {
