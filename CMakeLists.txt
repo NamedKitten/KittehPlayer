@@ -38,7 +38,7 @@ execute_process(
 
 include_directories(${CMAKE_BINARY_DIR}/spdlog/include)
 
-if(MPV_VERSION VERSION_GREATER_EQUAL "1.28.0")
+if(MPV_VERSION VERSION_GREATER "1.27.0")
 set(SOURCES ${SOURCES} src/Backends/MPV/MPVBackend.cpp)
 else()
 add_definitions(-DDISABLE_MPV_RENDER_API)
