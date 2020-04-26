@@ -16,7 +16,9 @@
 #include <exception>
 #include <iosfwd>
 #include <memory>
+#ifndef DISABLE_MPV_RENDER_API
 #include "Backends/MPV/MPVBackend.hpp"
+#endif
 #include "Backends/MPVNoFBO/MPVNoFBOBackend.hpp"
 #include "Process.h"
 #include "ThumbnailCache.h"
@@ -151,12 +153,15 @@ main(int argc, char* argv[])
 
   qmlRegisterType<UtilsClass>("player", 1, 0, "Utils");
 
+#ifndef DISABLE_MPV_RENDER_API
   if (settings.value("Backend/fbo", true).toBool()) {
     qmlRegisterType<MPVBackend>("player", 1, 0, "PlayerBackend");
   } else {
     qmlRegisterType<MPVNoFBOBackend>("player", 1, 0, "PlayerBackend");
   }
-
+#else
+  qmlRegisterType<MPVNoFBOBackend>("player", 1, 0, "PlayerBackend");
+#endif
   setlocale(LC_NUMERIC, "C");
   launcherLogger->info("Loading player...");
 

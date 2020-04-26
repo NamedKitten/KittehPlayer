@@ -38,6 +38,11 @@ execute_process(
 
 include_directories(${CMAKE_BINARY_DIR}/spdlog/include)
 
+if(MPV_VERSION VERSION_GREATER_EQUAL "1.28.0")
+set(SOURCES ${SOURCES} src/Backends/MPV/MPVBackend.cpp)
+else()
+add_definitions(-DDISABLE_MPV_RENDER_API)
+endif()
 
 
 if(X11_FOUND AND Xext_FOUND)
@@ -56,8 +61,8 @@ set(SOURCES
     src/logger.cpp
     src/qmldebugger.cpp
     src/Backends/MPVCommon/MPVCommon.cpp
-    src/Backends/MPV/MPVBackend.cpp
     src/Backends/MPVNoFBO/MPVNoFBOBackend.cpp
+    ${SOURCES}
 )
 
 find_program(CCACHE_FOUND cache)
