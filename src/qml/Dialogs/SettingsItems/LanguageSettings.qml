@@ -7,7 +7,7 @@ ComboBox {
     height: 30
     editable: false
     pressed: true
-    model: Object.keys(Translations.languages).map(function(key) {return Translations.languages[key];}
+    model: Object.keys(Translations.languages).map(function(key) {return Translations.languages[key];})
     delegate: ItemDelegate {
         height: 25
         width: languageSelector.width
