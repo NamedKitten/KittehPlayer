@@ -61,7 +61,6 @@ Window {
         id: appearance
         category: "Appearance"
         property bool titleOnlyOnFullscreen: true
-        property bool clickToPause: false
         property bool useMpvSubs: false
         property string themeName: "YouTube"
         property string fontName: "Roboto"
@@ -301,39 +300,6 @@ Window {
         }
     }
 
-    MouseArea {
-        anchors {
-            fill: parent
-            bottomMargin: controlsBar.combinedHeight
-        }
-        width: parent.width
-        height: parent.height
-        enabled: appearance.swipeToResize
-        property real velocity: 0.0
-        property int xStart: 0
-        property int xPrev: 0
-        hoverEnabled: false
-        propagateComposedEvents: true
-        z: 1010
-        onPressed: {
-            xStart = mouse.x
-            xPrev = mouse.x
-            velocity = 0
-        }
-        onPositionChanged: {
-            var currVel = (mouse.x - xPrev)
-            velocity = (velocity + currVel) / 2.0
-            xPrev = mouse.x
-        }
-        onReleased: {
-            if (velocity > 2 && mouse.x > parent.width * 0.2) {
-                appearance.scaleFactor += 0.2
-            } else if (velocity < -2 && mouse.x > parent.width * 0.2) {
-                appearance.scaleFactor -= 0.2
-            }
-        }
-    }
-
     Item {
         id: controlsOverlay
         anchors.centerIn: player
@@ -373,6 +339,9 @@ Window {
             width: parent.width
             hoverEnabled: true
             propagateComposedEvents: true
+            property real velocity: 0.0
+            property int xStart: 0
+            property int xPrev: 0
             anchors {
                 bottom: mouseAreaBar.top
                 bottomMargin: 10
@@ -388,15 +357,12 @@ Window {
                 id: mouseTapTimer
                 interval: 200
                 onTriggered: {
-                    if (appearance.clickToPause) {
-                        player.playerCommand(Enums.Commands.TogglePlayPause)
-                        return
-                    }
                     if (topBar.visible) {
                        globalConnections.hideUI() 
                     } else {
                         globalConnections.showUI()
                     }
+                    mouseAreaPlayerTimer.restart()
                 }
             }
 
@@ -413,13 +379,37 @@ Window {
                     toggleFullscreen()
                 }
             }
-
             onClicked: function (mouse) {
+                xStart = mouse.x
+                xPrev = mouse.x
+                velocity = 0
                 if (mouseTapTimer.running) {
                     doubleMouseClick(mouse)
                     mouseTapTimer.stop()
                 } else {
                     mouseTapTimer.restart()
+                }
+            }
+            onReleased: {
+                var isLongEnough = Math.hypot(xStart, mouse.x) > mainWindow.width * 0.3
+                if (velocity > 2 && isLongEnough) {
+                    appearance.scaleFactor += 0.2
+                } else if (velocity < -2 && isLongEnough) {
+                    if (appearance.scaleFactor > 0.8) {
+                        appearance.scaleFactor -= 0.2
+                    }
+                }
+            }
+            onPositionChanged: {
+                //console.warn(mouseAreaPlayer.mapToItem(controlsBar, mouse.x, mouse.y).y)
+                if (mouseAreaPlayer.containsPress) {
+                    var currVel = (mouse.x - xPrev)
+                    velocity = (velocity + currVel) / 2.0
+                    xPrev = mouse.x
+                }
+                if (!topBar.visible) {
+                    globalConnections.showUI()
+                    mouseAreaPlayerTimer.restart()
                 }
             }
             Action {
@@ -437,10 +427,6 @@ Window {
                 onTriggered: {
                     globalConnections.hideUI()
                 }
-            }
-            onPositionChanged: {
-                globalConnections.showUI()
-                mouseAreaPlayerTimer.restart()
             }
         }
 

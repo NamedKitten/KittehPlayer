@@ -122,7 +122,6 @@ MenuBar {
 
     delegate: MenuBarItem {
         id: menuBarItem
-
         padding: 4
         topPadding: padding
         leftPadding: padding

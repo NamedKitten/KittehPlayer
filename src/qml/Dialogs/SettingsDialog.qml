@@ -40,12 +40,6 @@ Dialog {
                     Layout.leftMargin: 30
                 }
                 CheckBox {
-                    checked: appearance.clickToPause
-                    onClicked: appearance.clickToPause = !appearance.clickToPause
-                    text: translate.getTranslation("CLICK_TO_PAUSE", i18n.language)
-                    Layout.leftMargin: 30
-                }
-                CheckBox {
                     checked: appearance.doubleTapToSeek
                     onClicked: appearance.doubleTapToSeek = !appearance.doubleTapToSeek
                     text: translate.getTranslation("DOUBLE_TAP_TO_SEEK", i18n.language)
