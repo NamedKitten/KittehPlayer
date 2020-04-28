@@ -7,7 +7,7 @@ ComboBox {
     height: 30
     editable: false
     pressed: true
-    model: Object.values(Translations.languages)
+    model: Object.keys(Translations.languages).map(function(key) {return Translations.languages[key];}
     delegate: ItemDelegate {
         height: 25
         width: languageSelector.width
@@ -25,6 +25,6 @@ ComboBox {
         i18n.language = Object.keys(Translations.languages).filter(function(key) {return Translations.languages[key] === currentText})[0];
     }
     Component.onCompleted: {
-        currentIndex = languageSelector.indexOfValue(Translations.languages[i18n.language])
+        currentIndex = languageSelector.find(Translations.languages[i18n.language])
     }
 }

@@ -119,7 +119,7 @@ main(int argc, char* argv[])
   // TODO: launch a opengl window or use offscreen to see if GL_ARB_framebuffer_object
   // can be found
   if (! settings.value("Backend/disableSunxiCheck", false).toBool()) {
-    FILE *fd = popen("grep sunxi /proc/modules", "r");
+    FILE *fd = popen("grep sun[x8]i /proc/modules", "r");
     char buf[16];
     if (fread(buf, 1, sizeof (buf), fd) > 0) {
       launcherLogger->info("Running on sunxi, switching to NoFBO.");
