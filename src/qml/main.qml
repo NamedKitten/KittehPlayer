@@ -390,6 +390,9 @@ Window {
                 onTriggered: {
                     if (appearance.clickToPause) {
                         player.playerCommand(Enums.Commands.TogglePlayPause)
+                    } else {
+                        globalConnections.showUI()
+                        mouseAreaPlayerTimer.restart()
                     }
                 }
             }
