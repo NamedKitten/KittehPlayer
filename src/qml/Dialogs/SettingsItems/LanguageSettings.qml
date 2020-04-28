@@ -22,7 +22,7 @@ ComboBox {
     }
     onActivated: {
         console.warn(currentText)
-        i18n.language = Object.keys(Translations.languages).find(key => Translations.languages[key] === currentText)
+        i18n.language = Object.keys(Translations.languages).filter(function(key) {return Translations.languages[key] === currentText})[0];
     }
     Component.onCompleted: {
         currentIndex = languageSelector.indexOfValue(Translations.languages[i18n.language])

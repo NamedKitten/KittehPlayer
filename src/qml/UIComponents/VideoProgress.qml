@@ -69,11 +69,8 @@ Slider {
         if (fun.nyanCat) {
             return true
         }
-
-        if (appearance.themeName == "Niconico" && isMouse) {
-            return true
-        } else if (appearance.themeName == "Niconico") {
-            return false
+        if (appearance.themeName == "Niconico") {
+            return isMouse
         } else {
             return true
         }
