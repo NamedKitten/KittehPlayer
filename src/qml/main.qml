@@ -482,6 +482,7 @@ Window {
 
         MenuTitleBar {
             id: topBar
+            z: 200
         }
 
         ControlsBar {
