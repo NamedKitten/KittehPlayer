@@ -128,7 +128,7 @@ main(int argc, char* argv[])
       settings.setValue("Appearance/doubleTapToSeek", true);
       settings.setValue("Appearance/scaleFactor", 2.2);
       settings.setValue("Appearance/subtitlesFontSize", 38);
-      settings.setValue("Appearance/uiFadeTimer", 2000);
+      settings.setValue("Appearance/uiFadeTimer", 0);
     }
   }
 

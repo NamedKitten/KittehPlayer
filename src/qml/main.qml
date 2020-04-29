@@ -401,7 +401,6 @@ Window {
                 }
             }
             onPositionChanged: {
-                //console.warn(mouseAreaPlayer.mapToItem(controlsBar, mouse.x, mouse.y).y)
                 if (mouseAreaPlayer.containsPress) {
                     var currVel = (mouse.x - xPrev)
                     velocity = (velocity + currVel) / 2.0
@@ -422,10 +421,12 @@ Window {
             Timer {
                 id: mouseAreaPlayerTimer
                 interval: appearance.uiFadeTimer
-                running: true
+                running: (! appearance.uiFadeTimer == 0)
                 repeat: false
                 onTriggered: {
-                    globalConnections.hideUI()
+                    if (! (appearance.uiFadeTimer == 0) ) {
+                        globalConnections.hideUI()
+                    }
                 }
             }
         }
