@@ -86,13 +86,12 @@ MPVNoFBOBackend::MPVNoFBOBackend(QQuickItem* parent)
   mpv_set_option_string(mpv, "slang", "en");
 
   mpv_set_option_string(mpv, "config", "yes");
-  // mpv_set_option_string(mpv, "sub-visibility", "no");
   mpv_observe_property(mpv, 0, "tracks-menu", MPV_FORMAT_NONE);
+  mpv_observe_property(mpv, 0, "chapter-list", MPV_FORMAT_NODE);
   mpv_observe_property(mpv, 0, "playback-abort", MPV_FORMAT_NONE);
   mpv_observe_property(mpv, 0, "chapter-list", MPV_FORMAT_NODE);
   mpv_observe_property(mpv, 0, "track-list", MPV_FORMAT_NODE);
-  mpv_observe_property(mpv, 0, "chapter-list", MPV_FORMAT_NODE);
-  mpv_observe_property(mpv, 0, "audio-device-list", MPV_FORMAT_NONE);
+  mpv_observe_property(mpv, 0, "audio-device-list", MPV_FORMAT_NODE);
   mpv_observe_property(mpv, 0, "playlist-pos", MPV_FORMAT_DOUBLE);
   mpv_observe_property(mpv, 0, "volume", MPV_FORMAT_NONE);
   mpv_observe_property(mpv, 0, "mute", MPV_FORMAT_NONE);
