@@ -20,8 +20,8 @@ Control {
         id: buttonImage
         smooth: true
         fillMode: Image.PreserveAspectFit
-        sourceSize.height: Math.floor(root.parent.height / (appearance.themeName == "Niconico" ? 2 : 1.25))
-        sourceSize.width: Math.floor(root.parent.height / (appearance.themeName == "Niconico" ? 2 : 1.25))
+        sourceSize.height: Math.floor(root.parent.height / (appearance.themeName == "Niconico" ? 1.8 : 1.25))
+        sourceSize.width: Math.floor(root.parent.height / (appearance.themeName == "Niconico" ? 1.8 : 1.25))
         ColorOverlay {
             id: colorOverlay
             anchors.fill: parent

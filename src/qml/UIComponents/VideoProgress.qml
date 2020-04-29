@@ -168,9 +168,7 @@ Slider {
         z: 70
         id: handleRect
         x: progressBar.visualPosition * (progressBar.availableWidth - width)
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: progressBar.center ? (progressBar.height / 2)
-                                                   - (height / 2) : -height / 4
+        anchors.verticalCenter: parent.background.verticalCenter
         implicitHeight: radius
         implicitWidth: radius
         radius: mainWindow.virtualHeight / 59
