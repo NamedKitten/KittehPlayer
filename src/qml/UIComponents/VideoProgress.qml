@@ -119,6 +119,15 @@ Slider {
                     height: parent.height
                     color: getAppearanceValueForTheme(appearance.themeName,
                                                       "progressCachedColor")
+                    AnimatedImage {
+                        visible: fun.nyanCat
+                        height: parent.height
+                        id: nyancacheimation
+                        smooth: false
+                        anchors.fill: parent
+                        source: "qrc:/icons/nyancache.gif"
+                        fillMode: Image.TileHorizontally 
+                    }
                 }
             }
             z: 40
@@ -184,6 +193,7 @@ Slider {
             paused: progressBar.pressed
             height: mainWindow.virtualHeight / 28
             id: nyanimation
+            smooth: false
             anchors.centerIn: parent
             source: "qrc:/icons/nyancat.gif"
             fillMode: Image.PreserveAspectFit
