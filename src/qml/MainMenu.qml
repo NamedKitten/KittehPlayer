@@ -83,13 +83,14 @@ MenuBar {
         }
     }
 
-    LabsPlatform.FileDialog {
+    FileDialog {
         id: fileDialog
         title: translate.getTranslation("OPEN_FILE", i18n.language)
         nameFilters: ["All files (*)"]
+        selectMultiple: false
         onAccepted: {
             player.playerCommand(Enums.Commands.LoadFile,
-                                 String(fileDialog.file))
+                                 String(fileDialog.fileUrl))
             fileDialog.close()
         }
         onRejected: {
