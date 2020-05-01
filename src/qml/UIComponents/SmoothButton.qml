@@ -27,6 +27,7 @@ Control {
             anchors.fill: parent
             source: parent
             color: getAppearanceValueForTheme(appearance.themeName, "buttonColor")
+            cached: false
             Binding on color {
                 when: root.hovered
                 value: root.hovered ? getAppearanceValueForTheme(
