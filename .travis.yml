@@ -1,0 +1,37 @@
+language: cpp
+compiler: gcc
+sudo: require
+dist: trusty
+cache:
+  ccache: true
+  directories:
+  - $HOME/.ccache
+  - $HOME/.cache/apt
+  #- $HOME/.cache/mpv-build
+
+before_install:
+  - mkdir -p $HOME/.cache/apt/partial
+  - sudo rm -rf /var/cache/apt/archives
+  - sudo ln -s $HOME/.cache/apt /var/cache/apt/archives
+  - sudo add-apt-repository ppa:beineri/opt-qt-5.10.1-trusty -y
+  - sudo apt-get update 
+
+install:
+  - sudo apt-get -y install ccache qt510-meta-minimal qt510quickcontrols python3-setuptools qt510quickcontrols2 qt510svg libgl1-mesa-dev x11proto-xext-dev libx11-dev qt510x11extras
+  - sudo apt-get build-dep mpv
+  - source /opt/qt*/bin/qt*-env.sh
+
+script:
+  - wget https://github.com/NamedKitten/mpv-builder/releases/download/continuous/deps.tar.xz
+  - sudo tar xvf deps.tar.xz -C /
+  - time bash scripts/makeappimage.sh
+
+after_success:
+  - time bash scripts/upload.sh
+  
+branches:
+  except:
+    - # Do not build tags that we create when we upload to GitHub Releases
+    - /^(?i:continuous)/
+
+
