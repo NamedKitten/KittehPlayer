@@ -18,7 +18,7 @@ Control {
 
     contentItem: Image {
         id: buttonImage
-        smooth: true
+        smooth: false
         fillMode: Image.PreserveAspectFit
         sourceSize.height: Math.floor(root.parent.height / (appearance.themeName == "Niconico" ? 1.8 : 1.25))
         sourceSize.width: Math.floor(root.parent.height / (appearance.themeName == "Niconico" ? 1.8 : 1.25))

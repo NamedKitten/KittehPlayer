@@ -1,5 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.3
+import player 1.0
 
 Slider {
     id: volumeBar
