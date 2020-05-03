@@ -51,5 +51,21 @@ Slider {
             color: getAppearanceValueForTheme(appearance.themeName,
                                               "volumeSliderBackground")
         }
+
+
+    MouseArea {
+        acceptedButtons: Qt.NoButton
+        z: 10
+        anchors.fill: parent
+        propagateComposedEvents: true
+        onWheel: {
+            if (wheel.angleDelta.y<0){
+                volumeBar.value -= 5
+            }
+            else {
+                volumeBar.value += 5
+            }
+        }
+    }
     }
 }

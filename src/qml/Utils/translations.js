@@ -232,7 +232,19 @@ var translations = {
         TITLE: "Titolo",
         TOGGLE_ALWAYS_ON_TOP: "Mantieni in primo piano",
         DISABLE_TRACK: "Disabilita traccia",
-        AUDIO_DEVICES: "Dispositivi audio"
+        AUDIO_DEVICES: "Dispositivi audio",
+        PLAYLIST_MENU: "Menu Playlist",
+        THEME: "Tema",
+        SETTINGS: "Impostazioni",
+        LANGUAGE: "Lingua",
+        APPEARANCE: "Appearance", //gonna need more context for this
+        TITLE_ONLY_ON_FULLSCREEN: "Mostra il titolo solo in modalità a schermo intero", //kinda long but can't think of a shorter way
+        CLICK_TO_PAUSE: "Tap/Click per mettere in pausa",
+        DOUBLE_TAP_TO_SEEK: "Doppio Tap/Click per andare avanti",
+        DOUBLE_TAP_TO_SEEK_BY: "vai avanti di (secondi)",
+        FONT: "Font",
+        SUBTITLES_FONT_SIZE: "Dimensione Sottotitoli",
+        UI_FADE_TIME: "Fade Interfaccia (millisecondi)"
     },
     russian: {
         OPEN_FILE: "Открыть...",
