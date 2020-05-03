@@ -391,7 +391,7 @@ Window {
                 }
             }
             onReleased: {
-                var isLongEnough = Math.hypot(xStart, mouse.x) > mainWindow.width * 0.3
+                var isLongEnough = Math.sqrt(xStart*xStart, mouse.x*mouse.x) > mainWindow.width * 0.3
                 if (velocity > 2 && isLongEnough) {
                     appearance.scaleFactor += 0.2
                 } else if (velocity < -2 && isLongEnough) {

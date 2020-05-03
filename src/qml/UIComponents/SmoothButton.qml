@@ -22,19 +22,19 @@ Control {
         fillMode: Image.PreserveAspectFit
         sourceSize.height: Math.floor(root.parent.height / (appearance.themeName == "Niconico" ? 1.8 : 1.25))
         sourceSize.width: Math.floor(root.parent.height / (appearance.themeName == "Niconico" ? 1.8 : 1.25))
-        ColorOverlay {
-            id: colorOverlay
-            anchors.fill: parent
-            source: parent
-            color: getAppearanceValueForTheme(appearance.themeName, "buttonColor")
-            cached: false
-            Binding on color {
-                when: root.hovered
-                value: root.hovered ? getAppearanceValueForTheme(
-                             appearance.themeName,
-                             "buttonHoverColor") : getAppearanceValueForTheme(
-                             appearance.themeName, "buttonColor")
-            }
+    }
+    ColorOverlay {
+        id: colorOverlay
+        anchors.fill: buttonImage
+        source: buttonImage
+        color: getAppearanceValueForTheme(appearance.themeName, "buttonColor")
+        cached: true
+        Binding on color {
+            when: root.hovered
+            value: root.hovered ? getAppearanceValueForTheme(
+                         appearance.themeName,
+                         "buttonHoverColor") : getAppearanceValueForTheme(
+                         appearance.themeName, "buttonColor")
         }
     }
 
