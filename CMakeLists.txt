@@ -59,6 +59,7 @@ set(SOURCES
     src/ThumbnailCache.cpp
     src/logger.cpp
     src/qmldebugger.cpp
+    src/registerTypes.cpp
     src/Backends/MPVCommon/MPVCommon.cpp
     src/Backends/MPVNoFBO/MPVNoFBOBackend.cpp
     ${SOURCES}
@@ -74,10 +75,12 @@ set(CMAKE_BUILD_TYPE DEBUG)
 
 option(DEBUG "debugging out" OFF)
 if(DEBUG)
-SET(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_CXX_FLAGS} -ggdb -g3 -O3")
+SET(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_CXX_FLAGS} -ggdb -g3 -Og")
 else()
-SET(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_CXX_FLAGS} -O3 -s")
+SET(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_CXX_FLAGS} -s")
 endif()
+
+SET(CMAKE_CXX_FLAGS "${CMAKE_C_FLAGS} ${CMAKE_CXX_FLAGS}  -Wall -Wextra -Wno-unused-command-line-argument")
 
 
 if(DEFINED ENV{TRAVIS})

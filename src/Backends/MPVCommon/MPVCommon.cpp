@@ -22,7 +22,7 @@ auto mpvLogger = initLogger("mpv");
 
 QString humanSize(uint64_t bytes)
 {
-	char *suffix[] = {"B", "KB", "MB", "GB", "TB"};
+	const char *suffix[5] = {"B", "KB", "MB", "GB", "TB"};
 	char length = sizeof(suffix) / sizeof(suffix[0]);
 
 	int i = 0;

@@ -37,7 +37,7 @@ launchAboutQt()
 }
 
 // https://www.youtube.com/watch?v=nXaxk27zwlk&feature=youtu.be&t=56m34s
-inline const int
+inline int
 fast_mod(const int input, const int ceil)
 {
   return input >= ceil ? input % ceil : input;

@@ -35,3 +35,6 @@ _deps
 *_autogen
 *.core
 .core
+*qmlcache*
+cmake_install.cmake
+spdlog

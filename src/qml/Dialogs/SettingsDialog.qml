@@ -8,9 +8,12 @@ import player 1.0
 Dialog {
     id: settingsDialog
     title: translate.getTranslation("SETTINGS", i18n.language)
-    height: Math.max(480, childrenRect.height)
+    height: 100
     width: 720
     modality: Qt.NonModal
+
+    signal done;
+
     ScrollView {
         id: content
         height: parent.height
@@ -147,6 +150,10 @@ Dialog {
             fontInput.setFont()
             subtitlesFontSizeInput.setSubtitlesFontSize()
             uiFadeTimeInput.setUIFadeTime()
+            settingsDialog.done()
         }
+    }
+    Component.onCompleted: {
+        settingsDialog.open()
     }
 }

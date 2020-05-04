@@ -117,8 +117,16 @@ MenuBar {
         id: playlistDialog
     }
 
-    SettingsDialog {
-        id: settingsDialog
+    Loader {
+        id: settingsDialogLoader
+        active: false
+        source: "SettingsDialog.qml"
+    }
+    Connections {
+        target: settingsDialogLoader.item
+        onDone: {
+            settingsDialogLoader.active = false
+        }
     }
 
     delegate: MenuBarItem {
@@ -475,7 +483,7 @@ MenuBar {
         Action {
             text: translate.getTranslation("SETTINGS", i18n.language)
             onTriggered: {
-                settingsDialog.open()
+                settingsDialogLoader.active = true
             }
         }
         Action {
