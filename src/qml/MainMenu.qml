@@ -184,6 +184,10 @@ MenuBar {
             shortcut: keybinds.openURI
         }
         Action {
+            text: translate.getTranslation("UPDATE_APPIMAGE", i18n.language)
+            onTriggered: utils.updateAppImage()
+        }
+        Action {
             text: translate.getTranslation("EXIT", i18n.language)
             onTriggered: Qt.quit()
             shortcut: keybinds.quit

@@ -59,7 +59,9 @@ var translations = {
         DOUBLE_TAP_TO_SEEK_BY: "Seek by",
         FONT: "Font",
         SUBTITLES_FONT_SIZE: "Subtitles Font Size",
-        UI_FADE_TIME: "UI Fade Time (ms)"
+        UI_FADE_TIME: "UI Fade Time (ms)",
+        UPDATE: "Update (AppImage Only)"
+
     },
     spanish: {
         OPEN_FILE: "Abrir archivo",

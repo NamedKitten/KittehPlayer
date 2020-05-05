@@ -36,6 +36,20 @@ launchAboutQt()
   qapp->aboutQt();
 }
 
+void updateAppImage()
+{
+  QString program =
+    QProcessEnvironment::systemEnvironment().value("APPDIR", "") +
+    "/usr/bin/appimageupdatetool";
+  QProcess updater;
+  updater.setProcessChannelMode(QProcess::ForwardedChannels);
+  updater.start(program,
+                QStringList() << QProcessEnvironment::systemEnvironment().value(
+                  "APPIMAGE", ""));
+  updater.waitForFinished();
+  qApp->exit();
+}
+
 // https://www.youtube.com/watch?v=nXaxk27zwlk&feature=youtu.be&t=56m34s
 inline int
 fast_mod(const int input, const int ceil)
