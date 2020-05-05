@@ -33,12 +33,11 @@ A video player based on Qt, QML and libmpv with themes for many online video pla
 ```
 pacman -S git cmake qt5-svg qt5-declarative qt5-quickcontrols qt5-quickcontrols2 qt5-graphicaleffects mpv
 ```
-##### Ubuntu Xenial 
-``` 
-sudo add-apt-repository ppa:beineri/opt-qt-5.11.1-xenial -y
+##### Ubuntu Bionic
+```
+sudo add-apt-repository ppa:beineri/opt-qt-5.12.6-bionic -y
 sudo apt update
-sudo apt install build-essential git nasm qt511-meta-minimal qt511quickcontrols qt511quickcontrols2 qt511imageformats qt511svg libgl1-mesa-dev libmpv-dev
-sudo apt-get build-dep mpv libmpv* ffmpeg
+sudo apt install build-essential git qt512-meta-minimal qt512quickcontrols qt512quickcontrols2 qt512svg qt512x11extras qt512graphicaleffects qt512svg libgl1-mesa-dev libmpv-dev
 ```
 ##### Debian
 ```
@@ -50,6 +49,7 @@ sudo apt install build-essential cmake qtquickcontrols2-5-dev qtbase5-dev qtdecl
 - `git clone https://github.com/NamedKitten/KittehPlayer KittehPlayer`
 - `cd KittehPlayer`
 - `mkdir build && cd build`
+- If you are on ubuntu bionic, run `source /opt/qt512/bin/qt512-env.sh` and add `-DOLD_UBUNTU=on` to the cmake command next.
 - `cmake .. -DCMAKE_INSTALL_PREFIX=/usr`
 - `make`
 - `sudo make install`

@@ -17,6 +17,8 @@ if(QML_DEBUG)
 add_definitions(-DQT_QML_DEBUG)
 endif()
 
+option(OLD_UBUNTU "old ubuntu" OFF)
+
 find_package(Qt5QuickCompiler)
 if(Qt5QuickCompiler_FOUND)
 qtquick_compiler_add_resources(qml_QRC src/qml/qml.qrc)
@@ -103,6 +105,12 @@ target_link_libraries(KittehPlayer ${MPV_LIBRARIES} ${X11_LIBRARIES} ${Xext_LIBR
 include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS} ${Qt5Concurrent_INCLUDE_DIRS})
 qt5_use_modules(KittehPlayer Qml Quick Core Gui Widgets X11Extras)
 
+if(OLD_UBUNTU)
+install (FILES "${PROJECT_NAME}-Wrapper" DESTINATION bin RENAME "${PROJECT_NAME}")
+install (FILES "${PROJECT_NAME}-Wrapper" DESTINATION bin RENAME "${PROJECT_NAME}-bin")
+
+else()
 install (TARGETS ${PROJECT_NAME} DESTINATION bin)
+endif()
 install (FILES "${PROJECT_NAME}.desktop" DESTINATION share/applications)
 install (FILES "${PROJECT_NAME}.png" DESTINATION share/icons/hicolor/256x256/apps)
