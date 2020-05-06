@@ -6,7 +6,8 @@ var languages = {
     "italian": "Italiano",
     "russian": "Русский",
     "norwegian": "Norwegian",
-    "telugu": "తెలుగు",
+    "tokipona": "toki pona",
+    "telugu": "తెలుగు"
 }
 
 var translations = {
@@ -325,6 +326,59 @@ var translations = {
         TOGGLE_ALWAYS_ON_TOP: "Alltid Øverst",
         DISABLE_TRACK: "Skru Av Spor"
     },
+    tokipona: {
+        OPEN_FILE: "open e lipu",
+        URL_FILE_PATH: "URL / nasin lipu",
+        FILE_MENU: "lipu",
+        OPEN_URL: "open e URL",
+        EXIT: "pini",
+        PLAYBACK: "tawa",
+        PLAY_PAUSE: "tawa/awen",
+        REWIND_10S: "tawa monsi mute",
+        FORWARD_10S: "tawa sinpin mute",
+        REWIND_5S: "tawa monsi lili",
+        FORWARD_5S: "tawa sinpin lili",
+        SPEED_DECREASE_POINT_ONE: "lili lili e tawa",
+        SPEED_INCREASE_POINT_ONE: "mute lili e tawa",
+        HALVE_SPEED: "lili mute e tawa",
+        DOUBLE_SPEED: "mute mute e tawa",
+        BACKWARD_FRAME: "monsi pi sitelen wan",
+        FORWARD_FRAME: "sinpin pi sitelen wan",
+        AUDIO: "kalama",
+        CYCLE_AUDIO_TRACK: "ante e kalama",
+        INCREASE_VOLUME: "mute e kalama",
+        DECREASE_VOLUME: "lili e kalama",
+        MUTE_VOLUME: "awen e kalama",
+        VIDEO: "sitelen tawa",
+        CYCLE_VIDEO: "ante e sitelen tawa",
+        SUBTITLES: "sitelen anpa",
+        CYCLE_SUB_TRACK: "ante e sitelen anpa",
+        CYCLE_AUDIO_TRACK: "ante e kalama",
+        TOGGLE_MPV_SUBS: "open anu awen e sitelen MPV",
+        VIEW: "lukin",
+        FULLSCREEN: "lupa lukin ale",
+        STATS: "nanpa",
+        TOGGLE_NYAN_CAT: "open anu awen e soweli Nian",
+        ABOUT: "ni li seme?",
+        ABOUT_QT: "QT li seme?",
+        TITLE: "nimi",
+        TOGGLE_ALWAYS_ON_TOP: "sewi ala sewi e lipu",
+        DISABLE_TRACK: "awen e linja",
+        AUDIO_DEVICES: "ila kalama",
+        PLAYLIST_MENU: "lipu musi",
+        THEME: "len ijo",
+        SETTINGS: "ken ijo",
+        LANGUAGE: "toki",
+        APPEARANCE: "lukin ijo",
+        TITLE_ONLY_ON_FULLSCREEN: "lupa lukin ale taso la, sitelen e nimi",
+        CLICK_TO_PAUSE: "luka la, awen",
+        DOUBLE_TAP_TO_SEEK: "luka tu la, lukin",
+        DOUBLE_TAP_TO_SEEK_BY: "luka tu la, lukin kepeken",
+        FONT: "sitelen",
+        SUBTITLES_FONT_SIZE: "suli pi sitelen anpa",
+        UI_FADE_TIME: "tenpo pi wawa UI",
+        UPDATE: "sin e ijo (AppImage taso)"
+    },
     telugu: {
         OPEN_FILE: "ఫైల్ తెరువు",
         URL_FILE_PATH: "లింకు / ఫైల్ ఉన్న ప్రదేశం",
@@ -376,6 +430,5 @@ var translations = {
         SUBTITLES_FONT_SIZE: "సుబ్టైటల్ పదాలు/ఫాంట్ సైజు",
         UI_FADE_TIME: "UI వీడిపోవు(మిల్లీ సె)",
         UPDATE_APPIMAGE: "అప్డేట్ చేయి (AppImage Only)"
-
     }
 }
