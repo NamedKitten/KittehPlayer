@@ -12,6 +12,8 @@ find_package(Qt5Concurrent REQUIRED)
 
 find_package(Qt5 CONFIG REQUIRED COMPONENTS Qml Quick Gui Widgets Core X11Extras)
 
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
 option(QML_DEBUG "enable qml debug" OFF)
 if(QML_DEBUG)
 add_definitions(-DQT_QML_DEBUG)
