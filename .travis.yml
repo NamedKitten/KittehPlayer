@@ -16,7 +16,7 @@ before_install:
   - sudo apt-get update 
 
 install:
-  - sudo apt-get -y install ccache build-essential git qt512-meta-minimal qt512quickcontrols qt512quickcontrols2 qt512svg qt512x11extras qt512graphicaleffects qt512svg libgl1-mesa-dev libmpv-dev libgl1-mesa-dev x11proto-xext-dev libx11-dev python3-setuptools 
+  - sudo apt-get -y install build-essential git qt512-meta-minimal qt512quickcontrols qt512quickcontrols2 qt512svg qt512x11extras qt512graphicaleffects qt512svg libgl1-mesa-dev libmpv-dev libgl1-mesa-dev x11proto-xext-dev libx11-dev python3-setuptools 
   - sudo apt-get build-dep mpv
   - source /opt/qt*/bin/qt*-env.sh
 

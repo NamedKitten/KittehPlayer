@@ -48,34 +48,28 @@ MenuBar {
       trackLang = trackLang == undefined ? "" : trackLang
       var trackTitle = track["title"] == undefined ? "" : track["title"] + " "
       var component = Qt.createComponent("TrackItem.qml")
+      var menu,  menuGroup, itemText, type;
       if (trackType == "sub") {
-        var action = component.createObject(subMenu, {
-                                              "text": trackLang,
-                                              "trackID": String(trackID),
-                                              "trackType": "sid",
-                                              "checked": track["selected"]
-                                            })
-        action.ActionGroup.group = subMenuGroup
-        subMenu.addAction(action)
+        menu = subMenu;
+        menuGroup = subMenuGroup;
+        itemText = trackLang;
       } else if (trackType == "audio") {
-        var action = component.createObject(audioMenu, {
-                                              "text": trackTitle + trackLang,
-                                              "trackID": String(trackID),
-                                              "trackType": "aid",
-                                              "checked": track["selected"]
-                                            })
-        action.ActionGroup.group = audioMenuGroup
-        audioMenu.addAction(action)
+        menu = audioMenu;
+        menuGroup = audioMenuGroup;
+        itemText = trackTitle + trackLang;
       } else if (trackType == "video") {
-        var action = component.createObject(videoMenu, {
-                                              "text": "Video " + trackID + trackTitle,
-                                              "trackID": String(trackID),
-                                              "trackType": "vid",
-                                              "checked": track["selected"]
-                                            })
-        action.ActionGroup.group = videoMenuGroup
-        videoMenu.addAction(action)
+        menu = videoMenu;
+        menuGroup = videoMenuGroup;
+        itemText = "Video " + trackID + trackTitle;
       }
+      var action = component.createObject(menu, {
+                                            "text": itemText,
+                                            "trackID": String(trackID),
+                                            "trackType": trackType == "sub" ? "sid" : trackType == "video" ? "vid" : "aid",
+                                            "checked": track["selected"]
+                                          })
+      action.ActionGroup.group = menuGroup
+      videoMenu.addAction(action)
     }
   }
 
@@ -330,9 +324,11 @@ MenuBar {
           audioDeviceMenu.addAction(action)
         }
       }
-
-      ActionGroup {
-        id: audioDeviceMenuGroup
+      ScrollView {
+        clip: true
+        ActionGroup {
+          id: audioDeviceMenuGroup
+        }
       }
     }
 

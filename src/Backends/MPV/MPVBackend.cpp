@@ -151,7 +151,7 @@ MPVBackend::MPVBackend(QQuickItem* parent)
     QSettings settings;
     usedirect = settings.value("Backend/direct", false).toBool();
 
-    mpv_set_option_string(mpv, "terminal", "false");
+    mpv_set_option_string(mpv, "terminal", "true");
     mpv_set_option_string(mpv, "msg-level", "all=v");
 
     // Fix?
