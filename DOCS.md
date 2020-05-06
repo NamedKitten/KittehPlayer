@@ -14,7 +14,7 @@ A YouTube-like video player based on Qt, QML and libmpv.
 - `norwegian` Norwegian
 - `telugu` తెలుగు
 - Left = config value; Right = language name
-- If your language isn't listed above then please either contact me (details at bottom of readme) or make a PR with the translations which are located in the file `src/qml/translations.js`.
+- If your language isn't listed above then please either contact me (details at bottom of readme) or make a PR with the translations which are located in the file `src/qml/utils/translations.js`.
 
 ## MPV Config
 - Since KittehPlayer's default backend is based on libmpv, you can use the mpv.conf from `~/.config/mpv/mpv.conf`.
