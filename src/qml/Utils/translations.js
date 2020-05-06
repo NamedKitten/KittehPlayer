@@ -6,6 +6,8 @@ var languages = {
     "italian": "Italiano",
     "russian": "Русский",
     "norwegian": "Norwegian",
+    "telugu": "తెలుగు"
+    
 }
 
 var translations = {
@@ -324,5 +326,59 @@ var translations = {
         TITLE: "Tittel",
         TOGGLE_ALWAYS_ON_TOP: "Alltid Øverst",
         DISABLE_TRACK: "Skru Av Spor"
+    },
+    : {
+        OPEN_FILE: "ఫైల్ తెరువు",
+        URL_FILE_PATH: "లింకు / ఫైల్ ఉన్న ప్రదేశం",
+        FILE_MENU: "ఫైల్ మెనూ",
+        OPEN_URL: "URL తెరువు",
+        EXIT: "నిష్క్రమణ",
+        PLAYBACK: "ప్లేబ్యాక్",
+        PLAY_PAUSE: "ప్లే/పౌస్",
+        REWIND_10S: "10సె వెనక్కి",
+        FORWARD_10S: "10సె ముందుకి",
+        REWIND_5S: "5సె వెనక్కి",
+        FORWARD_5S: "5సె వెనక్కి",
+        SPEED_DECREASE_POINT_ONE: "వేగం -0.1",
+        SPEED_INCREASE_POINT_ONE: "వేగం +0.1",
+        HALVE_SPEED: "వేగం సగానికి",
+        DOUBLE_SPEED: "వేగం రెట్టింపు",
+        BACKWARD_FRAME: "ఫ్రేము వెనక్కి",
+        FORWARD_FRAME: "ఫ్రేము ముందుకి",
+        AUDIO: "ఆడియో మెనూ",
+        CYCLE_AUDIO_TRACK: "ఆడియో ట్రాక్ ని సైకిల్ చేయి",
+        INCREASE_VOLUME: "ధ్వని పెంచు",
+        DECREASE_VOLUME: "ధ్వని తగ్గించు",
+        MUTE_VOLUME: "మ్యూట్ చేయి",
+        VIDEO: "వీడియో మెనూ",
+        CYCLE_VIDEO: "వీడియో ని సైకిల్ చేయి",
+        SUBTITLES: "ఉపశీర్షిక/subtitles",
+        CYCLE_SUB_TRACK: "ఉపశీర్షిక ట్రాక్ ని సైకిల్ చేయి",
+        CYCLE_AUDIO_TRACK: "ఆడియో ట్రాక్ ని సైకిల్ చేయి",
+        TOGGLE_MPV_SUBS: "ఉపశీర్షిక MPV నుండి/కు మార్చు",
+        VIEW: "దర్శన",
+        FULLSCREEN: "స్క్రీన్ నింపు",
+        STATS: "గణాంకాలు",
+        TOGGLE_NYAN_CAT: "Nyan Cat నుండి/కు మార్చు",
+        ABOUT: "మా గురుంచి",
+        ABOUT_QT: "Qt గురించి",
+        TITLE: "టైటిల్",
+        TOGGLE_ALWAYS_ON_TOP: "పైవైపు నుండి/కు మార్చు",
+        DISABLE_TRACK: "ట్రాక్ ని ఆపు",
+        AUDIO_DEVICES: "ఆడియో పరికరాలు",
+        PLAYLIST_MENU: "ప్లేయలిస్ట్ మెనూ",
+        THEME: "థీమ్ ",
+        SETTINGS: "సెట్టింగులు",
+        LANGUAGE: "భాష ",
+        APPEARANCE: "ప్రదర్శన",
+        TITLE_ONLY_ON_FULLSCREEN: "స్క్రీన్ నింపినప్పుడే టైటిల్ చూపు",
+        CLICK_TO_PAUSE: "పౌస్ చేయడానికి క్లిక్/టాప్ చేయండి",
+        DOUBLE_TAP_TO_SEEK: "సీక్ చేయడానికి డబల్ టాప్/క్లిక్ చేయండి",
+        DOUBLE_TAP_TO_SEEK_BY: "సీక్ ఆధారం",
+        FONT: "పదాలు/ఫాంట్",
+        SUBTITLES_FONT_SIZE: "సుబ్టైటల్ పదాలు/ఫాంట్ సైజు",
+        UI_FADE_TIME: "UI వీడిపోవు(మిల్లీ సె)",
+        UPDATE: "అప్డేట్ చేయి (AppImage Only)"
+
     }
 }
