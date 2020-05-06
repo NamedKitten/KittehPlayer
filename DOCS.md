@@ -12,6 +12,7 @@ A YouTube-like video player based on Qt, QML and libmpv.
 - `italian` Italiano
 - `russian` Русский
 - `norwegian` Norwegian
+- `tokipona` toki pona
 - `telugu` తెలుగు
 - Left = config value; Right = language name
 - If your language isn't listed above then please either contact me (details at bottom of readme) or make a PR with the translations which are located in the file `src/qml/utils/translations.js`.
