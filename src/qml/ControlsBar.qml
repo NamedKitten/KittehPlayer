@@ -4,99 +4,99 @@ import QtQuick.Layouts 1.2
 import player 1.0
 
 Item {
-    id: controlsBarItem
-    property var combinedHeight: progressBar.height + controlsBackground.height
-    property bool controlsShowing: true
+  id: controlsBarItem
+  property var combinedHeight: progressBar.height + controlsBackground.height
+  property bool controlsShowing: true
+  anchors {
+    bottom: parent.bottom
+    left: parent.left
+    right: parent.right
+  }
+
+  Connections {
+    target: globalConnections
+    onHideUI: function (force) {
+      controlsBarItem.controlsShowing = false
+    }
+    onShowUI: {
+      controlsBarItem.controlsShowing = true
+    }
+  }
+
+  Connections {
+    target: appearance
+    onThemeNameChanged: setControlsTheme(appearance.themeName)
+  }
+
+  function setControlsTheme(themeName) {
+    for (var i = 0; i < controlsBar.children.length; ++i) {
+      if (controlsBar.children[i].objectName == "buttonLayout") {
+        controlsBar.children[i].destroy()
+      }
+    }
+
+    var component = Qt.createComponent(themeName + "ButtonLayout.qml")
+    if (component.status == Component.Error) {
+      console.error("Error loading component: " + component.errorString())
+    }
+    component.createObject(controlsBar, {})
+  }
+
+  SubtitlesBar {
+    anchors.bottom: controlsBackground.top
+  }
+
+  VideoProgress {
+    id: progressBar
+    visible: controlsBarItem.controlsShowing
+             && appearance.themeName != "RoosterTeeth"
+    bottomPadding: 0
+    rightPadding: 0
+    leftPadding: 0
+    z: 20
     anchors {
-        bottom: parent.bottom
-        left: parent.left
-        right: parent.right
+      bottom: controlsBackground.top
+      left: controlsBackground.left
+      right: controlsBackground.right
+      leftMargin: parent.width / 128
+      rightMargin: parent.width / 128
+      bottomMargin: 0
     }
+  }
 
-    Connections {
-        target: globalConnections
-        onHideUI: function (force) {
-            controlsBarItem.controlsShowing = false
-        }
-        onShowUI: {
-            controlsBarItem.controlsShowing = true
-        }
+  Rectangle {
+    id: controlsBackground
+    height: controlsBar.visible ? controlsBar.height
+                                  + (appearance.themeName
+                                     == "RoosterTeeth" ? 0 : progressBar.topPadding) : 0
+    Layout.fillWidth: true
+    Layout.fillHeight: true
+    color: getAppearanceValueForTheme(appearance.themeName, "mainBackground")
+    visible: controlsBarItem.controlsShowing
+    z: 10
+    anchors {
+      bottom: parent.bottom
+      left: parent.left
+      right: parent.right
     }
+  }
 
-    Connections {
-        target: appearance
-        onThemeNameChanged: setControlsTheme(appearance.themeName)
+  Item {
+    id: controlsBar
+    height: controlsBar.visible ? mainWindow.virtualHeight / 20 : 0
+    visible: controlsBarItem.controlsShowing
+    z: 30
+    anchors {
+      right: parent.right
+      rightMargin: parent.width / 128
+      left: parent.left
+      leftMargin: parent.width / 128
+      bottom: parent.bottom
+      bottomMargin: 0
     }
+  }
 
-    function setControlsTheme(themeName) {
-        for (var i = 0; i < controlsBar.children.length; ++i) {
-            if (controlsBar.children[i].objectName == "buttonLayout") {
-                controlsBar.children[i].destroy()
-            }
-        }
-
-        var component = Qt.createComponent(themeName + "ButtonLayout.qml")
-        if (component.status == Component.Error) {
-            console.error("Error loading component: " + component.errorString())
-        }
-        component.createObject(controlsBar, {})
-    }
-
-    SubtitlesBar {
-        anchors.bottom: controlsBackground.top
-    }
-
-    VideoProgress {
-        id: progressBar
-        visible: controlsBarItem.controlsShowing && appearance.themeName != "RoosterTeeth"
-        bottomPadding: 0
-        rightPadding: 0
-        leftPadding: 0
-        z: 20
-        anchors {
-            bottom: controlsBackground.top
-            left: controlsBackground.left
-            right: controlsBackground.right
-            leftMargin: parent.width / 128
-            rightMargin: parent.width / 128
-            bottomMargin: 0
-        }
-    }
-
-    Rectangle {
-        id: controlsBackground
-        height: controlsBar.visible ? controlsBar.height
-                                      + (appearance.themeName
-                                         == "RoosterTeeth" ? 0 : progressBar.topPadding) : 0
-        Layout.fillWidth: true
-        Layout.fillHeight: true
-        color: getAppearanceValueForTheme(appearance.themeName,
-                                          "mainBackground")
-        visible: controlsBarItem.controlsShowing
-        z: 10
-        anchors {
-            bottom: parent.bottom
-            left: parent.left
-            right: parent.right
-        }
-    }
-
-    Item {
-        id: controlsBar
-        height: controlsBar.visible ? mainWindow.virtualHeight / 20 : 0
-        visible: controlsBarItem.controlsShowing
-        z: 30
-        anchors {
-            right: parent.right
-            rightMargin: parent.width / 128
-            left: parent.left
-            leftMargin: parent.width / 128
-            bottom: parent.bottom
-            bottomMargin: 0
-        }
-    }
-
-    Component.onCompleted: {
-        setControlsTheme(appearance.themeName)
-    }
+  Component.onCompleted: {
+    setControlsTheme(appearance.themeName)
+  }
 }

@@ -3,9 +3,9 @@
 #include <QByteArray>
 #include <QCryptographicHash>
 #include <QFileInfo>
+#include <QIODevice>
 #include <QImage>
 #include <QImageReader>
-#include <QIODevice>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
@@ -13,57 +13,54 @@
 #include <QUrl>
 
 ThumbnailCache::ThumbnailCache(QObject* parent)
-  : QObject(parent)
-  , manager(new QNetworkAccessManager(this))
+    : QObject(parent)
+    , manager(new QNetworkAccessManager(this))
 {
-  cacheFolder =
-    QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) +
-         "/thumbs");
-  if (!cacheFolder.exists()) {
-    cacheFolder.mkpath(".");
-  }
+    cacheFolder = QDir(QStandardPaths::writableLocation(QStandardPaths::CacheLocation) + "/thumbs");
+    if (!cacheFolder.exists()) {
+        cacheFolder.mkpath(".");
+    }
 }
 
-void
-ThumbnailCache::addURL(const QString& name, const QString& mediaURL)
+void ThumbnailCache::addURL(const QString& name, const QString& mediaURL)
 {
 
-  QString hashedURL = QString(
-    QCryptographicHash::hash(name.toUtf8(), QCryptographicHash::Md5).toHex());
-  QString cacheFilename = hashedURL + ".jpg";
-  QString cachedFilePath = cacheFolder.absoluteFilePath(cacheFilename);
-  if (cacheFolder.exists(cacheFilename)) {
-    emit thumbnailReady(name, mediaURL, "file://" + cachedFilePath);
-    return;
-  }
+    QString hashedURL = QString(
+        QCryptographicHash::hash(name.toUtf8(), QCryptographicHash::Md5).toHex());
+    QString cacheFilename = hashedURL + ".jpg";
+    QString cachedFilePath = cacheFolder.absoluteFilePath(cacheFilename);
+    if (cacheFolder.exists(cacheFilename)) {
+        emit thumbnailReady(name, mediaURL, "file://" + cachedFilePath);
+        return;
+    }
 
-  QString url(mediaURL);
-  QFileInfo isFile = QFileInfo(url);
-  if (isFile.exists()) {
-    QImageReader reader(url);
-    QImage image = reader.read();
+    QString url(mediaURL);
+    QFileInfo isFile = QFileInfo(url);
+    if (isFile.exists()) {
+        QImageReader reader(url);
+        QImage image = reader.read();
 
-    image.save(cachedFilePath, "JPG");
+        image.save(cachedFilePath, "JPG");
 
-    emit thumbnailReady(name, mediaURL, "file://" + cachedFilePath);
-    return;
-  }
+        emit thumbnailReady(name, mediaURL, "file://" + cachedFilePath);
+        return;
+    }
 
-  QNetworkRequest request(url);
+    QNetworkRequest request(url);
 
-  QNetworkReply* reply = manager->get(request);
+    QNetworkReply* reply = manager->get(request);
 
-  connect(reply, &QNetworkReply::finished, [=] {
-    QByteArray response_data = reply->readAll();
+    connect(reply, &QNetworkReply::finished, [=] {
+        QByteArray response_data = reply->readAll();
 
-    QBuffer buffer(&response_data);
-    buffer.open(QIODevice::ReadOnly);
+        QBuffer buffer(&response_data);
+        buffer.open(QIODevice::ReadOnly);
 
-    QImageReader reader(&buffer);
-    QImage image = reader.read();
+        QImageReader reader(&buffer);
+        QImage image = reader.read();
 
-    image.save(cachedFilePath, "JPG");
+        image.save(cachedFilePath, "JPG");
 
-    emit thumbnailReady(name, mediaURL, "file://" + cachedFilePath);
-  });
+        emit thumbnailReady(name, mediaURL, "file://" + cachedFilePath);
+    });
 }

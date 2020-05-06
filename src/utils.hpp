@@ -6,34 +6,27 @@
 
 namespace Utils {
 Q_NAMESPACE
-void
-SetDPMS(bool on);
-void
-SetScreensaver(WId wid, bool on);
-void
-AlwaysOnTop(WId wid, bool on);
+void SetDPMS(bool on);
+void SetScreensaver(WId wid, bool on);
+void AlwaysOnTop(WId wid, bool on);
 QString
 createTimestamp(int seconds);
-void
-launchAboutQt();
-void
-updateAppImage();
+void launchAboutQt();
+void updateAppImage();
 }
 
-class UtilsClass : public QObject
-{
-  Q_OBJECT
+class UtilsClass : public QObject {
+    Q_OBJECT
 public slots:
-  void SetDPMS(bool on) { Utils::SetDPMS(on); };
-  void AlwaysOnTop(WId wid, bool on) { Utils::AlwaysOnTop(wid, on); };
-  void launchAboutQt() { Utils::launchAboutQt(); };
-  void updateAppImage() { Utils::updateAppImage(); };
+    void SetDPMS(bool on) { Utils::SetDPMS(on); };
+    void AlwaysOnTop(WId wid, bool on) { Utils::AlwaysOnTop(wid, on); };
+    void launchAboutQt() { Utils::launchAboutQt(); };
+    void updateAppImage() { Utils::updateAppImage(); };
 
-
-  QString createTimestamp(int seconds)
-  {
-    return Utils::createTimestamp(seconds);
-  };
+    QString createTimestamp(int seconds)
+    {
+        return Utils::createTimestamp(seconds);
+    };
 };
 
 #endif

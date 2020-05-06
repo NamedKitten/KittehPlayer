@@ -1,24 +1,24 @@
-#include <QtGlobal>
-#include <locale.h>
 #include <QApplication>
 #include <QProcess>
-#include <QtQml>
 #include <QQmlApplicationEngine>
+#include <QtGlobal>
+#include <QtQml>
+#include <locale.h>
 #ifdef QT_QML_DEBUG
 #warning "QML Debugging Enabled!!!"
 #include <QQmlDebug>
 #endif
+#include "logger.h"
+#include "spdlog/logger.h"
 #include <QSettings>
 #include <QString>
 #include <QUrl>
 #include <QVariant>
-#include <spdlog/fmt/fmt.h>
 #include <cstdlib>
 #include <exception>
 #include <iosfwd>
 #include <memory>
-#include "logger.h"
-#include "spdlog/logger.h"
+#include <spdlog/fmt/fmt.h>
 
 extern void registerTypes();
 
@@ -29,94 +29,89 @@ extern void registerTypes();
 auto qmlLogger = initLogger("qml");
 auto miscLogger = initLogger("misc");
 
-void
-spdLogger(QtMsgType type, const QMessageLogContext& context, const QString& msg)
+void spdLogger(QtMsgType type, const QMessageLogContext& context, const QString& msg)
 {
-  std::string localMsg = msg.toUtf8().constData();
-  std::shared_ptr<spdlog::logger> logger;
-  if (QString(context.category).startsWith(QString("qml"))) {
-    logger = qmlLogger;
-  } else {
-    logger = miscLogger;
-  }
+    std::string localMsg = msg.toUtf8().constData();
+    std::shared_ptr<spdlog::logger> logger;
+    if (QString(context.category).startsWith(QString("qml"))) {
+        logger = qmlLogger;
+    } else {
+        logger = miscLogger;
+    }
 
-  switch (type) {
+    switch (type) {
     case QtDebugMsg:
-      logger->debug("{}", localMsg);
-      break;
+        logger->debug("{}", localMsg);
+        break;
     case QtInfoMsg:
-      logger->info("{}", localMsg);
-      break;
+        logger->info("{}", localMsg);
+        break;
     case QtWarningMsg:
-      logger->warn("{}", localMsg);
-      break;
+        logger->warn("{}", localMsg);
+        break;
     case QtCriticalMsg:
-      logger->critical("{}", localMsg);
-      break;
+        logger->critical("{}", localMsg);
+        break;
     case QtFatalMsg:
-      logger->critical("{}", localMsg);
-      abort();
-  }
+        logger->critical("{}", localMsg);
+        abort();
+    }
 }
 
-int
-main(int argc, char* argv[])
+int main(int argc, char* argv[])
 {
-  qInstallMessageHandler(spdLogger);
+    qInstallMessageHandler(spdLogger);
 
-  auto launcherLogger = initLogger("launcher");
-  launcherLogger->info("Starting up!");
+    auto launcherLogger = initLogger("launcher");
+    launcherLogger->info("Starting up!");
 
-  setenv("QT_QUICK_CONTROLS_STYLE", "Desktop", 1);
-  QApplication app(argc, argv);
+    setenv("QT_QUICK_CONTROLS_STYLE", "Desktop", 1);
+    QApplication app(argc, argv);
 
-  app.setOrganizationName("KittehPlayer");
-  app.setOrganizationDomain("kitteh.pw");
-  app.setApplicationName("KittehPlayer");
+    app.setOrganizationName("KittehPlayer");
+    app.setOrganizationDomain("kitteh.pw");
+    app.setApplicationName("KittehPlayer");
 
 #ifdef QT_QML_DEBUG
-  // Allows debug.
-  QQmlDebuggingEnabler enabler;
+    // Allows debug.
+    QQmlDebuggingEnabler enabler;
 #endif
 
-  QSettings settings;
+    QSettings settings;
 
-  bool ranFirstTimeSetup = settings.value("Setup/ranSetup", false).toBool();
+    bool ranFirstTimeSetup = settings.value("Setup/ranSetup", false).toBool();
 
 #ifdef __linux__
-  // WARNING, THIS IS A BIG HACK
-  // this is only to make it so KittehPlayer works first try on pinephone.
-  // TODO: launch a opengl window or use offscreen to see if GL_ARB_framebuffer_object
-  // can be found
-  if (! (settings.value("Backend/disableSunxiCheck", false).toBool() || ranFirstTimeSetup)) {
-    FILE *fd = popen("grep sun[x8]i /proc/modules", "r");
-    char buf[16];
-    if (fread(buf, 1, sizeof (buf), fd) > 0) {
-      launcherLogger->info("Running on sunxi, switching to NoFBO.");
-      settings.setValue("Appearance/clickToPause", false);
-      settings.setValue("Appearance/doubleTapToSeek", true);
-      settings.setValue("Appearance/scaleFactor", 2.2);
-      settings.setValue("Appearance/subtitlesFontSize", 38);
-      settings.setValue("Appearance/uiFadeTimer", 0);
+    // WARNING, THIS IS A BIG HACK
+    // this is only to make it so KittehPlayer works first try on pinephone.
+    // TODO: launch a opengl window or use offscreen to see if GL_ARB_framebuffer_object
+    // can be found
+    if (!(settings.value("Backend/disableSunxiCheck", false).toBool() || ranFirstTimeSetup)) {
+        FILE* fd = popen("grep sun[x8]i /proc/modules", "r");
+        char buf[16];
+        if (fread(buf, 1, sizeof(buf), fd) > 0) {
+            launcherLogger->info("Running on sunxi, switching to NoFBO.");
+            settings.setValue("Appearance/clickToPause", false);
+            settings.setValue("Appearance/doubleTapToSeek", true);
+            settings.setValue("Appearance/scaleFactor", 2.2);
+            settings.setValue("Appearance/subtitlesFontSize", 38);
+            settings.setValue("Appearance/uiFadeTimer", 0);
+        }
     }
-  }
 #endif
 
+    settings.setValue("Setup/ranSetup", true);
 
-  settings.setValue("Setup/ranSetup", true);
+    QString newpath = QProcessEnvironment::systemEnvironment().value("APPDIR", "") + "/usr/bin:" + QProcessEnvironment::systemEnvironment().value("PATH", "");
+    setenv("PATH", newpath.toUtf8().constData(), 1);
 
-  QString newpath =
-    QProcessEnvironment::systemEnvironment().value("APPDIR", "") +
-    "/usr/bin:" + QProcessEnvironment::systemEnvironment().value("PATH", "");
-  setenv("PATH", newpath.toUtf8().constData(), 1);
+    registerTypes();
 
-  registerTypes();
+    setlocale(LC_NUMERIC, "C");
+    launcherLogger->info("Loading player...");
 
-  setlocale(LC_NUMERIC, "C");
-  launcherLogger->info("Loading player...");
+    QQmlApplicationEngine engine;
+    engine.load(QUrl(QStringLiteral("qrc:///main.qml")));
 
-  QQmlApplicationEngine engine;
-  engine.load(QUrl(QStringLiteral("qrc:///main.qml")));
-
-  return app.exec();
+    return app.exec();
 }
