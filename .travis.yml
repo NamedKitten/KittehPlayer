@@ -2,11 +2,6 @@ language: cpp
 compiler: gcc
 sudo: require
 dist: bionic
-cache:
-  ccache: true
-  directories:
-  - $HOME/.ccache
-  - $HOME/.cache/apt
 
 before_install:
   - mkdir -p $HOME/.cache/apt/partial
