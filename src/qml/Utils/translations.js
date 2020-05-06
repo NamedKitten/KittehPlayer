@@ -62,7 +62,6 @@ var translations = {
         SUBTITLES_FONT_SIZE: "Subtitles Font Size",
         UI_FADE_TIME: "UI Fade Time (ms)",
         UPDATE_APPIMAGE: "Update (AppImage Only)"
-
     },
     spanish: {
         OPEN_FILE: "Abrir archivo",
