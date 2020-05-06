@@ -5,13 +5,15 @@ A YouTube-like video player based on Qt, QML and libmpv.
 - On linux the config file will be located at `~/.config/KittehPlayer/KittehPlayer.conf`
 
 ## Supported Languages
-- `english`
-- `french`
-- `spanish`
-- `german`
-- `italian`
-- `russian`
-- `norweigan`
+- `english` English
+- `spanish` Español
+- `german` Deutsch
+- `french` Française
+- `italian` Italiano
+- `russian` Русский
+- `norwegian` Norwegian
+- `telugu` తెలుగు
+- Left = config value; Right = language name
 - If your language isn't listed above then please either contact me (details at bottom of readme) or make a PR with the translations which are located in the file `src/qml/translations.js`.
 
 ## MPV Config

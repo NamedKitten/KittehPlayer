@@ -6,8 +6,7 @@ var languages = {
     "italian": "Italiano",
     "russian": "Русский",
     "norwegian": "Norwegian",
-    "telugu": "తెలుగు"
-    
+    "telugu": "తెలుగు",
 }
 
 var translations = {
@@ -327,7 +326,7 @@ var translations = {
         TOGGLE_ALWAYS_ON_TOP: "Alltid Øverst",
         DISABLE_TRACK: "Skru Av Spor"
     },
-    : {
+    telugu: {
         OPEN_FILE: "ఫైల్ తెరువు",
         URL_FILE_PATH: "లింకు / ఫైల్ ఉన్న ప్రదేశం",
         FILE_MENU: "ఫైల్ మెనూ",
@@ -346,7 +345,6 @@ var translations = {
         BACKWARD_FRAME: "ఫ్రేము వెనక్కి",
         FORWARD_FRAME: "ఫ్రేము ముందుకి",
         AUDIO: "ఆడియో మెనూ",
-        CYCLE_AUDIO_TRACK: "ఆడియో ట్రాక్ ని సైకిల్ చేయి",
         INCREASE_VOLUME: "ధ్వని పెంచు",
         DECREASE_VOLUME: "ధ్వని తగ్గించు",
         MUTE_VOLUME: "మ్యూట్ చేయి",
