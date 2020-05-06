@@ -206,7 +206,7 @@ MenuBar {
       shortcut: keybinds.forward10
     }
     Action {
-      text: translate.getTranslation("FORWARD_5S", i18n.language)
+      text: translate.getTranslation("REWIND_5S", i18n.language)
       onTriggered: {
         player.playerCommand(Enums.Commands.Seek, "-5")
       }
