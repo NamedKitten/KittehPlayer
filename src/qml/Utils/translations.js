@@ -61,7 +61,7 @@ var translations = {
         FONT: "Font",
         SUBTITLES_FONT_SIZE: "Subtitles Font Size",
         UI_FADE_TIME: "UI Fade Time (ms)",
-        UPDATE: "Update (AppImage Only)"
+        UPDATE_APPIMAGE: "Update (AppImage Only)"
 
     },
     spanish: {
@@ -376,7 +376,7 @@ var translations = {
         FONT: "పదాలు/ఫాంట్",
         SUBTITLES_FONT_SIZE: "సుబ్టైటల్ పదాలు/ఫాంట్ సైజు",
         UI_FADE_TIME: "UI వీడిపోవు(మిల్లీ సె)",
-        UPDATE: "అప్డేట్ చేయి (AppImage Only)"
+        UPDATE_APPIMAGE: "అప్డేట్ చేయి (AppImage Only)"
 
     }
 }
