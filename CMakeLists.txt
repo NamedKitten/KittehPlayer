@@ -36,9 +36,8 @@ pkg_check_modules(Xext xext)
 option(USE_EXTERNAL_SPDLOG "use external spdlog" OFF)
 
 if(USE_EXTERNAL_SPDLOG)
-    pkg_check_modules(spdlog REQUIRED spdlog)
-    include_directories(${spdlog_PREFIX}/include)
-    message(h ${spdlog_INCLUDE})
+    include_directories(${EXTERNAL_SPDLOG_PATH}/include)
+    include_directories(${EXTERNAL_SPDLOG_PATH})
 else()
 execute_process(
   COMMAND git clone --depth 1 https://github.com/gabime/spdlog.git
