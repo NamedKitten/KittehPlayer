@@ -82,11 +82,18 @@ int main(int argc, char* argv[])
     bool ranFirstTimeSetup = settings.value("Setup/ranSetup", false).toBool();
 
 #ifdef __linux__
+    bool pinephone;
+#ifdef PINEPHONE
+    pinephone = true;
+#else
+    pinephone = false;
+#endif
+
     // WARNING, THIS IS A BIG HACK
     // this is only to make it so KittehPlayer works first try on pinephone.
     // TODO: launch a opengl window or use offscreen to see if GL_ARB_framebuffer_object
     // can be found
-    if (!(settings.value("Backend/disableSunxiCheck", false).toBool() || ranFirstTimeSetup)) {
+    if (!(settings.value("Backend/disableSunxiCheck", false).toBool() || ranFirstTimeSetup || pinephone)) {
         FILE* fd = popen("grep sun[x8]i /proc/modules", "r");
         char buf[16];
         if (fread(buf, 1, sizeof(buf), fd) > 0) {

@@ -33,11 +33,18 @@ pkg_check_modules(MPV REQUIRED mpv)
 pkg_check_modules(X11 x11)
 pkg_check_modules(Xext xext)
 
+
+option(PINEPHONE "make pinephone settings h" OFF)
+if(PINEPHONE)
+add_definitions(-DPINEPHONE)
+endif()
+
 option(USE_EXTERNAL_SPDLOG "use external spdlog" OFF)
 
 if(USE_EXTERNAL_SPDLOG)
     include_directories(${EXTERNAL_SPDLOG_PATH}/include)
     include_directories(${EXTERNAL_SPDLOG_PATH})
+    include_directories(/app)
 else()
 execute_process(
   COMMAND git clone --depth 1 https://github.com/gabime/spdlog.git
