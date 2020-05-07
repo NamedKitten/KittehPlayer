@@ -33,13 +33,19 @@ pkg_check_modules(MPV REQUIRED mpv)
 pkg_check_modules(X11 x11)
 pkg_check_modules(Xext xext)
 
+option(USE_EXTERNAL_SPDLOG "use external spdlog" OFF)
 
+if(USE_EXTERNAL_SPDLOG)
+    pkg_check_modules(spdlog REQUIRED spdlog)
+    include_directories(${spdlog_PREFIX}/include)
+    message(h ${spdlog_INCLUDE})
+else()
 execute_process(
   COMMAND git clone --depth 1 https://github.com/gabime/spdlog.git
   WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
 )
-
 include_directories(${CMAKE_BINARY_DIR}/spdlog/include)
+endif()
 
 if(MPV_VERSION VERSION_GREATER "1.27.0")
 set(SOURCES ${SOURCES} src/Backends/MPV/MPVBackend.cpp)
@@ -97,7 +103,12 @@ set_property(TARGET KittehPlayer PROPERTY CXX_STANDARD 14)
 
 
 # Use the Qml/Quick modules from Qt 5.
-target_link_libraries(KittehPlayer ${MPV_LIBRARIES} ${X11_LIBRARIES} ${Xext_LIBRARIES} Qt5::X11Extras)
+target_link_libraries(KittehPlayer
+    ${MPV_LIBRARIES}
+    ${X11_LIBRARIES}
+    ${Xext_LIBRARIES}
+    Qt5::X11Extras
+)
 include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS} ${Qt5Concurrent_INCLUDE_DIRS})
 qt5_use_modules(KittehPlayer Qml Quick Core Gui Widgets X11Extras)
 
