@@ -103,6 +103,7 @@ int main(int argc, char* argv[])
             settings.setValue("Appearance/scaleFactor", 2.2);
             settings.setValue("Appearance/subtitlesFontSize", 38);
             settings.setValue("Appearance/uiFadeTimer", 0);
+            settings.setValue("Backend/fbo", false);
         }
     }
 #endif
