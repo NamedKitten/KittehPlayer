@@ -96,7 +96,7 @@ int main(int argc, char* argv[])
     if (!(settings.value("Backend/disableSunxiCheck", false).toBool() || ranFirstTimeSetup || pinephone)) {
         FILE* fd = popen("grep sun[x8]i /proc/modules", "r");
         char buf[16];
-        if (fread(buf, 1, sizeof(buf), fd) > 0) {
+        if (fread(buf, 1, sizeof(buf), fd) > 0 || pinephone) {
             launcherLogger->info("Running on sunxi, switching to NoFBO.");
             settings.setValue("Appearance/clickToPause", false);
             settings.setValue("Appearance/doubleTapToSeek", true);
