@@ -1,5 +1,5 @@
 # KittehPlayer
-A YouTube-like video player based on Qt, QML and libmpv. 
+A video player with many themes based on Qt, QML and libmpv. 
 
 ## Config Location
 - On linux the config file will be located at `~/.config/KittehPlayer/KittehPlayer.conf`
