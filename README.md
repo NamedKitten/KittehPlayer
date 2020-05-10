@@ -12,9 +12,9 @@
 A video player based on Qt, QML and libmpv with themes for many online video players.. 
 
 ## Themes
-- YouTube ![YouTube Screenshot](https://raw.githubusercontent.com/NamedKitten/KittehPlayer/master/screenshots/YouTube.png)
-- NicoNico ![NicoNico Screenshot](https://raw.githubusercontent.com/NamedKitten/KittehPlayer/master/screenshots/NicoNico.png)
-- RoosterTeeth ![RoosterTeeth Screenshot](https://raw.githubusercontent.com/NamedKitten/KittehPlayer/master/screenshots/RoosterTeeth.png)
+- YouTube ![YouTube Screenshot](https://raw.githubusercontent.com/purringChaos/KittehPlayer/master/screenshots/YouTube.png)
+- NicoNico ![NicoNico Screenshot](https://raw.githubusercontent.com/purringChaos/KittehPlayer/master/screenshots/NicoNico.png)
+- RoosterTeeth ![RoosterTeeth Screenshot](https://raw.githubusercontent.com/purringChaos/KittehPlayer/master/screenshots/RoosterTeeth.png)
 
 ## FOR PINEPHONE USERS
 - If you use a pinephone, you MIGHT need config from the gist linked at very bottom.
@@ -46,7 +46,7 @@ sudo apt install build-essential cmake qtquickcontrols2-5-dev qtbase5-dev qtdecl
 - Note that I don't know if this is the full list yet, pop a issue up if building fails.
 
 #### Instructions 
-- `git clone https://github.com/NamedKitten/KittehPlayer KittehPlayer`
+- `git clone https://github.com/purringChaos/KittehPlayer KittehPlayer`
 - `cd KittehPlayer`
 - `mkdir build && cd build`
 - If you are on ubuntu bionic, run `source /opt/qt512/bin/qt512-env.sh` and add `-DOLD_UBUNTU=on` to the cmake command next.
@@ -57,4 +57,4 @@ sudo apt install build-essential cmake qtquickcontrols2-5-dev qtbase5-dev qtdecl
 
 ## Configuration
 - For docs on KittehPlayer please view DOCS.md or `man KittehPlayer`
-- If you get a white screen when trying to play a video see [Here](https://gist.github.com/NamedKitten/675ca8587a8f714a856c6d6d14a9562a) for a config that may work.
+- If you get a white screen when trying to play a video see [Here](https://gist.github.com/purringChaos/675ca8587a8f714a856c6d6d14a9562a) for a config that may work.
