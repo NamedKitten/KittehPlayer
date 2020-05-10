@@ -24,5 +24,5 @@ chmod +x appdir/usr/bin/appimageupdatetool
 #wget https://yt-dl.org/downloads/latest/youtube-dl -O appdir/usr/bin/youtube-dl
 #chmod +x appdir/usr/bin/youtube-dl
 
-export UPD_INFO="gh-releases-zsync|NamedKitten|KittehPlayer|continuous|KittehPlayer-$ARCH.AppImage.zsync"
+export UPD_INFO="gh-releases-zsync|purringChaos|KittehPlayer|continuous|KittehPlayer-$ARCH.AppImage.zsync"
 time ./linuxdeploy-x86_64.AppImage --appdir appdir --plugin qt --output appimage -v 3
