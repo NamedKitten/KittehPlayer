@@ -521,14 +521,18 @@ void handle_mpv_event(BackendInterface* b, mpv_event* event)
 
     case MPV_EVENT_LOG_MESSAGE: {
         struct mpv_event_log_message* msg = (struct mpv_event_log_message*)event->data;
-        QString logMsg = "[" + QString(msg->prefix) + "] " + QString(msg->text);
+        QString logMsg = "[" + QString(msg->prefix) + "] " + QString(msg->text).trimmed();
         QString msgLevel = QString(msg->level);
-        if (msgLevel.startsWith("d") || msgLevel.startsWith("t")) {
+        if (msgLevel.startsWith("d")) {
             mpvLogger->info("{}", logMsg.toStdString());
-        } else if (msgLevel.startsWith("v") || msgLevel.startsWith("i")) {
+        } else if (msgLevel.startsWith("t")) {
+            mpvLogger->warn("{}", logMsg.toStdString());
+        } else if (msgLevel.startsWith("v")) {
+            mpvLogger->trace("{}", logMsg.toStdString());
+        }  else if (msgLevel.startsWith("i")) {
             mpvLogger->info("{}", logMsg.toStdString());
         } else {
-            mpvLogger->debug("{}", logMsg.toStdString());
+            mpvLogger->warn("What: {}", logMsg.toStdString());
         }
 
         break;

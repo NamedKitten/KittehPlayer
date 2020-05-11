@@ -33,7 +33,7 @@ Dialog {
   }
 
   Timer {
-    interval: 100
+    interval: 500
     repeat: true
     triggeredOnStart: true
     running: true
@@ -49,7 +49,7 @@ Dialog {
           var thumbnailerProcess = component.createObject(playlistDialog, {
                                                             "name": thumbnailJobs[0]
                                                           })
-          if (String(titleJobs[0]).indexOf("://") !== -1) {
+          if (String(thumbnailJobs[0]).indexOf("://") !== -1) {
 
             thumbnailerProcess.start("youtube-dl",
                                      ["--get-thumbnail", thumbnailJobs[0]])
@@ -74,8 +74,7 @@ Dialog {
     onTriggered: {
       if (titleJobsRunning < 5) {
         if (titleJobs.length > 0) {
-          if (titleJobs[0].startsWith(
-                "https://www.youtube.com/playlist?list=")) {
+          if (titleJobs[0].startsWith("https://www.youtube.com/playlist?list=")) {
             titleJobs.shift()
             return
           }
@@ -132,6 +131,7 @@ Dialog {
       Connections {
         target: thumbnailCache
         onThumbnailReady: function (name, url, path) {
+          console.error(name,url,path,playlistItem.itemURL)
           if (name == playlistItem.itemURL) {
             thumbnail.source = path
           }
@@ -183,7 +183,6 @@ Dialog {
       }
 
       Component.onCompleted: {
-
         if (typeof playlistItemTitle !== "undefined") {
           playlistItem.itemTitle = playlistItemTitle
         } else {
@@ -214,5 +213,8 @@ Dialog {
       active: playlistListView.count > 1 ? true : true
     }
     focus: true
+  }
+  Component.onCompleted: {
+    playlistDialog.open()
   }
 }

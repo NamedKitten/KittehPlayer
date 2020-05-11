@@ -36,7 +36,7 @@ initLogger(std::string name)
     auto console = std::make_shared<spdlog::logger>(name, begin(sinks), end(sinks));
     console->set_pattern("[%l][%n] %v%$");
     spdlog::register_logger(console);
-    console->set_level(spdlog::level::debug);
+    console->set_level(spdlog::level::info);
 
 
     return spdlog::get(name);

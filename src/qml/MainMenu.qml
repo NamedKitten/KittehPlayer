@@ -101,8 +101,16 @@ MenuBar {
     }
   }
 
-  PlaylistDialog {
-    id: playlistDialog
+  Loader {
+    id: playlistDialogLoader
+    active: false
+    source: "PlaylistDialog.qml"
+  }
+  Connections {
+    target: playlistDialogLoader.item
+    onDone: {
+      playlistDialogLoader.active = false
+    }
   }
 
   Loader {
@@ -467,7 +475,7 @@ MenuBar {
     Action {
       text: translate.getTranslation("PLAYLIST_MENU", i18n.language)
       onTriggered: {
-        playlistDialog.open()
+        playlistDialogLoader.active = true
       }
     }
     Action {
