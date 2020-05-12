@@ -140,14 +140,19 @@ Slider {
     Item {
       anchors.fill: parent
       id: chapterMarkers
+      z: 60
       Connections {
         target: player
         onChaptersChanged: function (chapters) {
           for (var i = 0, len = chapters.length; i < len; i++) {
-            var component = Qt.createComponent("ChapterMarker.qml")
+            var component = Qt.createComponent("ChapterMarkerItem.qml")
+            
             var marker = component.createObject(chapterMarkers, {
                                                   "time": chapters[i]["time"]
                                                 })
+            if (marker == null) {
+              console.error(component.errorString())
+            }
           }
         }
       }

@@ -269,6 +269,20 @@ MenuBar {
       }
       shortcut: keybinds.backwardFrame
     }
+    Action {
+      text: translate.getTranslation("PREVIOUS_CHAPTER", i18n.language)
+      onTriggered: {
+        player.playerCommand(Enums.Commands.PreviousChapter)
+      }
+      shortcut: keybinds.previousChapter
+    }
+    Action {
+      text: translate.getTranslation("NEXT_CHAPTER", i18n.language)
+      onTriggered: {
+        player.playerCommand(Enums.Commands.NextChapter)
+      }
+      shortcut: keybinds.nextChapter
+    }
   }
 
   CustomMenu {

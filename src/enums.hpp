@@ -42,6 +42,8 @@ enum class Commands : int {
     SetTrack = 21,
     SetPlaylistPos = 22,
     ForcePause = 23,
+    PreviousChapter = 24,
+    NextChapter = 25,
 };
 Q_ENUM_NS(Commands)
 

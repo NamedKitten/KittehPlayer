@@ -7,7 +7,7 @@ Rectangle {
   width: 4
   height: parent.height
   x: progressBar.background.width / progressBar.to * time
-  z: 9000
+  z: 90000
   anchors {
     top: parent.top
     bottom: parent.bottom
@@ -15,7 +15,6 @@ Rectangle {
 
   Connections {
     target: player
-    enabled: true
     onChaptersChanged: {
       chapterMarker.destroy()
     }

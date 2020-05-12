@@ -363,12 +363,7 @@ QVariant playerCommand(BackendInterface* b, const Enums::Commands& cmd, const QV
 
         break;
     }
-    case Enums::Commands::SeekAbsolute: {
 
-        b->command(QVariantList() << "seek" << args << "absolute");
-
-        break;
-    }
     case Enums::Commands::ForwardFrame: {
 
         b->command(QVariantList() << "frame-step");
@@ -402,6 +397,20 @@ QVariant playerCommand(BackendInterface* b, const Enums::Commands& cmd, const QV
         b->command(QVariantList() << "set"
                                   << "pause"
                                   << "yes");
+
+        break;
+    }
+
+    case Enums::Commands::PreviousChapter: {
+
+        b->command(QVariantList() << "add" << "chapter" << "-1");
+
+        break;
+    }
+
+    case Enums::Commands::NextChapter: {
+
+        b->command(QVariantList() << "add" << "chapter" << "1");
 
         break;
     }
