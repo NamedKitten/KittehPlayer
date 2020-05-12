@@ -69,7 +69,7 @@ MenuBar {
                                             "checked": track["selected"]
                                           })
       action.ActionGroup.group = menuGroup
-      videoMenu.addAction(action)
+      menu.addAction(action)
     }
   }
 
