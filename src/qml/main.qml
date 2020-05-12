@@ -394,7 +394,7 @@ Window {
         repeat: false
         onTriggered: {
           if (!(appearance.uiFadeTimer == 0)) {
-            mainWindow.controlsShowing = !mainWindow.controlsShowing || topBar.anythingOpen() || mouseAreaTopBar.containsMouse
+            mainWindow.controlsShowing = !mainWindow.controlsShowing
           }
         }
       }
