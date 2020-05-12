@@ -34,7 +34,6 @@ signals:
     virtual void cachedDurationChanged(const double& duration) = 0;
     virtual void playlistPositionChanged(const double& position) = 0;
     virtual void titleChanged(const QString& title) = 0;
-    virtual void subtitlesChanged(const QString& subtitles) = 0;
     virtual void durationStringChanged(const QString& string) = 0;
     virtual void tracksChanged(const QVariantList& tracks) = 0;
     virtual void audioDevicesChanged(const QVariantMap& devices) = 0;

@@ -62,7 +62,6 @@ Window {
     id: appearance
     category: "Appearance"
     property bool titleOnlyOnFullscreen: true
-    property bool useMpvSubs: false
     property string themeName: "YouTube"
     property string fontName: "Roboto"
     property double scaleFactor: 1.0
@@ -237,16 +236,6 @@ Window {
       var args = Qt.application.arguments
       var len = Qt.application.arguments.length
       var argNo = 0
-
-      if (!appearance.useMpvSubs) {
-        player.setOption("sub-ass-override", "force")
-        player.setOption("sub-ass", "off")
-        player.setOption("sub-border-size", "0")
-        player.setOption("sub-color", "0.0/0.0/0.0/0.0")
-        player.setOption("sub-border-color", "0.0/0.0/0.0/0.0")
-        player.setOption("sub-back-color", "0.0/0.0/0.0/0.0")
-      }
-
       if (len > 1) {
         for (argNo = 1; argNo < len; argNo++) {
           var argument = args[argNo]

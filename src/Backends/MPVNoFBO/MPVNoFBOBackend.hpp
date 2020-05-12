@@ -98,7 +98,6 @@ signals:
     void cachedDurationChanged(const double& duration);
     void playlistPositionChanged(const double& position);
     void titleChanged(const QString& title);
-    void subtitlesChanged(const QString& subtitles);
     void durationStringChanged(const QString& string);
     void tracksChanged(const QVariantList& tracks);
     void audioDevicesChanged(const QVariantMap& devices);

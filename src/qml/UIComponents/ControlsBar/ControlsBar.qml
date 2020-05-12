@@ -31,10 +31,6 @@ Item {
     component.createObject(controlsBar, {})
   }
 
-  SubtitlesBar {
-    anchors.bottom: controlsBackground.top
-  }
-
   VideoProgress {
     id: progressBar
     visible: mainWindow.controlsShowing

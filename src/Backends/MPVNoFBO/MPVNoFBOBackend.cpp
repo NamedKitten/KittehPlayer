@@ -94,7 +94,6 @@ MPVNoFBOBackend::MPVNoFBOBackend(QQuickItem* parent)
     mpv_observe_property(mpv, 0, "mute", MPV_FORMAT_NONE);
     mpv_observe_property(mpv, 0, "duration", MPV_FORMAT_DOUBLE);
     mpv_observe_property(mpv, 0, "media-title", MPV_FORMAT_STRING);
-    mpv_observe_property(mpv, 0, "sub-text", MPV_FORMAT_STRING);
     mpv_observe_property(mpv, 0, "time-pos", MPV_FORMAT_DOUBLE);
     mpv_observe_property(mpv, 0, "demuxer-cache-duration", MPV_FORMAT_DOUBLE);
     mpv_observe_property(mpv, 0, "pause", MPV_FORMAT_NODE);

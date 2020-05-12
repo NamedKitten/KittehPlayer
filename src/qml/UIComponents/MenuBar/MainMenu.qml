@@ -393,13 +393,6 @@ MenuBar {
       }
       shortcut: keybinds.cycleSub
     }
-    Action {
-      text: translate.getTranslation("TOGGLE_MPV_SUBS", i18n.language)
-      onTriggered: {
-        appearance.useMpvSubs = !appearance.useMpvSubs
-      }
-      shortcut: keybinds.cycleSubBackwards
-    }
     MenuSeparator {}
 
     CustomMenu {

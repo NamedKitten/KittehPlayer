@@ -101,30 +101,6 @@ Dialog {
           Layout.bottomMargin: 10
           height: 30
           Text {
-            id: subtitlesFontSizeLabel
-            height: 30
-            text: translate.getTranslation("SUBTITLES_FONT_SIZE", i18n.language)
-            verticalAlignment: Text.AlignVCenter
-          }
-          TextField {
-            id: subtitlesFontSizeInput
-            anchors.left: subtitlesFontSizeLabel.right
-            anchors.leftMargin: 10
-            validator: IntValidator {}
-            inputMethodHints: Qt.ImhFormattedNumbersOnly
-            text: appearance.subtitlesFontSize
-            function setSubtitlesFontSize() {
-              appearance.subtitlesFontSize = parseInt(
-                    subtitlesFontSizeInput.text)
-            }
-            onEditingFinished: setSubtitlesFontSize()
-          }
-        }
-        Item {
-          Layout.leftMargin: 30
-          Layout.bottomMargin: 10
-          height: 30
-          Text {
             id: uiFadeTimeLabel
             height: 30
             text: translate.getTranslation("UI_FADE_TIME", i18n.language)
@@ -154,7 +130,6 @@ Dialog {
     onAccepted: {
       seekBy.setSeekBy()
       fontInput.setFont()
-      subtitlesFontSizeInput.setSubtitlesFontSize()
       uiFadeTimeInput.setUIFadeTime()
       settingsDialog.done()
     }

@@ -476,11 +476,6 @@ void handle_mpv_event(BackendInterface* b, mpv_event* event)
                 char* title = *(char**)prop->data;
                 emit b->titleChanged(QString(title));
             }
-        } else if (strcmp(prop->name, "sub-text") == 0) {
-            if (prop->format == MPV_FORMAT_STRING) {
-                char* subs = *(char**)prop->data;
-                emit b->subtitlesChanged(QString(subs));
-            }
         } else if (strcmp(prop->name, "demuxer-cache-duration") == 0) {
             if (prop->format == MPV_FORMAT_DOUBLE) {
                 double duration = *(double*)prop->data;

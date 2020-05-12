@@ -2,7 +2,6 @@
     <qresource prefix="/">
         <file>icon.png</file>
         <file>main.qml</file>
-        <file>SubtitlesBar.qml</file>
         <file alias="YouTubeButtonLayout.qml">UIComponents/ControlsLayouts/YouTubeButtonLayout.qml</file>
         <file alias="NiconicoButtonLayout.qml">UIComponents/ControlsLayouts/NiconicoButtonLayout.qml</file>
         <file alias="RoosterTeethButtonLayout.qml">UIComponents/ControlsLayouts/RoosterTeethButtonLayout.qml</file>
