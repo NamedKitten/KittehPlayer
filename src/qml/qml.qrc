@@ -2,14 +2,14 @@
     <qresource prefix="/">
         <file>icon.png</file>
         <file>main.qml</file>
-        <file>CustomMenu.qml</file>
         <file>ControlsBar.qml</file>
         <file>SubtitlesBar.qml</file>
-        <file>MainMenu.qml</file>
         <file>YouTubeButtonLayout.qml</file>
         <file>NiconicoButtonLayout.qml</file>
         <file>RoosterTeethButtonLayout.qml</file>
-        <file alias="MenuTitleBar.qml">UIComponents/MenuTitleBar.qml</file>
+        <file alias="MainMenu.qml">UIComponents/MenuBar/MainMenu.qml</file>
+        <file alias="CustomMenu.qml">UIComponents/MenuBar/CustomMenu.qml</file>
+        <file alias="MenuTitleBar.qml">UIComponents/MenuBar/MenuTitleBar.qml</file>
         <file alias="SmoothButton.qml">UIComponents/Controls/SmoothButton.qml</file>
         <file alias="VerticalVolume.qml">UIComponents/Controls/VerticalVolume.qml</file>
         <file alias="SpeedText.qml">UIComponents/Controls/SpeedText.qml</file>
