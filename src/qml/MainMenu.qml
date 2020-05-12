@@ -16,6 +16,7 @@ MenuBar {
         return true
       }
     }
+    return false
   }
 
   Connections {

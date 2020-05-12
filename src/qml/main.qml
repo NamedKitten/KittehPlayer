@@ -10,6 +10,7 @@ Window {
   visible: true
   width: Math.min(720, Screen.width)
   height: Math.min(480, Screen.height)
+  property bool controlsShowing: true
   property int virtualHeight: Screen.height * appearance.scaleFactor
   property int virtualWidth: Screen.width * appearance.scaleFactor
   property bool onTop: false
@@ -300,18 +301,7 @@ Window {
     anchors.centerIn: player
     height: player.height
     width: player.width
-    property bool controlsShowing: true
     z: 2
-
-    Connections {
-      target: globalConnections
-      onHideUI: function () {
-        mouseAreaPlayer.cursorShape = Qt.BlankCursor
-      }
-      onShowUI: {
-        mouseAreaPlayer.cursorShape = Qt.ArrowCursor
-      }
-    }
 
     MouseArea {
       id: mouseAreaBar
@@ -334,6 +324,7 @@ Window {
       width: parent.width
       hoverEnabled: true
       propagateComposedEvents: true
+      cursorShape: mainWindow.controlsShowing ? Qt.ArrowCursor : Qt.BlankCursor
       property real velocity: 0.0
       property int xStart: 0
       property int xPrev: 0
@@ -352,11 +343,7 @@ Window {
         id: mouseTapTimer
         interval: 200
         onTriggered: {
-          if (topBar.visible) {
-            globalConnections.hideUI()
-          } else {
-            globalConnections.showUI()
-          }
+          mainWindow.controlsShowing = !mainWindow.controlsShowing || topBar.anythingOpen() || mouseAreaTopBar.containsMouse
           mouseAreaPlayerTimer.restart()
         }
       }
@@ -402,10 +389,8 @@ Window {
           velocity = (velocity + currVel) / 2.0
           xPrev = mouse.x
         }
-        if (!topBar.visible) {
-          globalConnections.showUI()
-          mouseAreaPlayerTimer.restart()
-        }
+        mainWindow.controlsShowing = true
+        mouseAreaPlayerTimer.restart()
       }
       Action {
         onTriggered: {
@@ -421,7 +406,7 @@ Window {
         repeat: false
         onTriggered: {
           if (!(appearance.uiFadeTimer == 0)) {
-            globalConnections.hideUI()
+            mainWindow.controlsShowing = !mainWindow.controlsShowing || topBar.anythingOpen() || mouseAreaTopBar.containsMouse
           }
         }
       }
@@ -470,6 +455,24 @@ Window {
 
     ControlsBar {
       id: controlsBar
+    }
+  }
+  MouseArea {
+    id: mouseAreaTopBar
+    anchors {
+      top: parent.top
+      left: parent.left
+      right: parent.right
+    }
+    height: topBar.height * 3
+    hoverEnabled: true
+    propagateComposedEvents: true
+  } 
+
+  MouseArea {
+    anchors.fill: parent
+    onExited: {
+      mouseAreaPlayerTimer.start()
     }
   }
 }

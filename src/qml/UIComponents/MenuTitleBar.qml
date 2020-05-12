@@ -5,23 +5,16 @@ import QtQuick.Window 2.2
 Item {
   id: menuTitleBar
   height: menuBar.height
-  visible: true
+  visible: mainWindow.controlsShowing
+  
+  function anythingOpen() {
+    return menuBar.anythingOpen()
+  }
+
   anchors {
     left: parent.left
     right: parent.right
     top: parent.top
-  }
-
-  Connections {
-    target: globalConnections
-    onHideUI: function () {
-      if (!menuBar.anythingOpen()) {
-        menuTitleBar.visible = false
-      }
-    }
-    onShowUI: {
-      menuTitleBar.visible = true
-    }
   }
 
   MainMenu {

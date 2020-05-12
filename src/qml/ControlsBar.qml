@@ -6,21 +6,10 @@ import player 1.0
 Item {
   id: controlsBarItem
   property var combinedHeight: progressBar.height + controlsBackground.height
-  property bool controlsShowing: true
   anchors {
     bottom: parent.bottom
     left: parent.left
     right: parent.right
-  }
-
-  Connections {
-    target: globalConnections
-    onHideUI: function (force) {
-      controlsBarItem.controlsShowing = false
-    }
-    onShowUI: {
-      controlsBarItem.controlsShowing = true
-    }
   }
 
   Connections {
@@ -48,7 +37,7 @@ Item {
 
   VideoProgress {
     id: progressBar
-    visible: controlsBarItem.controlsShowing
+    visible: mainWindow.controlsShowing
              && appearance.themeName != "RoosterTeeth"
     bottomPadding: 0
     rightPadding: 0
@@ -72,7 +61,7 @@ Item {
     Layout.fillWidth: true
     Layout.fillHeight: true
     color: getAppearanceValueForTheme(appearance.themeName, "mainBackground")
-    visible: controlsBarItem.controlsShowing
+    visible: mainWindow.controlsShowing
     z: 10
     anchors {
       bottom: parent.bottom
@@ -83,8 +72,8 @@ Item {
 
   Item {
     id: controlsBar
-    height: controlsBar.visible ? mainWindow.virtualHeight / 20 : 0
-    visible: controlsBarItem.controlsShowing
+    height: mainWindow.controlsShowing ? mainWindow.virtualHeight / 20 : 0
+    visible: mainWindow.controlsShowing
     z: 30
     anchors {
       right: parent.right
