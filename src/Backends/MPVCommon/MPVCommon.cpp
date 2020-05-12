@@ -357,6 +357,12 @@ QVariant playerCommand(BackendInterface* b, const Enums::Commands& cmd, const QV
         b->command(QVariantList() << "loadfile" << args << "append-play");
         break;
     }
+    case Enums::Commands::SeekAbsolute: {
+
+        b->command(QVariantList() << "seek" << args << "absolute");
+
+        break;
+    }
     case Enums::Commands::Seek: {
 
         b->command(QVariantList() << "seek" << args);
