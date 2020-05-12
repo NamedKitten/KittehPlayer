@@ -10,20 +10,20 @@
         <file>NiconicoButtonLayout.qml</file>
         <file>RoosterTeethButtonLayout.qml</file>
         <file alias="MenuTitleBar.qml">UIComponents/MenuTitleBar.qml</file>
-        <file alias="SmoothButton.qml">UIComponents/SmoothButton.qml</file>
-        <file alias="VerticalVolume.qml">UIComponents/VerticalVolume.qml</file>
-        <file alias="SpeedText.qml">UIComponents/SpeedText.qml</file>
-        <file alias="ForwardButton.qml">UIComponents/ForwardButton.qml</file>
-        <file alias="BackwardButton.qml">UIComponents/BackwardButton.qml</file>
-        <file alias="PlaylistPrevButton.qml">UIComponents/PlaylistPrevButton.qml</file>
-        <file alias="PlayPauseButton.qml">UIComponents/PlayPauseButton.qml</file>
-        <file alias="VideoProgress.qml">UIComponents/VideoProgress.qml</file>
-        <file alias="VolumeButton.qml">UIComponents/VolumeButton.qml</file>
-        <file alias="VolumeSlider.qml">UIComponents/VolumeSlider.qml</file>
-        <file alias="TimeLabel.qml">UIComponents/TimeLabel.qml</file>
-        <file alias="SettingsButton.qml">UIComponents/SettingsButton.qml</file>
-        <file alias="FullscreenButton.qml">UIComponents/FullscreenButton.qml</file>
-        <file alias="PlaylistNextButton.qml">UIComponents/PlaylistNextButton.qml</file>
+        <file alias="SmoothButton.qml">UIComponents/Controls/SmoothButton.qml</file>
+        <file alias="VerticalVolume.qml">UIComponents/Controls/VerticalVolume.qml</file>
+        <file alias="SpeedText.qml">UIComponents/Controls/SpeedText.qml</file>
+        <file alias="ForwardButton.qml">UIComponents/Controls/ForwardButton.qml</file>
+        <file alias="BackwardButton.qml">UIComponents/Controls/BackwardButton.qml</file>
+        <file alias="PlaylistPrevButton.qml">UIComponents/Controls/PlaylistPrevButton.qml</file>
+        <file alias="PlayPauseButton.qml">UIComponents/Controls/PlayPauseButton.qml</file>
+        <file alias="VideoProgress.qml">UIComponents/Controls/VideoProgress.qml</file>
+        <file alias="VolumeButton.qml">UIComponents/Controls/VolumeButton.qml</file>
+        <file alias="VolumeSlider.qml">UIComponents/Controls/VolumeSlider.qml</file>
+        <file alias="TimeLabel.qml">UIComponents/Controls/TimeLabel.qml</file>
+        <file alias="SettingsButton.qml">UIComponents/Controls/SettingsButton.qml</file>
+        <file alias="FullscreenButton.qml">UIComponents/Controls/FullscreenButton.qml</file>
+        <file alias="PlaylistNextButton.qml">UIComponents/Controls/PlaylistNextButton.qml</file>
         <file alias="codes.js">Utils/codes.js</file>
         <file alias="Translator.qml">Utils/Translator.qml</file>
         <file alias="translations.js">Utils/translations.js</file>        

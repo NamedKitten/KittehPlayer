@@ -8,7 +8,6 @@ import "codes.js" as LanguageCodes
 
 MenuBar {
   id: menuBar
-  //width: parent.width
   height: mainWindow.virtualHeight / 32
   function anythingOpen() {
     for (var i = 0, len = menuBar.count; i < len; i++) {
