@@ -8,12 +8,17 @@ Window {
   id: mainWindow
   title: "KittehPlayer"
   visible: true
-  width: Math.min(720, Screen.width)
-  height: Math.min(480, Screen.height)
+  width: Math.min(appearance.defaultWidth, Screen.width)
+  height: Math.min(appearance.defaultHeight, Screen.height)
   property bool controlsShowing: true
   property int virtualHeight: Screen.height * appearance.scaleFactor
   property int virtualWidth: Screen.width * appearance.scaleFactor
   property bool onTop: false
+
+  DebugDialog {
+    
+  }
+
 
   QMLDebugger {
     id: qmlDebugger
@@ -66,6 +71,8 @@ Window {
     property string fontName: "Roboto"
     property double scaleFactor: 1.0
     property int subtitlesFontSize: 24
+    property int defaultHeight: 405
+    property int defaultWidth: 720
     property int uiFadeTimer: 1000
     property bool doubleTapToSeek: true
     property double doubleTapToSeekBy: 5

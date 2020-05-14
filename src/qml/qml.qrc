@@ -35,6 +35,7 @@
         <file alias="SettingsDialog.qml">Dialogs/SettingsDialog.qml</file>
         <file alias="LanguageSettings.qml">Dialogs/SettingsItems/LanguageSettings.qml</file>
         <file alias="PlaylistDialog.qml">Dialogs/PlaylistDialog.qml</file>
+        <file alias="DebugDialog.qml">Dialogs/DebugDialog.qml</file>
         <file>icons/YouTube/play.svg</file>
         <file>icons/YouTube/pause.svg</file>
         <file>icons/YouTube/forward.svg</file>
