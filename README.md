@@ -41,7 +41,7 @@ sudo apt install build-essential git qt512-meta-minimal qt512quickcontrols qt512
 ```
 ##### Debian
 ```
-sudo apt install build-essential cmake qtquickcontrols2-5-dev qtbase5-dev qtdeclarative5-dev libqt5x11extras5-dev libmpv-dev qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-extras qml-module-qtquick-layouts qml-module-qtquick-dialogs qml-module-qtquick-privatewidgets qml-module-qtquick-localstorage qml-module-qt-labs-settings qml-module-qt-labs-platform qtbase5-private libqt5svg5
+sudo apt install build-essential cmake qtquickcontrols2-5-dev qtbase5-dev qtdeclarative5-dev libqt5x11extras5-dev libmpv-dev qml-module-qtquick-controls qml-module-qtquick-controls2 qml-module-qtquick-extras qml-module-qtquick-layouts qml-module-qtquick-dialogs qml-module-qtquick-privatewidgets qml-module-qtquick-localstorage qml-module-qt-labs-settings qml-module-qt-labs-platform qtbase5-private-dev libqt5svg5
 ```
 - Note that I don't know if this is the full list yet, pop a issue up if building fails.
 
