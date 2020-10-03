@@ -89,21 +89,30 @@ int main(int argc, char* argv[])
     pinephone = false;
 #endif
 
-    // WARNING, THIS IS A BIG HACK
-    // this is only to make it so KittehPlayer works first try on pinephone.
+    // There once was a hacky piece of a code, now its gone.
     // TODO: launch a opengl window or use offscreen to see if GL_ARB_framebuffer_object
     // can be found
     if (!(settings.value("Backend/disableSunxiCheck", false).toBool() || ranFirstTimeSetup) || pinephone ) {
-        FILE* fd = popen("grep sun[x8]i /proc/modules", "r");
-        char buf[16];
-        if (fread(buf, 1, sizeof(buf), fd) > 0 || pinephone) {
-            launcherLogger->info("Running on sunxi, switching to NoFBO.");
-            settings.setValue("Appearance/clickToPause", false);
-            settings.setValue("Appearance/doubleTapToSeek", true);
-            settings.setValue("Appearance/scaleFactor", 2.2);
-            settings.setValue("Appearance/subtitlesFontSize", 38);
-            settings.setValue("Appearance/uiFadeTimer", 0);
-            settings.setValue("Backend/fbo", false);
+	    std::string buf;
+	    std::ifstream modulesFd;
+
+        modulesFd.open("/proc/modules");
+
+	    if(modulesFd.is_open()) {
+		    while(!modulesFd.eof()) {
+			    std::getline(modulesFd, buf);
+			    if(buf.find("sunxi") != std::string::npos || buf.find("sun8i") != std::string::npos) {
+                    launcherLogger->info("Running on sunxi, switching to NoFBO.");
+                    settings.setValue("Appearance/clickToPause", false);
+                    settings.setValue("Appearance/doubleTapToSeek", true);
+                    settings.setValue("Appearance/scaleFactor", 2.2);
+                    settings.setValue("Appearance/subtitlesFontSize", 38);
+                    settings.setValue("Appearance/uiFadeTimer", 0);
+                    settings.setValue("Backend/fbo", false);
+			    }
+		    }
+	    } else {
+            launcherLogger->info("(THIS IS NOT AN ERROR) Cant open /proc/modules.");
         }
     }
 #endif
