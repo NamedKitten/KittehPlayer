@@ -93,27 +93,27 @@ int main(int argc, char* argv[])
     // TODO: launch a opengl window or use offscreen to see if GL_ARB_framebuffer_object
     // can be found
     if (!(settings.value("Backend/disableSunxiCheck", false).toBool() || ranFirstTimeSetup) || pinephone ) {
-	    std::string buf;
-	    std::ifstream modulesFd;
+		std::string buf;
+		std::ifstream modulesFd;
 
-        modulesFd.open("/proc/modules");
+		modulesFd.open("/proc/modules");
 
-	    if(modulesFd.is_open()) {
-		    while(!modulesFd.eof()) {
-			    std::getline(modulesFd, buf);
-			    if(buf.find("sunxi") != std::string::npos || buf.find("sun8i") != std::string::npos) {
-                    launcherLogger->info("Running on sunxi, switching to NoFBO.");
-                    settings.setValue("Appearance/clickToPause", false);
-                    settings.setValue("Appearance/doubleTapToSeek", true);
-                    settings.setValue("Appearance/scaleFactor", 2.2);
-                    settings.setValue("Appearance/subtitlesFontSize", 38);
-                    settings.setValue("Appearance/uiFadeTimer", 0);
-                    settings.setValue("Backend/fbo", false);
-			    }
-		    }
-	    } else {
-            launcherLogger->info("(THIS IS NOT AN ERROR) Cant open /proc/modules.");
-        }
+		if(modulesFd.is_open()) {
+			while(!modulesFd.eof()) {
+				std::getline(modulesFd, buf);
+				if(buf.find("sunxi") != std::string::npos || buf.find("sun8i") != std::string::npos) {
+					launcherLogger->info("Running on sunxi, switching to NoFBO.");
+					settings.setValue("Appearance/clickToPause", false);
+					settings.setValue("Appearance/doubleTapToSeek", true);
+					settings.setValue("Appearance/scaleFactor", 2.2);
+					settings.setValue("Appearance/subtitlesFontSize", 38);
+					settings.setValue("Appearance/uiFadeTimer", 0);
+					settings.setValue("Backend/fbo", false);
+				}
+			}
+		} else {
+			launcherLogger->info("(THIS IS NOT AN ERROR) Cant open /proc/modules.");
+		}
     }
 #endif
 
