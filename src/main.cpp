@@ -19,6 +19,7 @@
 #include <iosfwd>
 #include <memory>
 #include <spdlog/fmt/fmt.h>
+#include <fstream>
 
 extern void registerTypes();
 
